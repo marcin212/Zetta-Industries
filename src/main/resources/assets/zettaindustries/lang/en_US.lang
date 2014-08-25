@@ -1,0 +1,18 @@
+#ZettaIndustries
+itemGroup.zettaindustries=Zetta Industries
+
+#VanillaUtils
+tile.charcoalblock.name=Block of charcoal
+tile.variableredstoneemitter.name=Variable redstone emitter
+tile.quarryfixer.name=Quarry Fixer
+
+#PowerMeter
+item.PowerMeterPipe.name=Power Meter Pipe
+
+#NFC
+tile.nfcreader.name=NFC reader 
+tile.nfcprogrammer.name=NFC programmer
+item.itemcardnfc.name=NFC card
+item.itemprivatecardnfc.name=Private NFC card
+zettaindustries.nfc.text.message1=NFC data written!
+zettaindustries.nfc.text.message2=You are not the owner or the owner is not set!

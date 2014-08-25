@@ -1,0 +1,16 @@
+[
+{
+  "modid": "zettaindustries",
+  "name": "Zetta Industries",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://www.bymarcin.com",
+  "updateUrl": "",
+  "authorList": ["marcin212"],
+  "credits": "Code: marcin212, Graphic:Barlots",
+  "logoFile": "logo1.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
