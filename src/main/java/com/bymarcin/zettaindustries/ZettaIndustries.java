@@ -62,6 +62,8 @@ public class ZettaIndustries
     	tabZettaIndustries = new ZettaIndustriesCreativeTab();
     	modManager.init(); 
     	proxy.init();
+    	config.save();
+
     }
     
     @EventHandler

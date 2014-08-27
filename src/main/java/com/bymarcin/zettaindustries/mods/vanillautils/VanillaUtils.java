@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.vanillautils.block.CharcoalBlock;
 import com.bymarcin.zettaindustries.mods.vanillautils.block.VariableRedstoneEmitter;
@@ -21,20 +22,25 @@ public class VanillaUtils implements IMod{
 	public void init() {
 		
 		/*CharcoalBlock*/
-		charcoalblock = new CharcoalBlock();
-		GameRegistry.registerBlock(charcoalblock, "charcoalblock");
-		GameRegistry.addShapelessRecipe(new ItemStack(charcoalblock),
+		if(ZettaIndustries.instance.config.get("VanillaUtils", "BlockOfCharcoal", true).getBoolean(true)){
+			charcoalblock = new CharcoalBlock();
+			GameRegistry.registerBlock(charcoalblock, "charcoalblock");
+			GameRegistry.addShapelessRecipe(new ItemStack(charcoalblock),
 				coal,coal,coal,
 				coal,coal,coal,
 				coal,coal,coal);
-		GameRegistry.addShapelessRecipe(coalx9, charcoalblock);
-		GameRegistry.registerFuelHandler(new CharcoalFuelHandler());
+			GameRegistry.addShapelessRecipe(coalx9, charcoalblock);
+			GameRegistry.registerFuelHandler(new CharcoalFuelHandler());
+		}
+		
 		
 		/*Variable Redstone Emitter*/
-		variableredstoneemitter = new VariableRedstoneEmitter();
-		GameRegistry.registerBlock(variableredstoneemitter, "variableredstoneemitter");
-		GameRegistry.addRecipe(new ItemStack(variableredstoneemitter), "   ", "rzr", " x ",
+		if(ZettaIndustries.instance.config.get("VanillaUtils", "VariableRedstoneEmitter", true).getBoolean(true)){
+			variableredstoneemitter = new VariableRedstoneEmitter();
+			GameRegistry.registerBlock(variableredstoneemitter, "variableredstoneemitter");
+			GameRegistry.addRecipe(new ItemStack(variableredstoneemitter), "   ", "rzr", " x ",
 				 'x', Items.repeater, 'r', Items.redstone, 'z', Blocks.redstone_torch);
+		}
 
 	}
 
