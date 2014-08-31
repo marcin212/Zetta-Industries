@@ -2,13 +2,14 @@ package com.bymarcin.zettaindustries.mods.fframes;
 
 import java.util.Random;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.basic.BasicItem;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.basic.BasicItem;
+
 import forestry.api.apiculture.EnumBeeType;
 import forestry.api.apiculture.IBee;
 import forestry.api.apiculture.IBeeGenome;
@@ -20,8 +21,9 @@ import forestry.core.config.ForestryItem;
 public class LarvaeFrame extends BasicItem implements IHiveFrame{
 	Random rand = new Random();
 	public LarvaeFrame() {
-		super("LarvaeFrame");
-		setMaxDamage(10);
+		super("larvaeframe");
+		setMaxDamage(20);
+		setMaxStackSize(1);
 	}
 
 	@Override
@@ -76,12 +78,11 @@ public class LarvaeFrame extends BasicItem implements IHiveFrame{
 
 	@Override
 	public ItemStack frameUsed(IBeeHousing housing, ItemStack frame, IBee queen, int wear) {
-		boolean shouldDrop = ((int)(rand.nextFloat()*100.0))%20==0;
+		boolean shouldDrop = rand.nextInt(100) <3;
 		if(shouldDrop){
 			ItemStack larvae = getMemberStack(queen, EnumBeeType.LARVAE.ordinal());
 			housing.addProduct(larvae, true);
 		}
-		
 		frame.setItemDamage(frame.getItemDamage() + 1);
 		if(frame.getItemDamage() >= frame.getMaxDamage())
 			return null;
@@ -116,7 +117,6 @@ public class LarvaeFrame extends BasicItem implements IHiveFrame{
 			throw new RuntimeException("Cannot instantiate a bee of type " + type);
 
 		}
-
 		NBTTagCompound nbttagcompound = new NBTTagCompound();
 		bee.writeToNBT(nbttagcompound);
 		ItemStack beeStack = new ItemStack(beeItem);
