@@ -10,6 +10,6 @@ public abstract class BasicBlockMultiblockBase extends BlockMultiblockBase {
 		super(Material.iron);
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setHardness(3.0F);
-		setBlockName("battery."+name);
+		setBlockName(name);
 	}
 }

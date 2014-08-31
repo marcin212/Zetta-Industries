@@ -20,7 +20,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryComputerPort;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryControler;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryGlass;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
@@ -60,7 +60,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static BlockBigBatteryPowerTap  blockBigBatteryPowerTap;
 	public static BlockBigBatteryWall  blockBigBatteryWall;
 	public static BlockBigBatteryComputerPort  blockBigBatteryComputerPort;
-	public static BlockBigBatteryControler  blockBigBatteryControler;
+	public static BlockBigBatteryController  blockBigBatteryControler;
 	public static FluidBucket itemAcidBucket;
 	
 	public static BlockSulfur blockSulfur;
@@ -120,7 +120,7 @@ public class Battery implements IMod, IGUI, IProxy{
 		GameRegistry.registerBlock(blockBigBatteryElectrode, "BatteryElectrode");
 		GameRegistry.registerTileEntity(TileEntityElectrode.class, "BatteryTileEntityElectrode");
 		
-		blockBigBatteryControler = new BlockBigBatteryControler();
+		blockBigBatteryControler = new BlockBigBatteryController();
 		GameRegistry.registerBlock(blockBigBatteryControler, "BatteryControler");
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BatteryTileEntityControler");
 		

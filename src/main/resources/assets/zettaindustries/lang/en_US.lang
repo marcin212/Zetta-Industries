@@ -16,3 +16,18 @@ item.itemcardnfc.name=NFC card
 item.itemprivatecardnfc.name=Private NFC card
 zettaindustries.nfc.text.message1=NFC data written!
 zettaindustries.nfc.text.message2=You are not the owner or the owner is not set!
+
+#Forestry Frame
+item.larvaeframe.name=Incubation Frame
+
+#Battery
+tile.batterypowertap.name= Battery power tap
+tile.batteryelectrode.name=Battery electrode
+tile.sulfurblock.name=Block of sulfur
+tile.batteryglass.name=Battery glass
+tile.batterycontroller.name=Battery controller
+tile.batterycomputerport.name= Battery computer port
+tile.sulfurousacid.name=Sulfurous acid
+tile.batterywall.name= Battery wall
+item.acidbucket.name=Bucked of sulfurous acid
+

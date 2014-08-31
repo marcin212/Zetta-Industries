@@ -9,13 +9,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-public class BlockBigBatteryControler extends BasicBlockMultiblockBase{
+public class BlockBigBatteryController extends BasicBlockMultiblockBase{
 	public static IIcon iconSideOn;
 	public static IIcon iconSideOff;
 	public static IIcon icon;
 	
-	public BlockBigBatteryControler() {
-		super("batterycontroler");
+	public BlockBigBatteryController() {
+		super("batterycontroller");
 	}
 
 	@Override
