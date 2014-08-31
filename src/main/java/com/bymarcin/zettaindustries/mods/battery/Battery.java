@@ -86,10 +86,6 @@ public class Battery implements IMod, IGUI, IProxy{
 	@Override
 	public void init() {
 		
-		blockSulfur = new BlockSulfur();
-		GameRegistry.registerBlock(blockSulfur,"sulfurblock");
-		
-		
 		FluidRegistry.registerFluid(acid);
 		acidFluid = new AcidFluid(acid);
 		GameRegistry.registerBlock(acidFluid,"sulfurousacid");
@@ -97,6 +93,10 @@ public class Battery implements IMod, IGUI, IProxy{
 		itemAcidBucket = new FluidBucket(acidFluid);
 		GameRegistry.registerItem(itemAcidBucket,"acidbucket");
 		ZIRegistry.registerBucket(acidFluid, itemAcidBucket);
+		
+		
+		blockSulfur = new BlockSulfur(acidFluid);
+		GameRegistry.registerBlock(blockSulfur,"sulfurblock");
 		
 		
 		FluidContainerRegistry.registerFluidContainer(

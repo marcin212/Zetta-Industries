@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.battery.block;
 
 import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
@@ -17,10 +18,11 @@ import com.bymarcin.zettaindustries.basic.BasicBlock;
 
 public class BlockSulfur extends BasicBlock {
 	protected IIcon blockIconTop;
-
-	public BlockSulfur() {
+	private Block fluid;
+	public BlockSulfur(Block fluid) {
 		super(Material.rock, "sulfurblock");
 		setTickRandomly(true);
+		this.fluid = fluid;
 	}
 
 	
@@ -43,7 +45,7 @@ public class BlockSulfur extends BasicBlock {
 					Fluid f = FluidRegistry.lookupFluidForBlock(world.getBlock(i, y, j));
 					int fid = f != null ? f.getID() : -1;
 					if (FluidRegistry.getFluid("water").getID() == fid && world.getBlockMetadata(i, y, j) == 0) {
-						world.setBlock(i, y, j, this, 0, 2);
+						world.setBlock(i, y, j, fluid , 0, 2);
 					}
 				}
 			}
