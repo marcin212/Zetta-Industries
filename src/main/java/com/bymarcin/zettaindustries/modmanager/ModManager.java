@@ -19,7 +19,7 @@ public class ModManager {
 
 	private void addMods() {
 		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
-		addMod("powermeter.PowerMeter","$('BuildCraft|Energy') && $('OpenComponents')","PowerMeter");
+//		addMod("powermeter.PowerMeter","$('BuildCraft|Energy') && $('OpenComponents')","PowerMeter");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("sensor.SensorMod", "$('ThermalExpansion') && ($('ComputerCraft') || $('OpenComponents'))", "SensorMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
@@ -27,7 +27,8 @@ public class ModManager {
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 //		addMod("yelloriumenhancement.YE", "$('ExtraBees') && $('BigReactors')", "YE");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
-//		addMod("bigbattery.BigBatteryMod", "$('BigReactors') && $('ThermalExpansion')", "BigBattery");
+		addMod("battery.Battery", "", "BigBattery");
+		addMod("fframes.Frames", "", "ForestryFrames");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "$('BigReactors') && $('ThermalExpansion')", "SuperConductor");
 	}

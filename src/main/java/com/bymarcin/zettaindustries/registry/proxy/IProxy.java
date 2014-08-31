@@ -1,4 +1,4 @@
-package com.bymarcin.zettaindustries.registry;
+package com.bymarcin.zettaindustries.registry.proxy;
 
 public interface IProxy {
 	public void clientSide();

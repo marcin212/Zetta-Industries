@@ -9,6 +9,7 @@ public class Frames implements IMod{
 	@Override
 	public void init() {
 		GameRegistry.registerItem(new LarvaeFrame(), "larvaeFrame");
+		
 	}
 
 	@Override
@@ -16,6 +17,5 @@ public class Frames implements IMod{
 		// TODO Auto-generated method stub
 		
 	}
-
 	
 }

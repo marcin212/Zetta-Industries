@@ -18,7 +18,9 @@ public class PowerMeterPipe extends Pipe<PipeTransportPower> implements IPipeTra
 	String password = "";
 	boolean isProtected = false;
 	String name;
-
+	ExtendedAverage a = new ExtendedAverage(200);
+	long tick = 0;
+	
 	public PowerMeterPipe(Item item) {
 		super(new PipeTransportPower(), item);
 		PipeTransportPower.powerCapacities.put(PowerMeterPipe.class, 1024);
@@ -95,7 +97,13 @@ public class PowerMeterPipe extends Pipe<PipeTransportPower> implements IPipeTra
 			energyUsed += val;
 		else
 			energyUsed -= val;
-
+		
+		a.add(val);
+		
+		if(tick%200==0)
+			System.out.println("ASD: " + a.get());
+		
+		tick++;
 		avg = (avg * 39.0 + (double) val) / 40.0;
 		return val;
 	}

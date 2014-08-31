@@ -8,7 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.bymarcin.zettaindustries.modmanager.ModManager;
-import com.bymarcin.zettaindustries.registry.Proxy;
+import com.bymarcin.zettaindustries.registry.ZIRegistry;
+import com.bymarcin.zettaindustries.registry.proxy.Proxy;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -37,7 +38,7 @@ public class ZettaIndustries
     /*ZettaIndustries logger*/
     public static Logger logger = LogManager.getLogger(ZettaIndustries.MODID);
     
-    @SidedProxy(clientSide="com.bymarcin.zettaindustries.registry.ClientProxy", serverSide="com.bymarcin.zettaindustries.registry.Proxy")
+    @SidedProxy(clientSide="com.bymarcin.zettaindustries.registry.proxy.ClientProxy", serverSide="com.bymarcin.zettaindustries.registry.proxy.Proxy")
     public static Proxy proxy;
 
     @Instance(value = ZettaIndustries.MODID)
@@ -52,6 +53,7 @@ public class ZettaIndustries
     	config = new Configuration(event.getSuggestedConfigurationFile());
     	config.load();	
     	modManager = new ModManager();
+    	ZIRegistry.preInitialize();
     	modManager.preInit();
     	logger.info("End preInit!");
     }
@@ -59,9 +61,11 @@ public class ZettaIndustries
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+    	
     	tabZettaIndustries = new ZettaIndustriesCreativeTab();
     	modManager.init(); 
     	proxy.init();
+    	ZIRegistry.initialize();
     	config.save();
 
     }

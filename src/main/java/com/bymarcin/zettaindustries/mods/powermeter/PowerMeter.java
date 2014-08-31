@@ -13,8 +13,8 @@ import buildcraft.transport.TransportProxyClient;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
-import com.bymarcin.zettaindustries.registry.IProxy;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
+import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.relauncher.Side;

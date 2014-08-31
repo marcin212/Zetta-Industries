@@ -1,0 +1,63 @@
+package com.bymarcin.zettaindustries.mods.battery.gui;
+
+import java.io.IOException;
+
+import net.minecraft.tileentity.TileEntity;
+
+import com.bymarcin.zettaindustries.mods.battery.tileentity.BatteryController;
+import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityControler;
+import com.bymarcin.zettaindustries.registry.network.Packet;
+
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+
+public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage>{
+	long capacity;
+	long energy;
+	int transfer;
+	TileEntity te;
+	
+	public EnergyUpdatePacket() {
+		
+	}
+	
+	public EnergyUpdatePacket(TileEntity tile, long energy, long capacity, int transfer) {
+		this.capacity = capacity;
+		this.energy = energy;
+		this.transfer = transfer;
+		this.te = tile;
+	}
+	
+	
+	@Override
+	public void write() throws IOException{
+		writeTileLocation(te);
+		writeInt(transfer);
+		writeLong(capacity);
+		writeLong(energy);
+		
+	}
+
+	@Override
+	public void read() throws IOException{
+		te = readClientTileEntity();
+		transfer = readInt();
+		capacity = readLong();
+		energy = readLong();
+		
+	}
+
+
+	@Override
+	protected IMessage executeOnClient() {
+		if(te instanceof TileEntityControler){
+			((BatteryController) ((TileEntityControler) te).getMultiblockController()  ).onPacket(capacity,energy,transfer);
+		}
+		return null;
+	}
+
+	@Override
+	protected IMessage executeOnServer() {
+		return null;
+	}
+
+}
