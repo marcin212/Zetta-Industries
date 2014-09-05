@@ -19,11 +19,13 @@ public class ModManager {
 
 	private void addMods() {
 		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
+		
 //		addMod("powermeter.PowerMeter","$('BuildCraft|Energy') && $('OpenComponents')","PowerMeter");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("sensor.SensorMod", "$('ThermalExpansion') && ($('ComputerCraft') || $('OpenComponents'))", "SensorMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('OpenComponents')", "NFC");
+		addMod("rfpowermeter.RFMeter", "$('OpenComponents')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 //		addMod("yelloriumenhancement.YE", "$('ExtraBees') && $('BigReactors')", "YE");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");

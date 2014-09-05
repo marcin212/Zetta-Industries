@@ -20,7 +20,6 @@ public class NFC implements IMod{
 	public static ItemCardNFC itemCardNFC;
 	public static ItemPrivateCardNFC itemPrivateCardNFC;
 	
-	
     ItemStack microChip1= Items.get("chip1").createItemStack(1);
     ItemStack microChip2= Items.get("chip2").createItemStack(1);
     ItemStack cpu1= Items.get("cpu1").createItemStack(1);
@@ -61,7 +60,4 @@ public class NFC implements IMod{
 	public void postInit() {
 		
 	}
-	
-	
-
 }

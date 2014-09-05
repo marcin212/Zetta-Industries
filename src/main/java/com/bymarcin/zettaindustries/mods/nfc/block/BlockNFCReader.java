@@ -13,9 +13,6 @@ import com.bymarcin.zettaindustries.mods.nfc.item.ItemCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemPrivateCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCReader;
 
-import cpw.mods.fml.common.Optional;
-
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class BlockNFCReader extends BasicBlockContainer{
 	IIcon iconTop;
 	IIcon iconSides;
