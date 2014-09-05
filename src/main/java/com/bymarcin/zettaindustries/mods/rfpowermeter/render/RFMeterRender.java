@@ -1,7 +1,6 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter.render;
 
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -10,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.RFMeterTileEntity;
@@ -129,7 +127,9 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float delta) {
 		if(!(te instanceof RFMeterTileEntity)) return;
 		RFMeterTileEntity tile = (RFMeterTileEntity) te;
-		render(x,y,z,tile.getBlockMetadata(), te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord).getMixedBrightnessForBlock(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord),tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
+	//	render(x,y,z,tile.getBlockMetadata(), te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord).getMixedBrightnessForBlock(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord),tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
+		render(x,y,z,tile.getBlockMetadata(), 0xF << 20 | 0xF << 4,tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
+
 	}
 	
 	private void drawSI(SI value, float r, float g, float b){

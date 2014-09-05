@@ -23,7 +23,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 public class ZettaIndustries
 {
     public static final String MODID = "zettaindustries";
-    public static final String VERSION = "0.1";
+    public static final String VERSION = "0.2";
     public static final String MODNAME = "Zetta Industries";
     
     /* Creative tab for Zetta Industries */
