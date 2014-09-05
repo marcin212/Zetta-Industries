@@ -31,3 +31,8 @@ tile.sulfurousacid.name=Sulfurous acid
 tile.batterywall.name= Battery wall
 item.acidbucket.name=Bucked of sulfurous acid
 
+#RF Meter
+tile.rfmeterblock.name=RF Meter
+
+
+
