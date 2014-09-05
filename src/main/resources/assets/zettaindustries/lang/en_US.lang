@@ -6,9 +6,6 @@ tile.charcoalblock.name=Block of charcoal
 tile.variableredstoneemitter.name=Variable redstone emitter
 tile.quarryfixer.name=Quarry Fixer
 
-#PowerMeter
-item.PowerMeterPipe.name=Power Meter Pipe
-
 #NFC
 tile.nfcreader.name=NFC reader 
 tile.nfcprogrammer.name=NFC programmer
