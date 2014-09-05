@@ -4,6 +4,7 @@ import li.cil.oc.api.network.Arguments;
 import li.cil.oc.api.network.Callback;
 import li.cil.oc.api.network.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
@@ -170,8 +171,6 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	 * end 
 	 * 
 	 */
-	 
-	 
 	
 	public void onPacket(long value, int transfer, boolean inCounterMode){
 		if(WorldUtils.isServerWorld(worldObj)) return;
@@ -241,4 +240,59 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return 10000;
 	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setInteger("transfer", transfer);
+		nbt.setInteger("transferLimit", transferLimit);
+		
+		nbt.setLong("value", value);
+		nbt.setLong("lastValue", lastValue);
+		
+		nbt.setString("name", name);
+		nbt.setString("password", password);
+		
+		nbt.setBoolean("inCounterMode", inCounterMode);
+		nbt.setBoolean("isOn", isOn);
+		nbt.setBoolean("isProtected", isProtected);
+		
+		nbt.setInteger("tick", tick);
+		
+		nbt.setFloat("r", r);
+		nbt.setFloat("g", g);
+		nbt.setFloat("b", b);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		if(nbt.hasKey("transfer"))
+			transfer= nbt.getInteger("transfer");
+		if(nbt.hasKey("transferLimit"))
+			transferLimit= nbt.getInteger("transferLimit");
+		if(nbt.hasKey("value"))
+			value= nbt.getLong("value");
+		if(nbt.hasKey("lastValue"))
+			lastValue = nbt.getLong("lastValue");
+		if(nbt.hasKey("name"))
+			name = nbt.getString("name");
+		if(nbt.hasKey("password"))
+			password = nbt.getString("password");
+		if(nbt.hasKey("inCounterMode"))
+			inCounterMode = nbt.getBoolean("inCounterMode");
+		if(nbt.hasKey("isOn"))
+			isOn = nbt.getBoolean("isOn");
+		if(nbt.hasKey("isProtected"))
+			isProtected = nbt.getBoolean("isProtected");
+		if(nbt.hasKey("tick"))
+			tick = nbt.getInteger("tick");
+		if(nbt.hasKey("r"))
+			r = nbt.getFloat("r");
+		if(nbt.hasKey("g"))
+			g = nbt.getFloat("g");
+		if(nbt.hasKey("b"))
+			b = nbt.getFloat("b");	
+	}
+	
 }

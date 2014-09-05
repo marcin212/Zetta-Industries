@@ -3,9 +3,11 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -16,6 +18,12 @@ public class RFMeterBlock extends BasicBlockContainer{
 	public RFMeterBlock() {
 		super(Material.iron, "rfmeterblock");
 	}
+	
+	@Override
+	public IIcon getIcon(int side, int meta) {
+		return Blocks.iron_block.getIcon(side, meta);
+	}
+	
 	
 	@Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)

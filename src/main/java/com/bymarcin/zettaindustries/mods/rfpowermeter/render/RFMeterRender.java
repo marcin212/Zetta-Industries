@@ -1,6 +1,6 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter.render;
 
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
@@ -127,8 +127,8 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float delta) {
 		if(!(te instanceof RFMeterTileEntity)) return;
 		RFMeterTileEntity tile = (RFMeterTileEntity) te;
-	//	render(x,y,z,tile.getBlockMetadata(), te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord).getMixedBrightnessForBlock(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord),tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
-		render(x,y,z,tile.getBlockMetadata(), 0xF << 20 | 0xF << 4,tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
+		render(x,y,z,tile.getBlockMetadata(), te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord).getMixedBrightnessForBlock(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord),tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
+	//	render(x,y,z,tile.getBlockMetadata(), 0xF << 20 | 0xF << 4,tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
 
 	}
 	
@@ -151,8 +151,9 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		GL11.glPushMatrix();
 		tes.startDrawingQuads();
 		tes.setColorRGBA_F(1F, 1F, 1F, 1);	
-		tes.setBrightness(mixedBrightnessForBlock);
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
+		if(mixedBrightnessForBlock!=-1)
+			tes.setBrightness(mixedBrightnessForBlock);
+		//OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
 		//right line front 11 23 12 28
 		tes.addVertexWithUV(2/16D, 0, 2/16D, 12/64D, 38/64D);
 		tes.addVertexWithUV(2/16D, 1, 2/16D, 12/64D, 22/64D);
@@ -226,6 +227,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		tes.addVertexWithUV(2/16D,  1, 1, 12/64D, 22/64D);
 
 		//top
+		tes.setNormal(0, 1, 0);//magic do not touch.
 		tes.addVertexWithUV(2/16D,  1, 1,     24/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 1, 1,     12/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 1, 2/16D, 12/64D, 52/64D);
@@ -286,19 +288,21 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
-		render(0, 0, 0, 0, 0xF << 20 | 0xF << 4, 0, 0, 0, 1, 0);
+		RenderHelper.enableStandardItemLighting();
+		if(ItemRenderType.ENTITY == type)
+			render(-0.5, -0.5, -0.5, 0, -1, 0, 0, 0, 1, 0);
+		else
+			render(0, 0, 0, 0, -1, 0, 0, 0, 1, 0);
 		
 	}
 
