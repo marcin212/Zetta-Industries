@@ -47,9 +47,10 @@ public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage>{
 
 	@Override
 	protected IMessage executeOnServer() {
-		if(te!=null)
-			((TileEntityPowerTap) te).setTransfer(transfer);
-			((TileEntityPowerTap) te).updatePowerTap();
+		if(te!=null) {
+            ((TileEntityPowerTap) te).setTransfer(transfer);
+            ((TileEntityPowerTap) te).updatePowerTap();
+        }
 		return null;
 	}
 }

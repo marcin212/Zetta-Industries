@@ -77,10 +77,10 @@ public class Battery implements IMod, IGUI, IProxy{
 	ItemStack rfmeter;
 	ItemStack enderFrame;
 	ItemStack specialGlass;
-	ItemStack electrum;
+	String electrum;
 	ItemStack electrumFrame;
 	ItemStack graphite;
-	ItemStack sulfur;
+	String sulfur;
 	ItemStack gunpowder;
 	
 	@Override
@@ -149,23 +149,29 @@ public class Battery implements IMod, IGUI, IProxy{
 		gold = new ItemStack(Blocks.gold_block,1);
 		gunpowder = new ItemStack(Items.gunpowder,1);
 		
-		electrum = GameRegistry.findItemStack("ThermalExpansion","ingotElectrum",1);
-		sawDust = GameRegistry.findItemStack("ThermalExpansion","sawdustCompressed",1);
-		specialGlass = GameRegistry.findItemStack("ThermalExpansion","lampFrame",1);
+		electrum = "ingotElectrum";
+		sawDust = GameRegistry.findItemStack("ThermalExpansion","dustWoodCompressed",1);
+		specialGlass = GameRegistry.findItemStack("ThermalExpansion","Frame",1);
 		
 		rfmeter =GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
-		enderFrame =GameRegistry.findItemStack("ThermalExpansion","tesseractFrameEmpty",1);
-		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","cellReinforcedFrameEmpty",1);
+		enderFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
+		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
 		
-		sulfur = GameRegistry.findItemStack("ThermalExpansion","dustSulfur",1);
 		
+		
+		sulfur = "dustSulfur";
+		
+	
 		ArrayList<ItemStack> temp = OreDictionary.getOres("blockGraphite");
 		if(temp!=null && temp.size()>0)
 			graphite =  temp.get(0);
 
 		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
-				enderFrame != null && electrumFrame != null && graphite != null && sulfur!=null && gunpowder!=null){ 
-		
+		    enderFrame != null && electrumFrame != null && graphite != null && sulfur!=null && gunpowder!=null){
+			specialGlass.setItemDamage(9);
+			enderFrame.setItemDamage(7);
+			electrumFrame.setItemDamage(5);
+			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,8), "ODE","OFE","ODE",
 					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
 			

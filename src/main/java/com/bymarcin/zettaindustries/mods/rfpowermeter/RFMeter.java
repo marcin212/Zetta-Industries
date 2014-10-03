@@ -11,13 +11,14 @@ import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class RFMeter implements IMod, IProxy{
 	RFMeterBlock  meter;
 	@Override
 	public void init() {
 		meter = new RFMeterBlock();
-		GameRegistry.registerBlock(meter, "rfmeterblock");
+		GameRegistry.registerBlock(meter, RFMeterItem.class, "rfmeterblock");
 		GameRegistry.registerTileEntity(RFMeterTileEntity.class, "rfmeterblock");
 		ZIRegistry.registerProxy(this);
 		ZIRegistry.registerPacket(4, RFMeterUpdatePacket.class, Side.CLIENT);
@@ -25,10 +26,13 @@ public class RFMeter implements IMod, IProxy{
 
 	@Override
 	public void postInit() {
-		// TODO Auto-generated method stub
-		
+		ItemStack rfmeter = GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
+		ItemStack powerCoilSilver = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver",1);
+		if(rfmeter!=null && powerCoilSilver !=null)
+			GameRegistry.addRecipe(new ItemStack(meter)," X "," Y "," X ", 'X', powerCoilSilver, 'Y', rfmeter);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
 		RFMeterRender render = new RFMeterRender();

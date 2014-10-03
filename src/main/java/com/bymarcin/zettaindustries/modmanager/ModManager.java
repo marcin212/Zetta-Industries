@@ -19,20 +19,19 @@ public class ModManager {
 
 	private void addMods() {
 		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
-		
-//		addMod("powermeter.PowerMeter","$('BuildCraft|Energy') && $('OpenComponents')","PowerMeter");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
-//		addMod("sensor.SensorMod", "$('ThermalExpansion') && ($('ComputerCraft') || $('OpenComponents'))", "SensorMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('OpenComponents')", "NFC");
-		addMod("rfpowermeter.RFMeter", "$('OpenComponents')", "RFPowerMeter");
+	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
+		addMod("rfpowermeter.RFMeter", "", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
-//		addMod("yelloriumenhancement.YE", "$('ExtraBees') && $('BigReactors')", "YE");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
-		addMod("battery.Battery", "", "BigBattery");
-		addMod("fframes.Frames", "", "ForestryFrames");
+//		addMod("battery.Battery", "", "BigBattery");
+		addMod("battery.Battery", "$('ThermalExpansion')", "BigBattery");
+		addMod("fframes.Frames", "$('Forestry')", "ForestryFrames");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
-//		addMod("superconductor.SuperConductorMod", "$('BigReactors') && $('ThermalExpansion')", "SuperConductor");
+//		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
+		addMod("superconductor.SuperConductorMod", "$('BigReactors') && $('ThermalExpansion')", "SuperConductor");
 	}
 
 	private void addMod(String path, String dependencies, String name) {

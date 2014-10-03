@@ -49,9 +49,9 @@ public class TileEntityWall extends BasicRectangularMultiblockTileEntityBase {
 		throw new MultiblockValidationException(
 				String.format(
 						"%d, %d, %d - Wall may not be placed in the battery's interior",
-						new Object[] { Integer.valueOf(this.xCoord),
-								Integer.valueOf(this.yCoord),
-								Integer.valueOf(this.zCoord) }));
+                        this.xCoord,
+                        this.yCoord,
+                        this.zCoord));
 	}
 
 	@Override

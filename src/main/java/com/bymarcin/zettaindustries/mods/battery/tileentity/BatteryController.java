@@ -177,7 +177,7 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 			return;
 		}
 		String blockName = world.getBlock(x, y, z).getLocalizedName();
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Unrecognized block with ID %d, not valid for the reactor's interior", x, y, z, blockName));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Unrecognized block with ID %s, not valid for the reactor's interior", x, y, z, blockName));
 	}
 
 	@Override
@@ -246,10 +246,10 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	@Override
 	protected void onBlockRemoved(IMultiblockPart oldPart) {
 		if (oldPart instanceof TileEntityPowerTap) {
-			powerTaps.remove((TileEntityPowerTap) oldPart);
+			powerTaps.remove(oldPart);
 		}
 		if (oldPart instanceof TileEntityControler) {
-			controlers.remove((TileEntityControler) oldPart);
+			controlers.remove(oldPart);
 		}
 	}
 

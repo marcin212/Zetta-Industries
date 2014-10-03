@@ -48,12 +48,12 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's frame", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));	
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's frame", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForSides() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's sides", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's sides", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
@@ -62,17 +62,17 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 		if ((entityBelow instanceof TileEntityElectrode)) {
 			return;
 		}
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap must be placed on electrode", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));	
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap must be placed on electrode", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's bottom", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's bottom", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's interior", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));	
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's interior", this.xCoord, this.yCoord, this.zCoord));
 	}
 	
 	@Override
@@ -178,8 +178,6 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-		if(from == ForgeDirection.UP)
-			return true;
-		return false;
-	}
+        return from == ForgeDirection.UP;
+    }
 }

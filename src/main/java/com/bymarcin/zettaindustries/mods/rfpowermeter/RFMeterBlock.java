@@ -1,11 +1,14 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
@@ -17,13 +20,13 @@ import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 public class RFMeterBlock extends BasicBlockContainer{
 	public RFMeterBlock() {
 		super(Material.iron, "rfmeterblock");
+		
 	}
-	
+
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		return Blocks.iron_block.getIcon(side, meta);
 	}
-	
 	
 	@Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
@@ -89,9 +92,46 @@ public class RFMeterBlock extends BasicBlockContainer{
 				te.r = (float)(color >> 16 & 255) / 255.0F;
 				te.g = (float)(color >> 8 & 255) / 255.0F;
 				te.b = (float)(color & 255) / 255.0F;
+				world.markBlockForUpdate(x, y, z);
 				return true;
 			}
 	   	}
 		return false;
 	}
+
+	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+	    ArrayList<ItemStack> items = getDrops(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+	    if (world.setBlockToAir(x, y, z))
+	    {
+	      if (!world.isRemote) {
+	        for (ItemStack item : items) {
+	          if ((player == null) || (!player.capabilities.isCreativeMode) || (item.hasTagCompound())) {
+	        	  dropBlockAsItem(world, x, y, z, item);
+	          }
+	        }
+	      }
+	      return true;
+	    }
+	    return false;
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+		ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
+		ItemStack stack = new ItemStack(this);
+		 RFMeterTileEntity tile = (RFMeterTileEntity) world.getTileEntity(x, y, z);
+	        if (tile != null)
+	        {
+	           stack.stackTagCompound = new NBTTagCompound();
+		       tile.getTag(stack.stackTagCompound);
+	        }
+	     ret.add(stack);
+		return ret;
+	}
+	
+	@Override
+	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int p_149690_5_, float p_149690_6_, int p_149690_7_) {
+
+	}
 }
+

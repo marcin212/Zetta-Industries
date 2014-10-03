@@ -14,7 +14,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));			
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
@@ -23,29 +23,27 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));		
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));		
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));		
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void onMachineActivated() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void onMachineDeactivated() {
-		// TODO Auto-generated method stub
-		
+
 	}
 	
 	@Override

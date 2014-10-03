@@ -23,11 +23,11 @@ public class WorldUtils {
 		return world.getTileEntity(x, y, z);
 	}
 
-	public static final boolean isClientWorld(World paramWorld) {
+	public static boolean isClientWorld(World paramWorld) {
 		return paramWorld.isRemote;
 	}
 
-	public static final boolean isServerWorld(World paramWorld) {
+	public static boolean isServerWorld(World paramWorld) {
 		return !paramWorld.isRemote;
 	}
 
@@ -53,6 +53,6 @@ public class WorldUtils {
 
 	public static boolean isEnergyHandlerFromSide(TileEntity paramTileEntity, ForgeDirection paramForgeDirection)
 	{
-		return (paramTileEntity instanceof IEnergyHandler) ? ((IEnergyHandler) paramTileEntity).canConnectEnergy(paramForgeDirection) : false;
+		return (paramTileEntity instanceof IEnergyHandler) && ((IEnergyHandler) paramTileEntity).canConnectEnergy(paramForgeDirection);
 	}
 }

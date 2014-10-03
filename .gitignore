@@ -17,3 +17,7 @@
 /logs
 /asm
 /screenshots
+emc2
+/*.iml
+/*.ipr
+/*.iws

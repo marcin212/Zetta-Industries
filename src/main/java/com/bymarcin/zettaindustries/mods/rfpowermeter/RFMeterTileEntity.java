@@ -5,6 +5,9 @@ import li.cil.oc.api.network.Callback;
 import li.cil.oc.api.network.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
@@ -31,6 +34,23 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	int tick = 0;
 	public float r,g=1,b;
 
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound data = new NBTTagCompound();
+		data.setFloat("r", r);
+		data.setFloat("g", g);
+		data.setFloat("b", b);
+		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 2, data);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		r=pkt.func_148857_g().getFloat("r");
+		g=pkt.func_148857_g().getFloat("g");
+		b=pkt.func_148857_g().getFloat("b");
+	}
+	
 	
 	public int getTransfer() {
 		return transfer;
@@ -213,7 +233,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 		if(from == ForgeDirection.UP){
 			if(WorldUtils.isEnergyHandlerFromSide(this, from)){
 				IEnergyHandler a = (IEnergyHandler) WorldUtils.getAdjacentTileEntity(worldObj,this.xCoord, this.yCoord, this.zCoord, ForgeDirection.DOWN);
-				
+				if(a==null) return 0;
 				temp= a.receiveEnergy(from, transferLimit==-1?
 												(inCounterMode ? maxReceive : Math.min((int)value, maxReceive))
 												:Math.min(transferLimit,(inCounterMode ? maxReceive : Math.min((int)value, maxReceive)))
@@ -263,6 +283,51 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 		nbt.setFloat("g", g);
 		nbt.setFloat("b", b);
 	}
+	
+	public void getTag(NBTTagCompound nbt){
+		nbt.setInteger("transferLimit", transferLimit);
+		
+		nbt.setLong("value", value);
+		nbt.setLong("lastValue", lastValue);
+		
+		nbt.setString("name", name);
+		nbt.setString("password", password);
+		
+		nbt.setBoolean("inCounterMode", inCounterMode);
+		nbt.setBoolean("isOn", isOn);
+		nbt.setBoolean("isProtected", isProtected);
+		
+		
+		nbt.setFloat("r", r);
+		nbt.setFloat("g", g);
+		nbt.setFloat("b", b);
+	}
+	
+	public void  setTag(NBTTagCompound nbt){
+		if(nbt.hasKey("transferLimit"))
+			transferLimit= nbt.getInteger("transferLimit");
+		if(nbt.hasKey("value"))
+			value= nbt.getLong("value");
+		if(nbt.hasKey("lastValue"))
+			lastValue = nbt.getLong("lastValue");
+		if(nbt.hasKey("name"))
+			name = nbt.getString("name");
+		if(nbt.hasKey("password"))
+			password = nbt.getString("password");
+		if(nbt.hasKey("inCounterMode"))
+			inCounterMode = nbt.getBoolean("inCounterMode");
+		if(nbt.hasKey("isOn"))
+			isOn = nbt.getBoolean("isOn");
+		if(nbt.hasKey("isProtected"))
+			isProtected = nbt.getBoolean("isProtected");
+		if(nbt.hasKey("r"))
+			r = nbt.getFloat("r");
+		if(nbt.hasKey("g"))
+			g = nbt.getFloat("g");
+		if(nbt.hasKey("b"))
+			b = nbt.getFloat("b");	
+	}
+	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {

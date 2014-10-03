@@ -29,7 +29,7 @@ public class BlockBigBatteryController extends BasicBlockMultiblockBase{
 			return false;
 		}
 				
-		if(((TileEntityControler) world.getTileEntity(x, y, z))!=null &&
+		if(world.getTileEntity(x, y, z) !=null &&
 			((TileEntityControler) world.getTileEntity(x, y, z)).getMultiblockController()!=null && 
 					((TileEntityControler) world.getTileEntity(x, y, z)).getMultiblockController().isAssembled()){
 			

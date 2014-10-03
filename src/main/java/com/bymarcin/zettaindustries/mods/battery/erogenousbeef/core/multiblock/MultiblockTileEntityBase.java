@@ -25,7 +25,6 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	
 	private boolean saveMultiblockData;
 	private NBTTagCompound cachedMultiblockData;
-	@SuppressWarnings("unused")
 	private boolean paused;
 
 	public MultiblockTileEntityBase() {

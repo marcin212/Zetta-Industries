@@ -12,7 +12,7 @@ public class BigBatteryContainer extends Container{
 
 		public BigBatteryContainer(TileEntityControler batteryControler, EntityPlayer player) {
 			part = batteryControler;
-			if(((BatteryController)part.getMultiblockController())!=null){
+			if(part.getMultiblockController() !=null){
 				((BatteryController)part.getMultiblockController()).beginUpdatingPlayer(player);
 			}
 		}
@@ -24,8 +24,7 @@ public class BigBatteryContainer extends Container{
 
 		@Override
 		public void putStackInSlot(int slot, ItemStack stack) {
-			return;
-		}
+        }
 
 		@Override
 		    public void onContainerClosed(EntityPlayer player) {

@@ -23,8 +23,7 @@ public class PowerTapContener extends Container{
 
 	@Override
 	public void putStackInSlot(int slot, ItemStack stack) {
-		return;
-	}
+    }
 
 	@Override
 	    public void onContainerClosed(EntityPlayer player) {

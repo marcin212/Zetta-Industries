@@ -31,5 +31,7 @@ item.acidbucket.name=Bucked of sulfurous acid
 #RF Meter
 tile.rfmeterblock.name=RF Meter
 
-
+#Super Conductor
+tile.blockwire.name=Super Conductor
+tile.blockcontroller.name=Super Conductor Controller
 

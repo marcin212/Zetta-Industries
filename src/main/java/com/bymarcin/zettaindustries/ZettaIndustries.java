@@ -1,16 +1,8 @@
 package com.bymarcin.zettaindustries;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.config.Configuration;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.bymarcin.zettaindustries.modmanager.ModManager;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.Proxy;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -18,6 +10,11 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraftforge.common.config.Configuration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION)
 public class ZettaIndustries
@@ -61,7 +58,6 @@ public class ZettaIndustries
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	
     	tabZettaIndustries = new ZettaIndustriesCreativeTab();
     	modManager.init(); 
     	proxy.init();

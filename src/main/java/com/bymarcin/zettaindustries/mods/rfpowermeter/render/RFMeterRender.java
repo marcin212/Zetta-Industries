@@ -48,6 +48,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 			tes.startDrawingQuads();
 			tes.setBrightness(0xF << 20 | 0xF << 4);
 			tes.setColorRGBA_F(r, g, b, 1);
+			tes.setNormal(0, 0, -1);
 			tes.addVertexWithUV(0/30D, 0, 0,       (x+width)/64D, (y+height)/64D);
 			tes.addVertexWithUV(0/30D, 7/30D, 0,  (x+width)/64D, y/64D);
 			tes.addVertexWithUV(5/30D, 7/30D,0,  x/64D, y/64D);
@@ -60,6 +61,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 			GL11.glPushMatrix();
 			tes.startDrawingQuads();
 			tes.setColorRGBA_F(r*0.25F, g*0.25F, b*0.25F, 1);
+			tes.setNormal(0, 0, -1);
 			tes.addVertexWithUV(0/30D, 0, 0,       (x+width)/64D, (y+height)/64D);
 			tes.addVertexWithUV(0/30D, 7/30D, 0,  (x+width)/64D, y/64D);
 			tes.addVertexWithUV(5/30D, 7/30D,0,  x/64D, y/64D);
@@ -155,85 +157,98 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 			tes.setBrightness(mixedBrightnessForBlock);
 		//OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
 		//right line front 11 23 12 28
+		tes.setNormal(0, 0, -1);
 		tes.addVertexWithUV(2/16D, 0, 2/16D, 12/64D, 38/64D);
 		tes.addVertexWithUV(2/16D, 1, 2/16D, 12/64D, 22/64D);
 		tes.addVertexWithUV(3/16D, 1, 2/16D, 11/64D, 22/64D);
 		tes.addVertexWithUV(3/16D, 0, 2/16D, 11/64D, 38/64D);
 
 		//left line front
+		tes.setNormal(0, 0, -1);
 		tes.addVertexWithUV(13/16D, 0, 2/16D, 1/64D, 38/64D);
 		tes.addVertexWithUV(13/16D, 1, 2/16D, 1/64D, 22/64D);
 		tes.addVertexWithUV(14/16D, 1, 2/16D, 0/64D, 22/64D);
 		tes.addVertexWithUV(14/16D, 0, 2/16D, 0/64D, 38/64D);
 
 		//line top front 15 22  27 23
+		tes.setNormal(0, 0, -1);
 		tes.addVertexWithUV(3/16D, 15/16D, 2/16D, 11/64D, 23/64D);
 		tes.addVertexWithUV(3/16D, 	    1, 2/16D, 11/64D, 22/64D);
 		tes.addVertexWithUV(13/16D, 	1, 2/16D, 1/64D,  22/64D);
 		tes.addVertexWithUV(13/16D,15/16D, 2/16D, 1/64D,  23/64D);
 		
 		//line bottom front
+		tes.setNormal(0, 0, -1);
 		tes.addVertexWithUV(3/16D,  0,     2/16D, 11/64D ,38/64D);
 		tes.addVertexWithUV(3/16D,  1/16D, 2/16D, 11/64D ,37/64D);
 		tes.addVertexWithUV(13/16D, 1/16D, 2/16D, 1/64D ,37/64D);
 		tes.addVertexWithUV(13/16D, 0,     2/16D, 1/64D ,38/64D);		
 
 		//right inside line front
+		tes.setNormal(-1, 0, 0);
 		tes.addVertexWithUV(3/16D, 1/16D,  2/16D, 25/64D ,52/64D);
 		tes.addVertexWithUV(3/16D, 15/16D, 2/16D, 25/64D, 38/64D);
 		tes.addVertexWithUV(3/16D, 15/16D, 3/16D, 26/64D, 38/64D);
 		tes.addVertexWithUV(3/16D, 1/16D,  3/16D, 26/64D, 52/64D);
 
 		//left inside line front
+		tes.setNormal(1, 0, 0);
 		tes.addVertexWithUV(13/16D, 1/16D,  2/16D, 24/64D, 52/64D);
 		tes.addVertexWithUV(13/16D, 1/16D,  3/16D, 24/64D, 52/64D);
 		tes.addVertexWithUV(13/16D, 15/16D, 3/16D, 25/64D, 38/64D);
 		tes.addVertexWithUV(13/16D, 15/16D, 2/16D, 25/64D, 38/64D);
 
 		//line inside top front
+		tes.setNormal(0, 1, 0);
 		tes.addVertexWithUV(3/16D,  15/16D, 2/16D, 36/64D, 38/64D);
 		tes.addVertexWithUV(13/16D, 15/16D, 2/16D, 26/64D, 38/64D);
 		tes.addVertexWithUV(13/16D, 15/16D, 3/16D, 26/64D, 39/64D);
 		tes.addVertexWithUV(3/16D,  15/16D, 3/16D, 36/64D, 39/64D);
 
 		//line inside bottom front
+		tes.setNormal(0, -1, 0);
 		tes.addVertexWithUV(3/16D,  1/16D, 2/16D, 36/64D, 39/64D);
 		tes.addVertexWithUV(3/16D,  1/16D, 3/16D, 36/64D, 40/64D);
 		tes.addVertexWithUV(13/16D, 1/16D, 3/16D, 26/64D, 40/64D);
 		tes.addVertexWithUV(13/16D, 1/16D, 2/16D, 26/64D, 39/64D);
 
 		//inside front 
+		tes.setNormal(0, 0, -1);
 		tes.addVertexWithUV(3/16D,  1/16D,  3/16D, 11/64D,  37/64D);
 		tes.addVertexWithUV(3/16D,  15/16D, 3/16D, 11/64D,  23/64D );
 		tes.addVertexWithUV(13/16D, 15/16D, 3/16D, 1/64D, 23/64D );
 		tes.addVertexWithUV(13/16D, 1/16D,  3/16D, 1/64D, 37/64D);
 		
 		//left
+		tes.setNormal(1, 0, 0);
 		tes.addVertexWithUV(14/16D, 0, 2/16D, 24/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 1, 2/16D, 24/64D, 22/64D);
 		tes.addVertexWithUV(14/16D, 1, 1,     38/64D, 22/64D);
 		tes.addVertexWithUV(14/16D, 0, 1,     38/64D, 38/64D);
 
 		//right
+		tes.setNormal(-1, 0, 0);
 		tes.addVertexWithUV(2/16D, 0, 2/16D, 38/64D, 38/64D);
 		tes.addVertexWithUV(2/16D, 0, 1,     52/64D, 38/64D);
 		tes.addVertexWithUV(2/16D, 1, 1,     52/64D, 22/64D);
 		tes.addVertexWithUV(2/16D, 1, 2/16D, 38/64D, 22/64D);
 		
 		//back
+		tes.setNormal(0, 0, 1);
 		tes.addVertexWithUV(2/16D,  0, 1, 12/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 0, 1, 24/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 1, 1, 24/64D, 22/64D);
 		tes.addVertexWithUV(2/16D,  1, 1, 12/64D, 22/64D);
 
 		//top
-		tes.setNormal(0, 1, 0);//magic do not touch.
+		tes.setNormal(0, 1, 0);
 		tes.addVertexWithUV(2/16D,  1, 1,     24/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 1, 1,     12/64D, 38/64D);
 		tes.addVertexWithUV(14/16D, 1, 2/16D, 12/64D, 52/64D);
 		tes.addVertexWithUV(2/16D,  1, 2/16D, 24/64D, 52/64D);
 
 		//bottom
+		tes.setNormal(0, -1, 0);
 		tes.addVertexWithUV(2/16D,  0, 2/16D, 12/64D,  38/64D);
 		tes.addVertexWithUV(14/16D, 0, 2/16D, 0/64D,  38/64D);
 		tes.addVertexWithUV(14/16D, 0, 1,     0/64D,  52/64D);
@@ -248,9 +263,9 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	private void drawNumber(long number,float r, float g, float b) {
 		GL11.glPushMatrix();
 		tes.startDrawingQuads();
+		tes.setNormal(0, 0, -1);
 		tes.setColorRGBA_F(r*0.5F, g*0.5F, b*0.5F, 1);
 		double s= 11/43D;
-
 		tes.addVertexWithUV(0, 0, 0.001, 43/64D, 22/64D);//bottom right texture
 		tes.addVertexWithUV(0, s, 0.001, 43/64D, 11/64D);//top right
 		tes.addVertexWithUV(1, s, 0.001, 0, 11/64D);//top left
@@ -266,13 +281,14 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		for(;number != 0 || i<2;number = number/10,i++){
 			long dig = number%10;
 			long x = dig *6;
-			
+			tes.setNormal(0, 0, -1);
 			tes.addVertexWithUV(0, 0, 0, (x+6)/64D, 11/64D);//bottom right texture
 			tes.addVertexWithUV(0, s, 0, (x+6)/64D, 0);//top right
 			tes.addVertexWithUV(6/43D, s, 0, x/64D, 0);//top left
 			tes.addVertexWithUV(6/43D, 0, 0, x/64D, 11/64D);//bottom left
 			tes.addTranslation(6/43F,0,0);
 			if(i==0){
+				tes.setNormal(0, 0, -1);
 				tes.addVertexWithUV(0, 0, 0, (62)/64D, 11/64D);//bottom right texture
 				tes.addVertexWithUV(0, s, 0, (62)/64D, 0);//top right
 				tes.addVertexWithUV(2/43D, s, 0, 60/64D, 0);//top left
