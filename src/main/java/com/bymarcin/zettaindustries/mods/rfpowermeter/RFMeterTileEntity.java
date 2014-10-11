@@ -232,8 +232,11 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 		int temp = 0;
 		if(from == ForgeDirection.UP){
 			if(WorldUtils.isEnergyHandlerFromSide(this, from)){
-				IEnergyHandler a = (IEnergyHandler) WorldUtils.getAdjacentTileEntity(worldObj,this.xCoord, this.yCoord, this.zCoord, ForgeDirection.DOWN);
-				if(a==null) return 0;
+                TileEntity tile= WorldUtils.getAdjacentTileEntity(worldObj,this.xCoord, this.yCoord, this.zCoord, ForgeDirection.DOWN);
+                if(tile==null || !WorldUtils.isEnergyHandlerFromSide(tile,ForgeDirection.DOWN)){
+                    return 0;
+                }
+				IEnergyHandler a = (IEnergyHandler) tile;
 				temp= a.receiveEnergy(from, transferLimit==-1?
 												(inCounterMode ? maxReceive : Math.min((int)value, maxReceive))
 												:Math.min(transferLimit,(inCounterMode ? maxReceive : Math.min((int)value, maxReceive)))
