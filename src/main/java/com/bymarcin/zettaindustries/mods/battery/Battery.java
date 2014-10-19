@@ -90,6 +90,7 @@ public class Battery implements IMod, IGUI, IProxy{
 		acidFluid = new AcidFluid(acid);
 		GameRegistry.registerBlock(acidFluid,"sulfurousacid");
 		acid.setBlock(acidFluid);
+		
 		itemAcidBucket = new FluidBucket(acidFluid);
 		GameRegistry.registerItem(itemAcidBucket,"acidbucket");
 		ZIRegistry.registerBucket(acidFluid, itemAcidBucket);

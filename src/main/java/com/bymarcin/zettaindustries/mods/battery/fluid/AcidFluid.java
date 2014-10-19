@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.battery.fluid;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.mods.battery.Battery;
 
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.util.IIcon;
@@ -13,29 +14,29 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 
 public class AcidFluid extends BlockFluidClassic{
-    @SideOnly(Side.CLIENT)
-    private IIcon stillIcon;
-    @SideOnly(Side.CLIENT)
-    private IIcon flowingIcon;
+    public IIcon stillIcon;
+    public IIcon flowingIcon;
     
 	public AcidFluid(Fluid fluid) {
 		super(fluid, MaterialLiquid.water);
 		  this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		  this.setBlockName("sulfurousacid");
+		  
 	}
 
     @Override
     public IIcon getIcon(int side, int meta) {
             return (side == 0 || side == 1)? stillIcon : flowingIcon;
+            
     }
     
     
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(net.minecraft.client.renderer.texture.IIconRegister register) {
-        stillIcon = register.registerIcon(ZettaIndustries.MODID+":battery/fluidAcidStill");
+        blockIcon = stillIcon = register.registerIcon(ZettaIndustries.MODID+":battery/fluidAcidStill");
         flowingIcon = register.registerIcon(ZettaIndustries.MODID+":battery/fluidAcidFlowing");
-	
+        Battery.acid.setIcons(stillIcon, flowingIcon);
     }
 
     @Override
