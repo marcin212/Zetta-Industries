@@ -120,7 +120,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
 			 int temp =((BatteryController)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
-			 ((BatteryController)getMultiblockController()).modifyLastTickBalance(temp);
+			    if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(temp);}
 			 return temp;
 		}
 		return 0;
@@ -130,7 +130,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
 			int temp = ((BatteryController)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
-			 ((BatteryController)getMultiblockController()).modifyLastTickBalance(-temp);
+            if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(-temp);}
 			return temp;
 		}
 		return 0;

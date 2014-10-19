@@ -209,7 +209,7 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		if (electrolyte == 0)
 			return false;
 		for (TileEntityPowerTap powerTap : powerTaps) {
-			modifyLastTickBalance(-powerTap.onTransferEnergy());
+			powerTap.onTransferEnergy();
 		}
 		if (lastUpdate % 4 == 0) {
 			EnergyUpdatePacket packet = getUpdatePacket();
