@@ -5,6 +5,7 @@ import com.bymarcin.zettaindustries.mods.superconductor.tileentity.TileEntityCon
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 
 public class ContainerControler extends Container{
 	TileEntityControler tile;
@@ -19,6 +20,10 @@ public class ContainerControler extends Container{
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return true;
 	}
+
+	@Override
+	public void putStackInSlot(int slot, ItemStack stack) {
+    }
 
 	@Override
 	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
