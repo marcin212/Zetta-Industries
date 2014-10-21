@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
+import com.bymarcin.zettaindustries.utils.Avg;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
 import cpw.mods.fml.common.Optional;
@@ -24,7 +25,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	int transferLimit=-1;
 	long value=0;//current used energy
 	long lastValue = 0;	
-	
+	Avg avg = new Avg();
 	String name = "";
 	String password = "";
 	boolean inCounterMode = true;
@@ -210,7 +211,8 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 				tick=0;
 			}
 			long lastRecive = Math.abs(value - lastValue);
-			transfer= (int) ((transfer * 9.0 + (double)lastRecive)/10.0);	
+			avg.putValue(lastRecive);
+			transfer= (int)avg.getAvg();
 			lastValue = value;
 		}else{
 			if(inCounterMode)
