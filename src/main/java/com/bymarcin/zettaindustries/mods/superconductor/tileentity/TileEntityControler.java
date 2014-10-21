@@ -15,7 +15,6 @@ import cofh.api.energy.IEnergyHandler;
 import com.bymarcin.zettaindustries.mods.superconductor.SuperConductorMod;
 import com.bymarcin.zettaindustries.mods.superconductor.block.BlockControler;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
-import com.bymarcin.zettaindustries.registry.network.Packet;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
 public class TileEntityControler extends TileEntityBase implements IEnergyHandler, IFluidHandler {
