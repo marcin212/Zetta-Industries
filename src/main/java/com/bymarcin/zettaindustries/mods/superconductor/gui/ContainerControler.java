@@ -24,7 +24,7 @@ public class ContainerControler extends Container{
 	public void onContainerClosed(EntityPlayer par1EntityPlayer) {
 		super.onContainerClosed(par1EntityPlayer);
 		if(tile != null){
-			tile.removePlayerFromUpdate(par1EntityPlayer);
+			tile.removePlayerFromUpdate( par1EntityPlayer);
 		}
 	}
 }

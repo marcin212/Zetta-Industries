@@ -44,7 +44,7 @@ public class PacketUpdateFluidAmount extends Packet<PacketUpdateFluidAmount, IMe
 		TileEntityControler te= (TileEntityControler) tile;
 		FluidStack fluid = new FluidStack(fluidID, fluidAmount);
 		if(te!=null && te.getMultiblockController() !=null){
-			((SuperConductor)te.getMultiblockController()).getTank().setFluid(fluid);
+			((SuperConductor)te.getMultiblockController()).tank.setFluid(fluid);
 		}
 		return null;
 	}

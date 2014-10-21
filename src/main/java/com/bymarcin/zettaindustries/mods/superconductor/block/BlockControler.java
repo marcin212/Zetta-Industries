@@ -3,9 +3,12 @@ package com.bymarcin.zettaindustries.mods.superconductor.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -21,6 +24,8 @@ import com.bymarcin.zettaindustries.utils.Sides;
 
 public class BlockControler extends BlockMultiblockBase implements Glowing{
 	public static IIcon icons[][] = new IIcon[2][16];
+	public static IIcon iconsWire[] = new IIcon[16];
+	public static IIcon glowIconsWire[] = new IIcon[16];
 	public static IIcon glowIcons[][] = new IIcon[2][16];
 	public static IIcon transparentIcon;
 	
@@ -38,6 +43,8 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			icons[1][i] = iconRegister.registerIcon(ZettaIndustries.MODID + ":superconductor/sc_conductor_input_"+i);
 			glowIcons[0][i] = iconRegister.registerIcon(ZettaIndustries.MODID + ":superconductor/sc_conductor_output_glow_"+i);
 			glowIcons[1][i] = iconRegister.registerIcon(ZettaIndustries.MODID + ":superconductor/sc_conductor_input_glow_"+i);
+			iconsWire[i] = iconRegister.registerIcon(ZettaIndustries.MODID + ":superconductor/sc_conductor_body_" + i);
+			glowIconsWire[i] = iconRegister.registerIcon(ZettaIndustries.MODID + ":superconductor/sc_conductor_body_glow_" + i);
 			
 		}
 			transparentIcon = iconRegister.registerIcon(ZettaIndustries.MODID + ":superconductor/bb_transparent");
@@ -45,11 +52,15 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 	
 	@Override
 	public IIcon getIcon(int side, int metadata) {
-		return icons[metadata&1][0];
+		return icons[getBlocktype(metadata)][0];
 	}
 	
-	public int getBlockType(IBlockAccess blockAccess, int x, int y, int z){
-		return blockAccess.getBlockMetadata(x, y, z)&1;
+	public static int getBlocktype(int metadata){
+		return ((metadata&8)==8)?1:0;
+	}
+	
+	public static int getBlockType(IBlockAccess blockAccess, int x, int y, int z){
+		return getBlocktype(blockAccess.getBlockMetadata(x, y, z));
 	}
 	
 	@Override
@@ -57,7 +68,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			int par4, EntityPlayer player, int par6, float par7,
 			float par8, float par9) {
 		if(player.getCurrentEquippedItem()==null && player.isSneaking()){
-			world.setBlockMetadataWithNotify(par2, par3, par4, world.getBlockMetadata(par2, par3, par4)^1, 2);
+			world.setBlockMetadataWithNotify(par2, par3, par4, world.getBlockMetadata(par2, par3, par4)^8, 2);
 			return true;
 		}
 		
@@ -86,7 +97,8 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			return transparentIcon;
 		}
 		if(isEnergyHandler(world, x + out.offsetX, y + out.offsetY, z + out.offsetZ))
-			return icons[getBlockType(blockAccess,x, y, z)][15];
+			return (blockAccess.getBlockMetadata(x, y, z)&7)==side?icons[getBlockType(blockAccess,x, y, z)][15]:iconsWire[15];
+		
 
 		// Calculate icon index based on whether the blocks around this block
 		// match it
@@ -97,14 +109,18 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 		for (int i = 0; i < dirsToCheck.length; i++) {
 			dir = dirsToCheck[i];
 			// Same blockID and metadata on this side?
-			if (blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) instanceof BlockWire || blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == myBlock || isEnergyHandler(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+			if (blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) instanceof BlockWire || blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == myBlock || (isEnergyHandler(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)&& dir.ordinal()==(blockAccess.getBlockMetadata(x, y, z)&7)) ) {
 				// Connected!
 				iconIdx |= 1 << i;
 			}
 		}
-
-		return icons[getBlockType(blockAccess,x, y, z)][iconIdx];
+		if((blockAccess.getBlockMetadata(x, y, z)&7)==side)
+			return icons[getBlockType(blockAccess,x, y, z)][iconIdx];
+		else{
+			return iconsWire[iconIdx];
+		}
 	}
+	
 	
 	public boolean isEnergyHandler(World world, int x, int y, int z){
         return world != null && world.getTileEntity(x, y, z) instanceof IEnergyHandler;
@@ -137,7 +153,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			return null;
 		}
 		if(isEnergyHandler(world, x + out.offsetX, y + out.offsetY, z + out.offsetZ))
-			return glowIcons[getBlockType(blockAccess,x, y, z)][15];
+			return (blockAccess.getBlockMetadata(x, y, z)&7)==side?glowIcons[getBlockType(blockAccess,x, y, z)][15]:glowIconsWire[15];
 
 		// Calculate icon index based on whether the blocks around this block
 		// match it
@@ -148,13 +164,17 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 		for (int i = 0; i < dirsToCheck.length; i++) {
 			dir = dirsToCheck[i];
 			// Same blockID and metadata on this side?
-			if (blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) instanceof BlockWire || blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == myBlock || isEnergyHandler(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)) {
+			if (blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) instanceof BlockWire || blockAccess.getBlock(x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ) == myBlock || (isEnergyHandler(world, x + dir.offsetX, y + dir.offsetY, z + dir.offsetZ)&& dir.ordinal()==(blockAccess.getBlockMetadata(x, y, z)&7)) ) {
 				// Connected!
 				iconIdx |= 1 << i;
 			}
 		}
-
-		return glowIcons[getBlockType(blockAccess,x, y, z)][iconIdx];
+		
+		if((blockAccess.getBlockMetadata(x, y, z)&7)==side)
+			return glowIcons[getBlockType(blockAccess,x, y, z)][iconIdx];
+		else{
+			return glowIconsWire[iconIdx];
+		}
 	}
 
 	@Override
@@ -175,5 +195,23 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 	public int getLightValue(IBlockAccess world, int x, int y, int z) {
 		return 4;
 	}
-
+	
+	@Override
+	public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack){
+		int whichDirectionFacing=0;
+		if(par5EntityLivingBase.rotationPitch>=70){
+			whichDirectionFacing = 0;//down
+		}else if(par5EntityLivingBase.rotationPitch<=-70){
+			whichDirectionFacing = 1;//up
+		}else{
+			whichDirectionFacing = (MathHelper.floor_double((double) (par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3);
+			switch(whichDirectionFacing){
+				case 0: whichDirectionFacing = ForgeDirection.SOUTH.ordinal(); break;
+				case 1: whichDirectionFacing = ForgeDirection.WEST.ordinal(); break;
+				case 2: whichDirectionFacing = ForgeDirection.NORTH.ordinal(); break;
+				case 3: whichDirectionFacing = ForgeDirection.EAST.ordinal(); break;
+			}
+		}
+		par1World.setBlockMetadataWithNotify(x, y, z,par5EntityLivingBase.isSneaking()?whichDirectionFacing:ForgeDirection.OPPOSITES[whichDirectionFacing], 2);
+	}
 }

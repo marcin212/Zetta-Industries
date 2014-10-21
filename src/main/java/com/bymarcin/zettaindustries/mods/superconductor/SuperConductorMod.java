@@ -21,9 +21,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class SuperConductorMod implements IMod, IGUI, IProxy{
+	public static Fluid coolantFluid = null;
 	BlockWire blockWire;
 	BlockControler blockControler;
 	public static int glowRenderID;
@@ -62,8 +65,7 @@ public class SuperConductorMod implements IMod, IGUI, IProxy{
 			
 		}
 		
-
-		
+		coolantFluid = FluidRegistry.getFluid("cryotheum");	
 	}
 
 	@Override

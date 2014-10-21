@@ -29,7 +29,7 @@ public class GuiControler extends GuiContainer{
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		int posX = (this.width - xSize) / 2;
 		int posY = (this.height - ySize) / 2;
-		FluidTank tank = ((SuperConductor)controler.getMultiblockController()).getTank();
+		FluidTank tank = ((SuperConductor)controler.getMultiblockController()).tank;
 		double percent = (float)tank.getFluidAmount()/(float)tank.getCapacity();
 		Minecraft.getMinecraft().renderEngine.bindTexture(guiTexture);
 		drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);

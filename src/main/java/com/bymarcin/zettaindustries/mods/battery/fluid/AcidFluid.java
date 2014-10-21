@@ -20,14 +20,12 @@ public class AcidFluid extends BlockFluidClassic{
 	public AcidFluid(Fluid fluid) {
 		super(fluid, MaterialLiquid.water);
 		  this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
-		  this.setBlockName("sulfurousacid");
-		  
+		  this.setBlockName("sulfurousacid");  
 	}
 
     @Override
     public IIcon getIcon(int side, int meta) {
-            return (side == 0 || side == 1)? stillIcon : flowingIcon;
-            
+            return (side == 0 || side == 1)? stillIcon : flowingIcon;      
     }
     
     
