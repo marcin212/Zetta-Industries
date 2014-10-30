@@ -21,7 +21,7 @@ public class ModManager {
 		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
-		addMod("nfc.NFC", "$('OpenComponents')", "NFC");
+		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
 		addMod("rfpowermeter.RFMeter", "", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
