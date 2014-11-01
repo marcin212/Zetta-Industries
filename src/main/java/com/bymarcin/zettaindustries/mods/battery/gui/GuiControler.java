@@ -47,7 +47,7 @@ public class GuiControler extends GuiContainer{
 		int posX = (this.width - xSize) / 2;
 		int posY = (this.height - ySize) / 2;
 		double percent = ((double)battery.getStorage().getRealEnergyStored())/(double)battery.getStorage().getRealMaxEnergyStored();
-		//GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(guiTexture);
 		drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);
 		drawTexturedModalRect(posX+50, posY+14, 0, 175, (int)(percent*141.0D+0.5D), 71);
