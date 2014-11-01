@@ -17,7 +17,6 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.FluidRegistry;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.battery.AdvancedStorage;
 import com.bymarcin.zettaindustries.mods.battery.Battery;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.IMultiblockPart;
@@ -90,12 +89,11 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void onMachinePaused() {
-		ZettaIndustries.logger.info("Machine %d PAUSED", hashCode());
+
 	}
 
 	@Override
 	protected void onMachineAssembled() {
-		ZettaIndustries.logger.info("Machine %d ASSEMBLED", hashCode());
 		for (TileEntityControler c : controlers)
 			controler = c;
 	}
@@ -130,12 +128,11 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	@Override
 	protected void onMachineDisassembled() {
 		electrolyte = 0;
-		ZettaIndustries.logger.info("Machine %d DISASSEMBLED", hashCode());
 	}
 
 	@Override
 	protected void onMachineRestored() {
-		ZettaIndustries.logger.info("Machine %d RESTORED", hashCode());
+
 	}
 
 	@Override
@@ -229,11 +226,6 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	}
 
 	@Override
-	public void onAttachedPartWithMultiblockData(IMultiblockPart part, NBTTagCompound data) {
-		readFromNBT(data);
-	}
-
-	@Override
 	protected void onBlockAdded(IMultiblockPart newPart) {
 		if (newPart instanceof TileEntityPowerTap) {
 			powerTaps.add((TileEntityPowerTap) newPart);
@@ -255,6 +247,8 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase assimilated) {
+		BatteryController c = (BatteryController)assimilated;
+		this.storage.setEnergyStored(this.getStorage().getRealEnergyStored()+c.getStorage().getRealEnergyStored());
 	}
 
 	@Override
@@ -299,5 +293,10 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 			maxOutput = data.getInteger("transfer");
 		}
 		storage.readFromNBT(data);
+	}
+
+	@Override
+	public void onAttachedPartWithMultiblockData(IMultiblockPart part, NBTTagCompound data) {
+		
 	}
 }
