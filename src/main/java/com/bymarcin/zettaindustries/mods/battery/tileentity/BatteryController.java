@@ -297,6 +297,6 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 
 	@Override
 	public void onAttachedPartWithMultiblockData(IMultiblockPart part, NBTTagCompound data) {
-		
+		readFromNBT(data);
 	}
 }

@@ -26,17 +26,19 @@ public class AdvancedStorage implements IEnergyStorage{
 
 		this.energy = nbt.getLong("Energy");
 
-		if (energy > capacity) {
-			energy = capacity;
-		}
+//		if (energy > capacity) {
+//			energy = capacity;
+//		}
+		System.out.println("HELLLO READ");
 		return this;
 	}
 
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
 
-		if (energy < 0) {
-			energy = 0;
-		}
+//		if (energy < 0) {
+//			energy = 0;
+//		}
+		System.out.println("HELLLO SAVE");
 		nbt.setLong("Energy", energy);
 		return nbt;
 	}
