@@ -118,8 +118,11 @@ public class ModManager {
 		private boolean eval(String dependencies) {
 			if(dependencies.trim().isEmpty()) return true;
 			try {
-				return (int)fsEngine.evaluateExpression(dependencies.replace("'", "\"").replace("$", "C"))!=0;
-			} catch (IOException | FSException e) {
+				return (Integer)fsEngine.evaluateExpression(dependencies.replace("'", "\"").replace("$", "C"))!=0;
+			} catch (IOException e){
+				e.printStackTrace();
+				return false;
+			}catch(FSException e){
 				e.printStackTrace();
 				return false;
 			}
