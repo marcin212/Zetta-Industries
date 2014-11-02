@@ -1,12 +1,15 @@
 package com.bymarcin.zettaindustries.modmanager;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
+import murlen.util.fscript.FSException;
+import murlen.util.fscript.FSFastExtension;
+import murlen.util.fscript.FSFunctionExtension;
+import murlen.util.fscript.FScript;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
@@ -16,7 +19,22 @@ import cpw.mods.fml.common.ModContainer;
 public class ModManager {
 	HashSet<ModDescription> mods = new HashSet<ModManager.ModDescription>();
 	private static final String modsClassPath = "com.bymarcin.zettaindustries.mods.";
-
+	private FScript fsEngine = new FScript();
+	private final HashSet<String> aMods = new HashSet<String>();
+	public ModManager() {
+		FSFastExtension ext = new FSFastExtension();
+		ext.addFunctionExtension("C", new FSFunctionExtension() {
+			@Override
+			public Object callFunction(String name, ArrayList params) throws FSException {
+				if(params.size()!=1){
+					return 0;
+				}
+				return aMods.contains(params.get(0))?1:0;	
+			}
+		});
+		fsEngine.registerExtension(ext);
+	}
+	
 	private void addMods() {
 		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
@@ -38,11 +56,9 @@ public class ModManager {
 	}
 
 	public void preInit() {
-		HashSet<String> mods = new HashSet<String>();
 		for (ModContainer mod : Loader.instance().getModList()) {
-			mods.add(mod.getModId());
+			aMods.add(mod.getModId());
 		}
-		binding.put("mods", mods);
 		addMods();
 	}
 
@@ -87,10 +103,7 @@ public class ModManager {
 			e.printStackTrace();
 		}
 	}
-
-	private ScriptEngine engine = new ScriptEngineManager(null).getEngineByName("js");
-	private Bindings binding = engine.createBindings();
-
+	
 	private class ModDescription {
 		Boolean toLoad = false;
 		Boolean isLoaded = false;
@@ -103,11 +116,10 @@ public class ModManager {
 		}
 
 		private boolean eval(String dependencies) {
-			String script = "function $(modId){"
-					+ "return mods.contains(modId)}; true; ";
+			if(dependencies.trim().isEmpty()) return true;
 			try {
-				return (Boolean) engine.eval(script + dependencies, binding);
-			} catch (Exception e) {
+				return (int)fsEngine.evaluateExpression(dependencies.replace("'", "\"").replace("$", "C"))!=0;
+			} catch (IOException | FSException e) {
 				e.printStackTrace();
 				return false;
 			}
