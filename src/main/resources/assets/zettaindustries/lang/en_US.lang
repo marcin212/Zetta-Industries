@@ -2,15 +2,15 @@
 itemGroup.zettaindustries=Zetta Industries
 
 #VanillaUtils
-tile.charcoalblock.name=Block of charcoal
-tile.variableredstoneemitter.name=Variable redstone emitter
+tile.charcoalblock.name=Block of Charcoal
+tile.variableredstoneemitter.name=Variable Redstone Emitter
 tile.quarryfixer.name=Quarry Fixer
 
 #NFC
-tile.nfcreader.name=NFC reader 
-tile.nfcprogrammer.name=NFC programmer
-item.itemcardnfc.name=NFC card
-item.itemprivatecardnfc.name=Private NFC card
+tile.nfcreader.name=NFC Reader 
+tile.nfcprogrammer.name=NFC Programmer
+item.itemcardnfc.name=NFC Card
+item.itemprivatecardnfc.name=Private NFC Card
 zettaindustries.nfc.text.message1=NFC data written!
 zettaindustries.nfc.text.message2=You are not the owner or the owner is not set!
 
@@ -18,15 +18,15 @@ zettaindustries.nfc.text.message2=You are not the owner or the owner is not set!
 item.larvaeframe.name=Incubation Frame
 
 #Battery
-tile.batterypowertap.name= Battery power tap
-tile.batteryelectrode.name=Battery electrode
-tile.sulfurblock.name=Block of sulfur
-tile.batteryglass.name=Battery glass
-tile.batterycontroller.name=Battery controller
-tile.batterycomputerport.name= Battery computer port
-tile.sulfurousacid.name=Sulfurous acid
-tile.batterywall.name= Battery wall
-item.acidbucket.name=Bucked of sulfurous acid
+tile.batterypowertap.name= Battery Power Tap
+tile.batteryelectrode.name=Battery Electrode
+tile.sulfurblock.name=Block of Sulfur
+tile.batteryglass.name=Battery Glass
+tile.batterycontroller.name=Battery Controller
+tile.batterycomputerport.name=Battery Computer Port
+tile.sulfurousacid.name=Sulfurous Acid
+tile.batterywall.name= Battery Wall
+item.acidbucket.name=Bucked of Sulfurous Acid
 
 #RF Meter
 tile.rfmeterblock.name=RF Meter
@@ -34,4 +34,3 @@ tile.rfmeterblock.name=RF Meter
 #Super Conductor
 tile.blockwire.name=Super Conductor
 tile.blockcontroller.name=Super Conductor Controller
-
