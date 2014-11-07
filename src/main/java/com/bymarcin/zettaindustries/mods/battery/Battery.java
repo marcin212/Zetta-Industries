@@ -1,6 +1,5 @@
 package com.bymarcin.zettaindustries.mods.battery;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -75,7 +74,6 @@ public class Battery implements IMod, IGUI, IProxy{
 	/*Crafting items*/
 	
 	ItemStack obsidian;
-	ItemStack gold;
 	ItemStack sawDust;
 	ItemStack redstone;
 	ItemStack rfmeter;
@@ -83,7 +81,6 @@ public class Battery implements IMod, IGUI, IProxy{
 	ItemStack specialGlass;
 	String electrum;
 	ItemStack electrumFrame;
-	ItemStack graphite;
 	String sulfur;
 	ItemStack gunpowder;
 	ItemStack coal;
@@ -162,7 +159,6 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		redstone = new ItemStack(Items.redstone,1);
 		obsidian = new ItemStack(Blocks.obsidian,1);
-		gold = new ItemStack(Blocks.gold_block,1);
 		gunpowder = new ItemStack(Items.gunpowder,1);
 		
 		electrum = "ingotElectrum";
@@ -184,13 +180,9 @@ public class Battery implements IMod, IGUI, IProxy{
 				coal,coal,coal);
 		GameRegistry.addShapelessRecipe(coalx9, charcoalblock);
 		GameRegistry.addSmelting(charcoalblock, new ItemStack(blockGraphite), 0F);
-		
-		ArrayList<ItemStack> temp = OreDictionary.getOres("blockGraphite");
-		if(temp!=null && temp.size()>0)
-			graphite =  temp.get(0);
 
 		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
-		    enderFrame != null && electrumFrame != null && graphite != null && sulfur!=null && gunpowder!=null){
+		    enderFrame != null && electrumFrame != null && sulfur!=null && gunpowder!=null){
 			specialGlass.setItemDamage(9);
 			enderFrame.setItemDamage(7);
 			electrumFrame.setItemDamage(5);
@@ -202,7 +194,7 @@ public class Battery implements IMod, IGUI, IProxy{
 					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', electrumFrame));
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryElectrode,2), "WGW","WGW","WWW",
-					'W', graphite, 'G', gold));
+					'W', "blockGraphite", 'G', "blockGold"));
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryGlass,4), "GGG","GFG","GGG",
 					'G',specialGlass,'F', enderFrame));
