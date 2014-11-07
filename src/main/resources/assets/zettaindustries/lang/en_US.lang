@@ -2,7 +2,6 @@
 itemGroup.zettaindustries=Zetta Industries
 
 #VanillaUtils
-tile.charcoalblock.name=Block of Charcoal
 tile.variableredstoneemitter.name=Variable Redstone Emitter
 tile.quarryfixer.name=Quarry Fixer
 
@@ -14,9 +13,6 @@ item.itemprivatecardnfc.name=Private NFC Card
 zettaindustries.nfc.text.message1=NFC data written!
 zettaindustries.nfc.text.message2=You are not the owner or the owner is not set!
 
-#Forestry Frame
-item.larvaeframe.name=Incubation Frame
-
 #Battery
 tile.batterypowertap.name= Battery Power Tap
 tile.batteryelectrode.name=Battery Electrode
@@ -27,6 +23,8 @@ tile.batterycomputerport.name=Battery Computer Port
 tile.sulfurousacid.name=Sulfurous Acid
 tile.batterywall.name= Battery Wall
 item.acidbucket.name=Bucked of Sulfurous Acid
+tile.charcoalblock.name=Block of Charcoal
+tile.blockGraphite.name=Block of Graphite
 
 #RF Meter
 tile.rfmeterblock.name=RF Meter

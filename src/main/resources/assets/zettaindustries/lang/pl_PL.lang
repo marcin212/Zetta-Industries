@@ -2,7 +2,6 @@
 itemGroup.zettaindustries=Zetta Industries
 
 #VanillaUtils
-tile.charcoalblock.name=Blok Węgla Drzewnego
 tile.variableredstoneemitter.name=Nastawny Emiter Redstone
 tile.quarryfixer.name=Naprawiacz Kopalni
 
@@ -13,8 +12,6 @@ item.itemcardnfc.name=karta NFC
 item.itemprivatecardnfc.name=Prywatna Karta NFC
 zettaindustries.nfc.text.message1=Zapisano dane NFC!
 zettaindustries.nfc.text.message2=Nie jesteś właścicielem karty, lub właściciel nie został ustawiony!
-#Forestry Frame
-item.larvaeframe.name=Incubation Frame
 
 #Battery
 tile.batterypowertap.name= Terminal Baterii
@@ -23,13 +20,15 @@ tile.sulfurblock.name=Blok Siarki
 tile.batteryglass.name=Szkło Baterii
 tile.batterycontroller.name=Kontroler Baterii
 tile.batterycomputerport.name=Port Komputerowy Baterii
-tile.sulfurousacid.name=Kwas Siarkawy (H2SO3)
-#SiarkOwy to H2SO4
+tile.sulfurousacid.name=Kwas Siarkowy (H2SO4)
 tile.batterywall.name= Ściana Baterii
-item.acidbucket.name=Wiadro Kwasu Siarkawego (H2SO3)
+item.acidbucket.name=Wiadro Kwasu Siarkowego (H2SO4)
+tile.charcoalblock.name=Blok Węgla Drzewnego
+tile.blockGraphite.name=Blok Grafitu
 
 #RF Meter
 tile.rfmeterblock.name=Miernik RF
+
 #Super Conductor
 tile.blockwire.name=Kabel Nadprzewodzący
 tile.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
