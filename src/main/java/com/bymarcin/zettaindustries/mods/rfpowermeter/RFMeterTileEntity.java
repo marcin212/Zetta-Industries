@@ -14,6 +14,7 @@ import cofh.api.energy.IEnergyHandler;
 
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.utils.Avg;
+import com.bymarcin.zettaindustries.utils.MathUtils;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
 import cpw.mods.fml.common.Optional;
@@ -67,7 +68,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	}
 	
 	public void setPassword(String pass) {
-		password = pass;
+		password = MathUtils.encryptPassword(pass);
 		isProtected = true;
 	}
 
@@ -77,7 +78,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	}
 	
 	public boolean canEdit(String pass) {
-		return !isProtected || (isProtected && pass.equals(password));
+		return !isProtected || (isProtected && MathUtils.encryptPassword(pass).equals(password));
 	}
 	
 	
