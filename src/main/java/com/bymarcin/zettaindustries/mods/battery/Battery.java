@@ -25,7 +25,9 @@ import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryGlass;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryWall;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockGraphite;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockSulfur;
+import com.bymarcin.zettaindustries.mods.battery.block.CharcoalBlock;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockClientTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
@@ -62,6 +64,8 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static BlockBigBatteryComputerPort  blockBigBatteryComputerPort;
 	public static BlockBigBatteryController  blockBigBatteryControler;
 	public static FluidBucket itemAcidBucket;
+	public static BlockGraphite blockGraphite;
+	public static CharcoalBlock charcoalblock;
 	
 	public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
@@ -82,6 +86,9 @@ public class Battery implements IMod, IGUI, IProxy{
 	ItemStack graphite;
 	String sulfur;
 	ItemStack gunpowder;
+	ItemStack coal;
+	ItemStack coalx9;
+	
 	
 	@Override
 	public void init() {
@@ -98,7 +105,7 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		blockSulfur = new BlockSulfur(acidFluid);
 		GameRegistry.registerBlock(blockSulfur,"sulfurblock");
-		
+		OreDictionary.registerOre("blockSulfur", blockSulfur);
 		
 		FluidContainerRegistry.registerFluidContainer(
 				FluidRegistry.getFluidStack(acid.getName(), FluidContainerRegistry.BUCKET_VOLUME),
@@ -129,6 +136,14 @@ public class Battery implements IMod, IGUI, IProxy{
 		GameRegistry.registerBlock(blockBigBatteryComputerPort, "BatteryComputerPort");
 		GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BatteryTileEntityComputerPort");
 		
+		blockGraphite = new BlockGraphite();
+		GameRegistry.registerBlock(blockGraphite, "BlockGraphite");
+		OreDictionary.registerOre("blockGraphite", blockGraphite);
+
+		charcoalblock = new CharcoalBlock();
+		GameRegistry.registerBlock(charcoalblock, "charcoalblock");
+		GameRegistry.registerFuelHandler(new CharcoalFuelHandler());
+		
 		ZIRegistry.registerPacket(1, EnergyUpdatePacket.class, Side.CLIENT);
 		ZIRegistry.registerPacket(2, PowerTapUpdatePacket.class, Side.SERVER);
 		ZIRegistry.registerPacket(3, PowerTapUpdatePacket.class, Side.CLIENT);
@@ -158,11 +173,18 @@ public class Battery implements IMod, IGUI, IProxy{
 		enderFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
 		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
 		
-		
+		coal = new ItemStack(Items.coal, 1,1);
+		coalx9 = new ItemStack(Items.coal, 9,1);
 		
 		sulfur = "dustSulfur";
 		
-	
+		GameRegistry.addShapelessRecipe(new ItemStack(charcoalblock),
+				coal,coal,coal,
+				coal,coal,coal,
+				coal,coal,coal);
+		GameRegistry.addShapelessRecipe(coalx9, charcoalblock);
+		GameRegistry.addSmelting(charcoalblock, new ItemStack(blockGraphite), 0F);
+		
 		ArrayList<ItemStack> temp = OreDictionary.getOres("blockGraphite");
 		if(temp!=null && temp.size()>0)
 			graphite =  temp.get(0);
@@ -173,13 +195,13 @@ public class Battery implements IMod, IGUI, IProxy{
 			enderFrame.setItemDamage(7);
 			electrumFrame.setItemDamage(5);
 			
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,8), "ODE","OFE","ODE",
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,16), "ODE","OFE","ODE",
 					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryControler, "ODE","MRE","ODE",
 					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', electrumFrame));
 			
-			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryElectrode, "WGW","WGW","WWW",
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryElectrode,2), "WGW","WGW","WWW",
 					'W', graphite, 'G', gold));
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryGlass,4), "GGG","GFG","GGG",
@@ -193,6 +215,7 @@ public class Battery implements IMod, IGUI, IProxy{
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur,1), "SGS","SSS","SSS",
 					'S',sulfur, 'G', gunpowder));
+			
 		}
 	}
 	
