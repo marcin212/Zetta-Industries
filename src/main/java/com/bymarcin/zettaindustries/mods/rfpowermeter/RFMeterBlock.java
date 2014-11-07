@@ -27,7 +27,7 @@ public class RFMeterBlock extends BasicBlockContainer{
 	public IIcon getIcon(int side, int meta) {
 		return Blocks.iron_block.getIcon(side, meta);
 	}
-	
+
 	@Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
@@ -35,25 +35,25 @@ public class RFMeterBlock extends BasicBlockContainer{
         
         if (meta == 0)
         {
-        	this.setBlockBounds(2/16F-0.001F, 0/16F-0.001F, 0/16F-0.001F, 14/16F+0.001F, 16/16F+0.001F, 14/16F+0.001F);
+        	this.setBlockBounds(2/16F-0.001F, 0, 0, 14/16F+0.001F, 1, 14/16F+0.001F);
         	return;
         }
 
         if (meta == 3)
         {
-        	this.setBlockBounds(0/16F-0.001F, 0/16F-0.001F, 2/16F-0.001F, 14/16F+0.001F, 16/16F+0.001F, 14/16F+0.001F);
+        	this.setBlockBounds(0, 0, 2/16F-0.001F, 14/16F+0.001F, 1, 14/16F+0.001F);
         	return;
         }
         
         if (meta == 2)
         {
-            this.setBlockBounds(2/16F-0.001F, 0/16F-0.001F, 2/16F-0.001F, 14/16F+0.001F, 16/16F+0.001F, 16/16F+0.001F);
+            this.setBlockBounds(2/16F-0.001F, 0, 2/16F-0.001F, 14/16F+0.001F, 1, 1);
             return;
         }
         
         if (meta == 1)
         {
-        	this.setBlockBounds(2/16F-0.001F, 0/16F-0.001F, 2/16F-0.001F, 16/16F+0.001F, 16/16F+0.001F, 14/16F+0.001F);
+        	this.setBlockBounds(2/16F-0.001F, 0, 2/16F-0.001F, 1, 1, 14/16F+0.001F);
         	return;
         }
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
