@@ -32,27 +32,31 @@ public class RFMeterBlock extends BasicBlockContainer{
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
     {
         int meta = world.getBlockMetadata(x, y, z);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         
         if (meta == 0)
         {
         	this.setBlockBounds(2/16F-0.001F, 0/16F-0.001F, 0/16F-0.001F, 14/16F+0.001F, 16/16F+0.001F, 14/16F+0.001F);
+        	return;
         }
 
         if (meta == 3)
         {
-        	this.setBlockBounds(0/16F, 0/16F, 2/16F, 14/16F, 16/16F, 14/16F);
+        	this.setBlockBounds(0/16F-0.001F, 0/16F-0.001F, 2/16F-0.001F, 14/16F+0.001F, 16/16F+0.001F, 14/16F+0.001F);
+        	return;
         }
         
         if (meta == 2)
         {
-            this.setBlockBounds(2/16F, 0/16F, 2/16F, 14/16F, 16/16F, 16/16F);
+            this.setBlockBounds(2/16F-0.001F, 0/16F-0.001F, 2/16F-0.001F, 14/16F+0.001F, 16/16F+0.001F, 16/16F+0.001F);
+            return;
         }
         
         if (meta == 1)
         {
-        	this.setBlockBounds(2/16F, 0/16F, 2/16F, 16/16F, 16/16F, 14/16F);
+        	this.setBlockBounds(2/16F-0.001F, 0/16F-0.001F, 2/16F-0.001F, 16/16F+0.001F, 16/16F+0.001F, 14/16F+0.001F);
+        	return;
         }
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 	
 	@Override

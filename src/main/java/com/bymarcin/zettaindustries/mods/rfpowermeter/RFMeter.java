@@ -30,6 +30,7 @@ public class RFMeter implements IMod, IProxy{
 		ItemStack powerCoilSilver = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver",1);
 		if(rfmeter!=null && powerCoilSilver !=null)
 			GameRegistry.addRecipe(new ItemStack(meter)," X "," Y "," X ", 'X', powerCoilSilver, 'Y', rfmeter);
+		GameRegistry.addShapelessRecipe(new ItemStack(meter),meter);
 	}
 
 	@SideOnly(Side.CLIENT)
