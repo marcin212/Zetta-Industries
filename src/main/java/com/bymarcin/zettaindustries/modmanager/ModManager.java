@@ -41,14 +41,14 @@ public class ModManager {
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-		addMod("rfpowermeter.RFMeter", "", "RFPowerMeter");
+		addMod("rfpowermeter.RFMeter", "$('ThermalExpansion')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
 //		addMod("battery.Battery", "", "BigBattery");
 		addMod("battery.Battery", "$('ThermalExpansion')", "BigBattery");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
-		addMod("superconductor.SuperConductorMod", "$('BigReactors') && $('ThermalExpansion')", "SuperConductor");
+		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
 	}
 
 	private void addMod(String path, String dependencies, String name) {
