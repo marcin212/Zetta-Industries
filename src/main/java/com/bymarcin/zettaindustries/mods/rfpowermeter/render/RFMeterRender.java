@@ -99,7 +99,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		GL11.glPushMatrix();
 		GL11.glScaled(8/16D, 8/16D, 1);
 		GL11.glTranslated(8/16F, 28/16F-s, 3/16F-0.002F);
-		drawNumber(transfer*10,r,g,b);
+		drawNumber(transfer,r,g,b,false);
 		GL11.glTranslated(0, -1.85/16F-s, 0);
 
 		long total = currentValue;
@@ -110,7 +110,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 			total /=1000;
 		}
 
-		drawNumber(total,r,g,b);
+		drawNumber(total,r,g,b,true);
 		
 		GL11.glPopMatrix();
 
@@ -260,7 +260,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	
 	
 	
-	private void drawNumber(long number,float r, float g, float b) {
+	private void drawNumber(long number,float r, float g, float b, boolean dot) {
 		GL11.glPushMatrix();
 		tes.startDrawingQuads();
 		tes.setNormal(0, 0, -1);
@@ -278,7 +278,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		tes.setColorRGBA_F(r, g, b, 1);
 		tes.addTranslation(-1/43F,0,-0.001F);
 		tes.setBrightness(0xF << 20 | 0xF << 4);
-		for(;number != 0 || i<2;number = number/10,i++){
+		for(;number != 0 || i<(dot?2:1);number = number/10,i++){
 			long dig = number%10;
 			long x = dig *6;
 			tes.setNormal(0, 0, -1);
@@ -288,11 +288,13 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 			tes.addVertexWithUV(6/43D, 0, 0, x/64D, 11/64D);//bottom left
 			tes.addTranslation(6/43F,0,0);
 			if(i==0){
-				tes.setNormal(0, 0, -1);
-				tes.addVertexWithUV(0, 0, 0, (62)/64D, 11/64D);//bottom right texture
-				tes.addVertexWithUV(0, s, 0, (62)/64D, 0);//top right
-				tes.addVertexWithUV(2/43D, s, 0, 60/64D, 0);//top left
-				tes.addVertexWithUV(2/43D, 0, 0, 60/64D, 11/64D);//bottom left
+				if(dot){
+					tes.setNormal(0, 0, -1);
+					tes.addVertexWithUV(0, 0, 0, (62)/64D, 11/64D);//bottom right texture
+					tes.addVertexWithUV(0, s, 0, (62)/64D, 0);//top right
+					tes.addVertexWithUV(2/43D, s, 0, 60/64D, 0);//top left
+					tes.addVertexWithUV(2/43D, 0, 0, 60/64D, 11/64D);//bottom left
+				}
 				tes.addTranslation(2/43F,0,0);
 			}	
 		}
