@@ -67,7 +67,7 @@ public class RFMeterBlock extends BasicBlockContainer{
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new RFMeterTileEntity();
+		return RFMeter.isOCAllowed ? new RFMeterTileEntityOC() : new RFMeterTileEntity();
 	}
 	
 	@Override

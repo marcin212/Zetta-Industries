@@ -33,13 +33,13 @@ public class RFMeterItem extends ItemBlock{
 		super.addInformation(stack, p_77624_2_, info, p_77624_4_);
 		if(stack.stackTagCompound !=null){
 			
-				if(stack.stackTagCompound.hasKey("name") && !stack.stackTagCompound.getString("name").isEmpty())
+				if(RFMeter.isOCAllowed && stack.stackTagCompound.hasKey("name") && !stack.stackTagCompound.getString("name").isEmpty())
 					info.add("Name: " + stack.stackTagCompound.getString("name"));
 			
 				if(stack.stackTagCompound.hasKey("value"))
 					info.add("RF: "  + stack.stackTagCompound.getLong("value"));
 
-				if(stack.stackTagCompound.hasKey("isProtected"))
+				if(RFMeter.isOCAllowed && stack.stackTagCompound.hasKey("isProtected"))
 					info.add("isProtected: " + stack.stackTagCompound.getBoolean("isProtected"));
 		}
 	}

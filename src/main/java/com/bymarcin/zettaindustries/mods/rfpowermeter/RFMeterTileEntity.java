@@ -1,15 +1,13 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
-import li.cil.oc.api.machine.Arguments;
-import li.cil.oc.api.machine.Callback;
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraftforge.common.util.ForgeDirection;
+
 import cofh.api.energy.IEnergyHandler;
 
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
@@ -17,11 +15,10 @@ import com.bymarcin.zettaindustries.utils.Avg;
 import com.bymarcin.zettaindustries.utils.MathUtils;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
-import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
-public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, SimpleComponent{
+
+public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 	int transfer=0;//curent flow in RF/t
 	int transferLimit=-1;
 	long value=0;//current used energy
@@ -62,11 +59,6 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 		return value;
 	}
 	
-	@Override
-	public String getComponentName() {
-		return "rfmeter";
-	}
-	
 	public void setPassword(String pass) {
 		password = MathUtils.encryptPassword(pass);
 		isProtected = true;
@@ -85,114 +77,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, Sim
 	public boolean canEnergyFlow() {
 		return isOn && (inCounterMode || (0 < value));
 	}
-	
-	public boolean checkPassword(int pos, final Arguments args){
-		if(args.isString(pos)){
-			if(canEdit(args.checkString(pos)))
-				return true;
-		}else{
-			if(canEdit(null)){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	/*
-	 * OpenComputers methods
-	 */
-	
-	@Callback(doc = "function(password:string [, oldPassword:string]):bool")
-	public Object[] setPassword(final Context context, final Arguments args) {
-		if(!checkPassword(1,args)) return new Object[]{false};
-		
-		String password = args.checkString(0);
-		setPassword(password);
-		return new Object[]{true};
-	}
-	
-	@Callback(doc = "function(password:string):bool")
-	public Object[] removePassword(final Context context, final Arguments args){
-		if(!checkPassword(0,args)) return new Object[]{false};
-		removePassword();
-		return new Object[]{true};
-	}
-	
-	@Callback(doc = "function(name:string [, password:string]):bool")
-	public Object[] setName(final Context context, final Arguments args){
-		if(!checkPassword(1,args)) return new Object[]{false};
-		name = args.checkString(0)!=null?args.checkString(0):"";
-		return new Object[]{true};
-	}
-	
-	@Callback(doc = "function():string")
-	public Object[] getName(final Context context, final Arguments args){
-		return new Object[]{name};
-	}
-	
-	public Object[] getAvg(Context ctx, Arguments arg){
-		return new Object[]{transfer};
-	}
-	
-	@Callback(doc = "function([password:string]):bool")
-	public Object[] setOn(final Context context, final Arguments args){
-		if(!checkPassword(0,args)) return new Object[]{false};
-		isOn = true;
-		return new Object[]{true};
-	}
-	
-	@Callback(doc = "function([password:string]):bool")
-	public Object[] setOff(final Context context, final Arguments args){
-		if(!checkPassword(0,args)) return new Object[]{false};
-		isOn = false;
-		return new Object[]{true};
-	}
 
-	@Callback(doc = "function(value:int [, password:string]):bool")
-	public Object[] setEnergyCounter(final Context context, final Arguments args){
-		if(!checkPassword(1,args)) return new Object[]{false};
-		value = lastValue = args.checkInteger(0);
-		return new Object[]{true};
-	}
-	
-	@Callback(doc = "function():string")
-	public Object[] getCounterMode(final Context context, final Arguments args){
-		String type = inCounterMode?"counter":"prepaid";
-		return new Object[]{type};
-	}
-	
-	@Callback(doc = "function(type:bool [, password:string]):bool -- true == counter, false == prepaid")
-	public Object[] setCounterMode(final Context context, final Arguments args){
-		if(!checkPassword(1,args)) return new Object[]{false};
-		inCounterMode = args.checkBoolean(0);
-		return new Object[]{true};
-	}
-	
-	@Callback(doc = "function():double")
-	public Object[] getCounterValue(final Context context, final Arguments args){
-		return new Object[]{value};
-	}
-	
-	@Callback(doc = "function():bool")
-	public Object[] canEnergyFlow(final Context context, final Arguments args){
-		return new Object[]{canEnergyFlow()};
-	}
-	
-	@Callback(doc = "function(limit:int [, password:string]):bool")
-	public Object[] setLimitPerTick(final Context context, final Arguments args){
-		if(!checkPassword(1,args)) return new Object[]{false};
-		if(args.checkInteger(0)>=0)
-			transferLimit = args.checkInteger(0);
-		else
-			transferLimit = -1;
-		return new Object[]{true};
-	}
-	
-	
-	/*
-	 * end 
-	 * 
-	 */
 	
 	public void onPacket(long value, int transfer, boolean inCounterMode){
 		if(WorldUtils.isServerWorld(worldObj)) return;
