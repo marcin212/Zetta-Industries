@@ -41,7 +41,7 @@ public class ModManager {
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-		addMod("rfpowermeter.RFMeter", "$('ThermalExpansion')", "RFPowerMeter");
+		addMod("rfpowermeter.RFMeter", "", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
 //		addMod("battery.Battery", "", "BigBattery");
