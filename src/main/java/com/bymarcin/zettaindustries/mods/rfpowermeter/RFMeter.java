@@ -24,7 +24,7 @@ public class RFMeter implements IMod, IProxy{
 		meter = new RFMeterBlock();
 		GameRegistry.registerBlock(meter, RFMeterItem.class, "rfmeterblock");
 		GameRegistry.registerTileEntity(RFMeterTileEntity.class, "rfmeterblock");
-		GameRegistry.registerTileEntity(RFMeterTileEntityOC.class, "rfmeterblock");
+		GameRegistry.registerTileEntity(RFMeterTileEntityOC.class, "rfmeterblockoc");
 		ZIRegistry.registerProxy(this);
 		ZIRegistry.registerPacket(4, RFMeterUpdatePacket.class, Side.CLIENT);
 	}
