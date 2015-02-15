@@ -49,7 +49,7 @@ minecraft {
 dependencies {
 
 compile files("buildcraft-6.0.17.jar")
-compile files("OpenComputers-MC1.7.10-1.4.0.207-dev-dev.jar")
+compile files("OpenComputers-MC1.7.10-1.5.0.417-dev-dev.jar")
 compile files("CoFHCore-[1.7.10]3.0.0B6-dev-32.jar")
 compile files("CoFHLib-[1.7.10]1.0.0B6-dev-26.jar")
 compile files("EnderIO-1.7.10-2.0.2.200-dev.jar")
