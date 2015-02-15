@@ -4,7 +4,6 @@ import li.cil.oc.api.Network;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.TileEntityEnvironment;
 
-
 public class TileEntityNFCReader extends TileEntityEnvironment {
 
     public TileEntityNFCReader() {

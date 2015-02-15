@@ -10,8 +10,8 @@ tile.nfcreader.name=NFC Reader
 tile.nfcprogrammer.name=NFC Programmer
 item.itemcardnfc.name=NFC Card
 item.itemprivatecardnfc.name=Private NFC Card
-zettaindustries.nfc.text.message1=NFC data written!
-zettaindustries.nfc.text.message2=You are not the owner or the owner is not set!
+zettaindustries.text.nfc.message1=NFC data written!
+zettaindustries.text.nfc.message2=You are not the owner or the owner is not set!
 
 #Battery
 tile.batterypowertap.name= Battery Power Tap
