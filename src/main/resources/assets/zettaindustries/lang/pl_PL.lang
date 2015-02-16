@@ -10,8 +10,8 @@ tile.nfcreader.name=Czytnik NFC
 tile.nfcprogrammer.name=Programator NFC
 item.itemcardnfc.name=karta NFC
 item.itemprivatecardnfc.name=Prywatna Karta NFC
-zettaindustries.nfc.text.message1=Zapisano dane NFC!
-zettaindustries.nfc.text.message2=Nie jesteś właścicielem karty, lub właściciel nie został ustawiony!
+zettaindustries.text.nfc.message1=Zapisano dane NFC!
+zettaindustries.text.nfc.message2=Nie jesteś właścicielem karty, lub właściciel nie został ustawiony!
 
 #Battery
 tile.batterypowertap.name= Terminal Baterii
