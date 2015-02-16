@@ -11,8 +11,11 @@ public class TileEntityNFCReader extends TileEntityEnvironment {
     }
     
     public void sendEvent(String sennder, String data){
+    	System.out.println("EVENT");
     	if(node!=null){
+    		System.out.println("NOT NULL");
     		node.sendToReachable("computer.signal","nfc_data",sennder, data);
+    		System.out.println(node.network());
     	}
     }
 

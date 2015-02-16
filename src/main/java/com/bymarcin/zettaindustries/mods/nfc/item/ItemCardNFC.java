@@ -23,10 +23,12 @@ public class ItemCardNFC extends BasicItem{
 	}
 	
 	public static String getNFCData(ItemStack stack) {
-		if(stack.stackTagCompound!=null)
-			return stack.stackTagCompound.getString("NFCData");
-		else
-			return null;
+		if(stack.stackTagCompound!=null){
+			String data = stack.stackTagCompound.getString("NFCData");
+			return data!=null?data:"";
+		}else{
+			return "";
+		}
 	}
 	
 	@Override
