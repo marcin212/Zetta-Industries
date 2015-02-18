@@ -49,6 +49,7 @@ public class ModManager {
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
+		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
 	}
 
 	private void addMod(String path, String dependencies, String name) {
