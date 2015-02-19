@@ -21,7 +21,7 @@ tile.batteryglass.name=Battery Glass
 tile.batterycontroller.name=Battery Controller
 tile.batterycomputerport.name=Battery Computer Port
 tile.sulfurousacid.name=Sulfurous Acid
-tile.batterywall.name= Battery Wall
+tile.batterywall.name=Battery Wall
 item.acidbucket.name=Bucked of Sulfurous Acid
 tile.charcoalblock.name=Block of Charcoal
 tile.blockGraphite.name=Block of Graphite
@@ -34,4 +34,4 @@ tile.blockwire.name=Super Conductor
 tile.blockcontroller.name=Super Conductor Controller
 
 #E-Catalogue
-tile.ecatalogue.name = E-Catalogue
+tile.ecatalogue.name=E-Catalogue
