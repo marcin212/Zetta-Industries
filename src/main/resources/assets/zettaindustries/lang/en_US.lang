@@ -32,3 +32,6 @@ tile.rfmeterblock.name=RF Meter
 #Super Conductor
 tile.blockwire.name=Super Conductor
 tile.blockcontroller.name=Super Conductor Controller
+
+#E-Catalogue
+tile.ecatalogue.name = E-Catalogue

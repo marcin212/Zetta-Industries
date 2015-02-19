@@ -32,3 +32,6 @@ tile.rfmeterblock.name=Miernik RF
 #Super Conductor
 tile.blockwire.name=Kabel Nadprzewodzący
 tile.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
+
+#E-Catalogue
+tile.ecatalogue.name = E-Katalog
