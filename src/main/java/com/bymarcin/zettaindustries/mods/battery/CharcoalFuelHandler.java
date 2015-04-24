@@ -8,7 +8,7 @@ public class CharcoalFuelHandler implements IFuelHandler{
 	@Override
 	public int getBurnTime(ItemStack fuel) {
 		
-		if (Block.getBlockFromItem(fuel.getItem()) == Battery.charcoalblock) {
+		if (Block.getBlockFromItem(fuel.getItem()) == CharcoalBlockMod.charcoalblock) {
 			return 16000;
 		}
 		return 0;

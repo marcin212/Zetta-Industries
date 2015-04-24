@@ -50,6 +50,7 @@ public class ModManager {
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
 		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
+		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 	}
 
 	private void addMod(String path, String dependencies, String name) {

@@ -64,7 +64,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static BlockBigBatteryController  blockBigBatteryControler;
 	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
-	public static CharcoalBlock charcoalblock;
+
 	
 	public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
@@ -83,8 +83,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	ItemStack electrumFrame;
 	String sulfur;
 	ItemStack gunpowder;
-	ItemStack coal;
-	ItemStack coalx9;
+
 	
 	
 	@Override
@@ -137,9 +136,7 @@ public class Battery implements IMod, IGUI, IProxy{
 		GameRegistry.registerBlock(blockGraphite, "BlockGraphite");
 		OreDictionary.registerOre("blockGraphite", blockGraphite);
 
-		charcoalblock = new CharcoalBlock();
-		GameRegistry.registerBlock(charcoalblock, "charcoalblock");
-		GameRegistry.registerFuelHandler(new CharcoalFuelHandler());
+
 		
 		ZIRegistry.registerPacket(1, EnergyUpdatePacket.class, Side.CLIENT);
 		ZIRegistry.registerPacket(2, PowerTapUpdatePacket.class, Side.SERVER);
@@ -169,17 +166,9 @@ public class Battery implements IMod, IGUI, IProxy{
 		enderFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
 		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
 		
-		coal = new ItemStack(Items.coal, 1,1);
-		coalx9 = new ItemStack(Items.coal, 9,1);
-		
 		sulfur = "dustSulfur";
 		
-		GameRegistry.addShapelessRecipe(new ItemStack(charcoalblock),
-				coal,coal,coal,
-				coal,coal,coal,
-				coal,coal,coal);
-		GameRegistry.addShapelessRecipe(coalx9, charcoalblock);
-		GameRegistry.addSmelting(charcoalblock, new ItemStack(blockGraphite), 0F);
+		GameRegistry.addSmelting(CharcoalBlockMod.charcoalblock, new ItemStack(blockGraphite), 0F);
 
 		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
 		    enderFrame != null && electrumFrame != null && sulfur!=null && gunpowder!=null){
