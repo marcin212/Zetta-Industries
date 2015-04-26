@@ -136,8 +136,6 @@ public class Battery implements IMod, IGUI, IProxy{
 		GameRegistry.registerBlock(blockGraphite, "BlockGraphite");
 		OreDictionary.registerOre("blockGraphite", blockGraphite);
 
-
-		
 		ZIRegistry.registerPacket(1, EnergyUpdatePacket.class, Side.CLIENT);
 		ZIRegistry.registerPacket(2, PowerTapUpdatePacket.class, Side.SERVER);
 		ZIRegistry.registerPacket(3, PowerTapUpdatePacket.class, Side.CLIENT);

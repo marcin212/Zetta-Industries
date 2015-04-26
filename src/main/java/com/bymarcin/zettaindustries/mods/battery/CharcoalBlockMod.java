@@ -22,6 +22,7 @@ public class CharcoalBlockMod implements IMod{
 	@Override
 	public void postInit() {
 		coal = new ItemStack(Items.coal, 1,1);
+        coalx9 = new ItemStack(Items.coal, 9,1);
 		GameRegistry.addShapelessRecipe(new ItemStack(charcoalblock),
 				coal,coal,coal,
 				coal,coal,coal,
