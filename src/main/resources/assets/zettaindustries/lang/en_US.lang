@@ -22,7 +22,7 @@ tile.batterycontroller.name=Battery Controller
 tile.batterycomputerport.name=Battery Computer Port
 tile.sulfurousacid.name=Sulfurous Acid
 tile.batterywall.name=Battery Wall
-item.acidbucket.name=Bucked of Sulfurous Acid
+item.acidbucket.name=Bucket of Sulfurous Acid
 tile.charcoalblock.name=Block of Charcoal
 tile.blockGraphite.name=Block of Graphite
 

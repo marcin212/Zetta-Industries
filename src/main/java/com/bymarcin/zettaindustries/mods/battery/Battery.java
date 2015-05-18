@@ -107,7 +107,7 @@ public class Battery implements IMod, IGUI, IProxy{
 				FluidRegistry.getFluidStack(acid.getName(), FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(itemAcidBucket),
 				new ItemStack(Items.bucket));
-		
+
 		blockBigBatteryWall = new BlockBigBatteryWall();
 		GameRegistry.registerBlock(blockBigBatteryWall, "BatteryWall");
 		GameRegistry.registerTileEntity(TileEntityWall.class, "BatteryTileEntityWall");
@@ -158,11 +158,11 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		electrum = "ingotElectrum";
 		sawDust = GameRegistry.findItemStack("ThermalExpansion","dustWoodCompressed",1);
-		specialGlass = GameRegistry.findItemStack("ThermalExpansion","Frame",1);
+		specialGlass = GameRegistry.findItemStack("ThermalExpansion","blockGlassHardened",1);
 		
 		rfmeter =GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
-		enderFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
-		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
+		enderFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellReinforcedFull",1);
+		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellHardened",1);
 		
 		sulfur = "dustSulfur";
 		
@@ -170,10 +170,7 @@ public class Battery implements IMod, IGUI, IProxy{
 
 		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
 		    enderFrame != null && electrumFrame != null && sulfur!=null && gunpowder!=null){
-			specialGlass.setItemDamage(9);
-			enderFrame.setItemDamage(7);
-			electrumFrame.setItemDamage(5);
-			
+
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,16), "ODE","OFE","ODE",
 					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
 			
