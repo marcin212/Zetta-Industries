@@ -16,6 +16,8 @@ public class BlockBigBatteryController extends BasicBlockMultiblockBase{
 	
 	public BlockBigBatteryController() {
 		super("batterycontroller");
+        info.add("Valid for: Sides");
+        info.add("Only one controller per battery");
 	}
 
 	@Override

@@ -5,7 +5,10 @@ import net.minecraft.block.material.Material;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
-public class BasicBlock extends Block{
+import java.util.ArrayList;
+import java.util.List;
+
+public class BasicBlock extends Block implements IBlockInfo {
 
 	protected BasicBlock(Material material, String name) {
 		super(material);
@@ -14,4 +17,8 @@ public class BasicBlock extends Block{
 		setHardness(3.0F);
 	}
 
+    @Override
+    public List<String> getInformation() {
+        return new ArrayList<String>();
+    }
 }

@@ -1,5 +1,7 @@
 package com.bymarcin.zettaindustries.mods.battery.block;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -19,11 +21,14 @@ import com.bymarcin.zettaindustries.basic.BasicBlock;
 public class BlockSulfur extends BasicBlock {
 	protected IIcon blockIconTop;
 	private Block fluid;
-	public BlockSulfur(Block fluid) {
+    private List<String> info = new ArrayList<String>();
+
+    public BlockSulfur(Block fluid) {
 		super(Material.rock, "sulfurblock");
 		setTickRandomly(true);
 		this.fluid = fluid;
-	}
+        info.add("Place in a pool of water and ignite");
+    }
 
 	
 	@Override
@@ -70,4 +75,9 @@ public class BlockSulfur extends BasicBlock {
 	public int tickRate(World par1World) {
 		return 20 * 15;
 	}
+
+    @Override
+    public List<String> getInformation(){
+        return info;
+    }
 }

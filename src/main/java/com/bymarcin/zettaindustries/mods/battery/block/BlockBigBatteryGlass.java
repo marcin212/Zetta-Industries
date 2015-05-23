@@ -18,6 +18,7 @@ public class BlockBigBatteryGlass extends BasicBlockMultiblockBase {
 	
 	public BlockBigBatteryGlass() {
 		super("batteryglass");
+        info.add("Valid for: Sides");
 	}
 
 	@Override

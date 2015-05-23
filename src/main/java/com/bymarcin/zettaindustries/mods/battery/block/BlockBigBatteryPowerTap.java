@@ -18,6 +18,10 @@ public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase{
 	
 	public BlockBigBatteryPowerTap() {
 		super("batterypowertap");
+        info.add("Valid for: Top");
+        info.add("Must be placed on top of a column of electrodes");
+        info.add("Right click to adjust power throughput");
+        info.add("Right click while sneaking with an empty hand to toggle mode");
 	}
 
 	@Override

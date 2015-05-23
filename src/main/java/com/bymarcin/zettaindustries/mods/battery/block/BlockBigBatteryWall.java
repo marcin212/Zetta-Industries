@@ -31,6 +31,7 @@ public class BlockBigBatteryWall extends BasicBlockMultiblockBase {
 
 	public BlockBigBatteryWall() {
 		super("batterywall");
+        info.add("Valid for: Bottom, Top, Sides, Frame");
 	}
 
 	@Override

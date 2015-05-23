@@ -13,6 +13,7 @@ public class BlockBigBatteryComputerPort extends BasicBlockMultiblockBase{
 	
 	public BlockBigBatteryComputerPort() {
 		super("batterycomputerport");
+        info.add("Valid for: Sides");
 	}
 
 	

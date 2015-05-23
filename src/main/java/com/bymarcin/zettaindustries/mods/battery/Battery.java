@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.battery;
 
 import java.util.HashMap;
 
+import com.bymarcin.zettaindustries.mods.battery.block.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,15 +19,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryComputerPort;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryGlass;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryWall;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockGraphite;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockSulfur;
-import com.bymarcin.zettaindustries.mods.battery.block.CharcoalBlock;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockClientTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
@@ -84,8 +76,6 @@ public class Battery implements IMod, IGUI, IProxy{
 	String sulfur;
 	ItemStack gunpowder;
 
-	
-	
 	@Override
 	public void init() {
 		
@@ -100,7 +90,7 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		
 		blockSulfur = new BlockSulfur(acidFluid);
-		GameRegistry.registerBlock(blockSulfur,"sulfurblock");
+		GameRegistry.registerBlock(blockSulfur, InformationalItemBlock.class, "sulfurblock");
 		OreDictionary.registerOre("blockSulfur", blockSulfur);
 		
 		FluidContainerRegistry.registerFluidContainer(
@@ -109,27 +99,27 @@ public class Battery implements IMod, IGUI, IProxy{
 				new ItemStack(Items.bucket));
 
 		blockBigBatteryWall = new BlockBigBatteryWall();
-		GameRegistry.registerBlock(blockBigBatteryWall, "BatteryWall");
+		GameRegistry.registerBlock(blockBigBatteryWall, InformationalItemBlock.class, "BatteryWall");
 		GameRegistry.registerTileEntity(TileEntityWall.class, "BatteryTileEntityWall");
 		
 		blockBigBatteryPowerTap = new BlockBigBatteryPowerTap();
-		GameRegistry.registerBlock(blockBigBatteryPowerTap, "BatteryPowerTap");
+		GameRegistry.registerBlock(blockBigBatteryPowerTap, InformationalItemBlock.class, "BatteryPowerTap");
 		GameRegistry.registerTileEntity(TileEntityPowerTap.class, "BatteryTileEntityPowerTap");
 		
 		blockBigBatteryGlass = new BlockBigBatteryGlass();
-		GameRegistry.registerBlock(blockBigBatteryGlass, "BatteryGlass");
+		GameRegistry.registerBlock(blockBigBatteryGlass, InformationalItemBlock.class, "BatteryGlass");
 		GameRegistry.registerTileEntity(TileEntityGlass.class, "BatteryTileEntityGlass");
 		
 		blockBigBatteryElectrode = new BlockBigBatteryElectrode();
-		GameRegistry.registerBlock(blockBigBatteryElectrode, "BatteryElectrode");
+		GameRegistry.registerBlock(blockBigBatteryElectrode, InformationalItemBlock.class, "BatteryElectrode");
 		GameRegistry.registerTileEntity(TileEntityElectrode.class, "BatteryTileEntityElectrode");
 		
 		blockBigBatteryControler = new BlockBigBatteryController();
-		GameRegistry.registerBlock(blockBigBatteryControler, "BatteryControler");
+		GameRegistry.registerBlock(blockBigBatteryControler, InformationalItemBlock.class, "BatteryControler");
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BatteryTileEntityControler");
 		
 		blockBigBatteryComputerPort = new BlockBigBatteryComputerPort();
-		GameRegistry.registerBlock(blockBigBatteryComputerPort, "BatteryComputerPort");
+		GameRegistry.registerBlock(blockBigBatteryComputerPort, InformationalItemBlock.class, "BatteryComputerPort");
 		GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BatteryTileEntityComputerPort");
 		
 		blockGraphite = new BlockGraphite();

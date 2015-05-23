@@ -12,6 +12,9 @@ public class BlockBigBatteryElectrode extends BasicBlockMultiblockBase{
 	public static IIcon icon ;
 	public BlockBigBatteryElectrode() {
 		super("batteryelectrode");
+        info.add("Valid for: Inside");
+        info.add("Must be placed in a column below a power tap");
+        info.add("Column must span the interior height of the battery");
 	}
 
 	@Override
