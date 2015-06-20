@@ -149,11 +149,11 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		electrum = "ingotElectrum";
 		sawDust = GameRegistry.findItemStack("ThermalExpansion","dustWoodCompressed",1);
-		specialGlass = GameRegistry.findItemStack("ThermalExpansion","blockGlassHardened",1);
+		specialGlass = GameRegistry.findItemStack("ThermalExpansion","frameIlluminator",1);
 		
 		rfmeter =GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
-		enderFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellReinforcedFull",1);
-		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellHardened",1);
+		enderFrame =GameRegistry.findItemStack("ThermalExpansion","frameTesseractEmpty",1);
+		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellReinforcedEmpty",1);
 		
 		sulfur = "dustSulfur";
 		
