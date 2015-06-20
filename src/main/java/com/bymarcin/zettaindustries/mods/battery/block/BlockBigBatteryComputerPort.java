@@ -2,7 +2,6 @@ package com.bymarcin.zettaindustries.mods.battery.block;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityComputerPort;
-
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -13,7 +12,7 @@ public class BlockBigBatteryComputerPort extends BasicBlockMultiblockBase{
 	
 	public BlockBigBatteryComputerPort() {
 		super("batterycomputerport");
-        info.add("Valid for: Sides");
+        info.add(localize("tooltip.validfor") + " " + localize("tooltip.sides"));
 	}
 
 	

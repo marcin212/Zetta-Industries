@@ -27,7 +27,7 @@ public class BlockSulfur extends BasicBlock {
 		super(Material.rock, "sulfurblock");
 		setTickRandomly(true);
 		this.fluid = fluid;
-        info.add("Place in a pool of water and ignite");
+        info.add(localize("tooltip.sulfur1"));
     }
 
 	

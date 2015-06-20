@@ -25,6 +25,19 @@ tile.batterywall.name=Battery Wall
 item.acidbucket.name=Bucket of Sulfurous Acid
 tile.charcoalblock.name=Block of Charcoal
 tile.blockGraphite.name=Block of Graphite
+tooltip.validfor=Valid for\:
+tooltip.sides=Sides
+tooltip.inside=Inside
+tooltip.bottom=Bottom
+tooltip.top=Top
+tooltip.frame=Frame
+tooltip.controller1=Only one controller per battery
+tooltip.electrode1=Must be placed in a column below a power tap
+tooltip.electrode2=Column must span the interior height of the battery
+tooltip.powertap1=Must be placed on top of a column of electrodes
+tooltip.powertap2=Right click to adjust power throughput
+tooltip.powertap3=Right click while sneaking with an empty hand to toggle mode
+tooltip.sulfur1=Place in a pool of water and ignite
 
 #RF Meter
 tile.rfmeterblock.name=RF Meter

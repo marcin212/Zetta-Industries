@@ -1,8 +1,11 @@
 package com.bymarcin.zettaindustries.mods.battery;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.bymarcin.zettaindustries.mods.battery.block.*;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -57,8 +60,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
 
-	
-	public static BlockSulfur blockSulfur;
+    public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
 	
@@ -78,7 +80,6 @@ public class Battery implements IMod, IGUI, IProxy{
 
 	@Override
 	public void init() {
-		
 		FluidRegistry.registerFluid(acid);
 		acidFluid = new AcidFluid(acid);
 		GameRegistry.registerBlock(acidFluid,"sulfurousacid");
@@ -134,8 +135,8 @@ public class Battery implements IMod, IGUI, IProxy{
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
 	}
-	
-	@Override
+
+    @Override
 	public void postInit() {
 
 		registerElectrolyte("redstone", 75000000);
