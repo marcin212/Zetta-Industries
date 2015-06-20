@@ -11,10 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.util.ForgeDirection;
+
 import buildcraft.api.core.BuildCraftAPI;
+import buildcraft.builders.TileQuarry;
 import buildcraft.core.Box;
-import buildcraft.factory.TileQuarry;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlock;
