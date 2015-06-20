@@ -18,6 +18,10 @@ public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase{
 	
 	public BlockBigBatteryPowerTap() {
 		super("batterypowertap");
+        info.add(localize("tooltip.validfor") + " " + localize("tooltip.top"));
+        info.add(localize("tooltip.powertap1"));
+        info.add(localize("tooltip.powertap2"));
+        info.add(localize("tooltip.powertap3"));
 	}
 
 	@Override

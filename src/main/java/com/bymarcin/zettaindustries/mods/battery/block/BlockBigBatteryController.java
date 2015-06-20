@@ -16,6 +16,8 @@ public class BlockBigBatteryController extends BasicBlockMultiblockBase{
 	
 	public BlockBigBatteryController() {
 		super("batterycontroller");
+        info.add(localize("tooltip.validfor") + " " + localize("tooltip.sides"));
+        info.add(localize("tooltip.controller1"));
 	}
 
 	@Override

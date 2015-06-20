@@ -31,6 +31,8 @@ public class BlockBigBatteryWall extends BasicBlockMultiblockBase {
 
 	public BlockBigBatteryWall() {
 		super("batterywall");
+        info.add(localize("tooltip.validfor") + " " + localize("tooltip.bottom") + ", " + localize("tooltip.top") +
+                        ", " + localize("tooltip.sides") + ", " + localize("tooltip.frame"));
 	}
 
 	@Override
