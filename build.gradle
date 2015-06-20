@@ -21,6 +21,13 @@ version = "1.1"
 group= "com.bymarcin.zettaindustries" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "zettaindustries"
 
+file "build.properties" withReader {
+    def prop = new Properties()
+    prop.load(it)
+    ext.config = new ConfigSlurper().parse prop
+}
+
+
 sourceSets{
 	api{
 		java {
@@ -46,26 +53,39 @@ minecraft {
 	}
 }
 
+configurations {
+    provided
+    embedded
+    compile.extendsFrom provided, embedded
+}
+
+repositories {
+	maven {
+		name = "OC repo"
+		url = "http://maven.cil.li/"
+	}
+
+    maven {
+        name = "ic2, forestry"
+        url = "http://maven.ic2.player.to/"
+    }
+	
+    ivy {
+        name "BuildCraft"
+        artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+    }
+	
+	ivy {
+        name 'CoFHLib'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.cofhlib.cf}/[module]-[revision].[ext]"
+    }
+}
+
 dependencies {
-    compile files("lib/buildcraft-6.0.17-dev.jar")
-    compile files("lib/OpenComputers-MC1.7.10-1.5.9.21-dev.jar")
-    compile files("lib/CoFHCore-[1.7.10]3.0.2-262-dev.jar")
-    compile files("lib/forestry_1.7.10-3.5.6.15-dev.jar")
-
-
-    // you may put jars on which you depend on in ./libs
-    // or you may define them like so..
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    // real examples
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
-    // for more info...
-    // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
-    // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+	compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
+	compile "net.sengir.forestry:forestry_1.7.10:${config.forestry.version}:dev"
+	compile "li.cil.oc:OpenComputers:${config.oc.version}:dev"
+	compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 }
 
 processResources
