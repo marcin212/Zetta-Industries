@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Set;
 
 import net.minecraft.world.World;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 
 /**
@@ -23,18 +22,8 @@ public class MultiblockRegistry {
 	public static void tickStart(World world) {
 		if(registries.containsKey(world)) {
 			MultiblockWorldRegistry registry = registries.get(world);
+			registry.processMultiblockChanges();
 			registry.tickStart();
-		}
-	}
-	
-	/**
-	 * Called after Tile Entities are ticked in the world.
-	 * @param world The world being ticked
-	 */
-	public static void tickEnd(World world) {
-		if(registries.containsKey(world)) {
-			MultiblockWorldRegistry registry = registries.get(world);
-			registry.tickEnd();
 		}
 	}
 	

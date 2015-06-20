@@ -2,7 +2,6 @@ package com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;

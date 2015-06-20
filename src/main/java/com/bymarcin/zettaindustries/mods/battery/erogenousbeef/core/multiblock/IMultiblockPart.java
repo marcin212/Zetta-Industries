@@ -4,7 +4,6 @@ import java.util.Set;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 
 /**

@@ -10,8 +10,6 @@ public class MultiblockClientTickHandler {
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if(event.phase == TickEvent.Phase.START) {
             MultiblockRegistry.tickStart(Minecraft.getMinecraft().theWorld);
-        } else if(event.phase == TickEvent.Phase.END) { //Probably could just to else, but better to be safe than sorry
-            MultiblockRegistry.tickEnd(Minecraft.getMinecraft().theWorld);
         }
     }
 }

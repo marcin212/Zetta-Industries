@@ -5,7 +5,6 @@ package com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock;
  * could not assemble.
  * @author Erogenous Beef
  */
-@SuppressWarnings("serial")
 public class MultiblockValidationException extends Exception {
 
 	public MultiblockValidationException(String reason) {

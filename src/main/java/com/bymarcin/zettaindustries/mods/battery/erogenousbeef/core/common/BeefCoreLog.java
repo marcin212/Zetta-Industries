@@ -6,7 +6,6 @@ import cpw.mods.fml.common.FMLLog;
 
 public class BeefCoreLog {
 	
-	@SuppressWarnings("unused")
 	private static final String CHANNEL = "BeefCore";
 
     public static void log(Level level, String format, Object... data)

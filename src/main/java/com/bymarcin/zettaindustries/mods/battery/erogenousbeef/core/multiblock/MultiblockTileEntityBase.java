@@ -11,7 +11,6 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.chunk.IChunkProvider;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 
@@ -25,14 +24,12 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	
 	private boolean saveMultiblockData;
 	private NBTTagCompound cachedMultiblockData;
-	private boolean paused;
 
 	public MultiblockTileEntityBase() {
 		super();
 		controller = null;
 		visited = false;
 		saveMultiblockData = false;
-		paused = false;
 		cachedMultiblockData = null;
 	}
 

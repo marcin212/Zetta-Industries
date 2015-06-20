@@ -1,7 +1,6 @@
 package com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.rectangular;
 
 import net.minecraftforge.common.util.ForgeDirection;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockTileEntityBase;

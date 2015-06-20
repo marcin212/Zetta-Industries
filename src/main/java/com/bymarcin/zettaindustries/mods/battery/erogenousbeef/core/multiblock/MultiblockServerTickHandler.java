@@ -18,8 +18,6 @@ public class MultiblockServerTickHandler {
     public void onWorldTick(TickEvent.WorldTickEvent event) {
         if(event.phase == TickEvent.Phase.START) {
             MultiblockRegistry.tickStart(event.world);
-        } else if(event.phase == TickEvent.Phase.END) {
-            MultiblockRegistry.tickEnd(event.world);
         }
     }
 }

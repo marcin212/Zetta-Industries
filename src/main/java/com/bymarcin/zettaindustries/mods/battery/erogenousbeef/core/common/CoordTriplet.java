@@ -6,7 +6,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 /*
  * Simple wrapper class for XYZ coordinates.
  */
-@SuppressWarnings("rawtypes")
 public class CoordTriplet implements Comparable {
 	public int x, y, z;
 

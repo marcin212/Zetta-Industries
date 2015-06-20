@@ -11,7 +11,6 @@ import java.util.Set;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 
@@ -64,7 +63,7 @@ public class MultiblockWorldRegistry {
 	}
 	
 	/**
-	 * Called before Tile Entities are ticked in the world. Run gamelogic.
+	 * Called before Tile Entities are ticked in the world. Run game logic.
 	 */
 	public void tickStart() {
 		if(controllers.size() > 0) {
@@ -85,9 +84,9 @@ public class MultiblockWorldRegistry {
 	}
 	
 	/**
-	 * Called after Tile Entities are ticked in the world. Do bookkeeping.
+	 * Called prior to processing multiblock controllers. Do bookkeeping.
 	 */
-	public void tickEnd() {
+	public void processMultiblockChanges() {
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 		CoordTriplet coord;
 
@@ -142,8 +141,6 @@ public class MultiblockWorldRegistry {
 						// THIS IS THE ONLY PLACE WHERE MERGES ARE DETECTED
 						// Multiple compatible controllers indicates an impending merge.
 						// Locate the appropriate merge pool(s)
-						@SuppressWarnings("unused")
-						boolean hasAddedToPool = false;
 						List<Set<MultiblockControllerBase>> candidatePools = new ArrayList<Set<MultiblockControllerBase>>();
 						for(Set<MultiblockControllerBase> candidatePool : mergePools) {
 							if(!Collections.disjoint(candidatePool, compatibleControllers)) {
@@ -415,6 +412,4 @@ public class MultiblockWorldRegistry {
 		}
 	}
 	
-	@SuppressWarnings("unused")
-	private String clientOrServer() { return worldObj.isRemote ? "CLIENT" : "SERVER"; }
 }

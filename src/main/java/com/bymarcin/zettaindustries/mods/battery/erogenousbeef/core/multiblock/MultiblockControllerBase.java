@@ -9,7 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 
@@ -107,8 +106,6 @@ public abstract class MultiblockControllerBase {
 	 * @param part The part to add.
 	 */
 	public void attachBlock(IMultiblockPart part) {
-		@SuppressWarnings("unused")
-		IMultiblockPart candidate;
 		CoordTriplet coord = part.getWorldLocation();
 
 		if(!connectedParts.add(part)) {
@@ -333,14 +330,13 @@ public abstract class MultiblockControllerBase {
 	 * functioning as a game-logically finished machine.
 	 * Calls onMachineAssembled on all attached parts.
 	 */
-	@SuppressWarnings("static-access")
 	private void assembleMachine(AssemblyState oldState) {
 		for(IMultiblockPart part : connectedParts) {
 			part.onMachineAssembled(this);
 		}
 		
 		this.assemblyState = AssemblyState.Assembled;
-		if(oldState == assemblyState.Paused) {
+		if(oldState == AssemblyState.Paused) {
 			onMachineRestored();
 		}
 		else {
@@ -376,8 +372,6 @@ public abstract class MultiblockControllerBase {
 			throw new IllegalArgumentException("The controller with the lowest minimum-coord value must consume the one with the higher coords");
 		}
 
-		@SuppressWarnings("unused")
-		TileEntity te;
 		Set<IMultiblockPart> partsToAcquire = new HashSet<IMultiblockPart>(other.connectedParts);
 
 		// releases all blocks and references gently so they can be incorporated into another multiblock
@@ -709,9 +703,7 @@ public abstract class MultiblockControllerBase {
 			MultiblockRegistry.addDeadController(worldObj, this);
 			return null;
 		}
-		
-		@SuppressWarnings("unused")
-		TileEntity te;
+
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 
 		// Invalidate our reference coord, we'll recalculate it shortly
@@ -868,5 +860,43 @@ public abstract class MultiblockControllerBase {
 			((IMultiblockPart)theChosenOne).becomeMultiblockSaveDelegate();
 		}
 	}
+	
+	/**
+	 * Marks the reference coord dirty & updateable.
+	 * 
+	 * On the server, this will mark the for a data-update, so that
+	 * nearby clients will receive an updated description packet from the server
+	 * after a short time. The block's chunk will also be marked dirty and the
+	 * block's chunk will be saved to disk the next time chunks are saved.
+	 * 
+	 * On the client, this will mark the block for a rendering update.
+	 */
+	protected void markReferenceCoordForUpdate() {
+		CoordTriplet rc = getReferenceCoord();
+		if(worldObj != null && rc != null) {
+			worldObj.markBlockForUpdate(rc.x, rc.y, rc.z);
+		}
+	}
+	
+	/**
+	 * Marks the reference coord dirty.
+	 * 
+	 * On the server, this marks the reference coord's chunk as dirty; the block (and chunk)
+	 * will be saved to disk the next time chunks are saved. This does NOT mark it dirty for
+	 * a description-packet update.
+	 * 
+	 * On the client, does nothing.
+	 * @see MultiblockControllerBase#markReferenceCoordForUpdate()
+	 */
+	protected void markReferenceCoordDirty() {
+		if(worldObj == null || worldObj.isRemote) { return; }
+
+		CoordTriplet referenceCoord = getReferenceCoord();
+		if(referenceCoord == null) { return; }
+
+		TileEntity saveTe = worldObj.getTileEntity(referenceCoord.x, referenceCoord.y, referenceCoord.z);
+		worldObj.markTileEntityChunkModified(referenceCoord.x, referenceCoord.y, referenceCoord.z, saveTe);
+	}
+
 	
 }
