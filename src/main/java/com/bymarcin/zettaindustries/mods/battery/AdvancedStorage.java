@@ -38,7 +38,6 @@ public class AdvancedStorage implements IEnergyStorage{
 //		if (energy < 0) {
 //			energy = 0;
 //		}
-		System.out.println("HELLLO SAVE");
 		nbt.setLong("Energy", energy);
 		return nbt;
 	}
