@@ -1,7 +1,11 @@
 package com.bymarcin.zettaindustries.mods.battery;
 
 import java.util.HashMap;
+import java.util.Map;
 
+import com.bymarcin.zettaindustries.mods.battery.block.*;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -18,15 +22,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryComputerPort;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryGlass;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryWall;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockGraphite;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockSulfur;
-import com.bymarcin.zettaindustries.mods.battery.block.CharcoalBlock;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockClientTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
@@ -65,8 +60,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
 
-	
-	public static BlockSulfur blockSulfur;
+    public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
 	
@@ -84,11 +78,8 @@ public class Battery implements IMod, IGUI, IProxy{
 	String sulfur;
 	ItemStack gunpowder;
 
-	
-	
 	@Override
 	public void init() {
-		
 		FluidRegistry.registerFluid(acid);
 		acidFluid = new AcidFluid(acid);
 		GameRegistry.registerBlock(acidFluid,"sulfurousacid");
@@ -100,36 +91,36 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		
 		blockSulfur = new BlockSulfur(acidFluid);
-		GameRegistry.registerBlock(blockSulfur,"sulfurblock");
+		GameRegistry.registerBlock(blockSulfur, InformationalItemBlock.class, "sulfurblock");
 		OreDictionary.registerOre("blockSulfur", blockSulfur);
 		
 		FluidContainerRegistry.registerFluidContainer(
 				FluidRegistry.getFluidStack(acid.getName(), FluidContainerRegistry.BUCKET_VOLUME),
 				new ItemStack(itemAcidBucket),
 				new ItemStack(Items.bucket));
-		
+
 		blockBigBatteryWall = new BlockBigBatteryWall();
-		GameRegistry.registerBlock(blockBigBatteryWall, "BatteryWall");
+		GameRegistry.registerBlock(blockBigBatteryWall, InformationalItemBlock.class, "BatteryWall");
 		GameRegistry.registerTileEntity(TileEntityWall.class, "BatteryTileEntityWall");
 		
 		blockBigBatteryPowerTap = new BlockBigBatteryPowerTap();
-		GameRegistry.registerBlock(blockBigBatteryPowerTap, "BatteryPowerTap");
+		GameRegistry.registerBlock(blockBigBatteryPowerTap, InformationalItemBlock.class, "BatteryPowerTap");
 		GameRegistry.registerTileEntity(TileEntityPowerTap.class, "BatteryTileEntityPowerTap");
 		
 		blockBigBatteryGlass = new BlockBigBatteryGlass();
-		GameRegistry.registerBlock(blockBigBatteryGlass, "BatteryGlass");
+		GameRegistry.registerBlock(blockBigBatteryGlass, InformationalItemBlock.class, "BatteryGlass");
 		GameRegistry.registerTileEntity(TileEntityGlass.class, "BatteryTileEntityGlass");
 		
 		blockBigBatteryElectrode = new BlockBigBatteryElectrode();
-		GameRegistry.registerBlock(blockBigBatteryElectrode, "BatteryElectrode");
+		GameRegistry.registerBlock(blockBigBatteryElectrode, InformationalItemBlock.class, "BatteryElectrode");
 		GameRegistry.registerTileEntity(TileEntityElectrode.class, "BatteryTileEntityElectrode");
 		
 		blockBigBatteryControler = new BlockBigBatteryController();
-		GameRegistry.registerBlock(blockBigBatteryControler, "BatteryControler");
+		GameRegistry.registerBlock(blockBigBatteryControler, InformationalItemBlock.class, "BatteryControler");
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BatteryTileEntityControler");
 		
 		blockBigBatteryComputerPort = new BlockBigBatteryComputerPort();
-		GameRegistry.registerBlock(blockBigBatteryComputerPort, "BatteryComputerPort");
+		GameRegistry.registerBlock(blockBigBatteryComputerPort, InformationalItemBlock.class, "BatteryComputerPort");
 		GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BatteryTileEntityComputerPort");
 		
 		blockGraphite = new BlockGraphite();
@@ -144,8 +135,8 @@ public class Battery implements IMod, IGUI, IProxy{
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
 	}
-	
-	@Override
+
+    @Override
 	public void postInit() {
 
 		registerElectrolyte("redstone", 75000000);
@@ -158,11 +149,11 @@ public class Battery implements IMod, IGUI, IProxy{
 		
 		electrum = "ingotElectrum";
 		sawDust = GameRegistry.findItemStack("ThermalExpansion","dustWoodCompressed",1);
-		specialGlass = GameRegistry.findItemStack("ThermalExpansion","Frame",1);
+		specialGlass = GameRegistry.findItemStack("ThermalExpansion","frameIlluminator",1);
 		
 		rfmeter =GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
-		enderFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
-		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","Frame",1);
+		enderFrame =GameRegistry.findItemStack("ThermalExpansion","frameTesseractEmpty",1);
+		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellReinforcedEmpty",1);
 		
 		sulfur = "dustSulfur";
 		
@@ -170,10 +161,7 @@ public class Battery implements IMod, IGUI, IProxy{
 
 		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
 		    enderFrame != null && electrumFrame != null && sulfur!=null && gunpowder!=null){
-			specialGlass.setItemDamage(9);
-			enderFrame.setItemDamage(7);
-			electrumFrame.setItemDamage(5);
-			
+
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,16), "ODE","OFE","ODE",
 					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
 			

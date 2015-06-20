@@ -12,6 +12,9 @@ public class BlockBigBatteryElectrode extends BasicBlockMultiblockBase{
 	public static IIcon icon ;
 	public BlockBigBatteryElectrode() {
 		super("batteryelectrode");
+        info.add(localize("tooltip.validfor") + " " + localize("tooltip.inside"));
+        info.add(localize("tooltip.electrode1"));
+        info.add(localize("tooltip.electrode2"));
 	}
 
 	@Override

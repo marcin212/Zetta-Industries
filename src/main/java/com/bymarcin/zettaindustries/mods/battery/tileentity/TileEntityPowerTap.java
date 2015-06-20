@@ -138,7 +138,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	@Override
 	public int getEnergyStored(ForgeDirection from) {
-		if(getMultiblockController()!=null && from == ForgeDirection.UP){
+		if(getMultiblockController()!=null){
 			return ((BatteryController)getMultiblockController()).getStorage().getEnergyStored();
 		}
 		return 0;
@@ -146,7 +146,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	@Override
 	public int getMaxEnergyStored(ForgeDirection from) {
-		if(getMultiblockController()!=null && from == ForgeDirection.UP){
+		if(getMultiblockController()!=null){
 			return ((BatteryController)getMultiblockController()).getStorage().getMaxEnergyStored();
 		}
 		return 0;
@@ -178,6 +178,6 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	@Override
 	public boolean canConnectEnergy(ForgeDirection from) {
-        return from == ForgeDirection.UP;
+        return true;
     }
 }
