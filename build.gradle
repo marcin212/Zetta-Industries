@@ -45,7 +45,7 @@ sourceSets{
 
 
 minecraft {
-    version = "1.7.10-10.13.2.1291"
+    version = "1.7.10-10.13.4.1470-1.7.10"
 	if (file('../run').exists()){
 		assetDir = "../run/assets"
 	}else{
