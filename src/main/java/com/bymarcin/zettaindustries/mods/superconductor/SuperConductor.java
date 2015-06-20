@@ -190,7 +190,7 @@ public class SuperConductor extends MultiblockControllerBase{
 	
 	@SuppressWarnings("rawtypes")
 	public Packet getUpdatePacket(TileEntityControler c){
-	     return new PacketUpdateFluidAmount(c, tank.getFluidAmount(), ((tank.getFluid()!=null)?tank.getFluid().fluidID:0));
+	     return new PacketUpdateFluidAmount(c, tank.getFluidAmount(), ((tank.getFluid()!=null)?tank.getFluid().getFluidID():0));
 	}
 	
 	@Override
