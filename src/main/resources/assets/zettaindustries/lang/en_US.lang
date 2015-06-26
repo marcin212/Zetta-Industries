@@ -39,6 +39,20 @@ tooltip.powertap2=Right click to adjust power throughput
 tooltip.powertap3=Right click while sneaking with an empty hand to toggle mode
 tooltip.sulfur1=Place in a pool of water and ignite
 
+#OCWires
+tooltip.coil.info0=For OpenComputers network only
+tooltip.coil.info1=Will not transmit power
+tooltip.coil.attachedTo=Linking from %1$s, %2$s, %3$s
+tile.TelecommunicationConnector.name= Telecommunication Connector
+item.TelecommunicationWire.name=Telecommunication Wire Coil
+chat.warning.wrongCable=You cannot attach this wire here
+chat.warning.wrongDimension=You are in the wrong dimension
+chat.warning.sameConnection=You cannot attach a wire to the same point
+chat.warning.tooFar=You are too far away from the previous connection
+chat.warning.cantSee=The connection is obstructed
+chat.warning.connectionExists=The connection exists already
+chat.warning.invalidPoint=One of the connection points is invalid
+
 #RF Meter
 tile.rfmeterblock.name=RF Meter
 
