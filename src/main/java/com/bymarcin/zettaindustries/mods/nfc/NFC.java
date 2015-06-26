@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.nfc;
 
 import li.cil.oc.api.Items;
+
 import net.minecraft.item.ItemStack;
 
 import com.bymarcin.zettaindustries.modmanager.IMod;
@@ -20,17 +21,25 @@ public class NFC implements IMod{
 	public static ItemCardNFC itemCardNFC;
 	public static ItemPrivateCardNFC itemPrivateCardNFC;
 	
-    ItemStack microChip1= Items.get("chip1").createItemStack(1);
-    ItemStack microChip2= Items.get("chip2").createItemStack(1);
-    ItemStack cpu1= Items.get("cpu1").createItemStack(1);
-    ItemStack interweb= Items.get("interweb").createItemStack(1);
-    ItemStack wifi= Items.get("wlanCard").createItemStack(1);
-    ItemStack circuitBoard= Items.get("printedCircuitBoard").createItemStack(1);
-    ItemStack paper= new ItemStack(net.minecraft.init.Items.paper,1);
-    ItemStack iron= new ItemStack(net.minecraft.init.Items.iron_ingot,1);
+
+    
+	@Override
+	public void preInit() {
+
+	}
     
 	@Override
 	public void init() {
+		
+	    ItemStack microChip1= Items.get("chip1").createItemStack(1);
+	    ItemStack microChip2= Items.get("chip2").createItemStack(1);
+	    ItemStack cpu1= Items.get("cpu1").createItemStack(1);
+	    ItemStack interweb= Items.get("interweb").createItemStack(1);
+	    ItemStack wifi= Items.get("wlanCard").createItemStack(1);
+	    ItemStack circuitBoard= Items.get("printedCircuitBoard").createItemStack(1);
+	    ItemStack paper= new ItemStack(net.minecraft.init.Items.paper,1);
+	    ItemStack iron= new ItemStack(net.minecraft.init.Items.iron_ingot,1);
+		
 		blockNFCProgrammer = new BlockNFCProgrammer();
 		blockNFCReader = new BlockNFCReader();
 		itemCardNFC = new ItemCardNFC();

@@ -50,8 +50,12 @@ public class RFMeter implements IMod, IProxy{
 
 	@Override
 	public void serverSide() {
-		// TODO Auto-generated method stub
-		
+
+	}
+	
+	@Override
+	public void preInit() {
+
 	}
 
 }

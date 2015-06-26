@@ -17,10 +17,12 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -31,6 +33,11 @@ public class SuperConductorMod implements IMod, IGUI, IProxy{
 	BlockControler blockControler;
 	public static int glowRenderID;
 	public static int pass;
+	
+	@Override
+	public void preInit() {
+
+	}
 	
 	@Override
 	public void init() {

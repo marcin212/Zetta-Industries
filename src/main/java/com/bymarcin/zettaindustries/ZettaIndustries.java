@@ -51,6 +51,7 @@ public class ZettaIndustries
     	config.load();	
     	modManager = new ModManager();
     	ZIRegistry.preInitialize();
+    	tabZettaIndustries = new ZettaIndustriesCreativeTab();
     	modManager.preInit();
     	logger.info("End preInit!");
     }
@@ -58,7 +59,6 @@ public class ZettaIndustries
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	tabZettaIndustries = new ZettaIndustriesCreativeTab();
     	modManager.init(); 
     	proxy.init();
     	ZIRegistry.initialize();

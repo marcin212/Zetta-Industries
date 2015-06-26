@@ -51,6 +51,8 @@ public class ModManager {
 		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
 		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
 		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
+		addMod("simpledhd.SimpleDHD","","SimpleDHD");
+		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
 	}
 
 	private void addMod(String path, String dependencies, String name) {
@@ -62,16 +64,23 @@ public class ModManager {
 			aMods.add(mod.getModId());
 		}
 		addMods();
-	}
-
-	public void init() {
+		
 		for (ModDescription mod : mods) {
 			if (mod.toLoad) {
 				loadMod(mod);
 			}
 			if (mod.isLoaded) {
-				mod.mod.init();
+				mod.mod.preInit();
 				ZettaIndustries.logger.info("Modification has been loaded [" + mod.classPath + "]");
+			}
+		}
+		
+	}
+
+	public void init() {
+		for (ModDescription mod : mods) {
+			if (mod.isLoaded) {
+				mod.mod.init();
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.quarryfixer;
 
 import net.minecraft.init.Blocks;
+
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.bymarcin.zettaindustries.modmanager.IMod;
@@ -20,8 +21,11 @@ public class QuarryFixer implements IMod{
 
 	@Override
 	public void postInit() {
-		// TODO Auto-generated method stub
-		
-	}
 
+	}
+	
+	@Override
+	public void preInit() {
+
+	}
 }

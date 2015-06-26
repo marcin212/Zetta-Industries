@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.bymarcin.zettaindustries.mods.battery.block.*;
+
 import cpw.mods.fml.common.registry.LanguageRegistry;
+
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,6 +14,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
@@ -77,7 +80,12 @@ public class Battery implements IMod, IGUI, IProxy{
 	ItemStack electrumFrame;
 	String sulfur;
 	ItemStack gunpowder;
+	
+	@Override
+	public void preInit() {
 
+	}
+	
 	@Override
 	public void init() {
 		FluidRegistry.registerFluid(acid);

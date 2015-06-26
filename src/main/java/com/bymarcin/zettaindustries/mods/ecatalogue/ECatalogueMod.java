@@ -13,6 +13,11 @@ public class ECatalogueMod implements IMod{
 	public static final ECatalogueBlock ecatalogueBlock = new ECatalogueBlock();
 	
 	@Override
+	public void preInit() {
+
+	}
+	
+	@Override
 	public void init() {
 		GameRegistry.registerBlock(ecatalogueBlock, "ecatalogue");
 		GameRegistry.registerTileEntity(ECatalogueTileEntity.class, "ecataloguetileentity");

@@ -12,6 +12,12 @@ public class CharcoalBlockMod implements IMod{
 	public static CharcoalBlock charcoalblock;
 	ItemStack coal;
 	ItemStack coalx9;
+	
+	@Override
+	public void preInit() {
+
+	}
+	
 	@Override
 	public void init() {
 		charcoalblock = new CharcoalBlock();

@@ -30,8 +30,12 @@ public class VanillaUtils implements IMod{
 
 	@Override
 	public void postInit() {
-		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void preInit() {
+
 	}
 
 }
