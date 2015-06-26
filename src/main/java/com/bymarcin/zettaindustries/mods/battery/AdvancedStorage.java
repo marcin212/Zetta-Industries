@@ -29,7 +29,7 @@ public class AdvancedStorage implements IEnergyStorage{
 //		if (energy > capacity) {
 //			energy = capacity;
 //		}
-		System.out.println("HELLLO READ");
+
 		return this;
 	}
 
