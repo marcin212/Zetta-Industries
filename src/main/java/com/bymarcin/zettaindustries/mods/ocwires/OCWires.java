@@ -20,6 +20,8 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -67,6 +69,7 @@ public class OCWires implements IMod, IProxy{
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wire), " I ","ISI"," I ", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1), 'S',"stickWood"));
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent()
 	public void renderOverlay(RenderGameOverlayEvent.Post event)
 	{
@@ -88,7 +91,7 @@ public class OCWires implements IMod, IProxy{
 		}
 	}
 	
-
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTelecomunicationConnector.class, new RenderTelecommunicationConnector());
@@ -105,6 +108,7 @@ public class OCWires implements IMod, IProxy{
 		
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent()
 	public void textureStich(TextureStitchEvent.Post event)
 	{
