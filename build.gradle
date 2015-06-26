@@ -79,6 +79,16 @@ repositories {
         name 'CoFHLib'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.cofhlib.cf}/[module]-[revision].[ext]"
     }
+	
+	ivy {
+        name 'StargateTech2'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.stargatetech.cf}/[module]-[revision].[ext]"
+    }
+	
+	ivy {
+        name 'ImmersiveEngineering'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.ie.cf}/[module]-[revision].[ext]"
+    }	
 }
 
 dependencies {
@@ -86,6 +96,8 @@ dependencies {
 	compile "net.sengir.forestry:forestry_1.7.10:${config.forestry.version}:dev"
 	compile "li.cil.oc:OpenComputers:${config.oc.version}:dev"
 	compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
+	compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
+	compile name: 'ImmersiveEngineering', version: config.ie.version, ext: 'jar'
 }
 
 processResources
