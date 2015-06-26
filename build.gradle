@@ -86,8 +86,8 @@ repositories {
     }
 	
 	ivy {
-        name 'ImmersiveEngineering'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.ie.cf}/[module]-[revision].[ext]"
+        name 'Immersive Engineering'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.immersiveengineering.cf}/[module]-[revision].[ext]"
     }	
 }
 
@@ -97,7 +97,7 @@ dependencies {
 	compile "li.cil.oc:OpenComputers:${config.oc.version}:dev"
 	compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 	compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
-	compile name: 'ImmersiveEngineering', version: config.ie.version, ext: 'jar'
+	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, ext: 'jar'
 }
 
 processResources
