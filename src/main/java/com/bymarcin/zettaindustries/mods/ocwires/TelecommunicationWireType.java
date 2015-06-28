@@ -46,4 +46,9 @@ public class TelecommunicationWireType extends WireType{
 		return new ItemStack(OCWires.wire);
 	}
 
+	@Override
+	public double getRenderDiameter() {
+		return .0625;
+	}
+
 }
