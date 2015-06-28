@@ -53,6 +53,7 @@ public class ModManager {
 		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 		//addMod("simpledhd.SimpleDHD","","SimpleDHD");
 		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
+		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 	}
 
 	private void addMod(String path, String dependencies, String name) {
