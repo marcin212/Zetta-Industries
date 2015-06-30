@@ -53,6 +53,9 @@ chat.warning.cantSee=The connection is obstructed
 chat.warning.connectionExists=The connection exists already
 chat.warning.invalidPoint=One of the connection points is invalid
 
+#SimpleDHD
+tile.simpledhd.name=Simple DHD
+
 #LightningFirework
 item.lightningfirework.name=Lightning rocket
 
