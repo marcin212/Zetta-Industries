@@ -45,13 +45,13 @@ public class ModManager {
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
 //		addMod("battery.Battery", "", "BigBattery");
-		addMod("battery.Battery", "$('ThermalExpansion')", "BigBattery");
+		addMod("battery.Battery", "$('CoFHCore')", "BigBattery");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
 		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
 		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
-		//addMod("simpledhd.SimpleDHD","","SimpleDHD");
+		//addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
 		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
 		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 	}

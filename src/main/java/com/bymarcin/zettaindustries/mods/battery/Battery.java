@@ -1,30 +1,18 @@
 package com.bymarcin.zettaindustries.mods.battery;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import com.bymarcin.zettaindustries.mods.battery.block.*;
-
-import cpw.mods.fml.common.registry.LanguageRegistry;
-
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryComputerPort;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryGlass;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryWall;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockGraphite;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockSulfur;
+import com.bymarcin.zettaindustries.mods.battery.block.InformationalItemBlock;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockClientTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
@@ -46,11 +34,26 @@ import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class Battery implements IMod, IGUI, IProxy{
 	
@@ -191,6 +194,27 @@ public class Battery implements IMod, IGUI, IProxy{
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur,1), "SGS","SSS","SSS",
 					'S',sulfur, 'G', gunpowder));
 			
+		}else{
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,4), "OGB","ODB","OGB",
+					'O', Blocks.obsidian, 'D', Items.diamond, 'G', Blocks.gold_block, 'B', Items.blaze_powder));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryControler, "CLR","XTX","BBB", 'B', Items.blaze_powder,
+					'C', Items.comparator, 'L', Blocks.redstone_lamp, 'R', Items.repeater, 'X', blockBigBatteryWall, 'T', Blocks.redstone_block));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryElectrode,2), "WGW","WGW","WWW",
+					'W', "blockGraphite", 'G', "blockGold"));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryGlass,1), "GGG","GFG","GGG",
+					'G',Blocks.glass,'F', blockBigBatteryWall));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryPowerTap, "OCO","RHR","BGB", 'G', blockGraphite,
+					'O', Blocks.obsidian, 'C', Items.comparator, 'R', Blocks.redstone_block, 'H', blockBigBatteryWall, 'B', Items.blaze_powder));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryComputerPort,"RCR","OHO","BRB",
+					'R', Blocks.redstone_block, 'C', Items.comparator, 'O', Blocks.obsidian, 'H', blockBigBatteryWall, 'B', Items.blaze_rod));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur,1), "SGS","SSS","SSS",
+					'S', Items.blaze_powder, 'G', Items.gunpowder));
 		}
 	}
 	
