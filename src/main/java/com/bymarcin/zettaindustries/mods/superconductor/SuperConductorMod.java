@@ -1,5 +1,6 @@
 package com.bymarcin.zettaindustries.mods.superconductor;
 
+import com.bymarcin.zettaindustries.basic.InformationalItemBlock;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.superconductor.block.BlockControler;
 import com.bymarcin.zettaindustries.mods.superconductor.block.BlockWire;
@@ -44,8 +45,8 @@ public class SuperConductorMod implements IMod, IGUI, IProxy{
 		blockWire = new BlockWire();
 		blockControler = new BlockControler();
 		
-		GameRegistry.registerBlock(blockWire,"blockwire");
-		GameRegistry.registerBlock(blockControler, "blockcontroler");
+		GameRegistry.registerBlock(blockWire,InformationalItemBlock.class, "blockwire");
+		GameRegistry.registerBlock(blockControler,InformationalItemBlock.class, "blockcontroler");
 		
 		GameRegistry.registerTileEntity(TileEntityControler.class, "blockcontroler");
 		GameRegistry.registerTileEntity(TileEntityWire.class, "blockwire");

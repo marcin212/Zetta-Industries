@@ -1,15 +1,10 @@
 package com.bymarcin.zettaindustries.mods.superconductor.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.basic.IBlockInfo;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.BlockMultiblockBase;
 import com.bymarcin.zettaindustries.mods.superconductor.SuperConductor;
 import com.bymarcin.zettaindustries.mods.superconductor.SuperConductorMod;
@@ -17,18 +12,35 @@ import com.bymarcin.zettaindustries.mods.superconductor.render.Glowing;
 import com.bymarcin.zettaindustries.mods.superconductor.tileentity.TileEntityWire;
 import com.bymarcin.zettaindustries.utils.Sides;
 
-public class BlockWire extends BlockMultiblockBase implements Glowing {
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
+
+import net.minecraftforge.common.util.ForgeDirection;
+
+public class BlockWire extends BlockMultiblockBase implements Glowing, IBlockInfo {
 	public static IIcon[] icons = new IIcon[16];
 	public static IIcon[] glowIcons = new IIcon[16];
 	public static IIcon transparentIcon;
-
+	List<String> info = new ArrayList<String>();
+	
+	 
 	public BlockWire() {
 		super(Material.iron);
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setBlockName("blockwire");
 		setHardness(3.0F);
+		info.add("[WIP] Use at own risk!");
 	}
-
+	
+	public List<String> getInformation() {
+		return info;
+	}
+	
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new TileEntityWire();

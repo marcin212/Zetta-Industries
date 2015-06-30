@@ -1,5 +1,17 @@
 package com.bymarcin.zettaindustries.mods.superconductor.block;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.basic.IBlockInfo;
+import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.BlockMultiblockBase;
+import com.bymarcin.zettaindustries.mods.superconductor.SuperConductor;
+import com.bymarcin.zettaindustries.mods.superconductor.SuperConductorMod;
+import com.bymarcin.zettaindustries.mods.superconductor.render.Glowing;
+import com.bymarcin.zettaindustries.mods.superconductor.tileentity.TileEntityControler;
+import com.bymarcin.zettaindustries.utils.Sides;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -11,29 +23,30 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.util.ForgeDirection;
+
 import cofh.api.energy.IEnergyHandler;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.BlockMultiblockBase;
-import com.bymarcin.zettaindustries.mods.superconductor.SuperConductor;
-import com.bymarcin.zettaindustries.mods.superconductor.SuperConductorMod;
-import com.bymarcin.zettaindustries.mods.superconductor.render.Glowing;
-import com.bymarcin.zettaindustries.mods.superconductor.tileentity.TileEntityControler;
-import com.bymarcin.zettaindustries.utils.Sides;
-
-public class BlockControler extends BlockMultiblockBase implements Glowing{
+public class BlockControler extends BlockMultiblockBase implements Glowing, IBlockInfo{
 	public static IIcon icons[][] = new IIcon[2][16];
 	public static IIcon iconsWire[] = new IIcon[16];
 	public static IIcon glowIconsWire[] = new IIcon[16];
 	public static IIcon glowIcons[][] = new IIcon[2][16];
 	public static IIcon transparentIcon;
-	
+	 List<String> info = new ArrayList<String>();
+	 
 	public BlockControler() {
 		super(Material.iron);
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setBlockName("blockcontroller");
 		setHardness(3.0F);
+		info.add("[WIP] Use at own risk!");
+	}
+    
+	@Override
+	public List<String> getInformation() {
+		return info;
 	}
 
 	@Override

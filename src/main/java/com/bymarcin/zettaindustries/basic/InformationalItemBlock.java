@@ -1,6 +1,5 @@
-package com.bymarcin.zettaindustries.mods.battery.block;
+package com.bymarcin.zettaindustries.basic;
 
-import com.bymarcin.zettaindustries.basic.IBlockInfo;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;

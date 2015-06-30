@@ -3,6 +3,7 @@ package com.bymarcin.zettaindustries.mods.battery;
 import java.util.HashMap;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.basic.InformationalItemBlock;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryComputerPort;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
@@ -12,7 +13,6 @@ import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryWall;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockGraphite;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockSulfur;
-import com.bymarcin.zettaindustries.mods.battery.block.InformationalItemBlock;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockClientTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
