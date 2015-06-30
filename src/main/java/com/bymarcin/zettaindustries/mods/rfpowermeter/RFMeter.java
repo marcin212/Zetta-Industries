@@ -1,5 +1,7 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -35,6 +37,8 @@ public class RFMeter implements IMod, IProxy{
 		ItemStack powerCoilSilver = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver",1);
 		if(rfmeter!=null && powerCoilSilver !=null)
 			GameRegistry.addRecipe(new ItemStack(meter)," X "," Y "," X ", 'X', powerCoilSilver, 'Y', rfmeter);
+		else
+			GameRegistry.addRecipe(new ItemStack(meter),"IXI","IYI","IXI", 'X', Items.comparator, 'Y', Blocks.redstone_block, 'I', Items.iron_ingot);
 		GameRegistry.addShapelessRecipe(new ItemStack(meter),meter);
 	}
 
