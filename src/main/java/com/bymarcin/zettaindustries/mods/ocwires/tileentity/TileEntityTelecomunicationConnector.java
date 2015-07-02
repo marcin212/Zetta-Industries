@@ -36,7 +36,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
     private int facing;
     
     public TileEntityTelecomunicationConnector() {
-    	node = Network.newNode(this, Visibility.Network).create();
+    	node = Network.newNode(this, Visibility.None).create();
 	}
     
     public int getFacing() {
@@ -139,7 +139,8 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 
 	@Override
 	public void onDisconnect(Node node) {
-		
+		if(node()!=node && node!=null)
+			node().disconnect(node);
 	}
 
 	@Override
@@ -149,6 +150,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	
     @Override
     public void updateEntity() {
+    	if(worldObj.isRemote) return;
         if (!addedToNetwork) {
             addedToNetwork = true;
             Network.joinOrCreateNetwork(this);
