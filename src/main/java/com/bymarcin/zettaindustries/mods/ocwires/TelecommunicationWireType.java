@@ -28,7 +28,7 @@ public class TelecommunicationWireType extends WireType{
 
 	@Override
 	public int getMaxLength() {
-		return 32;
+		return OCWires.cableLength;
 	}
 
 	@Override

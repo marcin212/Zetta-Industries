@@ -1,5 +1,6 @@
 package com.bymarcin.zettaindustries.mods.ocwires;
 
+import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.ocwires.block.BlockTelecomunicationConnector;
 import com.bymarcin.zettaindustries.mods.ocwires.item.ItemBlockTelecommunicationConnector;
@@ -44,6 +45,7 @@ public class OCWires implements IMod, IProxy{
 	public static BlockTelecomunicationConnector connector = new BlockTelecomunicationConnector();
 	public static ItemTelecommunicationWire wire = new ItemTelecommunicationWire();
 	public static ItemBlockTelecommunicationConnector connectorItemBlock = new ItemBlockTelecommunicationConnector(connector);
+	public static int cableLength = 32;
 	public OCWires() {
 	
 	}
@@ -51,6 +53,7 @@ public class OCWires implements IMod, IProxy{
 	@Override
 	public void preInit() {
 		GameRegistry.registerBlock(connector, ItemBlockTelecommunicationConnector.class, "BlockTelecomunicationConnector");
+		cableLength = ZettaIndustries.instance.config.get("OCWires", "cableLength", 32, "The maximum length cables can have.",8,64).getInt(32);	
 	}
 	
 	@Override
