@@ -34,6 +34,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
     protected Node node;
     protected boolean addedToNetwork = false;
     private int facing;
+    private boolean needUpdate = false;
     
     public TileEntityTelecomunicationConnector() {
     	node = Network.newNode(this, Visibility.None).create();
@@ -134,13 +135,13 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 
 	@Override
 	public void onConnect(Node node) {
-		checkConnections();
+		if(node == node())
+			needUpdate = true;
 	}
 
 	@Override
 	public void onDisconnect(Node node) {
-		if(node()!=node && node!=null)
-			node().disconnect(node);
+			
 	}
 
 	@Override
@@ -155,6 +156,12 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
             addedToNetwork = true;
             Network.joinOrCreateNetwork(this);
         }
+        
+        if(needUpdate){
+        	checkConnections();
+        	needUpdate=false;
+        }
+        
     }
 
     @Override
