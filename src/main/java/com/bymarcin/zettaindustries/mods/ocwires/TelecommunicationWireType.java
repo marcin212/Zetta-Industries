@@ -4,7 +4,8 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 
 import net.minecraft.item.ItemStack;
 
-import blusunrize.immersiveengineering.api.WireType;
+import blusunrize.immersiveengineering.api.energy.WireType;
+
 
 public class TelecommunicationWireType extends WireType{
 
@@ -49,6 +50,11 @@ public class TelecommunicationWireType extends WireType{
 	@Override
 	public double getRenderDiameter() {
 		return .0625;
+	}
+
+	@Override
+	public boolean isEnergyWire() {
+		return false;
 	}
 
 }

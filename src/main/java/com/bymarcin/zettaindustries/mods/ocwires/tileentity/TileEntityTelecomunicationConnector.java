@@ -22,11 +22,11 @@ import net.minecraft.util.Vec3;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
-import blusunrize.immersiveengineering.api.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.ImmersiveNetHandler.Connection;
 import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.WireType;
+import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
+import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.common.util.IELogger;
 import blusunrize.immersiveengineering.common.util.Utils;
 
@@ -266,5 +266,10 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	@Override
 	public boolean canConnect(ForgeDirection side) {
 		return side==ForgeDirection.getOrientation(facing);
+	}
+
+	@Override
+	public boolean allowEnergyToPass(Connection arg0) {
+		return false;
 	}
 }

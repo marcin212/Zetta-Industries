@@ -9,7 +9,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 
-import blusunrize.immersiveengineering.api.WireType;
+import blusunrize.immersiveengineering.api.energy.WireType;
+
 
 public class LightningRocket implements IMod{
 
