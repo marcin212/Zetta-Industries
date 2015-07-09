@@ -9,6 +9,7 @@ import com.bymarcin.zettaindustries.mods.ocwires.render.BlockRenderTelecommunica
 import com.bymarcin.zettaindustries.mods.ocwires.render.RenderTelecommunicationConnector;
 import com.bymarcin.zettaindustries.mods.ocwires.tileentity.TileEntityTelecomunicationConnector;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
+import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import net.minecraft.init.Blocks;
@@ -36,12 +37,15 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
+import blusunrize.immersiveengineering.api.ManualHelper;
 import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.client.ClientUtils;
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import blusunrize.immersiveengineering.common.util.Lib;
+import blusunrize.lib.manual.ManualInstance;
+import blusunrize.lib.manual.ManualPages;
 
-public class OCWires implements IMod, IProxy{
+public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	public static BlockTelecomunicationConnector connector = new BlockTelecomunicationConnector();
 	public static ItemTelecommunicationWire wire = new ItemTelecommunicationWire();
 	public static ItemBlockTelecommunicationConnector connectorItemBlock = new ItemBlockTelecommunicationConnector(connector);
@@ -104,11 +108,21 @@ public class OCWires implements IMod, IProxy{
 //		RenderingRegistry.registerBlockHandler(connector.getRenderType(), connectorRender);
 		
 	}
-
+	
+	
+	@SideOnly(Side.CLIENT)
+	public void manualPages(){
+		ManualInstance manual = ManualHelper.getManual();
+		manual.addEntry("ocwires", ZettaIndustries.MODID, 
+				new ManualPages.Crafting(manual, "ocwires1", new ItemStack(OCWires.wire)),
+				new ManualPages.Crafting(manual, "ocwires0", new ItemStack(OCWires.connector))	
+		);
+	}
+	
+	
 	@Override
 	public void serverSide() {
-		// TODO Auto-generated method stub
-		
+	
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -138,4 +152,14 @@ public class OCWires implements IMod, IProxy{
 				}
 	}
 
+	@Override
+	public void serverLoadComplete() {
+		
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void clientLoadComplete() {
+		manualPages();
+	}
 }

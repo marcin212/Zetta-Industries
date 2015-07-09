@@ -10,6 +10,15 @@ public class ClientProxy extends Proxy {
 		for (IProxy p : proxy)
 			p.clientSide();
 	}
+	
+	public void loadComplete(){
+		for (IProxy p : proxy){
+			if(p instanceof INeedLoadCompleteEvent){
+				((INeedLoadCompleteEvent)p).clientLoadComplete();
+			}
+		}
+	}
+
 
 	@Override
 	public World getWorld(int dimensionId) {

@@ -11,6 +11,14 @@ public class Proxy extends ZIRegistry {
 		for (IProxy p : proxy)
 			p.serverSide();
 	}
+	
+	public void loadComplete(){
+		for (IProxy p : proxy){
+			if(p instanceof INeedLoadCompleteEvent){
+				((INeedLoadCompleteEvent)p).serverLoadComplete();
+			}
+		}
+	}
 
 	public World getWorld(int dimensionId) {
 		return MinecraftServer.getServer().worldServerForDimension(dimensionId);

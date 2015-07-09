@@ -12,9 +12,11 @@ import murlen.util.fscript.FSFunctionExtension;
 import murlen.util.fscript.FScript;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 
 public class ModManager {
 	HashSet<ModDescription> mods = new HashSet<ModManager.ModDescription>();
