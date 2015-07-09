@@ -1,19 +1,13 @@
 package com.bymarcin.zettaindustries.mods.ocwires.block;
 
-import java.util.ArrayList;
-
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 import com.bymarcin.zettaindustries.mods.ocwires.tileentity.TileEntityTelecomunicationConnector;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -100,12 +94,6 @@ public class BlockTelecomunicationConnector extends BasicBlockContainer {
 	}
 
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block par5, int par6)
-	{
-		super.breakBlock(world, x, y, z, par5, par6);
-	}
-
-	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block nbid)
 	{
 		if (world.getTileEntity(x, y, z) instanceof TileEntityTelecomunicationConnector)
@@ -118,34 +106,6 @@ public class BlockTelecomunicationConnector extends BasicBlockContainer {
 				world.setBlockToAir(x, y, z);
 			}
 		}
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player)
-	{
-		if (world.getTileEntity(x, y, z) instanceof TileEntityTelecomunicationConnector)
-		{
-			ItemStack stack = new ItemStack(this, 1, world.getBlockMetadata(x, y, z));
-			return stack;
-		}
-		return super.getPickBlock(target, world, x, y, z, player);
-	}
-
-	@Override
-	public void onBlockHarvested(World world, int x, int y, int z, int meta, EntityPlayer player)
-	{
-		if (!world.isRemote && world.getTileEntity(x, y, z) instanceof TileEntityTelecomunicationConnector && player != null && !player.capabilities.isCreativeMode)
-		{
-			ItemStack stack = new ItemStack(this, 1, meta);
-			world.spawnEntityInWorld(new EntityItem(world, x + .5, y + .5, z + .5, stack));
-		}
-	}
-
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
-	{
-		ArrayList<ItemStack> ret = super.getDrops(world, x, y, z, metadata, fortune);
-		return ret;
 	}
 	
 	@Override
