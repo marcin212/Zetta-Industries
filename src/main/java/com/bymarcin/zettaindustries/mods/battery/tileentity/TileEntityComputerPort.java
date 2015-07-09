@@ -14,7 +14,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
@@ -23,17 +23,17 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controler may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery side", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
@@ -55,32 +55,66 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 		return (BatteryController) getMultiblockController();
 	}
 	
+	private TileEntityPowerTap findPowerTap(int id){
+		if(getControler()!=null){
+			TileEntityPowerTap[] array = getControler().getPowerTaps().toArray(new TileEntityPowerTap[]{});
+			if(id >=0 && id < array.length){
+				return array[id];
+			}
+		}
+		return null;
+	}
+	
+	private TileEntityPowerTap findPowerTap(String label){
+		if(getControler()!=null){
+			TileEntityPowerTap[] array = getControler().getPowerTaps().toArray(new TileEntityPowerTap[]{});
+			for(int i=0; i<array.length; i++){
+				if(array[i].getLabel().equals(label)){
+					return array[i];
+				}
+			}
+		}
+		return null;
+	}
+	
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setIn(Context c, Arguments args){
-		int id = args.checkInteger(0);
-		if(getControler()!=null)
-			try{
-				((TileEntityPowerTap)getControler().getPowerTaps().toArray()[id]).setIn();
+		String name = null;
+		int id = -1;
+		if(args.isString(0)){
+			name = args.checkString(0);
+		}else{
+			id = args.checkInteger(0);
+		}
+		
+		TileEntityPowerTap powerTap = name!=null?findPowerTap(name):findPowerTap(id);
+		if(powerTap!=null){
+					powerTap.setIn();
 				return null;
-			}catch(IndexOutOfBoundsException e){
-				return new Object[]{null,"Electrode not found"};
-			}
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
+		}else{
+				return new Object[]{null,"Electrode or Controller not found."};
+		}
 	}
 	
 	@Callback
 	@Optional.Method(modid = "OpenComputers")
 	public Object[] setOut(Context c, Arguments args){
-		int id = args.checkInteger(0);
-		if(getControler()!=null)
-			try{
-				((TileEntityPowerTap)getControler().getPowerTaps().toArray()[id]).setOut();
+		String name = null;
+		int id = -1;
+		if(args.isString(0)){
+			name = args.checkString(0);
+		}else{
+			id = args.checkInteger(0);
+		}
+		
+		TileEntityPowerTap powerTap = name!=null?findPowerTap(name):findPowerTap(id);
+		if(powerTap!=null){
+					powerTap.setOut();
 				return null;
-			}catch(IndexOutOfBoundsException e){
-				return new Object[]{null,"Electrode not found"};
-			}
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
+		}else{
+				return new Object[]{null,"Electrode or Controller not found."};
+		}
 	}
 	
     @Callback
@@ -88,7 +122,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 	public Object[] getEnergyStored(Context c, Arguments args){
 		if(getControler()!=null)
 			return new Object[]{getControler().getStorage().getRealEnergyStored()};
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
+		return new Object[]{null,"Controller block not found. Rebuild your battery."};
 	}
 	
     @Callback
@@ -102,17 +136,22 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     @Callback
     @Optional.Method(modid = "OpenComputers")
 	public Object[] setElectrodeTransfer(Context c, Arguments args){
-		int id = args.checkInteger(0);
+    	String label = null;
+    	int id = -1;
+    	if(args.isString(0)){
+    		label = args.checkString(0);
+    	}else{
+    		id = args.checkInteger(0);
+    	}
+    	
 		int transfer = args.checkInteger(1);
-		if(getControler()!=null){	
-			try{
-				((TileEntityPowerTap)getControler().getPowerTaps().toArray()[id]).setTransfer(transfer);
+		TileEntityPowerTap powerTap = label!=null?findPowerTap(label):findPowerTap(id);
+		if(powerTap!=null){	
+				powerTap.setTransfer(transfer);
 				return null;
-			}catch(IndexOutOfBoundsException e){
-				return new Object[]{null,"Electrode not found"};
-			}
+		}else{
+				return new Object[]{null,"Electrode or Controller not found."};
 		}
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
 	}
 	
     @Callback
@@ -124,7 +163,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 						tap.setTransfer(transfer);
 				return null;
 		}
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
+		return new Object[]{null,"Controller block not found. Rebuild your battery."};
 	}
 	
     @Callback
@@ -132,7 +171,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 	public Object[] getMaxElectrodeTransfer(Context c, Arguments args){
 		if(getControler()!=null)
 			return new Object[]{getControler().getStorage().getMaxExtract()};
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
+		return new Object[]{null,"Controller block not found. Rebuild your battery."};
 	}
 	
     @Callback
@@ -140,6 +179,6 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
 	public Object[] getEnergyBalanceLastTick(Context c, Arguments args){
 		if(getControler()!=null)
 			return new Object[]{getControler().getLastTickBalance()};
-		return new Object[]{null,"Controler block not found. Rebuild your battery."};
+		return new Object[]{null,"Controller block not found. Rebuild your battery."};
 	}
 }

@@ -13,10 +13,13 @@ public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage>{
 	int transfer = 0;
 	TileEntity te;
 	boolean side;
-	public PowerTapUpdatePacket(TileEntity te, int transfer, boolean side) {
+	String label;
+	
+	public PowerTapUpdatePacket(TileEntity te, int transfer, boolean side, String label) {
 		this.transfer  = transfer; 
 		this.te =te;
 		this.side = side;
+		this.label = label;
 	}
 	
 	public PowerTapUpdatePacket() {
@@ -27,6 +30,7 @@ public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage>{
 		writeBoolean(side);
 		writeTileLocation(te);
 		writeInt(transfer);	
+		writeString(label);
 	}
 
 	@Override
@@ -36,12 +40,15 @@ public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage>{
 		else
 			te = readServerTileEntity();
 		transfer = readInt();
+		label = readString();
 	}
 
 	@Override
 	protected IMessage executeOnClient() {
-		if(te!=null)
+		if(te!=null){
 			((TileEntityPowerTap) te).setTransfer(transfer);
+			((TileEntityPowerTap) te).setLabel(label);
+		}
 		return null;
 	}
 
@@ -49,6 +56,7 @@ public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage>{
 	protected IMessage executeOnServer() {
 		if(te!=null) {
             ((TileEntityPowerTap) te).setTransfer(transfer);
+            ((TileEntityPowerTap) te).setLabel(label);
             ((TileEntityPowerTap) te).updatePowerTap();
         }
 		return null;

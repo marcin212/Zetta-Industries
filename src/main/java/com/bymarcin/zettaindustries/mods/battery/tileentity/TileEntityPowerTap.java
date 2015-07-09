@@ -23,6 +23,16 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	int transferMax = 0;
 	int transferCurrent = 0;
 	private Set<EntityPlayer> updatePlayers = new HashSet<EntityPlayer>();
+	String label = "";
+	
+	
+	public String getLabel() {
+		return label;
+	}
+	
+	public void setLabel(String label) {
+		this.label = label;
+	}
 	
 	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
 		updatePlayers.add(playerToUpdate);
@@ -35,7 +45,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 	
 	protected PowerTapUpdatePacket getUpdatePacket(){
-	     return new PowerTapUpdatePacket(this,transferCurrent,true);
+	     return new PowerTapUpdatePacket(this,transferCurrent,true,getLabel());
 	}
 	
 	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
@@ -160,12 +170,16 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	public void readFromNBT(NBTTagCompound data) {
 		super.readFromNBT(data);
 		transferCurrent = data.getInteger("transfer");
+		if(data.hasKey("powertap_label")){
+			label = data.getString("powertap_label");
+		}
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
 		data.setInteger("transfer",transferCurrent);
+		data.setString("powertap_label", label);
 	}
 	
 	public void setIn(){
