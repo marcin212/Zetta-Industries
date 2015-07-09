@@ -96,6 +96,7 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	protected void onMachineAssembled() {
 		for (TileEntityControler c : controlers)
 			controler = c;
+		recalculate();
 	}
 
 	public boolean isSourceFluid(int x, int y, int z) {
@@ -127,12 +128,26 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void onMachineDisassembled() {
-		electrolyte = 0;
+
 	}
 
 	@Override
 	protected void onMachineRestored() {
-
+		recalculate();
+	}
+	
+	public void recalculate(){
+		electrolyte = 0;
+		for (int x = getMinimumCoord().x; x < getMaximumCoord().x; x++) {
+			for (int y = getMinimumCoord().y; y < getMaximumCoord().y; y++) {
+				for (int z = getMinimumCoord().z; z < getMaximumCoord().z; z++) {
+					electrolyte += checkElectrolyte(x, y, z);
+				}
+			}
+		}
+		storage.setCapacity(electrolyte);
+		maxOutput = 10000 * (getMaximumCoord().y - getMinimumCoord().y - 1);
+		storage.setMaxTransfer(maxOutput);
 	}
 
 	@Override
@@ -146,18 +161,19 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		if (controlers.size() > 1) {
 			throw new MultiblockValidationException("BigBattery have too many controlers");
 		}
-		electrolyte = 0;
+		boolean foundElectrolyte = false;
+		outer:
 		for (int x = getMinimumCoord().x; x < getMaximumCoord().x; x++) {
 			for (int y = getMinimumCoord().y; y < getMaximumCoord().y; y++) {
 				for (int z = getMinimumCoord().z; z < getMaximumCoord().z; z++) {
-					electrolyte += checkElectrolyte(x, y, z);
+					if(checkElectrolyte(x, y, z)>0){
+						foundElectrolyte = true;
+						break outer;
+					}
 				}
 			}
 		}
-		storage.setCapacity(electrolyte);
-		maxOutput = 10000 * (getMaximumCoord().y - getMinimumCoord().y - 1);
-		storage.setMaxTransfer(maxOutput);
-		if (electrolyte == 0) {
+		if (!foundElectrolyte) {
 			throw new MultiblockValidationException("BigBattery must have electrolyte");
 		}
 		super.isMachineWhole();
@@ -247,8 +263,8 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase assimilated) {
-		BatteryController c = (BatteryController)assimilated;
-		this.storage.setEnergyStored(this.getStorage().getRealEnergyStored()+c.getStorage().getRealEnergyStored());
+		BatteryController other = (BatteryController)assimilated;
+		this.storage.merge(other.getStorage());
 	}
 
 	@Override

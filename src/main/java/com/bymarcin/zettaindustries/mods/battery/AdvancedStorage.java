@@ -11,17 +11,23 @@ public class AdvancedStorage implements IEnergyStorage{
 	protected int maxExtract;
 
 	public AdvancedStorage(long capacity, int maxTransfer) {
-
 		this(capacity, maxTransfer, maxTransfer);
 	}
 
 	public AdvancedStorage(long capacity, int maxReceive, int maxExtract) {
-
 		this.capacity = capacity;
 		this.maxReceive = maxReceive;
 		this.maxExtract = maxExtract;
 	}
 
+	public void merge(AdvancedStorage other){
+		if(other.energy > energy){
+			energy = other.energy;
+			capacity = other.capacity;
+		}
+	}
+	
+	
 	public AdvancedStorage readFromNBT(NBTTagCompound nbt) {
 
 		this.energy = nbt.getLong("Energy");
