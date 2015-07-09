@@ -72,8 +72,8 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 
 	@Override
 	public void postInit() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(connector), "BIB"," I ","BIB", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1),'B',Blocks.hardened_clay));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wire), " I ","ISI"," I ", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1), 'S',"stickWood"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(connector,8), "BIB"," I ","BIB", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1),'B',Blocks.hardened_clay));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wire,4), " I ","ISI"," I ", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1), 'S',"stickWood"));
 	}
 	
 	@SideOnly(Side.CLIENT)
