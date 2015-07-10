@@ -41,6 +41,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		data.setFloat("r", r);
 		data.setFloat("g", g);
 		data.setFloat("b", b);
+		data.setBoolean("isInverted", isInverted);
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 2, data);
 	}
 	
@@ -49,6 +50,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		r=pkt.func_148857_g().getFloat("r");
 		g=pkt.func_148857_g().getFloat("g");
 		b=pkt.func_148857_g().getFloat("b");
+		isInverted = pkt.func_148857_g().getBoolean("isInverted");
 	}
 	
 	public void invert(){
