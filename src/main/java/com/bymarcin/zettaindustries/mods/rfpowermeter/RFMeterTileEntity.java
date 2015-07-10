@@ -29,6 +29,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 	boolean inCounterMode = true;
 	boolean isOn = true;
 	boolean isProtected = false;
+	boolean isInverted = false;
 	
 	int tick = 0;
 	public float r,g=1,b;
@@ -50,6 +51,13 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		b=pkt.func_148857_g().getFloat("b");
 	}
 	
+	public void invert(){
+		isInverted = !isInverted;
+	}
+	
+	public boolean isInverted() {
+		return isInverted;
+	}
 	
 	public int getTransfer() {
 		return transfer;
@@ -118,10 +126,10 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		if(!canEnergyFlow()) return 0;
 		int temp = 0;
-		if(from == ForgeDirection.UP){
+		if(from == (isInverted?ForgeDirection.DOWN:ForgeDirection.UP) ){
 			if(WorldUtils.isEnergyHandlerFromSide(this, from)){
-                TileEntity tile= WorldUtils.getAdjacentTileEntity(worldObj,this.xCoord, this.yCoord, this.zCoord, ForgeDirection.DOWN);
-                if(tile==null || !WorldUtils.isEnergyHandlerFromSide(tile,ForgeDirection.UP)){
+                TileEntity tile= WorldUtils.getAdjacentTileEntity(worldObj,this.xCoord, this.yCoord, this.zCoord, isInverted?ForgeDirection.UP:ForgeDirection.DOWN);
+                if(tile==null || !WorldUtils.isEnergyHandlerFromSide(tile,isInverted?ForgeDirection.DOWN:ForgeDirection.UP)){
                     return 0;
                 }
 				IEnergyHandler a = (IEnergyHandler) tile;
@@ -173,6 +181,8 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		nbt.setFloat("r", r);
 		nbt.setFloat("g", g);
 		nbt.setFloat("b", b);
+		
+		nbt.setBoolean("isInverted", isInverted);
 	}
 	
 	public void getTag(NBTTagCompound nbt){
@@ -192,6 +202,8 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		nbt.setFloat("r", r);
 		nbt.setFloat("g", g);
 		nbt.setFloat("b", b);
+		
+		nbt.setBoolean("isInverted", isInverted);
 	}
 	
 	public void  setTag(NBTTagCompound nbt){
@@ -217,6 +229,9 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 			g = nbt.getFloat("g");
 		if(nbt.hasKey("b"))
 			b = nbt.getFloat("b");	
+		if(nbt.hasKey("isInverted")){
+			isInverted = nbt.getBoolean("isInverted");
+		}
 	}
 	
 	
@@ -249,6 +264,8 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 			g = nbt.getFloat("g");
 		if(nbt.hasKey("b"))
 			b = nbt.getFloat("b");	
+		if(nbt.hasKey("isInverted"))
+			isInverted = nbt.getBoolean("isInverted");
 	}
 	
 }

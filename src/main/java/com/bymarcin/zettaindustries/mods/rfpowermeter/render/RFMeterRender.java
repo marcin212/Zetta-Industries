@@ -76,7 +76,37 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	Tessellator tes = Tessellator.instance;
     double j=0;
     
-    public void render(double x, double y, double z, int metadata, int mixedBrightnessForBlock, long currentValue, int transfer, float r, float g, float b){
+	
+	public void drawDirection(Tessellator tes, float r, float g, float b, boolean isInverted){
+		GL11.glPushMatrix();
+		int width = 6;
+		int height = 7;
+		int x = 56;
+		int y =40;
+		tes.setTranslation(13.5/30F, -10/30F, 0);
+		tes.startDrawingQuads();
+		tes.setBrightness(0xF << 20 | 0xF << 4);
+		tes.setColorRGBA_F(r, g, b, 1);
+		tes.setNormal(0, 0, -1);
+		
+		if(isInverted){
+			tes.addVertexWithUV(0/30D, 0, 0,       (x+width)/64D, (y+height)/64D);
+			tes.addVertexWithUV(0/30D, 7/30D, 0,  (x+width)/64D, y/64D);
+			tes.addVertexWithUV(6/30D, 7/30D,0,  x/64D, y/64D);
+			tes.addVertexWithUV(6/30D, 0,0,       x/64D, (y+height)/64D);
+		}else{
+			tes.addVertexWithUV(0/30D, 0, 0,       (x+width)/64D, y/64D);
+			tes.addVertexWithUV(0/30D, 7/30D, 0,  (x+width)/64D, (y+height)/64D);
+			tes.addVertexWithUV(6/30D, 7/30D,0,  x/64D, (y+height)/64D);
+			tes.addVertexWithUV(6/30D, 0,0,       x/64D, y/64D);
+		}
+		
+		tes.draw();
+		tes.setTranslation(0, 0, 0);
+		GL11.glPopMatrix();
+	}
+    
+    public void render(double x, double y, double z, int metadata, int mixedBrightnessForBlock, long currentValue, int transfer, float r, float g, float b, boolean isInverted){
 		GL11.glPushMatrix();
 		GL11.glColor4f(1, 1, 1, 1);
 		tes.setColorRGBA_F(1F, 1F, 1F, 1);
@@ -93,7 +123,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		
 		
 		bindTexture(cTexture);
-		drawShape(mixedBrightnessForBlock);
+		drawShape(mixedBrightnessForBlock, isInverted);
 		float s= 11/43F;	
 
 		GL11.glPushMatrix();
@@ -118,6 +148,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		GL11.glTranslated(19/64D, 12/32D, 3/16D-0.001);
 		GL11.glScaled(16/44D, 16/44D, 1);
 		drawSI(SI.reverse[unit], r,g,b);
+		drawDirection(tes, r, g, b, isInverted);
 		GL11.glPopMatrix();
 
 		GL11.glPopMatrix();
@@ -129,7 +160,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float delta) {
 		if(!(te instanceof RFMeterTileEntity)) return;
 		RFMeterTileEntity tile = (RFMeterTileEntity) te;
-		render(x,y,z,tile.getBlockMetadata(), te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord).getMixedBrightnessForBlock(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord),tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
+		render(x,y,z,tile.getBlockMetadata(), te.getWorldObj().getBlock(te.xCoord, te.yCoord, te.zCoord).getMixedBrightnessForBlock(te.getWorldObj(), te.xCoord, te.yCoord, te.zCoord),tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b, tile.isInverted());
 	//	render(x,y,z,tile.getBlockMetadata(), 0xF << 20 | 0xF << 4,tile.getCurrentValue(), tile.getTransfer(), tile.r, tile.g, tile.b);
 
 	}
@@ -149,7 +180,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		GL11.glPopMatrix();
 	}
 	
-	private void drawShape(int mixedBrightnessForBlock){
+	private void drawShape(int mixedBrightnessForBlock, boolean isInverted){
 		GL11.glPushMatrix();
 		tes.startDrawingQuads();
 		tes.setColorRGBA_F(1F, 1F, 1F, 1);	
@@ -240,19 +271,36 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		tes.addVertexWithUV(14/16D, 1, 1, 24/64D, 22/64D);
 		tes.addVertexWithUV(2/16D,  1, 1, 12/64D, 22/64D);
 
-		//top
-		tes.setNormal(0, 1, 0);
-		tes.addVertexWithUV(2/16D,  1, 1,     24/64D, 38/64D);
-		tes.addVertexWithUV(14/16D, 1, 1,     12/64D, 38/64D);
-		tes.addVertexWithUV(14/16D, 1, 2/16D, 12/64D, 52/64D);
-		tes.addVertexWithUV(2/16D,  1, 2/16D, 24/64D, 52/64D);
+		
+		if(!isInverted){
+			//top
+			tes.setNormal(0, 1, 0);
+			tes.addVertexWithUV(2/16D,  1, 1,     24/64D, 38/64D);
+			tes.addVertexWithUV(14/16D, 1, 1,     12/64D, 38/64D);
+			tes.addVertexWithUV(14/16D, 1, 2/16D, 12/64D, 52/64D);
+			tes.addVertexWithUV(2/16D,  1, 2/16D, 24/64D, 52/64D);
 
-		//bottom
-		tes.setNormal(0, -1, 0);
-		tes.addVertexWithUV(2/16D,  0, 2/16D, 12/64D,  38/64D);
-		tes.addVertexWithUV(14/16D, 0, 2/16D, 0/64D,  38/64D);
-		tes.addVertexWithUV(14/16D, 0, 1,     0/64D,  52/64D);
-		tes.addVertexWithUV(2/16D,  0, 1,     12/64D,  52/64D);
+			//bottom
+			tes.setNormal(0, -1, 0);
+			tes.addVertexWithUV(2/16D,  0, 2/16D, 12/64D,  38/64D);
+			tes.addVertexWithUV(14/16D, 0, 2/16D, 0/64D,  38/64D);
+			tes.addVertexWithUV(14/16D, 0, 1,     0/64D,  52/64D);
+			tes.addVertexWithUV(2/16D,  0, 1,     12/64D,  52/64D);
+		}else{
+			//top
+			tes.setNormal(0, 1, 0);
+			tes.addVertexWithUV(2/16D,  1, 1,     12/64D,  52/64D);
+			tes.addVertexWithUV(14/16D, 1, 1,     0/64D,   52/64D);
+			tes.addVertexWithUV(14/16D, 1, 2/16D, 0/64D,   38/64D);
+			tes.addVertexWithUV(2/16D,  1, 2/16D, 12/64D,  38/64D);
+
+			//bottom
+			tes.setNormal(0, -1, 0);
+			tes.addVertexWithUV(2/16D,  0, 2/16D, 24/64D, 52/64D);
+			tes.addVertexWithUV(14/16D, 0, 2/16D, 12/64D, 52/64D);
+			tes.addVertexWithUV(14/16D, 0, 1,     12/64D, 38/64D);
+			tes.addVertexWithUV(2/16D,  0, 1,     24/64D, 38/64D);
+		}
 		
 		tes.draw();
 		GL11.glPopMatrix();
@@ -318,9 +366,9 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		RenderHelper.enableStandardItemLighting();
 		if(ItemRenderType.ENTITY == type)
-			render(-0.5, -0.5, -0.5, 0, -1, 0, 0, 0, 1, 0);
+			render(-0.5, -0.5, -0.5, 0, -1, 0, 0, 0, 1, 0, false);
 		else
-			render(0, 0, 0, 0, -1, 0, 0, 0, 1, 0);
+			render(0, 0, 0, 0, -1, 0, 0, 0, 1, 0, false);
 		
 	}
 

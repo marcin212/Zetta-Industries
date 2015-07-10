@@ -100,6 +100,15 @@ public class RFMeterBlock extends BasicBlockContainer{
 				return true;
 			}
 	   	}
+		
+		if(player.getHeldItem()==null && player.isSneaking()){
+			RFMeterTileEntity te = (RFMeterTileEntity) world.getTileEntity(x, y, z);
+			if(te!=null){
+				te.invert();
+				world.markBlockForUpdate(x, y, z);
+			}
+			return true;
+		}
 		return false;
 	}
 

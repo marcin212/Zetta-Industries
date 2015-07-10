@@ -117,6 +117,12 @@ public class RFMeterTileEntityOC extends RFMeterTileEntity implements SimpleComp
 		return new Object[]{true};
 	}
 	
+	@Callback(doc = "function([password:string]):bool")
+	public Object[] changeFlowDirection(final Context context, final Arguments args){
+		if(!checkPassword(1,args)) return new Object[]{false};
+		invert();
+		return new Object[]{true};
+	}
 	
 	/*
 	 * end 
