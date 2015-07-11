@@ -10,6 +10,7 @@ import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -145,6 +146,20 @@ public class RFMeterBlock extends BasicBlockContainer{
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int p_149690_5_, float p_149690_6_, int p_149690_7_) {
 
+	}
+	
+	@Override
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+	{
+		this.setBlockBoundsBasedOnState(world,x,y,z);
+		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+	}
+	
+	@Override
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+	{
+		this.setBlockBoundsBasedOnState(world,x,y,z);
+		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
 	}
 }
 
