@@ -59,6 +59,7 @@ public class RFMeterTileEntityOC extends RFMeterTileEntity implements SimpleComp
 		return new Object[]{name};
 	}
 	
+	@Callback(doc = "function():number")
 	public Object[] getAvg(Context ctx, Arguments arg){
 		return new Object[]{transfer};
 	}
