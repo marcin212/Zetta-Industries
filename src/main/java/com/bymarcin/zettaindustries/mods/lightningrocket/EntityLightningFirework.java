@@ -10,6 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import blusunrize.immersiveengineering.common.Config;
+import blusunrize.immersiveengineering.common.IEContent;
+import blusunrize.immersiveengineering.common.blocks.metal.BlockMetalDecoration;
+import blusunrize.immersiveengineering.common.blocks.metal.TileEntityLightningRod;
+
 public class EntityLightningFirework extends EntityFireworkRocket{
 	double spawnPointX;
 	double spawnPointY;
@@ -58,6 +63,17 @@ public class EntityLightningFirework extends EntityFireworkRocket{
 				EntityLightningBolt entitybolt = new EntityLightningBolt(worldObj,spawnPointX,spawnPointY,spawnPointZ);
 				worldObj.addWeatherEffect(entitybolt);	
 				worldObj.spawnEntityInWorld(entitybolt);
+					for(int xx=-1; xx<=1; xx++)
+						for(int zz=-1; zz<=1; zz++)
+							if(worldObj.getBlock((int)spawnPointX+xx, (int)spawnPointY-1, (int)spawnPointZ+zz).equals(IEContent.blockMetalDecoration) && worldObj.getBlockMetadata((int)spawnPointX+xx, (int)spawnPointY-1, (int)spawnPointZ+zz)==BlockMetalDecoration.META_fence)
+								for(int y=(int) spawnPointY-1; y>0; y--)
+									if( worldObj.getTileEntity((int)spawnPointX+xx, y, (int)spawnPointZ+zz) instanceof TileEntityLightningRod)
+									{
+										((TileEntityLightningRod) worldObj.getTileEntity((int)spawnPointX+xx, y, (int)spawnPointZ+zz)).energyStorage.setEnergyStored(Config.getInt("lightning_output"));
+										return;
+									}
+									else if(!(worldObj.getBlock((int)spawnPointX+xx, y, (int)spawnPointZ+zz).equals(IEContent.blockMetalDecoration) && worldObj.getBlockMetadata((int)spawnPointX+xx, y, (int)spawnPointZ+zz)==BlockMetalDecoration.META_fence))
+										return;		
 			}
 		}
 	}
