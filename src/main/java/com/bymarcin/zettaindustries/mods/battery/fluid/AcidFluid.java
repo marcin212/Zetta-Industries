@@ -3,12 +3,15 @@ package com.bymarcin.zettaindustries.mods.battery.fluid;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.battery.Battery;
 
-import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -18,7 +21,7 @@ public class AcidFluid extends BlockFluidClassic{
     public IIcon flowingIcon;
     
 	public AcidFluid(Fluid fluid) {
-		super(fluid, MaterialLiquid.water);
+		super(fluid, Material.water);
 		  this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		  this.setBlockName("sulfurousacid");  
 	}
@@ -28,6 +31,10 @@ public class AcidFluid extends BlockFluidClassic{
             return (side == 0 || side == 1)? stillIcon : flowingIcon;      
     }
     
+    @Override
+    public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
+    	return false;
+    }
     
     @SideOnly(Side.CLIENT)
     @Override

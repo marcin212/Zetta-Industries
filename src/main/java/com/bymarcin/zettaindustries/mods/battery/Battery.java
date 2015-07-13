@@ -37,6 +37,7 @@ import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -70,7 +71,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static AcidFluid acidFluid;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
 	
-	public static Fluid acid = new Fluid("sulfurousacid");
+	public static Fluid acid = new Fluid("sulfurousacid").setLuminosity(0).setDensity(1200).setViscosity(1500).setTemperature(300).setRarity(EnumRarity.uncommon);
 	/*Crafting items*/
 	
 	ItemStack obsidian;
