@@ -22,6 +22,7 @@ import li.cil.oc.api.driver.EnvironmentHost;
 import li.cil.oc.api.driver.Item;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
+import li.cil.oc.api.internal.Agent;
 import li.cil.oc.api.internal.Drone;
 import li.cil.oc.api.internal.Robot;
 import li.cil.oc.api.network.Environment;
@@ -59,7 +60,7 @@ public class MailmanItem extends BasicItem implements Item, EnvironmentAware, Ho
 
 	@Override
 	public ManagedEnvironment createEnvironment(ItemStack stack, EnvironmentHost host) {
-		return new MailmanUpgrade((Robot) host);
+		return new MailmanUpgrade((Agent) host);
 	}
 
 	@Override
