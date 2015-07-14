@@ -5,7 +5,9 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+
 import cpw.mods.fml.common.Optional;
+
 import net.minecraft.tileentity.TileEntity;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
@@ -19,13 +21,13 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
 	
 	@Callback
 	public Object[] writeNFCData(Context contex, Arguments args){
-		if(args.count()==1 && args.checkString(0).length()<=1024){
+		if(args.count()==1 && args.checkString(0).length()<=2048){
 			NFCData = args.checkString(0);
 			worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 1, 2);
 		}else{
-			new Exception("No arguments or data is bigger than 1024 characters.");
+			return new Object[]{false, "No arguments or data is bigger than 1024 characters."};
 		}
-		return null;
+		return new Object[]{true};
 	}
 	
 	@Callback
