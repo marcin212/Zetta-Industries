@@ -62,7 +62,7 @@ ie.manual.entry.ocwires0=Aby połączyć kable telekomunikacyjne, będziesz potr
 ie.manual.entry.ocwires1=Do tworzenia sieci Open Computers suży Zwój kabla telekomunikacyjnego.
 
 #SimpleDHD
-tile.simpledhd.name=Urz
+tile.simpledhd.name=Urządzenie Sterujace Gwiezdnych Wrót
 #LightningFirework
 item.lightningfirework.name=Rakieta Piorunotwórcza
 
@@ -76,4 +76,4 @@ tile.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
 #E-Catalogue
 tile.ecatalogue.name=E-Katalog
 item.mailmanupgrade.name=Ulepszenie: Listonosz
-item.mailman.tip=Umożliwia Robotom i dronom wysyanie listów i sprawdzanie ofert
+item.mailman.tip=Umożliwia Robotom i dronom wysyłanie listów i sprawdzanie ofert
