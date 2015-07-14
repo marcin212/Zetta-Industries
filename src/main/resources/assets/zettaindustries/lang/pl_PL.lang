@@ -75,3 +75,5 @@ tile.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
 
 #E-Catalogue
 tile.ecatalogue.name=E-Katalog
+item.mailmanupgrade.name=Ulepszenie: Listonosz
+item.mailman.tip=Umożliwia Robotom i dronom wysyanie listów i sprawdzanie ofert
