@@ -74,3 +74,5 @@ tile.blockcontroller.name=Super Conductor Controller
 
 #E-Catalogue
 tile.ecatalogue.name=E-Catalogue
+item.mailmanupgrade.name=Mailman Upgarde
+item.mailman.tip=Allows robots and drones to send letters and checking offers.

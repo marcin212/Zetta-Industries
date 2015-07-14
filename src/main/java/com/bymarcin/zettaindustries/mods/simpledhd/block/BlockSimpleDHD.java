@@ -91,7 +91,6 @@ public class BlockSimpleDHD extends BasicBlockContainer implements IBlockInfo{
 					if(parts.length>1){
 						address = parts[1];
 						call(address, world, x, y, z);
-						return true;
 					}
 					return false;
 				}else{
