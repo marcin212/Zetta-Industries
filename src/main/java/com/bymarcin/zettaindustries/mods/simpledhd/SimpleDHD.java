@@ -69,7 +69,7 @@ public class SimpleDHD implements IMod, IGUI, IProxy{
 		ItemStack busCable = new ItemStack(ModuleAutomation.busCable);
 		GameRegistry.addRecipe(new ShapedOreRecipe(simpledhd, "BOB", "CLC", "PWP", 
 				'B', Blocks.stone_button,
-				'O', new ItemStack(Items.dye,1,14),
+				'O', "dyeGray",
 				'C', circuit,
 				'L', wall,
 				'P', plate,
