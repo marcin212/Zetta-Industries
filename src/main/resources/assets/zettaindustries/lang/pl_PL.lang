@@ -25,6 +25,46 @@ tile.batterywall.name=Ściana Baterii
 item.acidbucket.name=Wiadro Kwasu Siarkowego (H2SO4)
 tile.charcoalblock.name=Blok Węgla Drzewnego
 tile.blockGraphite.name=Blok Grafitu
+tooltip.validfor=Używany do\:
+tooltip.sides=Boków
+tooltip.inside=Wnętrza
+tooltip.bottom=Spodu
+tooltip.top=Góry
+tooltip.frame=Krawędzi
+tooltip.controller1=W baterii może być tylko jeden kontroler
+tooltip.electrode1=Musi być umieszczony w kolumnie pod Terminalem Baterii
+tooltip.electrode2=Kolumna musi zajmować całą wysokość wnętrza baterii
+tooltip.powertap1=Musi być umieszczony na górze kolumny elektrody
+tooltip.powertap2=Kliknij PPM by kontrolować ilość przepływającego prądu
+tooltip.powertap3=Kliknij PPM kucając, by zmienić tryb pracy
+tooltip.sulfur1=Umieść w wodzie (3x3) i podpal
+
+#OCWires
+tooltip.coil.info0=Tylko dla sieci OpenComputers
+tooltip.coil.info1=Nie przewodzą prądu
+tooltip.coil.attachedTo=Łączę od %1$s, %2$s, %3$s
+tile.TelecommunicationConnector.name= Łącznik telekomunikacyjny
+item.TelecommunicationWire.name=Zwój kabla telekomunikacyjnego
+chat.warning.wrongCable=Nie można tu podłączyć tego kabla
+chat.warning.wrongDimension=Jesteś w niewłaściwym wymiarze
+chat.warning.sameConnection=Nie można podłączyć kabla do tego samego łącznika
+
+chat.warning.tooFar=Jesteś za daleko od ostatniego łącznika
+chat.warning.cantSee=Połączenie jest zasłonięte
+chat.warning.connectionExists=To połączenie już istnieje
+chat.warning.invalidPoint=Jeden z końców połączenia jest niewłaściwy
+
+ie.manual.category.zettaindustries.name=Okablowanie komputerowe
+ie.manual.entry.ocwires.name=Kable OC
+ie.manual.entry.ocwires.subtext=Kable Open Computers
+
+ie.manual.entry.ocwires0=Aby połączyć kable telekomunikacyjne, będziesz potrzebować łączników telekomunikacyjnych.<br>Łącznik musi być umieszczony na górze podłączanego urządzenia.
+ie.manual.entry.ocwires1=Do tworzenia sieci Open Computers suży Zwój kabla telekomunikacyjnego.
+
+#SimpleDHD
+tile.simpledhd.name=Urządzenie Sterujace Gwiezdnych Wrót
+#LightningFirework
+item.lightningfirework.name=Rakieta Piorunotwórcza
 
 #RF Meter
 tile.rfmeterblock.name=Miernik RF
@@ -35,3 +75,5 @@ tile.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
 
 #E-Catalogue
 tile.ecatalogue.name=E-Katalog
+item.mailmanupgrade.name=Ulepszenie: Listonosz
+item.mailman.tip=Umożliwia Robotom i dronom wysyłanie listów i sprawdzanie ofert
