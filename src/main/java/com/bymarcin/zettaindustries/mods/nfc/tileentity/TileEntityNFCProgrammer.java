@@ -8,6 +8,7 @@ import li.cil.oc.api.network.SimpleComponent;
 
 import cpw.mods.fml.common.Optional;
 
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
@@ -46,6 +47,22 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
 		String temp = NFCData;
 		NFCData = null;
 		return temp;
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		if(NFCData!=null){
+			nbt.setString("NFCData", NFCData);
+		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		if(nbt.hasKey("NFCData")){
+			NFCData = nbt.getString("NFCData");
+		}
 	}
 	
 }
