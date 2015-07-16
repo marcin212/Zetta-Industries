@@ -76,3 +76,8 @@ tile.blockcontroller.name=Super Conductor Controller
 tile.ecatalogue.name=E-Catalogue
 item.mailmanupgrade.name=Mailman Upgrade
 item.mailman.tip=Allows robots and drones to send letters and checking offers.
+
+#WireGun
+item.hook.name=Iron Hook
+item.hook_bullet.name=Hook Bullet
+item.hook_bullet.tip=On shot tires to attach wire that is on the right side of the revolver.

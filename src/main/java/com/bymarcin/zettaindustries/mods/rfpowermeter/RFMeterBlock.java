@@ -3,6 +3,7 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 import java.util.ArrayList;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -27,6 +28,11 @@ public class RFMeterBlock extends BasicBlockContainer{
 	@Override
 	public IIcon getIcon(int side, int meta) {
 		return Blocks.iron_block.getIcon(side, meta);
+	}
+
+	@Override
+	public void registerBlockIcons(IIconRegister p_149651_1_) {
+		// We don't want it to register here.
 	}
 
 	@Override
@@ -147,7 +153,7 @@ public class RFMeterBlock extends BasicBlockContainer{
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int p_149690_5_, float p_149690_6_, int p_149690_7_) {
 
 	}
-	
+
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
 	{
