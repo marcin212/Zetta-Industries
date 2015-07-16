@@ -53,7 +53,7 @@ chat.warning.cantSee=The connection is obstructed
 chat.warning.connectionExists=The connection exists already
 chat.warning.invalidPoint=One of the connection points is invalid
 
-ie.manual.category.zettaindustries.name=Computer Wiring
+ie.manual.category.zettaindustries.name=Zetta Industries
 ie.manual.entry.ocwires.name=OC Wiring
 ie.manual.entry.ocwires.subtext=Open Computers Wiring
 ie.manual.entry.ocwires0=To connect your telecommunication wire coils you will need telecommunication connectors.<br>Connectors can only connect to cables/machines on the bottom of the telecommunication connector. 
@@ -64,6 +64,9 @@ tile.simpledhd.name=Simple DHD
 
 #LightningFirework
 item.lightningfirework.name=Lightning rocket
+ie.manual.entry.lightningfirework.name=Lightning Rocket
+ie.manual.entry.lightningfirework.subtext=Lightning Rocket
+ie.manual.entry.lightningfirework0=A simple rocket tethered to a long thin copper wire that goes boom and makes thunder come down. It has to exceed height 120. Works during rain, higher chance of thunder during storm. Useless on desert.
 
 #RF Meter
 tile.rfmeterblock.name=RF Meter
@@ -81,3 +84,6 @@ item.mailman.tip=Allows robots and drones to send letters and checking offers.
 item.hook.name=Iron Hook
 item.hook_bullet.name=Hook Bullet
 item.hook_bullet.tip=On shot tires to attach wire that is on the right side of the revolver.
+ie.manual.entry.wiregun.name=Hook Bullet
+ie.manual.entry.wiregun.subtext=Hook Bullet
+ie.manual.entry.wiregun1=This bullet allows you to spread wire between two connectors in remote locations. Just putting it in a revolver's chamber and shooting a connector will tie the wire that is on the right side of the revolver. It is not of much use in combat scenarios but seems useful for everyday engineer's work.
