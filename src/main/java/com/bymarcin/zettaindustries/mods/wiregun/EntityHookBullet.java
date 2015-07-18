@@ -5,7 +5,6 @@ import blusunrize.immersiveengineering.common.items.ItemWireCoil;
 import blusunrize.immersiveengineering.common.util.IEDamageSources;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemLead;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -34,10 +33,16 @@ public class EntityHookBullet extends EntityRevolvershot {
 	@Override
 	protected void onImpact(MovingObjectPosition mop) {
 		if (!this.worldObj.isRemote && this.shootingEntity != null && this.shootingEntity instanceof EntityPlayer) {
+			if (alredyHit) {
+				return;
+			} else {
+				alredyHit = true;
+			}
 			EntityPlayer ep = (EntityPlayer) this.shootingEntity;
 			int next = (ep.inventory.currentItem + 1) % 10;
 			ItemStack toUse = ep.inventory.getStackInSlot(next);
-			if (toUse.getItem() instanceof ItemWireCoil) {
+			
+			if (toUse != null && toUse.getItem() instanceof ItemWireCoil) {
 				if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 					if (toUse.getItem().onItemUseFirst(toUse, ep, this.worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, (float) mop.hitVec.xCoord % 1, (float) mop.hitVec.yCoord % 1, (float) mop.hitVec.zCoord % 1)) {
 						this.worldObj.playSoundAtEntity(ep, "random.successful_hit", .8F, 1.2F / (this.rand.nextFloat() * .2F + .9F));
