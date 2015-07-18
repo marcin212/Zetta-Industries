@@ -4,6 +4,7 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 
 import net.minecraft.item.ItemStack;
 
+import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
 import blusunrize.immersiveengineering.api.energy.WireType;
 
 
@@ -15,11 +16,6 @@ public class TelecommunicationWireType extends WireType{
 	
 	public static void register(){
 		getValues().add(TELECOMMUNICATION);
-	}
-	
-	@Override
-	public int getColour() {
-		return 1318204;
 	}
 
 	@Override
@@ -55,6 +51,21 @@ public class TelecommunicationWireType extends WireType{
 	@Override
 	public boolean isEnergyWire() {
 		return false;
+	}
+
+	@Override
+	public int getColour(Connection arg0) {
+		return 1318204;
+	}
+
+	@Override
+	public double getSlack() {
+		return 1.005;
+	}
+
+	@Override
+	public String getTexture(Connection arg0) {
+		return "immersiveengineering:textures/misc/wire.png";
 	}
 
 }

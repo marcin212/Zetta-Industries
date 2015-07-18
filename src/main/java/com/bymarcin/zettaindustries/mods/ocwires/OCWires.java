@@ -50,6 +50,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	public static ItemTelecommunicationWire wire = new ItemTelecommunicationWire();
 	public static ItemBlockTelecommunicationConnector connectorItemBlock = new ItemBlockTelecommunicationConnector(connector);
 	public static int cableLength = 32;
+	
 	public OCWires() {
 	
 	}
@@ -90,7 +91,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 					if(link!=null&&link.length>3)
 					{
 						String s = StatCollector.translateToLocalFormatted(Lib.DESC_INFO+"attachedTo", link[1],link[2],link[3]);
-						ClientUtils.font().drawString(s, event.resolution.getScaledWidth()/2 - ClientUtils.font().getStringWidth(s)/2, event.resolution.getScaledHeight()-GuiIngameForge.left_height-10, WireType.ELECTRUM.getColour(), true);
+						ClientUtils.font().drawString(s, event.resolution.getScaledWidth()/2 - ClientUtils.font().getStringWidth(s)/2, event.resolution.getScaledHeight()-GuiIngameForge.left_height-10, 0xeda045, true);
 					}
 				}
 
