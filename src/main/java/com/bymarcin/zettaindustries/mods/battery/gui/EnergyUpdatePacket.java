@@ -13,17 +13,15 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage>{
 	long capacity;
 	long energy;
-	int transfer;
 	TileEntity te;
 	
 	public EnergyUpdatePacket() {
 		
 	}
 	
-	public EnergyUpdatePacket(TileEntity tile, long energy, long capacity, int transfer) {
+	public EnergyUpdatePacket(TileEntity tile, long energy, long capacity) {
 		this.capacity = capacity;
 		this.energy = energy;
-		this.transfer = transfer;
 		this.te = tile;
 	}
 	
@@ -31,7 +29,6 @@ public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage>{
 	@Override
 	public void write() throws IOException{
 		writeTileLocation(te);
-		writeInt(transfer);
 		writeLong(capacity);
 		writeLong(energy);
 		
@@ -40,7 +37,6 @@ public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage>{
 	@Override
 	public void read() throws IOException{
 		te = readClientTileEntity();
-		transfer = readInt();
 		capacity = readLong();
 		energy = readLong();
 		
@@ -50,7 +46,7 @@ public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage>{
 	@Override
 	protected IMessage executeOnClient() {
 		if(te instanceof TileEntityControler){
-			((BatteryController) ((TileEntityControler) te).getMultiblockController()  ).onPacket(capacity,energy,transfer);
+			((BatteryController) ((TileEntityControler) te).getMultiblockController()  ).onPacket(capacity,energy);
 		}
 		return null;
 	}

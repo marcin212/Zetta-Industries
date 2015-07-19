@@ -36,8 +36,7 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	private long lastTickBalance = 0;
 	private long tickBalance = 0;
 	private long electrolyte = 0;
-	private int maxOutput = 0;
-	private AdvancedStorage storage = new AdvancedStorage(Long.MAX_VALUE, 10000, 10000);
+	private AdvancedStorage storage = new AdvancedStorage(Long.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 	int i = 0;
 
 	public BatteryController(World world) {
@@ -68,15 +67,13 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	}
 
 	protected EnergyUpdatePacket getUpdatePacket() {
-		return new EnergyUpdatePacket(controler, storage.getRealEnergyStored(), storage.getRealMaxEnergyStored(), maxOutput);
+		return new EnergyUpdatePacket(controler, storage.getRealEnergyStored(), storage.getRealMaxEnergyStored());
 	}
 
-	public void onPacket(long capacity, long storage, int transfer) {
+	public void onPacket(long capacity, long storage) {
 		electrolyte = capacity;
 		getStorage().setCapacity(capacity);
 		getStorage().setEnergyStored(storage);
-		maxOutput = transfer;
-		getStorage().setMaxTransfer(transfer);
 	}
 
 	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
@@ -99,7 +96,7 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		recalculate();
 	}
 
-	public boolean isSourceFluid(int x, int y, int z) {
+	public static boolean isSourceFluid(World worldObj, int x, int y, int z) {
 		Block block = worldObj.getBlock(x, y, z);
 		if (block instanceof BlockFluidBase && worldObj.getBlockMetadata(x, y, z) == 0) {
 			return true;
@@ -116,9 +113,9 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		return false;
 	}
 
-	public int checkElectrolyte(int x, int y, int z) {
+	public static int checkElectrolyte(World worldObj, int x, int y, int z) {
 		Block block = worldObj.getBlock(x, y, z);
-		if (isSourceFluid(x, y, z)) {
+		if (isSourceFluid(worldObj, x, y, z)) {
 			if (Battery.getElectrolyteList().containsKey(FluidRegistry.lookupFluidForBlock(block))) {
 				return Battery.getElectrolyteList().get(FluidRegistry.lookupFluidForBlock(block));
 			}
@@ -141,13 +138,11 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		for (int x = getMinimumCoord().x; x < getMaximumCoord().x; x++) {
 			for (int y = getMinimumCoord().y; y < getMaximumCoord().y; y++) {
 				for (int z = getMinimumCoord().z; z < getMaximumCoord().z; z++) {
-					electrolyte += checkElectrolyte(x, y, z);
+					electrolyte += checkElectrolyte(worldObj, x, y, z);
 				}
 			}
 		}
 		storage.setCapacity(electrolyte);
-		maxOutput = 10000 * (getMaximumCoord().y - getMinimumCoord().y - 1);
-		storage.setMaxTransfer(maxOutput);
 	}
 
 	@Override
@@ -166,7 +161,7 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		for (int x = getMinimumCoord().x; x < getMaximumCoord().x; x++) {
 			for (int y = getMinimumCoord().y; y < getMaximumCoord().y; y++) {
 				for (int z = getMinimumCoord().z; z < getMaximumCoord().z; z++) {
-					if(checkElectrolyte(x, y, z)>0){
+					if(checkElectrolyte(worldObj, x, y, z)>0){
 						foundElectrolyte = true;
 						break outer;
 					}
@@ -278,7 +273,6 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setLong("Electrolyte", electrolyte);
-		data.setInteger("transfer", maxOutput);
 		storage.writeToNBT(data);
 	}
 
@@ -287,16 +281,12 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		if (data.hasKey("Electrolyte")) {
 			electrolyte = data.getLong("Electrolyte");
 		}
-		if (data.hasKey("transfer")) {
-			maxOutput = data.getInteger("transfer");
-		}
 		storage.readFromNBT(data);
 	}
 
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound data) {
 		data.setLong("Electrolyte", electrolyte);
-		data.setInteger("transfer", maxOutput);
 		storage.writeToNBT(data);
 	}
 
@@ -304,9 +294,6 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	public void decodeDescriptionPacket(NBTTagCompound data) {
 		if (data.hasKey("Electrolyte")) {
 			electrolyte = data.getLong("Electrolyte");
-		}
-		if (data.hasKey("transfer")) {
-			maxOutput = data.getInteger("transfer");
 		}
 		storage.readFromNBT(data);
 	}

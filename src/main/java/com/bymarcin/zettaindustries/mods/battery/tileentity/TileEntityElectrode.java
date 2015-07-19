@@ -31,17 +31,8 @@ public class TileEntityElectrode extends BasicRectangularMultiblockTileEntityBas
 	public void isGoodForInterior() throws MultiblockValidationException {
 		TileEntity entityAbove = this.worldObj.getTileEntity(this.xCoord, this.yCoord + 1, this.zCoord);
 		if ((!(entityAbove instanceof TileEntityElectrode)) && (!(entityAbove instanceof TileEntityPowerTap))) {
-			  throw new MultiblockValidationException(String.format("Electrode at %d, %d, %d must be part of a vertical column that reaches the entire height of the battery, with a power tap on top.", this.xCoord, this.yCoord, this.zCoord));
+			  throw new MultiblockValidationException(String.format("Electrode at %d, %d, %d must be part of a vertical column that spans from the top of battery, with a power tap on top.", this.xCoord, this.yCoord, this.zCoord));
 		}
-		TileEntity entityBelow = this.worldObj.getTileEntity(this.xCoord,  this.yCoord - 1, this.zCoord);
-		if ((entityBelow instanceof TileEntityElectrode)) {
-			return;
-		}
-		if ((entityBelow instanceof RectangularMultiblockTileEntityBase)) {
-			((RectangularMultiblockTileEntityBase)entityBelow).isGoodForBottom();
-			 return;
-		}
-		throw new MultiblockValidationException(String.format("Electrode at %d, %d, %d must be part of a vertical column that reaches the entire height of the battery, with a power tap on top.", this.xCoord, this.yCoord, this.zCoord));
 	}
 
 	@Override
