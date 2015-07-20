@@ -13,7 +13,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.ItemStackHolder;
 
 import forestry.api.recipes.RecipeManagers;
 import forestry.api.storage.BackpackManager;
@@ -31,12 +30,9 @@ public class ForestyBackpacksMod implements IMod{
 	
 	static Item OCBackpackT1;
 	static Item OCBackpackT2;
-	
-	@ItemStackHolder(value="OpenComputers:item", meta=96)
-	public static final ItemStack oc = null;
-	
-	@ItemStackHolder(value="ImmersiveEngineering:material", meta=4)
-	public static final ItemStack ie = null;
+
+	public static ItemStack oc = null;
+	public static ItemStack ie = null;
 	
 	@Override
 	public void preInit() {
@@ -57,11 +53,18 @@ public class ForestyBackpacksMod implements IMod{
 
 	@Override
 	public void postInit() {
+		ie = GameRegistry.findItemStack("ImmersiveEngineering", "material", 1);
+		oc = GameRegistry.findItemStack("OpenComputers", "item", 1);
 		
-		if(ie!=null)
+		if(ie!=null){
+			ie.setItemDamage(4);
 			addRecipe(immersiveEngineeringBackpackT1, immersiveEngineeringBackpackT2, ie);
-		if(oc!=null)
+		}
+		
+		if(oc!=null){
+			oc.setItemDamage(96);
 			addRecipe(OCBackpackT1, OCBackpackT2, oc);
+		}
 		
 	}
 	

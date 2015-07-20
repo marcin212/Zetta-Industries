@@ -1,33 +1,29 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-
-import net.minecraftforge.client.MinecraftForgeClient;
-
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterRender;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.ItemStackHolder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public class RFMeter implements IMod, IProxy{
 	RFMeterBlock  meter;
 	public static boolean isOCAllowed = true;
 	
-	@ItemStackHolder(value="ThermalExpansion:material", meta=1)
-	public static final ItemStack receptionCoil = null;
-	@ItemStackHolder(value="ThermalExpansion:material", meta=2)
-	public static final ItemStack transmissionCoil = null;
-	@ItemStackHolder(value="ThermalExpansion:meter")
-	public static final ItemStack rfmeter = null;
+	public static ItemStack receptionCoil = null;
+	public static ItemStack transmissionCoil = null;
+	public static ItemStack rfmeter = null;
 	
 	@Override
 	public void init() {
@@ -42,10 +38,17 @@ public class RFMeter implements IMod, IProxy{
 
 	@Override
 	public void postInit() {
-		if(rfmeter!=null && transmissionCoil !=null && receptionCoil!=null)
+		receptionCoil = GameRegistry.findItemStack("ThermalExpansion", "material", 1);
+		transmissionCoil = GameRegistry.findItemStack("ThermalExpansion", "material", 1);
+		rfmeter = GameRegistry.findItemStack("ThermalExpansion", "meter", 1);
+
+		if(rfmeter!=null && transmissionCoil !=null && receptionCoil!=null){
+			receptionCoil.setItemDamage(1);
+			transmissionCoil.setItemDamage(2);
 			GameRegistry.addRecipe(new ItemStack(meter),"IRI","IYI","IXI", 'X', transmissionCoil, 'Y', rfmeter, 'I', Items.iron_ingot,'R',receptionCoil);
-		else
+		}else{
 			GameRegistry.addRecipe(new ItemStack(meter),"IXI","IYI","IXI", 'X', Items.comparator, 'Y', Blocks.redstone_block, 'I', Items.iron_ingot);
+		}
 		GameRegistry.addShapelessRecipe(new ItemStack(meter),meter);
 	}
 
