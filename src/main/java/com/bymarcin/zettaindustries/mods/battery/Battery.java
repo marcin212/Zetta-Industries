@@ -66,7 +66,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static BlockBigBatteryController  blockBigBatteryControler;
 	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
-
+	public double capacityMultiplier = 1;
     public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
@@ -87,11 +87,12 @@ public class Battery implements IMod, IGUI, IProxy{
 	
 	@Override
 	public void preInit() {
-
+		capacityMultiplier = ZettaIndustries.instance.config.get("BigBattery", "energyMultiplier", 1d).getDouble(1d);
 	}
 	
 	@Override
 	public void init() {
+		
 		FluidRegistry.registerFluid(acid);
 		acidFluid = new AcidFluid(acid);
 		GameRegistry.registerBlock(acidFluid,"sulfurousacid");
@@ -151,9 +152,9 @@ public class Battery implements IMod, IGUI, IProxy{
     @Override
 	public void postInit() {
 
-		registerElectrolyte("redstone", 75000000);
-		registerElectrolyte("ender", 100000000);
-		registerElectrolyte("sulfurousacid", 150000000);
+		registerElectrolyte("redstone", (int)Math.floor(75000000*capacityMultiplier));
+		registerElectrolyte("ender", (int)Math.floor(100000000*capacityMultiplier));
+		registerElectrolyte("sulfurousacid", (int)Math.floor(150000000*capacityMultiplier));
 		
 		redstone = new ItemStack(Items.redstone,1);
 		obsidian = new ItemStack(Blocks.obsidian,1);
