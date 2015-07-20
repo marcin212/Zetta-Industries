@@ -23,3 +23,4 @@ emc2
 /*.iws
 /out
 Thumbs.db
+/src/main/resources/oc_at.cfg
