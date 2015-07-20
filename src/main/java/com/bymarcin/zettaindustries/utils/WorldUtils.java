@@ -1,5 +1,6 @@
 package com.bymarcin.zettaindustries.utils;
 
+import net.minecraft.block.Block;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -9,6 +10,8 @@ import cofh.api.energy.IEnergyHandler;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
 public class WorldUtils {
+	public static final ForgeDirection[] flatDirections = new ForgeDirection[]{ForgeDirection.EAST, ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.WEST};
+
 	public static TileEntity getTileEntity(int dimensionId, int x, int y, int z) {
 		World world = ZettaIndustries.proxy.getWorld(dimensionId);
 		if (world == null)
@@ -54,5 +57,9 @@ public class WorldUtils {
 	public static boolean isEnergyHandlerFromSide(TileEntity paramTileEntity, ForgeDirection paramForgeDirection)
 	{
 		return (paramTileEntity instanceof IEnergyHandler) && ((IEnergyHandler) paramTileEntity).canConnectEnergy(paramForgeDirection);
+	}
+
+	public static Block getAdjencetBlock(TileEntity tile, ForgeDirection offset) {
+		return tile.getWorldObj().getBlock(tile.xCoord + offset.offsetX, tile.yCoord + offset.offsetY, tile.zCoord + offset.offsetZ);
 	}
 }
