@@ -14,12 +14,21 @@ import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.ItemStackHolder;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class RFMeter implements IMod, IProxy{
 	RFMeterBlock  meter;
 	public static boolean isOCAllowed = true;
+	
+	@ItemStackHolder(value="ThermalExpansion:material", meta=1)
+	public static final ItemStack receptionCoil = null;
+	@ItemStackHolder(value="ThermalExpansion:material", meta=2)
+	public static final ItemStack transmissionCoil = null;
+	@ItemStackHolder(value="ThermalExpansion:meter")
+	public static final ItemStack rfmeter = null;
+	
 	@Override
 	public void init() {
 		ZettaIndustries.instance.config.get("rfmeter", "oc.methods.allowed", true).getBoolean(true);
@@ -33,10 +42,8 @@ public class RFMeter implements IMod, IProxy{
 
 	@Override
 	public void postInit() {
-		ItemStack rfmeter = GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
-		ItemStack powerCoilSilver = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver",1);
-		if(rfmeter!=null && powerCoilSilver !=null)
-			GameRegistry.addRecipe(new ItemStack(meter)," X "," Y "," X ", 'X', powerCoilSilver, 'Y', rfmeter);
+		if(rfmeter!=null && transmissionCoil !=null && receptionCoil!=null)
+			GameRegistry.addRecipe(new ItemStack(meter),"IRI","IYI","IXI", 'X', transmissionCoil, 'Y', rfmeter, 'I', Items.iron_ingot,'R',receptionCoil);
 		else
 			GameRegistry.addRecipe(new ItemStack(meter),"IXI","IYI","IXI", 'X', Items.comparator, 'Y', Blocks.redstone_block, 'I', Items.iron_ingot);
 		GameRegistry.addShapelessRecipe(new ItemStack(meter),meter);
