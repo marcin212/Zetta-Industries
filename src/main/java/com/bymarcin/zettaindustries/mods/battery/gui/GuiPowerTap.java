@@ -106,7 +106,7 @@ public class GuiPowerTap extends GuiContainer{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(guiTexture);
 		drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);
-		fontRendererObj.drawString("Current transfer: "+String.valueOf(tile.getTransferCurrent())+" RF/t",posX+10, posY+10+20+10+7, 0);
+		fontRendererObj.drawString("Current transfer: "+String.valueOf(tile.getTransferCurrent())+" RF/t",posX+10, posY+10+20+10+8, 0);
 		fontRendererObj.drawString("Name: ",posX+10, posY+10, 0);
 		textfield.drawTextBox();
 		if(textfield.isFocused() && !isFocused){

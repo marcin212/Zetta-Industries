@@ -1,8 +1,11 @@
 package com.bymarcin.zettaindustries.mods.battery.tileentity;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.bymarcin.zettaindustries.mods.battery.Battery;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;
 import com.bymarcin.zettaindustries.mods.battery.gui.PowerTapContener;
@@ -10,6 +13,7 @@ import com.bymarcin.zettaindustries.mods.battery.gui.PowerTapUpdatePacket;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
@@ -84,11 +88,34 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	public void isGoodForInterior() throws MultiblockValidationException {
 		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's interior", this.xCoord, this.yCoord, this.zCoord));
 	}
-	
+
+	private static ForgeDirection[] dirs;
+
+	{
+		dirs = Arrays.copyOf(WorldUtils.flatDirections, 5);
+		dirs[4] = ForgeDirection.DOWN;
+	}
+
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
-		transferMax = ((BatteryController)getMultiblockController()).getStorage().getMaxReceive();
+		transferMax = 0;
+		int i = 1;
+		Block b;
+		while (true) {
+			b = worldObj.getBlock(this.xCoord, this.yCoord - i, this.zCoord);
+			if (b != Battery.blockBigBatteryElectrode) {
+				break;
+			}
+
+			for (ForgeDirection d : dirs) {
+				if (BatteryController.checkElectrolyte(worldObj, xCoord + d.offsetX, yCoord + d.offsetY - i, zCoord + d.offsetZ) != 0) {
+					transferMax += 2500;
+				}
+			}
+			i++;
+		}
+
 		if(transferCurrent > transferMax)
 			transferCurrent=transferMax;
 	}
@@ -100,6 +127,8 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	@Override
 	public void onMachineDeactivated() {
 	}
+
+
 	
 	public int onTransferEnergy(){
 			if(WorldUtils.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return 0;
