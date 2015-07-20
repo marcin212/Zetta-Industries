@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.bymarcin.zettaindustries.mods.battery.Battery;
-import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryElectrode;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;
 import com.bymarcin.zettaindustries.mods.battery.gui.PowerTapContener;
@@ -19,7 +18,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+
 import net.minecraftforge.common.util.ForgeDirection;
+
 import cofh.api.energy.IEnergyHandler;
 
 
@@ -142,7 +143,11 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 
 	public void setTransfer(int transfer){
-		transferCurrent = Math.max(0,Math.min(transfer, transferMax));	
+		if(worldObj.isRemote){
+			transferCurrent = transfer;
+		}else{
+			transferCurrent = Math.max(0,Math.min(transfer, transferMax));	
+		}
 	}
 	
 	public void updatePowerTap(){
