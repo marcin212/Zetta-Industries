@@ -216,6 +216,9 @@ public class Battery implements IMod, IGUI, IProxy{
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur,1), "SGS","SSS","SSS",
 					'S', Items.blaze_powder, 'G', Items.gunpowder));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur,1), "SGS","SSS","SSS",
+					'S', "dustSulfur", 'G', Items.gunpowder));
 		}
 	}
 	
