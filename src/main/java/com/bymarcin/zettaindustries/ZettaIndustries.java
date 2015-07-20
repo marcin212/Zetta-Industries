@@ -23,7 +23,7 @@ import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "after:ImmersiveEngineering")
+@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "after:ImmersiveEngineering;after:Forestry;")
 public class ZettaIndustries
 {
     public static final String MODID = "zettaindustries";

@@ -87,3 +87,11 @@ item.hook_bullet.tip=On shot tires to attach wire that is on the right side of t
 ie.manual.entry.wiregun.name=Hook Bullet
 ie.manual.entry.wiregun.subtext=Hook Bullet
 ie.manual.entry.wiregun1=This bullet allows you to spread wire between two connectors in remote locations. Just putting it in a revolver's chamber and shooting a connector will tie the wire that is on the right side of the revolver. It is not of much use in combat scenarios but seems useful for everyday engineer's work.
+
+#ForestryBackpacks
+item.backpack.creativeT1.name=Creative Backpack
+item.backpack.creativeT2.name=Creative Woven Backpack
+item.backpack.engineeringT1.name=Engineer's Backpack
+item.backpack.engineeringT2.name=Engineer's Woven Backpack
+item.backpack.opencomputersT1.name=OpenComputers Backpack
+item.backpack.opencomputersT2.name=OpenComputers Woven Backpack
