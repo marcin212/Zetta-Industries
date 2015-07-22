@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class TileEntityNFCProgrammer extends TileEntity implements SimpleComponent{
-	public String NFCData = null;
+	public byte[] NFCData = null;
 	
 	@Override
 	public String getComponentName() {
@@ -22,11 +22,11 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
 	
 	@Callback
 	public Object[] writeNFCData(Context contex, Arguments args){
-		if(args.count()==1 && args.checkString(0).length()<=2048){
-			NFCData = args.checkString(0);
+		if(args.count()==1 && args.checkByteArray(0).length<=2048){
+			NFCData = args.checkByteArray(0);
 			worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, 1, 2);
 		}else{
-			return new Object[]{false, "No arguments or data is bigger than 1024 characters."};
+			return new Object[]{false, "No arguments or data is bigger than 2048 characters."};
 		}
 		return new Object[]{true};
 	}
@@ -43,8 +43,8 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
 		return new Object[]{(NFCData!=null)};
 	}
 	
-	public String writeCardNFC(){
-		String temp = NFCData;
+	public byte[] writeCardNFC(){
+		byte[]  temp = NFCData;
 		NFCData = null;
 		return temp;
 	}
@@ -53,15 +53,21 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 		if(NFCData!=null){
-			nbt.setString("NFCData", NFCData);
+			nbt.setByteArray("NFCDataByte", NFCData);
 		}
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		
+		//compat with old version
 		if(nbt.hasKey("NFCData")){
-			NFCData = nbt.getString("NFCData");
+			NFCData = nbt.getString("NFCData").getBytes();
+		}
+		
+		if(nbt.hasKey("NFCDataByte")){
+			NFCData = nbt.getByteArray("NFCDataByte");
 		}
 	}
 	

@@ -85,7 +85,7 @@ public class BlockSimpleDHD extends BasicBlockContainer implements IBlockInfo{
 					return false;
 				}
 			}
-				String data = ItemCardNFC.getNFCData(player.getHeldItem());
+				String data = new String(ItemCardNFC.getNFCData(player.getHeldItem()));
 				if(data!=null && data.startsWith("sg-address:")){
 					String[] parts = data.split(":");
 					if(parts.length>1){
