@@ -3,7 +3,6 @@ package com.bymarcin.zettaindustries.mods.simpledhd;
 import com.bymarcin.zettaindustries.basic.InformationalItemBlock;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.simpledhd.block.BlockSimpleDHD;
-import com.bymarcin.zettaindustries.mods.simpledhd.gui.ContainerSimpleDHD;
 import com.bymarcin.zettaindustries.mods.simpledhd.gui.GuiSimpleDHD;
 import com.bymarcin.zettaindustries.mods.simpledhd.network.GuiActionPacket;
 import com.bymarcin.zettaindustries.mods.simpledhd.render.BlockRenderSimpleDHD;
@@ -14,14 +13,10 @@ import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import lordfokas.stargatetech2.ModuleAutomation;
 import lordfokas.stargatetech2.ModuleCore;
-import lordfokas.stargatetech2.ModuleEnemy;
-import lordfokas.stargatetech2.ModuleTransport;
 import lordfokas.stargatetech2.ModuleWorld;
-import lordfokas.stargatetech2.StargateTech2;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -122,9 +117,9 @@ public class SimpleDHD implements IMod, IGUI, IProxy{
 	
 	@Override
 	public Object getServerGuiElement(int id, TileEntity blockEntity, EntityPlayer player, World world, int x, int y, int z) {
-   	 	if(blockEntity instanceof TileEntitySimpleDHD){
-   	 		return new ContainerSimpleDHD((TileEntitySimpleDHD) blockEntity);
-   	 	}	
+//   	 	if(blockEntity instanceof TileEntitySimpleDHD){
+//   	 		return new ContainerSimpleDHD((TileEntitySimpleDHD) blockEntity);
+//   	 	}	
 		return null;
 	}
 

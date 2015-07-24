@@ -4,21 +4,20 @@ import com.bymarcin.zettaindustries.mods.simpledhd.network.GuiActionPacket;
 import com.bymarcin.zettaindustries.mods.simpledhd.tileentity.TileEntitySimpleDHD;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 
+import org.lwjgl.input.Keyboard;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
-import org.lwjgl.input.Keyboard;
-
 public class GuiSimpleDHD extends GuiScreen {
 	private GuiTextField address;
-	private boolean addressFocus;
-	TileEntitySimpleDHD te;
 	private GuiButton connect;
 	private GuiButton disconnect;
+	private TileEntitySimpleDHD te;
 	
 	public GuiSimpleDHD(TileEntitySimpleDHD te) {
-		this.te = te;
+		this.te=te;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -34,9 +33,6 @@ public class GuiSimpleDHD extends GuiScreen {
 		buttonList.add(connect);
 		buttonList.add(disconnect);
 		
-		if (te !=null && !te.getAddress().isEmpty()) {
-			address.setText(te.getAddress());
-		}
 		super.initGui();
 	}
 	
@@ -49,10 +45,6 @@ public class GuiSimpleDHD extends GuiScreen {
 		}
 	}  
 	
-	public void onGuiClosed() {
-        Keyboard.enableRepeatEvents(false);
-    }
-	
 	@Override
 	public boolean doesGuiPauseGame() {
 		return false;
@@ -60,15 +52,9 @@ public class GuiSimpleDHD extends GuiScreen {
 
 	@Override
 	protected void keyTyped(char eventCharacter, int eventKey) {
-		if (this.address.isFocused()) {
-			if (eventKey == Keyboard.KEY_RETURN) {
-				this.address.setFocused(false);
-			} else {
-				this.address.textboxKeyTyped(eventCharacter, eventKey);
-			}
-			return;
+		if(!address.textboxKeyTyped(eventCharacter, eventKey)){
+			super.keyTyped(eventCharacter, eventKey);
 		}
-		super.keyTyped(eventCharacter, eventKey);
 	}
 	
 	@Override
@@ -79,21 +65,13 @@ public class GuiSimpleDHD extends GuiScreen {
 	
 	@Override
 	public void drawScreen(int p_73863_1_, int p_73863_2_, float p_73863_3_) {
-		if (addressFocus != address.isFocused()) {
-			updateText();
-		}
-		addressFocus = address.isFocused();
 		address.drawTextBox();
 		super.drawScreen(p_73863_1_, p_73863_2_, p_73863_3_);
-	}
-
-
-	private void updateText(){
-		te.setAddress(this.address.getText());
 	}
 	
 	@Override
     public void updateScreen() {
+		super.updateScreen();
     	address.updateCursorCounter();
     }
 

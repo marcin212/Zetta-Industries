@@ -10,6 +10,9 @@ import com.bymarcin.zettaindustries.mods.nfc.item.ItemCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemPrivateCardNFC;
 import com.bymarcin.zettaindustries.mods.simpledhd.tileentity.TileEntitySimpleDHD;
 
+import lordfokas.stargatetech2.api.bus.BusEvent;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +24,7 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class BlockSimpleDHD extends BasicBlockContainer implements IBlockInfo{
@@ -75,6 +79,18 @@ public class BlockSimpleDHD extends BasicBlockContainer implements IBlockInfo{
 		return false;
 	}
 	
+	@Override
+	public void onBlockAdded(World w, int x, int y, int z){
+		super.onBlockAdded(w, x, y, z);
+		System.out.println("ADDED");
+		MinecraftForge.EVENT_BUS.post(new BusEvent.AddToNetwork(w, x, y, z));
+	}
+	
+	@Override
+	public void breakBlock(World w, int x, int y, int z, Block b, int m){
+		super.breakBlock(w, x, y, z, b, m);
+		MinecraftForge.EVENT_BUS.post(new BusEvent.RemoveFromNetwork(w, x, y, z));
+	}
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
