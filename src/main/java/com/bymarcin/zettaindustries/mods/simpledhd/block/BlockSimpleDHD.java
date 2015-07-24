@@ -82,7 +82,6 @@ public class BlockSimpleDHD extends BasicBlockContainer implements IBlockInfo{
 	@Override
 	public void onBlockAdded(World w, int x, int y, int z){
 		super.onBlockAdded(w, x, y, z);
-		System.out.println("ADDED");
 		MinecraftForge.EVENT_BUS.post(new BusEvent.AddToNetwork(w, x, y, z));
 	}
 	
