@@ -33,6 +33,8 @@ public class ForestyBackpacksMod implements IMod {
 
 	public static ItemStack oc = null;
 	public static ItemStack ie = null;
+	
+	boolean preinit = false;
 
 	@Override
 	public void preInit() {
@@ -45,6 +47,7 @@ public class ForestyBackpacksMod implements IMod {
 
 			OCBackpackT1 = addBackpack(new OCBackpack(EnumBackpackType.T1), EnumBackpackType.T1);
 			OCBackpackT2 = addBackpack(new OCBackpack(EnumBackpackType.T2), EnumBackpackType.T2);
+			preinit = true;
 	}
 
 	@Override
@@ -54,7 +57,7 @@ public class ForestyBackpacksMod implements IMod {
 
 	@Override
 	public void postInit() {
-		if (BackpackManager.backpackInterface == null) return;
+		if (!preinit) return;
 		ie = GameRegistry.findItemStack("ImmersiveEngineering", "material", 1);
 		oc = GameRegistry.findItemStack("OpenComputers", "item", 1);
 
