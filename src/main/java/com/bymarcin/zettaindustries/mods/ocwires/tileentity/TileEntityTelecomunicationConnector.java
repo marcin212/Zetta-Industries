@@ -94,7 +94,8 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	@Override
 	public Vec3 getRaytraceOffset()
 	{
-        return Vec3.createVectorHelper(.5, .5, .5);
+		ForgeDirection fd = ForgeDirection.getOrientation(facing).getOpposite();
+		return Vec3.createVectorHelper(.5+fd.offsetX*.0625, .5+fd.offsetY*.0625, .5+fd.offsetZ*.0625);
 	}
 	
 	@Override
