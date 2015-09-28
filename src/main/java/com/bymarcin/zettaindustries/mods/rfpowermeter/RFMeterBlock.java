@@ -17,23 +17,32 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.util.ForgeDirection;
+
+import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
+import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterRender;
+import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterStaticRender;
 
 public class RFMeterBlock extends BasicBlockContainer{
+	//public static IIcon blockIcon;
+	
 	public RFMeterBlock() {
 		super(Material.iron, "rfmeterblock");
+		setBlockTextureName(ZettaIndustries.MODID + ":counter");
 		
 	}
 
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		return Blocks.iron_block.getIcon(side, meta);
-	}
+//	@Override
+//	public IIcon getIcon(int side, int meta) {
+//		return blockIcon;
+//	}
 
-	@Override
-	public void registerBlockIcons(IIconRegister p_149651_1_) {
-		// We don't want it to register here.
-	}
+//	@Override
+//	public void registerBlockIcons(IIconRegister ir) {
+//		// We don't want it to register here.
+//		blockIcon = ir.registerIcon();
+//	}
 
 	@Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
@@ -71,7 +80,26 @@ public class RFMeterBlock extends BasicBlockContainer{
     {
         return false;
     }
+	
+	///
+	
+	@Override
+	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side)
+	{
+		return false;
+	}
 
+	@Override
+	public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
+		return false;
+	}
+
+	@Override
+	public boolean isNormalCube() {
+		return false;
+	}
+	
+///
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return RFMeter.isOCAllowed ? new RFMeterTileEntityOC() : new RFMeterTileEntity();
@@ -84,7 +112,7 @@ public class RFMeterBlock extends BasicBlockContainer{
 
 	@Override
 	public boolean shouldSideBeRendered(IBlockAccess p_149646_1_, int p_149646_2_, int p_149646_3_, int p_149646_4_, int p_149646_5_) {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -166,6 +194,11 @@ public class RFMeterBlock extends BasicBlockContainer{
 	{
 		this.setBlockBoundsBasedOnState(world,x,y,z);
 		return super.getCollisionBoundingBoxFromPool(world, x, y, z);
+	}
+	
+	@Override
+	public int getRenderType() {
+		return RFMeter.renderId;
 	}
 }
 

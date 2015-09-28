@@ -3,6 +3,7 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterRender;
+import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterStaticRender;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
@@ -11,6 +12,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,9 +20,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class RFMeter implements IMod, IProxy{
-	RFMeterBlock  meter;
+	public static RFMeterBlock  meter;
 	public static boolean isOCAllowed = true;
-	
+	public static int renderId = RenderingRegistry.getNextAvailableRenderId();
 	public static ItemStack receptionCoil = null;
 	public static ItemStack transmissionCoil = null;
 	public static ItemStack rfmeter = null;
@@ -52,14 +54,15 @@ public class RFMeter implements IMod, IProxy{
 		GameRegistry.addShapelessRecipe(new ItemStack(meter),meter);
 	}
 
+	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
-		RFMeterRender render = new RFMeterRender();
-		ClientRegistry.bindTileEntitySpecialRenderer(RFMeterTileEntity.class, render);
-		ClientRegistry.bindTileEntitySpecialRenderer(RFMeterTileEntityOC.class, render);
-
-		MinecraftForgeClient.registerItemRenderer(new ItemStack(meter).getItem(), render);
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(RFMeterTileEntity.class, RFMeterStaticRender.render);
+		ClientRegistry.bindTileEntitySpecialRenderer(RFMeterTileEntityOC.class, RFMeterStaticRender.render);
+		RenderingRegistry.registerBlockHandler(RFMeterStaticRender.getInstance());
+		//MinecraftForgeClient.registerItemRenderer(new ItemStack(meter).getItem(), render);
 	}
 
 	@Override

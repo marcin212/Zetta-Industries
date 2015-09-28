@@ -72,7 +72,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		
 	}
 	
-	ResourceLocation cTexture = new ResourceLocation(ZettaIndustries.MODID,"textures/render/counter.png");
+	static ResourceLocation cTexture = new ResourceLocation(ZettaIndustries.MODID,"textures/blocks/counter.png");
 	Tessellator tes = Tessellator.instance;
     double j=0;
     
@@ -88,7 +88,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		tes.setBrightness(0xF << 20 | 0xF << 4);
 		tes.setColorRGBA_F(r, g, b, 1);
 		tes.setNormal(0, 0, -1);
-		
+
 		if(isInverted){
 			tes.addVertexWithUV(0/30D, 0, 0,       (x+width)/64D, (y+height)/64D);
 			tes.addVertexWithUV(0/30D, 7/30D, 0,  (x+width)/64D, y/64D);
@@ -123,7 +123,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		
 		
 		bindTexture(cTexture);
-		drawShape(mixedBrightnessForBlock, isInverted);
+		//drawShape(mixedBrightnessForBlock, isInverted);
 		float s= 11/43F;	
 
 		GL11.glPushMatrix();
@@ -180,131 +180,7 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 		GL11.glPopMatrix();
 	}
 	
-	private void drawShape(int mixedBrightnessForBlock, boolean isInverted){
-		GL11.glPushMatrix();
-		tes.startDrawingQuads();
-		tes.setColorRGBA_F(1F, 1F, 1F, 1);	
-		if(mixedBrightnessForBlock!=-1)
-			tes.setBrightness(mixedBrightnessForBlock);
-		//OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
-		//right line front 11 23 12 28
-		tes.setNormal(0, 0, -1);
-		tes.addVertexWithUV(2/16D, 0, 2/16D, 12/64D, 38/64D);
-		tes.addVertexWithUV(2/16D, 1, 2/16D, 12/64D, 22/64D);
-		tes.addVertexWithUV(3/16D, 1, 2/16D, 11/64D, 22/64D);
-		tes.addVertexWithUV(3/16D, 0, 2/16D, 11/64D, 38/64D);
 
-		//left line front
-		tes.setNormal(0, 0, -1);
-		tes.addVertexWithUV(13/16D, 0, 2/16D, 1/64D, 38/64D);
-		tes.addVertexWithUV(13/16D, 1, 2/16D, 1/64D, 22/64D);
-		tes.addVertexWithUV(14/16D, 1, 2/16D, 0/64D, 22/64D);
-		tes.addVertexWithUV(14/16D, 0, 2/16D, 0/64D, 38/64D);
-
-		//line top front 15 22  27 23
-		tes.setNormal(0, 0, -1);
-		tes.addVertexWithUV(3/16D, 15/16D, 2/16D, 11/64D, 23/64D);
-		tes.addVertexWithUV(3/16D, 	    1, 2/16D, 11/64D, 22/64D);
-		tes.addVertexWithUV(13/16D, 	1, 2/16D, 1/64D,  22/64D);
-		tes.addVertexWithUV(13/16D,15/16D, 2/16D, 1/64D,  23/64D);
-		
-		//line bottom front
-		tes.setNormal(0, 0, -1);
-		tes.addVertexWithUV(3/16D,  0,     2/16D, 11/64D ,38/64D);
-		tes.addVertexWithUV(3/16D,  1/16D, 2/16D, 11/64D ,37/64D);
-		tes.addVertexWithUV(13/16D, 1/16D, 2/16D, 1/64D ,37/64D);
-		tes.addVertexWithUV(13/16D, 0,     2/16D, 1/64D ,38/64D);		
-
-		//right inside line front
-		tes.setNormal(-1, 0, 0);
-		tes.addVertexWithUV(3/16D, 1/16D,  2/16D, 25/64D ,52/64D);
-		tes.addVertexWithUV(3/16D, 15/16D, 2/16D, 25/64D, 38/64D);
-		tes.addVertexWithUV(3/16D, 15/16D, 3/16D, 26/64D, 38/64D);
-		tes.addVertexWithUV(3/16D, 1/16D,  3/16D, 26/64D, 52/64D);
-
-		//left inside line front
-		tes.setNormal(1, 0, 0);
-		tes.addVertexWithUV(13/16D, 1/16D,  2/16D, 24/64D, 52/64D);
-		tes.addVertexWithUV(13/16D, 1/16D,  3/16D, 24/64D, 52/64D);
-		tes.addVertexWithUV(13/16D, 15/16D, 3/16D, 25/64D, 38/64D);
-		tes.addVertexWithUV(13/16D, 15/16D, 2/16D, 25/64D, 38/64D);
-
-		//line inside top front
-		tes.setNormal(0, 1, 0);
-		tes.addVertexWithUV(3/16D,  15/16D, 2/16D, 36/64D, 38/64D);
-		tes.addVertexWithUV(13/16D, 15/16D, 2/16D, 26/64D, 38/64D);
-		tes.addVertexWithUV(13/16D, 15/16D, 3/16D, 26/64D, 39/64D);
-		tes.addVertexWithUV(3/16D,  15/16D, 3/16D, 36/64D, 39/64D);
-
-		//line inside bottom front
-		tes.setNormal(0, -1, 0);
-		tes.addVertexWithUV(3/16D,  1/16D, 2/16D, 36/64D, 39/64D);
-		tes.addVertexWithUV(3/16D,  1/16D, 3/16D, 36/64D, 40/64D);
-		tes.addVertexWithUV(13/16D, 1/16D, 3/16D, 26/64D, 40/64D);
-		tes.addVertexWithUV(13/16D, 1/16D, 2/16D, 26/64D, 39/64D);
-
-		//inside front 
-		tes.setNormal(0, 0, -1);
-		tes.addVertexWithUV(3/16D,  1/16D,  3/16D, 11/64D,  37/64D);
-		tes.addVertexWithUV(3/16D,  15/16D, 3/16D, 11/64D,  23/64D );
-		tes.addVertexWithUV(13/16D, 15/16D, 3/16D, 1/64D, 23/64D );
-		tes.addVertexWithUV(13/16D, 1/16D,  3/16D, 1/64D, 37/64D);
-		
-		//left
-		tes.setNormal(1, 0, 0);
-		tes.addVertexWithUV(14/16D, 0, 2/16D, 24/64D, 38/64D);
-		tes.addVertexWithUV(14/16D, 1, 2/16D, 24/64D, 22/64D);
-		tes.addVertexWithUV(14/16D, 1, 1,     38/64D, 22/64D);
-		tes.addVertexWithUV(14/16D, 0, 1,     38/64D, 38/64D);
-
-		//right
-		tes.setNormal(-1, 0, 0);
-		tes.addVertexWithUV(2/16D, 0, 2/16D, 38/64D, 38/64D);
-		tes.addVertexWithUV(2/16D, 0, 1,     52/64D, 38/64D);
-		tes.addVertexWithUV(2/16D, 1, 1,     52/64D, 22/64D);
-		tes.addVertexWithUV(2/16D, 1, 2/16D, 38/64D, 22/64D);
-		
-		//back
-		tes.setNormal(0, 0, 1);
-		tes.addVertexWithUV(2/16D,  0, 1, 12/64D, 38/64D);
-		tes.addVertexWithUV(14/16D, 0, 1, 24/64D, 38/64D);
-		tes.addVertexWithUV(14/16D, 1, 1, 24/64D, 22/64D);
-		tes.addVertexWithUV(2/16D,  1, 1, 12/64D, 22/64D);
-
-		
-		if(!isInverted){
-			//top
-			tes.setNormal(0, 1, 0);
-			tes.addVertexWithUV(2/16D,  1, 1,     24/64D, 38/64D);
-			tes.addVertexWithUV(14/16D, 1, 1,     12/64D, 38/64D);
-			tes.addVertexWithUV(14/16D, 1, 2/16D, 12/64D, 52/64D);
-			tes.addVertexWithUV(2/16D,  1, 2/16D, 24/64D, 52/64D);
-
-			//bottom
-			tes.setNormal(0, -1, 0);
-			tes.addVertexWithUV(2/16D,  0, 2/16D, 12/64D,  38/64D);
-			tes.addVertexWithUV(14/16D, 0, 2/16D, 0/64D,  38/64D);
-			tes.addVertexWithUV(14/16D, 0, 1,     0/64D,  52/64D);
-			tes.addVertexWithUV(2/16D,  0, 1,     12/64D,  52/64D);
-		}else{
-			//top
-			tes.setNormal(0, 1, 0);
-			tes.addVertexWithUV(2/16D,  1, 1,     12/64D,  52/64D);
-			tes.addVertexWithUV(14/16D, 1, 1,     0/64D,   52/64D);
-			tes.addVertexWithUV(14/16D, 1, 2/16D, 0/64D,   38/64D);
-			tes.addVertexWithUV(2/16D,  1, 2/16D, 12/64D,  38/64D);
-
-			//bottom
-			tes.setNormal(0, -1, 0);
-			tes.addVertexWithUV(2/16D,  0, 2/16D, 24/64D, 52/64D);
-			tes.addVertexWithUV(14/16D, 0, 2/16D, 12/64D, 52/64D);
-			tes.addVertexWithUV(14/16D, 0, 1,     12/64D, 38/64D);
-			tes.addVertexWithUV(2/16D,  0, 1,     24/64D, 38/64D);
-		}
-		
-		tes.draw();
-		GL11.glPopMatrix();
-	}
 	
 	
 	
@@ -366,9 +242,9 @@ public class RFMeterRender extends TileEntitySpecialRenderer implements IItemRen
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		RenderHelper.enableStandardItemLighting();
 		if(ItemRenderType.ENTITY == type)
-			render(-0.5, -0.5, -0.5, 0, -1, 0, 0, 0, 1, 0, false);
+			render(-0.5, -0.5, -0.5, 0, 0xF << 20 | 0xF << 4, 0, 0, 0, 1, 0, false);
 		else
-			render(0, 0, 0, 0, -1, 0, 0, 0, 1, 0, false);
+			render(0, 0, 0, 0, 0xF << 20 | 0xF << 4, 0, 0, 0, 1, 0, false);
 		
 	}
 

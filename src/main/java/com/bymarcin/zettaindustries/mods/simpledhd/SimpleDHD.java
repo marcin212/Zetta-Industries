@@ -89,30 +89,34 @@ public class SimpleDHD implements IMod, IGUI, IProxy{
 	@SubscribeEvent()
 	public void textureStich(TextureStitchEvent.Post event)
 	{
-			BlockRenderSimpleDHD.realoadModels();
-			rebindUVsToIcon(BlockRenderSimpleDHD.model1, simpledhd.getIcon(0, 0));
-			rebindUVsToIcon(BlockRenderSimpleDHD.model2, simpledhd.getIcon(0, 0));
-			rebindUVsToIcon(BlockRenderSimpleDHD.model3, simpledhd.getIcon(0, 0));
-			rebindUVsToIcon(BlockRenderSimpleDHD.model4, simpledhd.getIcon(0, 0));
+
 	}
 
 	void rebindUVsToIcon(WavefrontObject model, IIcon icon)
 	{
-		float minU = icon.getInterpolatedU(0);
-		float sizeU = icon.getInterpolatedU(16) - minU;
-		float minV = icon.getInterpolatedV(0);
-		float sizeV = icon.getInterpolatedV(16) - minV;
-
-		for(GroupObject groupObject : model.groupObjects)
-			for(Face face : groupObject.faces)
-				for (int i = 0; i < face.vertices.length; ++i)
-				{
-					TextureCoordinate textureCoordinate = face.textureCoordinates[i];
-					face.textureCoordinates[i] = new TextureCoordinate(
-							minU + sizeU * textureCoordinate.u,
-							minV + sizeV * textureCoordinate.v
-							);
-				}
+//		float minU = icon.getInterpolatedU(0);
+//		float sizeU = icon.getInterpolatedU(16) - minU;
+//		float minV = icon.getInterpolatedV(0);
+//		float sizeV = icon.getInterpolatedV(16) - minV;
+//
+//		for(GroupObject groupObject : model.groupObjects)
+//			for(Face face : groupObject.faces)
+//				for (int i = 0; i < face.vertices.length; ++i)
+//				{
+//					TextureCoordinate textureCoordinate = face.textureCoordinates[i];
+//					face.textureCoordinates[i] = new TextureCoordinate(
+//							minU + sizeU * textureCoordinate.u,
+//							minV + sizeV * textureCoordinate.v
+//							);
+//				}
+		
+		
+		/*
+		 * 	
+		 * public static float lerp(float a, float b, float f) {
+		 *		return a + f * (b - a);
+		 *	}
+		 */
 	}
 	
 	@Override
