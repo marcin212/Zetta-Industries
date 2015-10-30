@@ -25,18 +25,18 @@ public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase{
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int par2, int par3,
-			int par4, EntityPlayer player, int par6, float par7,
-			float par8, float par9) {
-		if(!player.isSneaking() && !world.isRemote){
-			player.openGui(ZettaIndustries.instance, 0, world, par2, par3, par4);
+	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer player, int par6, float par7, float par8, float par9) {
+		if (!player.isSneaking()) {
+			if (!world.isRemote) {
+				player.openGui(ZettaIndustries.instance, 0, world, par2, par3, par4);
+			}
 			return true;
 		}
-		
-		if(player.getCurrentEquippedItem()==null && player.isSneaking()){
-			if(world.getBlockMetadata(par2, par3, par4)==0){
+
+		if (player.getCurrentEquippedItem() == null && player.isSneaking()) {
+			if (world.getBlockMetadata(par2, par3, par4) == 0) {
 				world.setBlockMetadataWithNotify(par2, par3, par4, 1, 2);
-			}else{
+			} else {
 				world.setBlockMetadataWithNotify(par2, par3, par4, 0, 2);
 			}
 			return true;
