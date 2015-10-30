@@ -5,10 +5,10 @@
   "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://www.bymarcin.com",
-  "updateUrl": "",
+  "url": "http://www.zi.bymarcin.com",
+  "updateUrl": "http://www.zi.bymarcin.com",
   "authorList": ["marcin212"],
-  "credits": "Code: marcin212, Graphic:Barlots,Axoji",
+  "credits": "Acerixx, Alucard87pl, Axoji, Barlots",
   "logoFile": "logo1.png",
   "screenshots": [],
   "dependencies": []
