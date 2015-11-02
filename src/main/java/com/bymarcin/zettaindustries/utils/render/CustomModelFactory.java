@@ -35,6 +35,19 @@ public class CustomModelFactory {
 		return newModel;
 	}
 	
+	
+	public static CustomModel translateModel(float x, float y, float z, CustomModel model) {
+		CustomModel newModel = CustomModelFactory.createModel();
+		newModel.setUV(model.getMinU(), model.getMaxU(), model.getMinV(), model.getMaxV());
+		newModel.addCommand(new Translate(x, y, z));
+
+		for (RenderCommand cmd : model.getModelCommands()) {
+			newModel.addCommand(cmd);
+		}
+
+		return newModel;
+	}
+	
 	public static CustomModel createModel(ResourceLocation model){
 		CustomModel customModel = new CustomModel();
 		WavefrontObject  model1 = (WavefrontObject)AdvancedModelLoader.loadModel(model);
@@ -64,10 +77,9 @@ public class CustomModelFactory {
 		        }
 
 		        float offsetU, offsetV;
-
+		        System.out.println("FACE:" + f.vertices.length);
 		        for (int i = 0; i < f.vertices.length; ++i)
 		        {
-
 		            if ((f.textureCoordinates != null) && (f.textureCoordinates.length > 0))
 		            {
 		                offsetU = 0.0005F;
@@ -82,11 +94,11 @@ public class CustomModelFactory {
 		                    offsetV = -offsetV;
 		                }
 
-		                customModel.addCommand(new VertexUV(f.vertices[i].x, f.vertices[i].y, f.vertices[i].z, f.textureCoordinates[i].u + offsetU, f.textureCoordinates[i].v + offsetV));
+		                customModel.addCommand(new VertexUV(f.vertices[i].x, f.vertices[i].y, f.vertices[i].z, f.textureCoordinates[i].u + offsetU, f.textureCoordinates[i].v + offsetV, i));
 		            }
 		            else
 		            {
-		            	customModel.addCommand(new Vertex(f.vertices[i].x, f.vertices[i].y, f.vertices[i].z));
+		            	customModel.addCommand(new Vertex(f.vertices[i].x, f.vertices[i].y, f.vertices[i].z, i));
 		            }
 		        }
 			}

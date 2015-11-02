@@ -14,13 +14,16 @@ public class Normal extends RenderCommand {
 		super(NORMAL);
 		args = new float[] { x, y, z };
 	}
-
+	
 	@Override
 	public IRenderCommandExecutor getExecutor(LinkedList<Matrix4f> transformations, float minU, float maxU, float minV, float maxV) {
-		Vector4f result = Matrix4f.transform(transformations.getLast(), new Vector4f(args[0], args[1], args[2],1f), null);
-		return new NormalExecutor(result.x/result.w, result.y/result.w, result.z/result.w);
-		//System.out.println(String.format("%f,%f,%f",args[0], args[1], args[2]));
-		//return new NormalExecutor(args[0], args[1], args[2]);
+		Matrix4f matrix = new Matrix4f(transformations.getLast());
+		matrix = Matrix4f.invert(matrix,matrix);
+		matrix = matrix.transpose(matrix);
+		Vector4f result = Matrix4f.transform(matrix, new Vector4f(args[0], args[1], args[2],0f), null);
+		float biggestNormal = Math.max(Math.abs(args[1]), Math.max(Math.abs(args[0]),Math.abs( args[2])));
+		int side = biggestNormal==Math.abs(args[1])?(args[1]<0?0:1): biggestNormal==Math.abs( args[2])?( args[2]<0?2:3): (args[0]<0?4:5);	
+		return new NormalExecutor(result.x, result.y, result.z, side);
 	}
 	
 }

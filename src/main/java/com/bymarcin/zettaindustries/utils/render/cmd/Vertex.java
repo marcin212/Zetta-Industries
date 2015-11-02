@@ -10,14 +10,16 @@ import org.lwjgl.util.vector.Vector4f;
 
 public class Vertex extends RenderCommand {
 
-	public Vertex(float x, float y, float z) {
+	int corner;
+	public Vertex(float x, float y, float z, int corner) {
 		super(VERTEX);
 		args = new float[] { x, y, z };
+		this.corner = corner;
 	}
 
 	@Override
 	public IRenderCommandExecutor getExecutor(LinkedList<Matrix4f> transformations, float minU, float maxU, float minV, float maxV) {
 		Vector4f result = Matrix4f.transform(transformations.getLast(), new Vector4f(args[0], args[1], args[2],1f), null);
-		return new VertexExecutor(result.x, result.y, result.z);
+		return new VertexExecutor(result.x, result.y, result.z, corner);
 	}
 }

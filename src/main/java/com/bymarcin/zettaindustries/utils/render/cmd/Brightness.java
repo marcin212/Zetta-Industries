@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.utils.render.cmd;
 
 import java.util.LinkedList;
 
+import com.bymarcin.zettaindustries.utils.render.CustomModel;
 import com.bymarcin.zettaindustries.utils.render.cmd.executor.IRenderCommandExecutor;
 
 import org.lwjgl.util.vector.Matrix4f;
@@ -16,7 +17,7 @@ public class Brightness extends RenderCommand implements IRenderCommandExecutor{
 	}
 
 	@Override
-	public void execute(Tessellator tes) {
+	public void execute(Tessellator tes, CustomModel model, boolean isInventory) {
 		tes.setBrightness(arg);		
 	}
 
