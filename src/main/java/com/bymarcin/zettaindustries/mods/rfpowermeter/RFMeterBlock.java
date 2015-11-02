@@ -23,6 +23,7 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterRender;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterStaticRender;
+import com.bymarcin.zettaindustries.utils.render.RenderUtils;
 
 public class RFMeterBlock extends BasicBlockContainer{
 	//public static IIcon blockIcon;
@@ -86,7 +87,7 @@ public class RFMeterBlock extends BasicBlockContainer{
 	@Override
 	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side)
 	{
-		return false;
+		return RenderUtils.FORGE_DIRECTIONS[world.getBlockMetadata(x, y, z)] == side;
 	}
 
 	@Override
