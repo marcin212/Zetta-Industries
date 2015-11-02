@@ -13,6 +13,7 @@ public abstract class BasicBlockContainer extends BlockContainer{
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setBlockName(name);
 		setHardness(3.0F);
+		setResistance(15.0F);
 	}
 
 }
