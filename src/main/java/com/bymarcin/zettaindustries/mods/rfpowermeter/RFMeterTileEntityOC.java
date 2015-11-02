@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
 import com.bymarcin.zettaindustries.utils.render.RenderUtils;
 
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.Optional;
@@ -286,7 +287,19 @@ public class RFMeterTileEntityOC extends RFMeterTileEntity implements SimpleComp
 	@Optional.Method(modid = "ComputerCraft")
 	@Override
 	public boolean equals(IPeripheral other) {
-		return other == this;
+		if(other == null) {
+			return false;
+		}
+		if(this == other) {
+			return true;
+		}
+		if(other instanceof TileEntity) {
+			TileEntity tother = (TileEntity) other;
+			return tother.getWorldObj().equals(worldObj)
+				&& tother.xCoord == this.xCoord && tother.yCoord == this.yCoord && tother.zCoord == this.zCoord;
+		}
+
+		return false;
 	}
 	
 	@Optional.Method(modid = "ComputerCraft")
