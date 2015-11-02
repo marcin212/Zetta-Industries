@@ -32,6 +32,7 @@ public class ZIRegistry {
 	public static void initialize(){
 		NetworkRegistry.INSTANCE.registerGuiHandler(ZettaIndustries.instance, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
 	}
 //	public static <T extends IMessage & IMessageHandler<T, U>, U extends IMessage> void registerPacket(int id, Class<T> clazz, Side handleOn){
 	
