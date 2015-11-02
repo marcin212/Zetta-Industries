@@ -80,7 +80,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 	}
 	
 	public boolean canEdit(String pass) {
-		return !isProtected || (isProtected && MathUtils.encryptPassword(pass).equals(password));
+		return !isProtected || (isProtected && pass!=null && MathUtils.encryptPassword(pass).equals(password));
 	}
 	
 	

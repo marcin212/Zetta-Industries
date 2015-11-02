@@ -111,7 +111,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 			for (ForgeDirection d : dirs) {
 				if (BatteryController.checkElectrolyte(worldObj, xCoord + d.offsetX, yCoord + d.offsetY - i, zCoord + d.offsetZ) != 0) {
-					transferMax += 2500;
+					transferMax += Battery.electrodeTransferRate;
 				}
 			}
 			i++;

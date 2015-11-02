@@ -43,6 +43,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -67,6 +68,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
 	public double capacityMultiplier = 1;
+	public static int electrodeTransferRate = 2500;
     public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
@@ -88,6 +90,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	@Override
 	public void preInit() {
 		capacityMultiplier = ZettaIndustries.instance.config.get("BigBattery", "energyMultiplier", 1d).getDouble(1d);
+		electrodeTransferRate = ZettaIndustries.instance.config.get("BigBattery", "electrodeTransferRate", 2500).getInt(2500);
 	}
 	
 	@Override
@@ -140,6 +143,11 @@ public class Battery implements IMod, IGUI, IProxy{
 		GameRegistry.registerBlock(blockGraphite, "BlockGraphite");
 		OreDictionary.registerOre("blockGraphite", blockGraphite);
 
+		
+		if(Loader.isModLoaded("ComputerCraft")){
+			IntegrationComputerCraft.computercraftInit();
+		}
+		
 		ZIRegistry.registerPacket(1, EnergyUpdatePacket.class, Side.CLIENT);
 		ZIRegistry.registerPacket(2, PowerTapUpdatePacket.class, Side.SERVER);
 		ZIRegistry.registerPacket(3, PowerTapUpdatePacket.class, Side.CLIENT);
@@ -147,6 +155,7 @@ public class Battery implements IMod, IGUI, IProxy{
 		ZIRegistry.registerProxy(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
+	
 	}
 
     @Override

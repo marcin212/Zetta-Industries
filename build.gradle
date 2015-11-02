@@ -94,6 +94,11 @@ repositories {
         name 'MineTweaker3'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.minetweaker3.cf}/[module]-[revision].[ext]"
     }
+	
+	ivy {
+        name 'ComputerCraft'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.cc.cf}/[module][revision].[ext]"
+    }
 }
 
 dependencies {
@@ -104,6 +109,7 @@ dependencies {
 	compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
 	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
 	compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
+	compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
 }
 
 processResources
