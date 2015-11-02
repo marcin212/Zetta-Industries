@@ -77,7 +77,6 @@ public class CustomModelFactory {
 		        }
 
 		        float offsetU, offsetV;
-		        System.out.println("FACE:" + f.vertices.length);
 		        for (int i = 0; i < f.vertices.length; ++i)
 		        {
 		            if ((f.textureCoordinates != null) && (f.textureCoordinates.length > 0))
