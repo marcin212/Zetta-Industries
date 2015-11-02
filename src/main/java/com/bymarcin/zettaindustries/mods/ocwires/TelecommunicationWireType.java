@@ -3,6 +3,7 @@ package com.bymarcin.zettaindustries.mods.ocwires;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 
 import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
 import blusunrize.immersiveengineering.api.energy.WireType;
@@ -64,8 +65,8 @@ public class TelecommunicationWireType extends WireType{
 	}
 
 	@Override
-	public String getTexture(Connection arg0) {
-		return "immersiveengineering:textures/misc/wire.png";
+	public IIcon getIcon(Connection arg0) {
+		return iconDefaultWire;
 	}
 
 }

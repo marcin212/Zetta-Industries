@@ -6,7 +6,6 @@ import com.bymarcin.zettaindustries.mods.ocwires.block.BlockTelecomunicationConn
 import com.bymarcin.zettaindustries.mods.ocwires.item.ItemBlockTelecommunicationConnector;
 import com.bymarcin.zettaindustries.mods.ocwires.item.ItemTelecommunicationWire;
 import com.bymarcin.zettaindustries.mods.ocwires.render.BlockRenderTelecommunication;
-import com.bymarcin.zettaindustries.mods.ocwires.render.RenderTelecommunicationConnector;
 import com.bymarcin.zettaindustries.mods.ocwires.tileentity.TileEntityTelecomunicationConnector;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
@@ -17,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -38,7 +36,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import blusunrize.immersiveengineering.api.ManualHelper;
-import blusunrize.immersiveengineering.api.energy.WireType;
 import blusunrize.immersiveengineering.client.ClientUtils;
 import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 import blusunrize.immersiveengineering.common.util.Lib;
@@ -48,7 +45,6 @@ import blusunrize.lib.manual.ManualPages;
 public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	public static BlockTelecomunicationConnector connector = new BlockTelecomunicationConnector();
 	public static ItemTelecommunicationWire wire = new ItemTelecommunicationWire();
-	public static ItemBlockTelecommunicationConnector connectorItemBlock = new ItemBlockTelecommunicationConnector(connector);
 	public static int cableLength = 32;
 	
 	public OCWires() {
@@ -63,7 +59,6 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	
 	@Override
 	public void init() {
-		TelecommunicationWireType.register();
 		GameRegistry.registerItem(wire, "TelecommunicationWire");
 		GameRegistry.registerTileEntity(TileEntityTelecomunicationConnector.class, "TileEntityTelecomunicationConnector");
 		ZIRegistry.registerProxy(this);
@@ -73,6 +68,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 
 	@Override
 	public void postInit() {
+		TelecommunicationWireType.register();
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(connector,8), "BIB"," I ","BIB", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1),'B',Blocks.hardened_clay));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wire,4), " I ","ISI"," I ", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1), 'S',"stickWood"));
 	}
@@ -102,12 +98,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTelecomunicationConnector.class, new RenderTelecommunicationConnector());
 		RenderingRegistry.registerBlockHandler(new BlockRenderTelecommunication());
-//		BlockTelecomunicationConnector.setRenderId(RenderingRegistry.getNextAvailableRenderId());
-//		RenderTelecommunicationConnector connectorRender = new RenderTelecommunicationConnector();
-//		RenderingRegistry.registerBlockHandler(connector.getRenderType(), connectorRender);
-		
 	}
 	
 	
@@ -130,8 +121,8 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@SubscribeEvent()
 	public void textureStich(TextureStitchEvent.Post event)
 	{
-			RenderTelecommunicationConnector.model = (WavefrontObject) AdvancedModelLoader.loadModel(RenderTelecommunicationConnector.rl);
-			rebindUVsToIcon(RenderTelecommunicationConnector.model, connector.getIcon(0, 0));
+			BlockRenderTelecommunication.model = (WavefrontObject) AdvancedModelLoader.loadModel(BlockRenderTelecommunication.rl);
+			rebindUVsToIcon(BlockRenderTelecommunication.model, connector.getIcon(0, 0));
 	}
 
 	void rebindUVsToIcon(WavefrontObject model, IIcon icon)

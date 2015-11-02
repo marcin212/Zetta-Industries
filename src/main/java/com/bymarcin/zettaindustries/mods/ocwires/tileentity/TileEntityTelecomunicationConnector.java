@@ -1,7 +1,9 @@
 package com.bymarcin.zettaindustries.mods.ocwires.tileentity;
 
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
+import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.ocwires.TelecommunicationWireType;
 
 import li.cil.oc.api.Network;
@@ -11,6 +13,7 @@ import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.SidedEnvironment;
 import li.cil.oc.api.network.Visibility;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -19,6 +22,8 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
+
+import cpw.mods.fml.common.FMLCommonHandler;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -59,18 +64,35 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	}
 
 	@Override
+	public boolean receiveClientEvent(int id, int arg)
+	{
+		if(id==-1)
+		{
+			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	@Override
 	public void removeCable(Connection con) {
+		if(con==null){
+			ZettaIndustries.logger.warn("Try to removed empty connection.");
+			return;
+		}
 		if(con.start.equals(Utils.toCC(this))){
 			if(CCToTileEntity(con.end)!=null && node!=null){
 				node.disconnect(CCToTileEntity(con.end).node());
 				//System.out.println("Disconnecting:  " + CCToTileEntity(con.end) + " --FROM-- " + this);
 			}
 		}
-		
+		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void checkConnections(){
-		List<Connection> a = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+		Set<Connection> a = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+		if(a==null)return;
 		for(Connection s : a){
 			if(s.start.equals(Utils.toCC(this)) && CCToTileEntity(s.end)!=null){
 				Node n = CCToTileEntity(s.end).node();
@@ -92,8 +114,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	}
 	
 	@Override
-	public Vec3 getRaytraceOffset()
-	{
+	public Vec3 getRaytraceOffset(IImmersiveConnectable arg0) {
 		ForgeDirection fd = ForgeDirection.getOrientation(facing).getOpposite();
 		return Vec3.createVectorHelper(.5+fd.offsetX*.0625, .5+fd.offsetY*.0625, .5+fd.offsetZ*.0625);
 	}
@@ -175,6 +196,8 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
     @Override
     public void invalidate() {
         super.invalidate();
+       
+        
 		if(worldObj!=null && !worldObj.isRemote)
 			ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this),worldObj);
         // Make sure to remove the node from its network when its environment,
@@ -193,9 +216,10 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 		if(worldObj!=null && !worldObj.isRemote)
 		{
 			NBTTagList connectionList = new NBTTagList();
-			List<Connection> conL = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
-			for(Connection con : conL)
-				connectionList.appendTag(con.writeToNBT());
+			Set<Connection> conL = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+			if(conL!=null)
+				for(Connection con : conL)
+					connectionList.appendTag(con.writeToNBT());
 			nbttagcompound.setTag("connectionList", connectionList);
 		}
 		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
@@ -206,7 +230,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	{
 		NBTTagCompound nbt = pkt.func_148857_g();
 		this.readFromNBT(nbt);
-		if(worldObj!=null && worldObj.isRemote)
+		if(worldObj!=null && worldObj.isRemote && !Minecraft.getMinecraft().isSingleplayer())
 		{
 			NBTTagList connectionList = nbt.getTagList("connectionList", 10);
 			ImmersiveNetHandler.INSTANCE.clearConnectionsOriginatingFrom(Utils.toCC(this), worldObj);
@@ -222,10 +246,16 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 					IELogger.error("CLIENT read connection as null");
 			}
 		}
+		
+		if(FMLCommonHandler.instance().getSide().isClient()){
+			receiveClientEvent(-1, 0);
+		}
+		
 	}
-    
+	
+	
 
-    
+  
     @Override
     public void readFromNBT(final NBTTagCompound nbt) {
         super.readFromNBT(nbt);
@@ -272,4 +302,5 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	public boolean allowEnergyToPass(Connection arg0) {
 		return false;
 	}
+
 }

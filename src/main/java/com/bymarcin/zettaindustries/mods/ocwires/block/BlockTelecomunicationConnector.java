@@ -1,11 +1,14 @@
 package com.bymarcin.zettaindustries.mods.ocwires.block;
 
+import java.util.List;
+
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 import com.bymarcin.zettaindustries.mods.ocwires.tileentity.TileEntityTelecomunicationConnector;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -21,7 +24,7 @@ public class BlockTelecomunicationConnector extends BasicBlockContainer {
 	public BlockTelecomunicationConnector() {
 		super(Material.iron, "TelecommunicationConnector");
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
 		return new TileEntityTelecomunicationConnector();
@@ -40,7 +43,7 @@ public class BlockTelecomunicationConnector extends BasicBlockContainer {
 	@Override
 	public boolean isSideSolid(IBlockAccess world, int x, int y, int z, ForgeDirection side)
 	{
-		return false;
+		return true;
 	}
 
 	@Override
@@ -50,11 +53,6 @@ public class BlockTelecomunicationConnector extends BasicBlockContainer {
 
 	@Override
 	public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
-		return false;
-	}
-
-	@Override
-	public boolean isNormalCube() {
 		return false;
 	}
 
@@ -92,7 +90,7 @@ public class BlockTelecomunicationConnector extends BasicBlockContainer {
 			}
 		}
 	}
-
+	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block nbid)
 	{
