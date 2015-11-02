@@ -36,7 +36,7 @@ public class RFMeter implements IMod, IProxy{
 		ZIRegistry.registerPacket(4, RFMeterUpdatePacket.class, Side.CLIENT);
 		
 		if(Loader.isModLoaded("ComputerCraft")){
-			IntegrationComputerCraft.computercraftInit();
+			RFMeterIntegrationComputerCraft.computercraftInit();
 		}
 		
 	}
