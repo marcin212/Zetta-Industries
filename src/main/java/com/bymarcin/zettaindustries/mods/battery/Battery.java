@@ -68,6 +68,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
 	public double capacityMultiplier = 1;
+	public static int electrodeTransferRate = 2500;
     public static BlockSulfur blockSulfur;
 	public static AcidFluid acidFluid;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
@@ -89,6 +90,7 @@ public class Battery implements IMod, IGUI, IProxy{
 	@Override
 	public void preInit() {
 		capacityMultiplier = ZettaIndustries.instance.config.get("BigBattery", "energyMultiplier", 1d).getDouble(1d);
+		electrodeTransferRate = ZettaIndustries.instance.config.get("BigBattery", "electrodeTransferRate", 2500).getInt(2500);
 	}
 	
 	@Override
