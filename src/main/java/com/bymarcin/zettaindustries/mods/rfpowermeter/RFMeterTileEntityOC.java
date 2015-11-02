@@ -221,15 +221,15 @@ public class RFMeterTileEntityOC extends RFMeterTileEntity implements SimpleComp
 			inCounterMode = (Boolean)arguments[0];
 			return new Object[] { true };
 		case 8:// setEnergyCounter
-			if (!checkPassword(1, arguments) || !(arguments.length>0 && arguments[0] instanceof Integer))
+			if (!checkPassword(1, arguments) || !(arguments.length>0 && arguments[0] instanceof Double))
 				return new Object[] { false };
-			value = lastValue = (Integer)arguments[0];
+			value = lastValue = ((Double)arguments[0]).intValue();
 			return new Object[] { true };
 		case 9:// setLimitPerTick
-			if (!checkPassword(1, arguments) || !(arguments.length>0 && arguments[0] instanceof Integer))
+			if (!checkPassword(1, arguments) || !(arguments.length>0 && arguments[0] instanceof Double))
 				return new Object[] { false };
-			if ( (Integer)arguments[0] >= 0)
-				transferLimit = (Integer)arguments[0];
+			if ( ((Double)arguments[0]).intValue() >= 0)
+				transferLimit = ((Double)arguments[0]).intValue();
 			else
 				transferLimit = -1;
 			return new Object[] { true };
