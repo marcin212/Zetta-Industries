@@ -28,7 +28,7 @@ public class BlockRenderSimpleDHD implements ISimpleBlockRenderingHandler{
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
 		Tessellator.instance.startDrawingQuads();
-		models[0].draw(Tessellator.instance, block.getIcon(0, 0));
+		models[0].drawInventory(Tessellator.instance, block.getIcon(0, 0));
 		Tessellator.instance.draw();
 	}
 
@@ -36,7 +36,7 @@ public class BlockRenderSimpleDHD implements ISimpleBlockRenderingHandler{
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
 		Tessellator.instance.addTranslation(x, y, z);
 		Tessellator.instance.setColorRGBA_F(1, 1, 1, 1);
-		models[world.getBlockMetadata(x, y, z)].draw(Tessellator.instance, block.getIcon(0, 0));
+		models[world.getBlockMetadata(x, y, z)].draw(Tessellator.instance, block.getIcon(0, 0), world, x, y, z, renderer);
         Tessellator.instance.addTranslation(-x, -y, -(z));
 		return true;
 	}
