@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.bymarcin.zettaindustries.mods.eawiring.connection.AbstractConnection;
+import com.bymarcin.zettaindustries.mods.eawiring.connectors.VirtualConnectionRegistry;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.node.ConnectorNode;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.wires.WireBase;
 
@@ -258,7 +259,7 @@ public abstract class TileEntityConnectorBase extends SimpleNodeEntity implement
 		for(int i=0;i<size;i++){
 			AbstractConnection ac = new AbstractConnection();
 			ac.readFromNBT(cons,"["+i+"]");
-			ac.init();
+			VirtualConnectionRegistry.instance().addToQueue(ac);
 			connections.add(ac);
 		}
 	}
