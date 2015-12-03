@@ -29,7 +29,7 @@ public class EAWiring implements IMod, IProxy{
 	public static EAConnector connectorBlock = new EAConnector();
 	public static ItemEAWireCoil wires = new ItemEAWireCoil();
 	public static Mosfet mosfet;
-	
+
 	@Override
 	public void preInit() {
 		ZIRegistry.registerProxy(this);

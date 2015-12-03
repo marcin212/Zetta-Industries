@@ -13,6 +13,10 @@ public class VirtualConnectionRegistry implements IProcess {
 	private Queue<AbstractConnection> connections = new LinkedList<AbstractConnection>();
 
 	private VirtualConnectionRegistry() {
+		
+	}
+	
+	public void register(){
 		Eln.simulator.addSlowProcess(this);
 	}
 

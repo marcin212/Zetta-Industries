@@ -14,6 +14,10 @@ import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection
 
 public class TileEntityEAConnectorRHV  extends TileEntityConnectorBase{
 	
+	public TileEntityEAConnectorRHV() {
+		this.facing = ForgeDirection.UP.ordinal();
+	}
+	
 	@Override
 	public Vec3 getRaytraceOffset(IImmersiveConnectable link)
 	{
