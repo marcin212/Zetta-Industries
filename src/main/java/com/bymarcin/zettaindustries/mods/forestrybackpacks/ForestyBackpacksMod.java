@@ -17,8 +17,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import forestry.api.recipes.RecipeManagers;
 import forestry.api.storage.BackpackManager;
 import forestry.api.storage.EnumBackpackType;
-import forestry.core.config.ForestryItem;
 import forestry.core.fluids.Fluids;
+import forestry.plugins.PluginCore;
 
 public class ForestyBackpacksMod implements IMod {
 
@@ -82,7 +82,7 @@ public class ForestyBackpacksMod implements IMod {
 
 	private void addRecipe(Item backpackT1, Item backpackT2, ItemStack crafting) {
 		RecipeManagers.carpenterManager.addRecipe(200, Fluids.WATER.getFluid(1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.diamond, 'W',
-				ForestryItem.craftingMaterial.getItemStack(1, 3), 'T', backpackT1);
+				PluginCore.items.craftingMaterial.getSilkWisp(), 'T', backpackT1);
 		GameRegistry.addShapedRecipe(new ItemStack(backpackT1), "X#X", "VYV", "X#X", '#', Blocks.wool,
 				'X', Items.string, 'V', crafting, 'Y', Blocks.chest);
 	}
