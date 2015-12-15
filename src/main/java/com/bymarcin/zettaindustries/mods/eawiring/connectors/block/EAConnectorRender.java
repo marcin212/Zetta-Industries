@@ -23,8 +23,8 @@ import blusunrize.immersiveengineering.client.ClientUtils;
 
 public class EAConnectorRender implements ISimpleBlockRenderingHandler {
 	public static final int renderid = RenderingRegistry.getNextAvailableRenderId();
-	public static ResourceLocation[] rl = new ResourceLocation[5];
-	CustomModel[][] models = new CustomModel[5][6];
+	public static ResourceLocation[] rl = new ResourceLocation[6];
+	CustomModel[][] models = new CustomModel[6][6];
 
 	public EAConnectorRender() {
 		rl[0] = new ResourceLocation(ZettaIndustries.MODID + ":textures/models/wireconnector.obj");
@@ -32,6 +32,7 @@ public class EAConnectorRender implements ISimpleBlockRenderingHandler {
 		rl[2] = new ResourceLocation(ImmersiveEngineering.MODID + ":models/connectorMV.obj");
 		rl[3] = new ResourceLocation(ImmersiveEngineering.MODID + ":models/connectorHV.obj");
 		rl[4] = new ResourceLocation(ImmersiveEngineering.MODID + ":models/relayHV.obj");
+		rl[5] = new ResourceLocation(ImmersiveEngineering.MODID + ":models/connectorHV.obj");
 		init();
 	}
 	

@@ -1,5 +1,8 @@
 package com.bymarcin.zettaindustries.mods.eawiring.connectors.node;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -9,6 +12,8 @@ import com.bymarcin.zettaindustries.mods.eawiring.connection.AbstractConnection;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityConnectorBase;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 
@@ -21,8 +26,12 @@ import mods.eln.misc.Direction;
 import mods.eln.misc.LRDU;
 import mods.eln.node.simple.SimpleNode;
 import mods.eln.sim.ElectricalLoad;
+import mods.eln.sim.IProcess;
 import mods.eln.sim.ThermalLoad;
 import mods.eln.sim.nbt.NbtElectricalLoad;
+import mods.eln.sim.nbt.NbtResistor;
+import mods.eln.sim.process.destruct.VoltageStateWatchDog;
+import mods.eln.sim.process.destruct.WorldExplosion;
 
 public class ConnectorNode extends SimpleNode{
 	NbtElectricalLoad connectionPoint = new NbtElectricalLoad("connectionPoint");
@@ -31,9 +40,128 @@ public class ConnectorNode extends SimpleNode{
 	public void initialize() {
 		connectionPoint.setRs(1E-9);
 		electricalLoadList.add(connectionPoint);
+		
+		
+		
+		electricalComponentList.add(powerInResistor);
+		electricalProcessList.add(electricalProcess);
+		slowProcessList.add(watchdog);
+    	WorldExplosion exp = new WorldExplosion(coordonate).machineExplosion();
+    	watchdog.set(connectionPoint).setUNominal(inStdVoltage).set(exp);
+
+		
 		connect();
 	}
 
+	
+    NbtResistor powerInResistor = new NbtResistor("powerInResistor", connectionPoint, null);
+    ElectricalProcess electricalProcess = new ElectricalProcess();
+    VoltageStateWatchDog watchdog = new VoltageStateWatchDog();
+
+    public double energyBuffer = 0;
+    public static double energyBufferMax = 10000;
+    public static double inStdVoltage = 800;
+    public static double inPowerMax = 10000;
+
+    public double inPowerFactor = 0.5;
+
+    public static final byte setInPowerFactor = 1;
+	
+	class ElectricalProcess implements IProcess {
+		double timeout = 0;
+
+        @Override
+		public void process(double time) {
+			energyBuffer += powerInResistor.getP() * time;
+			timeout -= time;
+			if (timeout < 0) {
+				timeout = 0.05;
+				double energyMiss = energyBufferMax - energyBuffer;
+				if (energyMiss<= 0) {
+					powerInResistor.highImpedance();
+				} else {
+					double factor = Math.min(1, energyMiss / energyBufferMax * 2);
+					if (factor < 0.005) factor = 0;
+					double inP = factor * inPowerMax * inPowerFactor;
+					powerInResistor.setR(inStdVoltage * inStdVoltage / inP);
+				}
+			}
+		}
+	}
+
+	public double getOtherModEnergyBuffer(double conversionRatio) {
+		return energyBuffer*conversionRatio;
+	}
+
+	public void drawEnergy(double otherModEnergy, double conversionRatio) {
+		energyBuffer -= otherModEnergy / conversionRatio;
+	}
+
+	public double getOtherModOutMax(double otherOutMax, double conversionRatio) {
+		return Math.min(getOtherModEnergyBuffer(conversionRatio), otherOutMax);
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt);
+		nbt.setDouble("energyBuffer", energyBuffer);
+		nbt.setDouble("inPowerFactor", inPowerFactor);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
+		energyBuffer = nbt.getDouble("energyBuffer");
+		inPowerFactor = nbt.getDouble("inPowerFactor");
+	}
+
+	@Override
+	public boolean hasGui(Direction side) {
+		return true;
+	}
+
+	@Override
+	public void publishSerialize(DataOutputStream stream) {
+		super.publishSerialize(stream);
+		
+		try {
+			stream.writeFloat((float) inPowerFactor);
+			stream.writeFloat((float) inPowerMax);
+			stream.writeInt((int)inStdVoltage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void networkUnserialize(DataInputStream stream, EntityPlayerMP player) {
+		try {
+			switch (stream.readByte()) {
+                case setInPowerFactor:
+                    inPowerFactor = stream.readFloat();
+                    needPublish();
+                    break;
+
+                default:
+                    break;
+            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public String getNodeUuid() {
 		return getNodeID();

@@ -6,6 +6,7 @@ import com.bymarcin.zettaindustries.mods.eawiring.connectors.block.EAConnectorRe
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.items.ItemEAConnector;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.items.ItemEAWireCoil;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.node.ConnectorNode;
+import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorConventer;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorHV;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorLV;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorMV;
@@ -39,6 +40,7 @@ public class EAWiring implements IMod, IProxy{
 		GameRegistry.registerTileEntity(TileEntityEAConnectorHV.class, "TileEntityEAConnectorHV");
 		GameRegistry.registerTileEntity(TileEntityEAConnectorRHV.class, "TileEntityEAConnectorRHV");
 		GameRegistry.registerTileEntity(TileEntityEAWireConnector.class, "TileEntityEAWireConnector");
+		GameRegistry.registerTileEntity(TileEntityEAConnectorConventer.class, "TileEntityEAConnectorConventer");
 		
 		GameRegistry.registerTileEntity(TEMosfet.class, "TEMosfet");
 

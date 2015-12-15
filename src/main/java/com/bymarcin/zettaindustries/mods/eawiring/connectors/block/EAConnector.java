@@ -6,6 +6,7 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.description.ConnectorDesc;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.node.ConnectorNode;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityConnectorBase;
+import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorConventer;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorHV;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorLV;
 import com.bymarcin.zettaindustries.mods.eawiring.connectors.tileentity.TileEntityEAConnectorMV;
@@ -40,7 +41,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  
 public class EAConnector extends SimpleNodeBlock  implements ICustomHighlight{
 	IIcon[] icons;
-	String[] iconsName = new String[] { ":eawires/wireconnector", ":eawires/connectorLV", ":eawires/connectorMV", ":eawires/connectorHV", ":eawires/relayHV" };
+	String[] iconsName = new String[] { ":eawires/wireconnector", ":eawires/connectorLV", ":eawires/connectorMV", ":eawires/connectorHV", ":eawires/relayHV", ":eawires/connectorHV" };
 	
 	AxisAlignedBB[] box = new AxisAlignedBB[]{
 			AxisAlignedBB.getBoundingBox(4/16f, 3/16f, 4/16f, 12/16f, 16/16f, 12/16f),
@@ -52,6 +53,7 @@ public class EAConnector extends SimpleNodeBlock  implements ICustomHighlight{
 	public static final int connectorMV = 2;
 	public static final int connectorHV = 3;
 	public static final int relayHV = 4;
+	public static final int connectorConventer = 5;
 	
 	public EAConnector() {
 		super(Material.iron);
@@ -111,6 +113,7 @@ public class EAConnector extends SimpleNodeBlock  implements ICustomHighlight{
 			case connectorMV:return new TileEntityEAConnectorMV();
 			case connectorHV:return new TileEntityEAConnectorHV();
 			case relayHV:return new TileEntityEAConnectorRHV();
+			case connectorConventer:return new TileEntityEAConnectorConventer();
 			default: return null;
 		}
 	}
