@@ -31,7 +31,7 @@ public class AbstractConnection implements INBTTReady{
 	}
 	
 	public String getVoltometrInfo(){
-		return Utils.plotUIP(vec.getU(), vec.getI()) + Utils.plotOhm("R", vec.getR());
+		return Utils.plotUIP(vec.aPin.state, vec.getI()) + Utils.plotOhm("R", vec.getR());
 	}
 	
 	@Override

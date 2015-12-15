@@ -303,4 +303,9 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 		return false;
 	}
 
+	@Override
+	public void onEnergyPassthrough(int arg0) {
+		
+	}
+
 }

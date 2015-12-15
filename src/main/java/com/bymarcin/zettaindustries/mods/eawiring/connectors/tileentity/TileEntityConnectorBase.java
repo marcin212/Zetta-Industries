@@ -264,5 +264,9 @@ public abstract class TileEntityConnectorBase extends SimpleNodeEntity implement
 		}
 	}
 
+	@Override
+	public void onEnergyPassthrough(int arg0) {
+		
+	}
 
 }

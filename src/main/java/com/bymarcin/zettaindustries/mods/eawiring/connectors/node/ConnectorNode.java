@@ -39,7 +39,7 @@ public class ConnectorNode extends SimpleNode{
 		return getNodeID();
 	}
 	
-	public ElectricalLoad getConnectionPoint(){
+	public ElectricalLoad getConnectionPoint(){	
 		return connectionPoint;
 	}
 
