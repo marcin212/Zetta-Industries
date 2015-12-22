@@ -22,7 +22,7 @@ public class MaterialResistivity {
 	public static final double CASTIRON = 4e-6;
 	
 	public static double getMaterialResistivityPerBlock(double materialResistivity, double diameter){
-		return materialResistivity/( (diameter/2)*(diameter/2)*Math.PI );
+		return materialResistivity/( (diameter/2)*(diameter/2)*Math.PI )*10;
 	}
 	
 	

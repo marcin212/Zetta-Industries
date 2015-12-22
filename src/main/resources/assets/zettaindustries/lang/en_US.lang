@@ -97,12 +97,12 @@ item.backpack.opencomputersT1.name=OpenComputers Backpack
 item.backpack.opencomputersT2.name=OpenComputers Woven Backpack
 
 #EAWires
-item.EAWireCoil.0.name=10kV Cable
-item.EAWireCoil.1.name=110kV Cable
-item.EAWireCoil.2.name=220kV Cable
+item.EAWireCoil.0.name=800V Cable
+item.EAWireCoil.1.name=3,2kV Cable
+item.EAWireCoil.2.name=10kV Cable
 tile.EAConnector.0.name=Wire Adaptor
-tile.EAConnector.1.name=10kV Wire Connector
-tile.EAConnector.2.name=110kV Wire Connector
-tile.EAConnector.3.name=220kV Wire Connector
-tile.EAConnector.4.name=220kV Wire Relay
+tile.EAConnector.1.name=800V Wire Connector
+tile.EAConnector.2.name=3,2kV Wire Connector
+tile.EAConnector.3.name=10kV Wire Connector
+tile.EAConnector.4.name=10kV Wire Relay
 tile.EAConnector.5.name=800V Connector Converter

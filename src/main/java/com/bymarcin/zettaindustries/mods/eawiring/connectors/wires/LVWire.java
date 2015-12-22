@@ -14,7 +14,7 @@ public class LVWire extends WireBase {
 
 	public LVWire() {
 		super();
-		wireProperties = new WireProperties(212,150,10000,MaterialResistivity.getMaterialResistivityPerBlock(MaterialResistivity.COPPER, 0.008));
+		wireProperties = new WireProperties(212,150,800,MaterialResistivity.getMaterialResistivityPerBlock(MaterialResistivity.COPPER, 0.008));
 	}
 
 	@Override

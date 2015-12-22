@@ -14,7 +14,7 @@ public class HVWire extends WireBase {
 
 	public HVWire() {
 		super();
-		wireProperties = new WireProperties(212,760,220000,MaterialResistivity.getMaterialResistivityPerBlock(MaterialResistivity.TUNGSTEN, 0.025));
+		wireProperties = new WireProperties(212,760,10000,MaterialResistivity.getMaterialResistivityPerBlock(MaterialResistivity.TUNGSTEN, 0.025));
 
 	}
 

@@ -13,7 +13,7 @@ import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection
 public class MVWire extends WireBase {
 	public MVWire() {
 		super();
-		wireProperties = new WireProperties(212,450,110000,MaterialResistivity.getMaterialResistivityPerBlock(MaterialResistivity.IRON, 0.017));
+		wireProperties = new WireProperties(212,450,3200,MaterialResistivity.getMaterialResistivityPerBlock(MaterialResistivity.IRON, 0.017));
 	}
 
 	@Override

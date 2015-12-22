@@ -86,7 +86,7 @@ repositories {
     }
 	
 	ivy {
-        name 'Immersive Engineering'
+        name 'ImmersiveEngineering'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.immersiveengineering.cf}/[module]-[revision]-[classifier].[ext]"
     }
     
