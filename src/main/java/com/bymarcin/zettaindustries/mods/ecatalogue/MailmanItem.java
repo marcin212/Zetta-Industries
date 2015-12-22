@@ -17,20 +17,21 @@ import net.minecraft.util.StatCollector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import li.cil.oc.api.driver.EnvironmentAware;
-import li.cil.oc.api.driver.EnvironmentHost;
+
+
+import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.driver.Item;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
 import li.cil.oc.api.internal.Agent;
 import li.cil.oc.api.internal.Drone;
 import li.cil.oc.api.internal.Robot;
-import li.cil.oc.api.network.Environment;
+import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.ManagedEnvironment;
 import li.cil.oc.client.KeyBindings;
 import li.cil.oc.util.ItemCosts;
 
-public class MailmanItem extends BasicItem implements Item, EnvironmentAware, HostAware{
+public class MailmanItem extends BasicItem implements EnvironmentProvider, Item, HostAware{
 	private static final int maxWidth = 220;
 
 	public MailmanItem() {
@@ -49,7 +50,7 @@ public class MailmanItem extends BasicItem implements Item, EnvironmentAware, Ho
 	}
 
 	@Override
-	public Class<? extends Environment> providedEnvironment(ItemStack stack) {
+	public Class<?> getEnvironment(ItemStack stack) {
 		return MailmanUpgrade.class;
 	}
 
@@ -126,5 +127,6 @@ public class MailmanItem extends BasicItem implements Item, EnvironmentAware, Ho
 			}
 		}
 	}
+
 
 }
