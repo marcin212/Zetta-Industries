@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockAccess;
 
@@ -35,6 +36,8 @@ public class BlockRenderTelecommunication implements ISimpleBlockRenderingHandle
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+		TileEntity te = world.getTileEntity(x, y, z);
+		if(!(te instanceof TileEntityTelecomunicationConnector)) return false;
 		TileEntityTelecomunicationConnector connector = (TileEntityTelecomunicationConnector)world.getTileEntity(x, y, z);
 		Matrix4 translationMatrix = new Matrix4().translate(connector.xCoord, connector.yCoord, connector.zCoord);
 		Matrix4 rotationMatrix = new Matrix4();

@@ -58,7 +58,8 @@ public class ModManager {
 		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
 		addMod("forestrybackpacks.ForestyBackpacksMod","$('Forestry')","ForestyBackpacksMod");
-		addMod("eawiring.EAWiring","","EAWiring");
+		//addMod("eawiring.EAWiring","","EAWiring");
+		addMod("mgc.MGC","","MGC");
 	}
 
 	private void addMod(String path, String dependencies, String name) {

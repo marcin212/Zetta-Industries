@@ -3,7 +3,6 @@ package com.bymarcin.zettaindustries;
 import java.util.Random;
 
 import com.bymarcin.zettaindustries.modmanager.ModManager;
-import com.bymarcin.zettaindustries.mods.eawiring.connectors.VirtualConnectionRegistry;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.Proxy;
 
@@ -89,10 +88,5 @@ public class ZettaIndustries
     public void loadComplete(FMLLoadCompleteEvent event) {
         proxy.loadComplete();
     }
-    
-    @EventHandler
-    public void serverStarted(FMLServerStartedEvent event)
-    {
-    	VirtualConnectionRegistry.instance().register();
-    }
+
 }
