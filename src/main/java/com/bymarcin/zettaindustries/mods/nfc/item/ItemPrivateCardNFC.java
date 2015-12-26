@@ -29,15 +29,15 @@ public class ItemPrivateCardNFC extends ItemCardNFC{
 	private static void setOwner(String name, ItemStack item){
 		if(item.stackTagCompound==null)
 			item.setTagCompound(new NBTTagCompound());
-		
-		item.stackTagCompound.setString("ownerNFC", name);
+		if(name!=null)
+			item.stackTagCompound.setString("ownerNFC", name);
 	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World par2World,
 			EntityPlayer player) {
 		if(itemStack.getItem() instanceof ItemPrivateCardNFC && player.isSneaking() && getOwner(itemStack)==null){
-			setOwner(player.getDisplayName(), itemStack);
+			setOwner(player.getGameProfile().getName(), itemStack);
 		}
 		return itemStack;
 	}
