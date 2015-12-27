@@ -7,6 +7,7 @@ import com.bymarcin.zettaindustries.mods.mgc.gui.LampSocketContainer;
 import com.bymarcin.zettaindustries.mods.mgc.gui.LampSocketGUI;
 import com.bymarcin.zettaindustries.mods.mgc.item.LightBulbItem;
 import com.bymarcin.zettaindustries.mods.mgc.render.ElectricalConnectorRenderer;
+import com.bymarcin.zettaindustries.mods.mgc.render.LampSocketRenderer;
 import com.bymarcin.zettaindustries.mods.mgc.tileentities.ElectricalConnectorTileEntity;
 import com.bymarcin.zettaindustries.mods.mgc.tileentities.LampSocketTileEntity;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
@@ -68,7 +69,10 @@ public class MGC implements IMod, IGUI, IProxy {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
-		ClientRegistry.bindTileEntitySpecialRenderer(ElectricalConnectorTileEntity.class, new ElectricalConnectorRenderer());
+		ElectricalConnectorRenderer electricalConnectorRenderer = new ElectricalConnectorRenderer();
+		ClientRegistry.bindTileEntitySpecialRenderer(ElectricalConnectorTileEntity.class, electricalConnectorRenderer);
+		RenderingRegistry.registerBlockHandler(electricalConnectorRenderer);
+		RenderingRegistry.registerBlockHandler(new LampSocketRenderer());
 	}
 
 	@Override

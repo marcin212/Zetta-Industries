@@ -10,14 +10,20 @@ import com.cout970.magneticraft.api.util.VecDouble;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.IBlockAccess;
 
-public class ElectricalConnectorRenderer extends TileEntitySpecialRenderer {
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
+
+public class ElectricalConnectorRenderer extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler{
 	public static ResourceLocation ELECTRIC_WIRE_TIER_1 = new ResourceLocation(ZettaIndustries.MODID,"textures/items/mgc/wire_tier1.png");
-	
+	public static int renderid = RenderingRegistry.getNextAvailableRenderId();
 	
 	@Override
 	public void renderTileEntityAt(TileEntity te, double x, double y, double z, float scale) {
@@ -123,5 +129,29 @@ public class ElectricalConnectorRenderer extends TileEntitySpecialRenderer {
 		t.addVertex(b.getX() - w, b.getY(), b.getZ());
 		t.addVertex(b.getX() + w, b.getY(), b.getZ());
 
+	}
+
+	@Override
+	public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean shouldRender3DInInventory(int modelId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getRenderId() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

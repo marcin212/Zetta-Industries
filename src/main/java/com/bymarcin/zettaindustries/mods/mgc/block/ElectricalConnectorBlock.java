@@ -15,7 +15,7 @@ public class ElectricalConnectorBlock extends BlockContainer{
 	public ElectricalConnectorBlock() {
 		super(Material.iron);
 		GameRegistry.registerBlock(this, "ElectricalConnector");
-		GameRegistry.registerTileEntity(ElectricalConnectorTileEntity.class, "ElectricalCnnectorTileEntity");
+		GameRegistry.registerTileEntity(ElectricalConnectorTileEntity.class, "ElectricalConnectorTileEntity");
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class ElectricalConnectorBlock extends BlockContainer{
 	
 	@Override
 	public int getRenderType() {
-		return super.getRenderType();
+		return ElectricalConnectorRenderer.renderid;
 	}
 
 }
