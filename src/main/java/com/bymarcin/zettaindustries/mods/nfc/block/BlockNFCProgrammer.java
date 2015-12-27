@@ -34,7 +34,7 @@ public class BlockNFCProgrammer extends BasicBlockContainer{
 			TileEntityNFCProgrammer tilenfc = (TileEntityNFCProgrammer)tile;
 			if(player.getHeldItem()!=null){
 				if(player.getHeldItem().getItem() instanceof ItemPrivateCardNFC){
-					if(ItemPrivateCardNFC.getOwner(player.getHeldItem())!=null && player.getDisplayName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItem()))){
+					if(ItemPrivateCardNFC.getOwner(player.getHeldItem())!=null && player.getCommandSenderName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItem()))){
 						ItemPrivateCardNFC.setNFCData(tilenfc.writeCardNFC(),player.getHeldItem());
 						
 						player.addChatMessage(new ChatComponentText(LanguageRegistry.instance().getStringLocalization(ZettaIndustries.MODID + ".text.nfc.message1")));

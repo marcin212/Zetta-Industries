@@ -33,13 +33,13 @@ public class BlockNFCReader extends BasicBlockContainer{
 		if(tile instanceof TileEntityNFCReader){
 			if(player.getHeldItem()!=null){
 				if(player.getHeldItem().getItem() instanceof ItemPrivateCardNFC){
-					if(player.getDisplayName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItem()))){
-						((TileEntityNFCReader)tile).sendEvent(player.getDisplayName(),ItemPrivateCardNFC.getNFCData(player.getHeldItem()));
+					if(player.getCommandSenderName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItem()))){
+						((TileEntityNFCReader)tile).sendEvent(player.getCommandSenderName(),ItemPrivateCardNFC.getNFCData(player.getHeldItem()));
 						return true;
 					}
 					return false;
 				}else if(player.getHeldItem().getItem() instanceof ItemCardNFC){
-					((TileEntityNFCReader)tile).sendEvent(player.getDisplayName(),ItemCardNFC.getNFCData(player.getHeldItem()));
+					((TileEntityNFCReader)tile).sendEvent(player.getCommandSenderName(),ItemCardNFC.getNFCData(player.getHeldItem()));
 					return true;
 				}
 			}
