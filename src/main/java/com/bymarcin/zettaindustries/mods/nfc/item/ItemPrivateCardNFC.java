@@ -37,7 +37,7 @@ public class ItemPrivateCardNFC extends ItemCardNFC{
 	public ItemStack onItemRightClick(ItemStack itemStack, World par2World,
 			EntityPlayer player) {
 		if(itemStack.getItem() instanceof ItemPrivateCardNFC && player.isSneaking() && getOwner(itemStack)==null){
-			setOwner(player.getGameProfile().getName(), itemStack);
+			setOwner(player.getCommandSenderName(), itemStack);
 		}
 		return itemStack;
 	}
