@@ -209,6 +209,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
+		filament.save(tagCompound);
 		tagCompound.setInteger("lastLightValue", lastLightValue);
 		if (lightBulb != null) {
 			NBTTagCompound tag = new NBTTagCompound();
@@ -220,6 +221,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
+		filament.load(tagCompound);
 		lastLightValue = tagCompound.getInteger("lastLightValue");
 		if (tagCompound.hasKey("lightBulb")) {
 			NBTTagCompound tag = tagCompound.getCompoundTag("lightBulb");
