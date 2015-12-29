@@ -39,6 +39,7 @@ public class ElectricalConnectorBlock extends BlockContainer{
 	String[] iconsName = new String[] {":mgc/connectorLV", ":mgc/connectorMV", ":mgc/connectorHV", ":mgc/relayHV" };
 	
 	
+	
 	public ElectricalConnectorBlock() {
 		super(Material.iron);
 		setHardness(3.0F);

@@ -5,6 +5,7 @@ import com.bymarcin.zettaindustries.mods.mgc.item.LightBulbItem;
 import com.cout970.magneticraft.api.electricity.IElectricConductor;
 import com.cout970.magneticraft.api.electricity.IElectricTile;
 import com.cout970.magneticraft.api.electricity.prefab.ElectricConductor;
+import com.cout970.magneticraft.api.util.MgDirection;
 import com.cout970.magneticraft.api.util.VecInt;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,21 +21,35 @@ import net.minecraft.world.EnumSkyBlock;
 public class LampSocketTileEntity extends TileEntity implements IInventory, IElectricTile {
 	ItemStack lightBulb;
 	int lastLightValue;
+	int facing;
 	IElectricConductor filament;
 	long ticksFromStart = 0;
+	long lastBlink =0;
 
 	public static final double HIGH_IMPEDANCE = 1E19;
 
 	public LampSocketTileEntity() {
 		filament = new ElectricConductor(this, 0, 100000000);
 	}
+	
+	public void setFacing(int facing) {
+		this.facing = facing;
+	}
 
+	public int getFacing() {
+		return facing;
+	}
+	
 	public int getLightValue() {
 		return lastLightValue;
 	}
 
 	public void setLightValue(int light) {
 		this.lastLightValue = light;
+	}
+	
+	public boolean hasLightBulb(){
+		return lightBulb!=null;
 	}
 
 	@Override
@@ -49,7 +64,6 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 		readFromNBT(pkt.func_148857_g());
 		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 		getWorldObj().updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
-		getWorldObj().addBlockEvent(xCoord, yCoord, zCoord, getBlockType(), 1, 0);
 	}
 
 	@Override
@@ -67,7 +81,6 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			markDirty();
 			getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 			getWorldObj().updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
-			getWorldObj().addBlockEvent(xCoord, yCoord, zCoord, getBlockType(), 1, 0);
 			filament.setResistance(HIGH_IMPEDANCE);
 		}
 
@@ -96,21 +109,24 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			if (newLightValue != 0)
 				ticksFromStart++;
 
-			if (LightBulbItem.getStartType(lightBulb) == LightBulbItem.START_ECO && newLightValue>0) {
-				if (ticksFromStart < 20 * 3 && worldObj.rand.nextFloat() < 5. / 60.) {
+			if (LightBulbItem.getStartType(lightBulb) == LightBulbItem.START_ECO && newLightValue>0 && lastBlink<0) {
+				if (ticksFromStart < 20 * 3 && worldObj.rand.nextFloat() < 0.5) {
 					newLightValue = 1;
+					if(newLightValue!=lastLightValue)
 					worldObj.playSoundEffect(xCoord, yCoord, zCoord, ZettaIndustries.MODID + ":neon_lamp", 1f, 1f);
 				} else {
 					newLightValue = LightBulbItem.getLightValue(lightBulb);
 				}
+				lastBlink = worldObj.rand.nextInt(5)+5;
 			}
+			
+			lastBlink--;
 
 			if (newLightValue != lastLightValue) {
 				lastLightValue = newLightValue;
 				markDirty();
 				getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 				getWorldObj().updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
-				getWorldObj().addBlockEvent(xCoord, yCoord, zCoord, getBlockType(), 1, 0);
 			}
 
 			if (worldObj.getTotalWorldTime() % 20 == 0 && LightBulbItem.getLightBulbDamage(lightBulb) <= 0) {
@@ -198,7 +214,9 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 
 	@Override
 	public void closeInventory() {
-
+		if(!worldObj.isRemote) return;
+		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+		getWorldObj().updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
 	}
 
 	@Override
@@ -216,6 +234,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			lightBulb.writeToNBT(tag);
 			tagCompound.setTag("lightBulb", tag);
 		}
+		tagCompound.setInteger("FACING", facing);
 	}
 
 	@Override
@@ -227,11 +246,23 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			NBTTagCompound tag = tagCompound.getCompoundTag("lightBulb");
 			lightBulb = ItemStack.loadItemStackFromNBT(tag);
 		}
+		facing = tagCompound.getInteger("FACING");
 	}
 
 	@Override
-	public IElectricConductor[] getConds(VecInt arg0, int arg1) {
-		return filament != null ? new IElectricConductor[] { filament } : null;
+	public IElectricConductor[] getConds(VecInt vec, int arg1) {
+		MgDirection dir = vec.toMgDirection();
+		
+		if(dir==null && filament != null && arg1 == filament.getTier()){
+			return new IElectricConductor[] { filament };
+		}
+		
+		if( filament != null && arg1== filament.getTier() && dir.opposite().toForgeDir().ordinal() == facing){
+			
+				return new IElectricConductor[] { filament };
+		}
+		
+		return null;
 	}
 
 }

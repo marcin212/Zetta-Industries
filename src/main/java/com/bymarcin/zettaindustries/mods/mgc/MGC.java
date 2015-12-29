@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.mgc;
 
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.mgc.block.ElectricalConnectorBlock;
+import com.bymarcin.zettaindustries.mods.mgc.block.ElectricalCoveredCable;
 import com.bymarcin.zettaindustries.mods.mgc.block.LampSocketBlock;
 import com.bymarcin.zettaindustries.mods.mgc.gui.LampSocketContainer;
 import com.bymarcin.zettaindustries.mods.mgc.gui.LampSocketGUI;
@@ -28,12 +29,13 @@ public class MGC implements IMod, IGUI, IProxy {
 	LampSocketBlock lampSocketBlock;
 	LightBulbItem lightBulbItem;
 	ElectricalConnectorBlock connector;
-
+	ElectricalCoveredCable coveredCable;
 	@Override
 	public void preInit() {
 		lampSocketBlock = new LampSocketBlock();
 		lightBulbItem = new LightBulbItem();
 		connector = new ElectricalConnectorBlock();
+		coveredCable = new ElectricalCoveredCable();
 		ZIRegistry.registerProxy(this);
 
 	}

@@ -27,6 +27,11 @@ public class LampSocketGUI extends GuiContainer{
             //draws "Inventory" or your regional equivalent
     	fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 130 + 2, 4210752);
     }
+    
+    @Override
+    public boolean doesGuiPauseGame() {
+    	return false;
+    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2,

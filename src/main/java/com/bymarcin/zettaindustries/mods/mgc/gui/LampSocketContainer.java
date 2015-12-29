@@ -24,6 +24,14 @@ public class LampSocketContainer extends Container {
 		return tileEntity.isUseableByPlayer(player);
 	}
 
+	@Override
+	public void onContainerClosed(EntityPlayer p) {
+		super.onContainerClosed(p);
+		if(tileEntity!=null){
+			tileEntity.closeInventory();
+		}
+	}
+	
 	protected void bindPlayerInventory(InventoryPlayer inventoryPlayer) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
