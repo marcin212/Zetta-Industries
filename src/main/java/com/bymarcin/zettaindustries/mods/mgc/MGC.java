@@ -15,11 +15,14 @@ import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,6 +36,7 @@ public class MGC implements IMod, IGUI, IProxy {
 		lampSocketBlock = new LampSocketBlock();
 		lightBulbItem = new LightBulbItem();
 		connector = new ElectricalConnectorBlock();
+		
 		ZIRegistry.registerProxy(this);
 
 	}
@@ -44,7 +48,108 @@ public class MGC implements IMod, IGUI, IProxy {
 
 	@Override
 	public void postInit() {
-
+		ItemStack cable = GameRegistry.findItemStack("Magneticraft", "item.cable_low",1);
+		ItemStack cableMV = GameRegistry.findItemStack("Magneticraft", "item.cable_medium",1);
+		ItemStack cableHV = GameRegistry.findItemStack("Magneticraft", "item.cable_high",1);
+		ItemStack machine = GameRegistry.findItemStack("Magneticraft", "machine_hausing",1);
+		ItemStack glass = GameRegistry.findItemStack("minecraft", "glass",1);
+		ItemStack clay = GameRegistry.findItemStack("minecraft", "clay_ball",1);
+		
+		
+		if(cable!=null && machine !=null && glass!=null){
+			GameRegistry.addShapedRecipe(new ItemStack(lampSocketBlock, 1, 0), 
+					"CMC",
+					"GGG",
+					"   ",
+					'C', cable, 'M', machine, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lampSocketBlock, 1, 1), 
+					" C ",
+					"GMG",
+					" G ",
+					'C', cable, 'M', machine, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lampSocketBlock, 1, 2), 
+					"GCG",
+					"GMG",
+					"   ",
+					'C', cable, 'M', machine, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lampSocketBlock, 1, 3), 
+					"GCG",
+					"GMG",
+					"GGG",
+					'C', cable, 'M', machine, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lampSocketBlock, 1, 4), 
+					"GGG",
+					"CMG",
+					"GGG",
+					'C', cable, 'M', machine, 'G', glass
+					);
+			
+			
+			
+			
+			
+			GameRegistry.addShapedRecipe(new ItemStack(lightBulbItem, 1, 0), 
+					"GCG",
+					" G ",
+					"   ",
+					'C', cable, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lightBulbItem, 1, 1), 
+					"GCG",
+					"GCG",
+					" G",
+					'C', cable, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lightBulbItem, 1, 2), 
+					"GCG",
+					"GGG",
+					"   ",
+					'C', cable, 'G', glass
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(lightBulbItem, 1, 3), 
+					"GCG",
+					"GCG",
+					"GGG",
+					'C', cable, 'G', glass
+					);
+		
+			
+			
+			
+			
+			GameRegistry.addShapedRecipe(new ItemStack(connector, 1, 0), 
+					" C ",
+					"GCG",
+					"GCG",
+					'C', cable, 'G', clay
+					);
+			
+			GameRegistry.addShapedRecipe(new ItemStack(connector, 1, 1), 
+					" C ",
+					"GCG",
+					"GCG",
+					'C', cableMV, 'G', clay
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(connector, 1, 2), 
+					" C ",
+					"GCG",
+					"GCG",
+					'C', cableHV, 'G', clay
+					);
+			GameRegistry.addShapedRecipe(new ItemStack(connector, 1, 3), 
+					"GCG",
+					"GCG",
+					" C ",
+					'C', cableHV, 'G', glass
+					);
+			
+			
+			
+		}
 	}
 
 	@Override
