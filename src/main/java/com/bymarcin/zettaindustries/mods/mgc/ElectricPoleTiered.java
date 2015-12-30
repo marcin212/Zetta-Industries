@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 
 public class ElectricPoleTiered implements IElectricPole {
 
-    protected List<IInterPoleWire> connections = new ArrayList<>();
+    protected List<IInterPoleWire> connections = new ArrayList<IInterPoleWire>();
     private int connectionsBlocked;
     protected IElectricConductor cond;
     protected TileEntity parent;
@@ -37,7 +37,7 @@ public class ElectricPoleTiered implements IElectricPole {
     @Override
     public void disconnectAll() {
         update = true;
-        ArrayList<IInterPoleWire> list = new ArrayList<>();
+        ArrayList<IInterPoleWire> list = new ArrayList<IInterPoleWire>();
         list.addAll(connections);
         for (IInterPoleWire con : list) {
             if (con.getWorld() == null) {
@@ -59,7 +59,11 @@ public class ElectricPoleTiered implements IElectricPole {
             refreshList();
         }
         if (parent.getWorldObj().isRemote) return;
-        connections.stream().filter(c -> c.getStart() == this).forEach(com.cout970.magneticraft.api.electricity.IInterPoleWire::iterate);
+        for(IInterPoleWire c : connections){
+        	if(c.getStart() == this){
+        		c.iterate();
+        	}
+        }
     }
 
     @Override

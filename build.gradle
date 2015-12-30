@@ -99,6 +99,11 @@ repositories {
         name 'ComputerCraft'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.cc.cf}/[module][revision].[ext]"
     }
+	
+		ivy {
+        name 'Magneticraft'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.mgc.cf}/[module]-[revision].[ext]"
+    }
 }
 
 dependencies {
@@ -110,6 +115,7 @@ dependencies {
 	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
 	compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
+	compile name: 'magneticraft', version: config.mgc.version, ext: 'jar'
 }
 
 processResources

@@ -107,10 +107,12 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
     public void sendUpdateToClient() {
         if (worldObj.isRemote) return;
         Packet nbt = getDescriptionPacket();
-        worldObj.playerEntities.stream().filter(obj -> obj instanceof EntityPlayerMP).forEach(obj -> {
-            EntityPlayerMP player = (EntityPlayerMP) obj;
-            	player.playerNetServerHandler.sendPacket(nbt);
-        });
+        
+        for(Object p:worldObj.playerEntities){
+        	if(p instanceof EntityPlayerMP){
+        		((EntityPlayerMP) p).playerNetServerHandler.sendPacket(nbt);
+        	}
+        }
     }
 	
 	
