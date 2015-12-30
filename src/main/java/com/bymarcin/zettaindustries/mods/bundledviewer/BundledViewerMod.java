@@ -8,6 +8,8 @@ import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BundledViewerMod implements IMod, IProxy{
 
@@ -30,7 +32,8 @@ public class BundledViewerMod implements IMod, IProxy{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
 		ClientRegistry.bindTileEntitySpecialRenderer(BundledViewerTileEntity.class, new BundledViewerRenderer());

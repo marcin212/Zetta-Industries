@@ -1,10 +1,7 @@
 package com.bymarcin.zettaindustries.mods.bundledviewer;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import mods.immibis.redlogic.api.wiring.IBundledEmitter;
 import mods.immibis.redlogic.api.wiring.IBundledUpdatable;
-import mods.immibis.redlogic.api.wiring.IBundledWire;
 import mods.immibis.redlogic.api.wiring.IConnectable;
 import mods.immibis.redlogic.api.wiring.IWire;
 

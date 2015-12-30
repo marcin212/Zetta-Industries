@@ -18,6 +18,7 @@ public class BundledViewerBlock extends BlockContainer{
 		super(Material.iron);
 		setBlockName("BundledViewer");
 		textureName = ZettaIndustries.MODID+":bundledviewer";
+		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 	}
 
 	@Override
