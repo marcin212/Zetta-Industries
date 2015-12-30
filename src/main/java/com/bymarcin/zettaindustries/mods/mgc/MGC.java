@@ -2,7 +2,6 @@ package com.bymarcin.zettaindustries.mods.mgc;
 
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.mgc.block.ElectricalConnectorBlock;
-import com.bymarcin.zettaindustries.mods.mgc.block.ElectricalCoveredCable;
 import com.bymarcin.zettaindustries.mods.mgc.block.LampSocketBlock;
 import com.bymarcin.zettaindustries.mods.mgc.gui.LampSocketContainer;
 import com.bymarcin.zettaindustries.mods.mgc.gui.LampSocketGUI;
@@ -14,7 +13,6 @@ import com.bymarcin.zettaindustries.mods.mgc.tileentities.LampSocketTileEntity;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
-import com.cout970.magneticraft.client.tilerender.TileRenderPoleCableWire;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -29,13 +27,12 @@ public class MGC implements IMod, IGUI, IProxy {
 	LampSocketBlock lampSocketBlock;
 	LightBulbItem lightBulbItem;
 	ElectricalConnectorBlock connector;
-	ElectricalCoveredCable coveredCable;
+
 	@Override
 	public void preInit() {
 		lampSocketBlock = new LampSocketBlock();
 		lightBulbItem = new LightBulbItem();
 		connector = new ElectricalConnectorBlock();
-		coveredCable = new ElectricalCoveredCable();
 		ZIRegistry.registerProxy(this);
 
 	}

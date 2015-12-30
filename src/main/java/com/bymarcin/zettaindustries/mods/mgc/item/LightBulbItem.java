@@ -50,9 +50,9 @@ public class LightBulbItem extends Item {
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
 		super.addInformation(itemStack, entityPlayer, list, par4);
-		list.add("U:" + LightBulbItem.getVoltage(itemStack) + "V");
-		list.add("P:" + LightBulbItem.getPower(itemStack) + "W");
-		list.add("L:" + LightBulbItem.getLightValue(itemStack) + "Blocks");
+		list.add("U: " + LightBulbItem.getVoltage(itemStack) + "V");
+		list.add("P: " + LightBulbItem.getPower(itemStack) + "W");
+		list.add("L: " + LightBulbItem.getLightValue(itemStack) + "Blocks");
 	}
 
 	@Override

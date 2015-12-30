@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.mgc.tileentities;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.mgc.item.LightBulbItem;
+import com.bymarcin.zettaindustries.utils.LocalSides;
 import com.cout970.magneticraft.api.electricity.IElectricConductor;
 import com.cout970.magneticraft.api.electricity.IElectricTile;
 import com.cout970.magneticraft.api.electricity.prefab.ElectricConductor;
@@ -22,6 +23,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 	ItemStack lightBulb;
 	int lastLightValue;
 	int facing;
+	LocalSides ifacing = LocalSides.NORTH;
 	IElectricConductor filament;
 	long ticksFromStart = 0;
 	long lastBlink =0;
@@ -30,6 +32,17 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 
 	public LampSocketTileEntity() {
 		filament = new ElectricConductor(this, 0, 100000000);
+	}
+	
+	public void rotate(){
+		ifacing = ifacing.nextSide();
+		markDirty();
+		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
+		getWorldObj().updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
+	}
+	
+	public LocalSides getIfacing() {
+		return ifacing;
 	}
 	
 	public void setFacing(int facing) {
@@ -235,6 +248,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			tagCompound.setTag("lightBulb", tag);
 		}
 		tagCompound.setInteger("FACING", facing);
+		tagCompound.setInteger("IFACING", ifacing.ordinal());
 	}
 
 	@Override
@@ -247,6 +261,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			lightBulb = ItemStack.loadItemStackFromNBT(tag);
 		}
 		facing = tagCompound.getInteger("FACING");
+		ifacing = LocalSides.values()[tagCompound.getInteger("IFACING")];
 	}
 
 	@Override

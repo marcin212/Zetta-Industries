@@ -9,10 +9,8 @@ import com.bymarcin.zettaindustries.utils.render.CustomModelFactory;
 import com.cout970.magneticraft.api.electricity.IElectricPole;
 import com.cout970.magneticraft.api.electricity.IInterPoleWire;
 import com.cout970.magneticraft.api.electricity.ITileElectricPole;
-import com.cout970.magneticraft.api.electricity.prefab.ElectricPoleTier1;
 import com.cout970.magneticraft.api.util.VecDouble;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.Block;
@@ -30,7 +28,6 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import blusunrize.immersiveengineering.ImmersiveEngineering;
-import blusunrize.immersiveengineering.client.ClientUtils;
 
 public class ElectricalConnectorRenderer extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler{
 	public static ResourceLocation ELECTRIC_WIRE_TIER_1 = new ResourceLocation(ZettaIndustries.MODID,"textures/items/mgc/wire_tier1.png");

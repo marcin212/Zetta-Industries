@@ -2,10 +2,7 @@ package com.bymarcin.zettaindustries.mods.mgc.item;
 
 import java.util.List;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.mods.mgc.block.ElectricalConnectorBlock;
 import com.bymarcin.zettaindustries.mods.mgc.block.LampSocketBlock;
-import com.bymarcin.zettaindustries.mods.mgc.tileentities.ElectricalConnectorTileEntity;
 import com.bymarcin.zettaindustries.mods.mgc.tileentities.LampSocketTileEntity;
 
 import net.minecraft.block.Block;
@@ -50,7 +47,7 @@ public class LampSocketItem extends ItemBlock {
 			return ret;
 		if(world.getTileEntity(x, y, z) instanceof LampSocketTileEntity)
 			if(meta==LampSocketBlock.chandelier){
-				((LampSocketTileEntity)world.getTileEntity(x, y, z)).setFacing(ForgeDirection.UP.ordinal());
+				((LampSocketTileEntity)world.getTileEntity(x, y, z)).setFacing(ForgeDirection.DOWN.ordinal());
 			}else{
 				((LampSocketTileEntity)world.getTileEntity(x, y, z)).setFacing(ForgeDirection.getOrientation(side).ordinal());
 			}
