@@ -95,3 +95,6 @@ item.backpack.engineeringT1.name=Engineer's Backpack
 item.backpack.engineeringT2.name=Engineer's Woven Backpack
 item.backpack.opencomputersT1.name=OpenComputers Backpack
 item.backpack.opencomputersT2.name=OpenComputers Woven Backpack
+
+#BundledViewerBlock
+tile.BundledViewer.name=Bundle Inspector
