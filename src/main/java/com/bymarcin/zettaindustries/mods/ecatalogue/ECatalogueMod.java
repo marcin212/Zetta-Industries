@@ -4,6 +4,7 @@ import com.bymarcin.zettaindustries.modmanager.IMod;
 
 import li.cil.oc.api.Driver;
 import li.cil.oc.api.Items;
+import li.cil.oc.api.driver.Item;
 
 import net.minecraft.item.ItemStack;
 
@@ -28,7 +29,7 @@ public class ECatalogueMod implements IMod{
 		GameRegistry.registerTileEntity(ECatalogueTileEntity.class, "ecataloguetileentity");
 		Driver.add(new TradeStationConventer());
 		GameRegistry.registerItem(mailmanItem, "mailmanitem");
-		Driver.add(mailmanItem);
+		Driver.add((Item)mailmanItem);
 	}
 
 	@Override
