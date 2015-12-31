@@ -1,15 +1,18 @@
 package com.bymarcin.zettaindustries.utils.render;
 
 import com.bymarcin.zettaindustries.utils.LocalSides;
+import com.bymarcin.zettaindustries.utils.math.Matrix4f;
+import com.bymarcin.zettaindustries.utils.math.Vector3f;
+import com.bymarcin.zettaindustries.utils.math.Vector4f;
 import com.obj.Face;
 import com.obj.Group;
 import com.obj.TextureCoordinate;
 import com.obj.Vertex;
 import com.obj.WavefrontObject;
 
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
+
+
+
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;

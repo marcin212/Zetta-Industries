@@ -7,13 +7,11 @@ import com.bymarcin.zettaindustries.mods.mgc.item.LampSocketItem;
 import com.bymarcin.zettaindustries.mods.mgc.render.LampSocketRenderer;
 import com.bymarcin.zettaindustries.mods.mgc.tileentities.LampSocketTileEntity;
 import com.bymarcin.zettaindustries.utils.LocalSides;
+import com.bymarcin.zettaindustries.utils.math.Matrix4f;
+import com.bymarcin.zettaindustries.utils.math.Vector3f;
+import com.bymarcin.zettaindustries.utils.math.Vector4f;
 import com.bymarcin.zettaindustries.utils.render.RenderUtils;
 import com.bymarcin.zettaindustries.utils.render.RenderUtils.PartInfo;
-import com.sun.javafx.geom.Vec3f;
-
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -31,6 +29,8 @@ import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -112,6 +112,11 @@ public class LampSocketBlock extends BlockContainer {
 				}
 			}
 		}
+
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void init() {
 
 	}
 

@@ -1,15 +1,15 @@
 package com.bymarcin.zettaindustries.utils;
 
+import com.bymarcin.zettaindustries.utils.math.Matrix4f;
+import com.bymarcin.zettaindustries.utils.math.Vector3f;
 import com.bymarcin.zettaindustries.utils.render.RenderUtils;
-
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 
 public enum LocalSides {
 	NORTH,
 	EAST,
 	SOUTH,
 	WEST;
+	
 
 	private static Vector3f vec = new Vector3f(0, 1, 0);
 
@@ -26,6 +26,7 @@ public enum LocalSides {
 		}
 		return LocalSides.NORTH;
 	}
+
 
 	public void rotateMatrix(Matrix4f matrix) {
 		switch (this) {
