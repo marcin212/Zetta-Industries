@@ -38,7 +38,7 @@ public class BundledViewerTileEntity extends TileEntity implements IConnectable,
 			}
 			
 			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-			worldObj.notifyBlockChange(xCoord, yCoord, zCoord, blockType);
+			//worldObj.notifyBlockChange(xCoord, yCoord, zCoord, blockType);
 			markDirty();
 		}
 	}
