@@ -76,7 +76,7 @@ public class ElectricPoleTiered implements IElectricPole {
         if (to == this) return false;
         if (tier != cond.getTier()) return false;
         VecDouble vec = new VecDouble(getParent()).add(new VecDouble(to.getParent()).getOpposite());
-        if (vec.mag() > 16) return false;
+        if (vec.mag() > 64) return false;
         for (IInterPoleWire i : connections) {
             if (i.vecStart().equals(new VecInt(getParent()))) {
                 if (i.vecEnd().equals(new VecInt(to.getParent()))) {

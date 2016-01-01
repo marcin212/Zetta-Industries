@@ -1,10 +1,17 @@
 package com.bymarcin.zettaindustries.utils;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.util.ForgeDirection;
+
 import cofh.api.energy.IEnergyHandler;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
@@ -18,7 +25,27 @@ public class WorldUtils {
 			return null;
 		return world.getTileEntity(x, y, z);
 	}
-
+	
+    public static void dropItem(ItemStack item, Random rand, int x, int y, int z, World w) {
+        if (item != null && item.stackSize > 0) {
+            float rx = rand.nextFloat() * 0.8F + 0.1F;
+            float ry = rand.nextFloat() * 0.8F + 0.1F;
+            float rz = rand.nextFloat() * 0.8F + 0.1F;
+            EntityItem entityItem = new EntityItem(w,
+                    x + rx, y + ry, z + rz,
+                    new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
+            if (item.hasTagCompound()) {
+                entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
+            }
+            float factor = 0.05F;
+            entityItem.motionX = rand.nextGaussian() * factor;
+            entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
+            entityItem.motionZ = rand.nextGaussian() * factor;
+            w.spawnEntityInWorld(entityItem);
+            item.stackSize = 0;
+        }
+    }
+    
 	public static TileEntity getTileEntityServer(int dimensionId, int x, int y, int z) {
 		World world = MinecraftServer.getServer().worldServerForDimension(dimensionId);
 		if (world == null)

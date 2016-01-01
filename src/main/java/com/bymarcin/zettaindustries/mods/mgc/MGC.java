@@ -29,7 +29,7 @@ public class MGC implements IMod, IGUI, IProxy {
 	LampSocketBlock lampSocketBlock;
 	LightBulbItem lightBulbItem;
 	ElectricalConnectorBlock connector;
-
+	public static ItemStack coil;
 	@Override
 	public void preInit() {
 		lampSocketBlock = new LampSocketBlock();
@@ -53,7 +53,7 @@ public class MGC implements IMod, IGUI, IProxy {
 		ItemStack machine = GameRegistry.findItemStack("Magneticraft", "machine_hausing",1);
 		ItemStack glass = GameRegistry.findItemStack("minecraft", "glass",1);
 		ItemStack clay = GameRegistry.findItemStack("minecraft", "clay_ball",1);
-		
+		coil = GameRegistry.findItemStack("Magneticraft","item.heavy_copper_coil",1);
 		
 		if(cable!=null && machine !=null && glass!=null){
 			GameRegistry.addShapedRecipe(new ItemStack(lampSocketBlock, 1, 0), 

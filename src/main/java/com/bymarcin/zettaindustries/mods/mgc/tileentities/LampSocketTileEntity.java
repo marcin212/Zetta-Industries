@@ -85,10 +85,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			return;
 		filament.recache();
 		filament.iterate();
-
-		filament.setStorage(1);
-		
-		
+	
 		if (lightBulb == null && lastLightValue != 0) {
 			lastLightValue = 0;
 			markDirty();
@@ -227,7 +224,6 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 
 	@Override
 	public void closeInventory() {
-		if(!worldObj.isRemote) return;
 		getWorldObj().markBlockForUpdate(xCoord, yCoord, zCoord);
 		getWorldObj().updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
 	}

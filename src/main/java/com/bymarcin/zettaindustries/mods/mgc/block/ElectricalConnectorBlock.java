@@ -1,11 +1,16 @@
 package com.bymarcin.zettaindustries.mods.mgc.block;
 
 import java.util.List;
+import java.util.Random;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.mods.mgc.MGC;
 import com.bymarcin.zettaindustries.mods.mgc.item.ElectricalConnectorItem;
 import com.bymarcin.zettaindustries.mods.mgc.render.ElectricalConnectorRenderer;
 import com.bymarcin.zettaindustries.mods.mgc.tileentities.ElectricalConnectorTileEntity;
+import com.bymarcin.zettaindustries.utils.WorldUtils;
+import com.cout970.magneticraft.api.MgAPI;
+import com.cout970.magneticraft.api.electricity.IInterPoleWire;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -13,6 +18,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -21,6 +27,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class ElectricalConnectorBlock extends BlockContainer {
-
+	public static int renderid = RenderingRegistry.getNextAvailableRenderId();
 	public static final int connectorLV = 0;
 	public static final int connectorMV = 1;
 	public static final int connectorHV = 2;
@@ -54,6 +61,20 @@ public class ElectricalConnectorBlock extends BlockContainer {
 		}
 		super.breakBlock(w, x, y, z, b, meta);
 	}
+	
+    public void onBlockPreDestroy(World w, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(w, x, y, z, meta);
+        if (w.isRemote || MGC.coil==null) return;
+        TileEntity tileEntity = w.getTileEntity(x, y, z);
+        if ((tileEntity instanceof ElectricalConnectorTileEntity)) {
+        	ElectricalConnectorTileEntity inventory = (ElectricalConnectorTileEntity) tileEntity;
+            Random rand = w.rand;
+            
+            for(IInterPoleWire a: inventory.getPoleConnection().getConnectedConductors()){
+                WorldUtils.dropItem(ItemStack.copyItemStack(MGC.coil), rand, x, y, z, w);
+            }
+        }
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
@@ -69,7 +90,7 @@ public class ElectricalConnectorBlock extends BlockContainer {
 
 	@Override
 	public int getRenderType() {
-		return ElectricalConnectorRenderer.renderid;
+		return renderid;
 	}
 
 	@Override

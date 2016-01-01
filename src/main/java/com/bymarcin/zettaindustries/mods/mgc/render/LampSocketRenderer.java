@@ -16,7 +16,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class LampSocketRenderer implements ISimpleBlockRenderingHandler {
-	public static int renderid = RenderingRegistry.getNextAvailableRenderId();
+	
 	WavefrontObject[] models = new WavefrontObject[LampSocketBlock.subblocksCount];
 
 	public LampSocketRenderer() {
@@ -58,7 +58,7 @@ public class LampSocketRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public int getRenderId() {
-		return renderid;
+		return LampSocketBlock.renderid;
 	}
 
 }

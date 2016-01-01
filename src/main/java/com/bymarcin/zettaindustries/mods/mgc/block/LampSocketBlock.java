@@ -1,12 +1,13 @@
 package com.bymarcin.zettaindustries.mods.mgc.block;
 
 import java.util.List;
+import java.util.Random;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.mgc.item.LampSocketItem;
-import com.bymarcin.zettaindustries.mods.mgc.render.LampSocketRenderer;
 import com.bymarcin.zettaindustries.mods.mgc.tileentities.LampSocketTileEntity;
 import com.bymarcin.zettaindustries.utils.LocalSides;
+import com.bymarcin.zettaindustries.utils.WorldUtils;
 import com.bymarcin.zettaindustries.utils.math.Matrix4f;
 import com.bymarcin.zettaindustries.utils.math.Vector3f;
 import com.bymarcin.zettaindustries.utils.math.Vector4f;
@@ -18,23 +19,26 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class LampSocketBlock extends BlockContainer {
+	public static int renderid = RenderingRegistry.getNextAvailableRenderId();
 	IIcon[] icon;
 	String iconPrefix = ZettaIndustries.MODID + ":mgc/models/";
 	String[] iconsName = new String[] {
@@ -115,12 +119,24 @@ public class LampSocketBlock extends BlockContainer {
 
 	}
 
-	@SideOnly(Side.CLIENT)
-	public void init() {
 
-	}
+    public void onBlockPreDestroy(World w, int x, int y, int z, int meta) {
+        super.onBlockPreDestroy(w, x, y, z, meta);
+        if (w.isRemote) return;
+        TileEntity tileEntity = w.getTileEntity(x, y, z);
+        if ((tileEntity instanceof IInventory)) {
+            IInventory inventory = (IInventory) tileEntity;
+            Random rand = w.rand;
+            for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                WorldUtils.dropItem(inventory.getStackInSlot(i), rand, x, y, z, w);
+            }
+        }
+    }
+    
 
-	@Override
+    
+    
+    @Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return new LampSocketTileEntity();
 	}
@@ -240,7 +256,7 @@ public class LampSocketBlock extends BlockContainer {
 
 	@Override
 	public int getRenderType() {
-		return LampSocketRenderer.renderid;
+		return renderid;
 	}
 
 	@Override

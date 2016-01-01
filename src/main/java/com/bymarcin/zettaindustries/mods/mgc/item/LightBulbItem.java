@@ -29,10 +29,10 @@ public class LightBulbItem extends Item {
 		setUnlocalizedName("LightBulb");
 
 		lightBulbTags = new NBTTagCompound[] {
-				createLightBulb(50, 200, 60 * 60 * 12, 8, LightBulbItem.START_INCANDESCENT),
-				createLightBulb(100, 200, 60 * 60 * 12, 15, LightBulbItem.START_INCANDESCENT),
-				createLightBulb(8, 200, 60 * 60 * 48, 8, LightBulbItem.START_ECO),
-				createLightBulb(15, 200, 60 * 60 * 48, 15, LightBulbItem.START_ECO)
+				createLightBulb(50, 100, 60 * 60 * 12, 8, LightBulbItem.START_INCANDESCENT),
+				createLightBulb(100, 100, 60 * 60 * 12, 15, LightBulbItem.START_INCANDESCENT),
+				createLightBulb(8, 100, 60 * 60 * 48, 8, LightBulbItem.START_ECO),
+				createLightBulb(15, 100, 60 * 60 * 48, 15, LightBulbItem.START_ECO)
 		};
 
 		GameRegistry.registerItem(this, "LightBulb");

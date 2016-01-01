@@ -31,7 +31,7 @@ import blusunrize.immersiveengineering.ImmersiveEngineering;
 
 public class ElectricalConnectorRenderer extends TileEntitySpecialRenderer implements ISimpleBlockRenderingHandler{
 	public static ResourceLocation ELECTRIC_WIRE_TIER_1 = new ResourceLocation(ZettaIndustries.MODID,"textures/items/mgc/wire_tier1.png");
-	public static int renderid = RenderingRegistry.getNextAvailableRenderId();
+	
 	
 	public static ResourceLocation[] rl = new ResourceLocation[4];
 	CustomModel[][] models = new CustomModel[4][6];
@@ -224,6 +224,6 @@ public class ElectricalConnectorRenderer extends TileEntitySpecialRenderer imple
 
 	@Override
 	public int getRenderId() {
-		return renderid;
+		return ElectricalConnectorBlock.renderid;
 	}
 }

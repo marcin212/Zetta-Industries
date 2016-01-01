@@ -40,9 +40,15 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
 			};
 			
 			@Override
-			public void onDisconnect(IInterPoleWire conn) {
+			public void onConnect(IInterPoleWire wire) {
+				super.onConnect(wire);
 				updateClient = true;
+			}
+			
+			@Override
+			public void onDisconnect(IInterPoleWire conn) {
 				super.onDisconnect(conn);
+				updateClient = true;
 			}
 		};
 	}
@@ -57,15 +63,15 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
 			break;
 		case ElectricalConnectorBlock.connectorMV:
 			vec = new VecDouble(.5 + fd.offsetX * (.0625), .5 + fd.offsetY * (.0625), .5 + fd.offsetZ * (.0625));
-			tier = 2;
+			tier = 1;
 			break;
 		case ElectricalConnectorBlock.connectorHV:
 			vec = new VecDouble(.5 + fd.offsetX * (.25), .5 + fd.offsetY * (.25), .5 + fd.offsetZ * (.25));
-			tier = 4;
+			tier = 3;
 			break;
 		case ElectricalConnectorBlock.relayHV:
 			vec = new VecDouble(.5, .125, .5);
-			tier = 4;
+			tier = 3;
 			break;
 		}
 
@@ -74,6 +80,12 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
 			public VecDouble[] getWireConnectors() {
 				return new VecDouble[] { ElectricalConnectorTileEntity.this.vec.copy() };
 			};
+			
+			@Override
+			public void onConnect(IInterPoleWire wire) {
+				super.onConnect(wire);
+				updateClient = true;
+			}
 			
 			@Override
 			public void onDisconnect(IInterPoleWire conn) {
@@ -104,6 +116,8 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
 	}
 
 
+	
+	
     public void sendUpdateToClient() {
         if (worldObj.isRemote) return;
         Packet nbt = getDescriptionPacket();
