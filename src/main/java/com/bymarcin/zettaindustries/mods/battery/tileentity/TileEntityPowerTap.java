@@ -197,7 +197,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 	
 	public boolean isOutput() {
-		return blockMetadata==0;
+		return getBlockMetadata()==0;
 	}
 	
 	@Override
