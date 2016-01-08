@@ -1,7 +1,6 @@
 package com.bymarcin.zettaindustries.mods.ocwires.tileentity;
 
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.ocwires.TelecommunicationWireType;
@@ -199,7 +198,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
        
         
 		if(worldObj!=null && !worldObj.isRemote)
-			ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this),worldObj);
+			ImmersiveNetHandler.INSTANCE.clearAllConnectionsFor(Utils.toCC(this),worldObj,true);
         // Make sure to remove the node from its network when its environment,
         // meaning this tile entity, gets unloaded.
         if (node != null) node.remove();
