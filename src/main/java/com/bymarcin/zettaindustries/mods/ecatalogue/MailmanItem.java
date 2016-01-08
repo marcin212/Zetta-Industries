@@ -19,6 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 
 
+
 import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.driver.Item;
 import li.cil.oc.api.driver.item.HostAware;
@@ -26,7 +27,6 @@ import li.cil.oc.api.driver.item.Slot;
 import li.cil.oc.api.internal.Agent;
 import li.cil.oc.api.internal.Drone;
 import li.cil.oc.api.internal.Robot;
-import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.ManagedEnvironment;
 import li.cil.oc.client.KeyBindings;
 import li.cil.oc.util.ItemCosts;
@@ -38,15 +38,20 @@ public class MailmanItem extends BasicItem implements EnvironmentProvider, Item,
 		super("mailmanupgrade");
 		iconString = ZettaIndustries.MODID+":mailman_upgrade";
 	}
+
+	@Override
+	public boolean worksWith(ItemStack stack, Class<? extends li.cil.oc.api.driver.EnvironmentHost> host) {
+		return worksWith(stack) && (Robot.class.isAssignableFrom(host) || Drone.class.isAssignableFrom(host));
+	}
+
+	@Override
+	public ManagedEnvironment createEnvironment(ItemStack stack, li.cil.oc.api.driver.EnvironmentHost host) {
+		return new MailmanUpgrade((Agent) host);
+	}
 	
 	@Override
 	public EnumRarity getRarity(ItemStack stack) {
 		return EnumRarity.uncommon;
-	}
-	
-	@Override
-	public boolean worksWith(ItemStack stack, Class<? extends EnvironmentHost> host) {
-		return worksWith(stack) && (Robot.class.isAssignableFrom(host) || Drone.class.isAssignableFrom(host));
 	}
 
 	@Override
@@ -57,11 +62,6 @@ public class MailmanItem extends BasicItem implements EnvironmentProvider, Item,
 	@Override
 	public boolean worksWith(ItemStack stack) {
 		return stack.getItem().equals(this);
-	}
-
-	@Override
-	public ManagedEnvironment createEnvironment(ItemStack stack, EnvironmentHost host) {
-		return new MailmanUpgrade((Agent) host);
 	}
 
 	@Override
@@ -127,6 +127,7 @@ public class MailmanItem extends BasicItem implements EnvironmentProvider, Item,
 			}
 		}
 	}
+
 
 
 }
