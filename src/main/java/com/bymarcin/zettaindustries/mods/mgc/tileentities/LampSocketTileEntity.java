@@ -103,7 +103,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 			if (worldObj.getTotalWorldTime() % 20 == 0) {
 				updateR();
 				int basicLightValue = LightBulbItem.getLightValue(lightBulb);
-				newLightValue = (int) Math.max((Math.min(filament.getVoltage() / LightBulbItem.getVoltage(lightBulb), 1) - 0.5) / 0.5 * basicLightValue, 0);
+				newLightValue = (int) Math.max((Math.min((filament.getVoltage()+20) / LightBulbItem.getVoltage(lightBulb), 1) - 0.5) / 0.5 * basicLightValue, 0);
 				if (newLightValue > 0) {
 					LightBulbItem.applyLightBulbDamage(lightBulb);
 				}
