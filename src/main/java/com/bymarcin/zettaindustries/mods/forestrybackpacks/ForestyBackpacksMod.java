@@ -18,9 +18,11 @@ import forestry.api.recipes.RecipeManagers;
 import forestry.api.storage.BackpackManager;
 import forestry.api.storage.EnumBackpackType;
 import forestry.core.fluids.Fluids;
+
 import forestry.plugins.PluginApiculture;
 import forestry.plugins.PluginCore;
 import forestry.plugins.PluginMail;
+
 
 public class ForestyBackpacksMod implements IMod {
 
@@ -85,6 +87,7 @@ public class ForestyBackpacksMod implements IMod {
 	private void addRecipe(Item backpackT1, Item backpackT2, ItemStack crafting) {
 		RecipeManagers.carpenterManager.addRecipe(200, Fluids.WATER.getFluid(1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.diamond, 'W',
 				PluginCore.items.craftingMaterial.getWovenSilk(), 'T', backpackT1);
+
 		GameRegistry.addShapedRecipe(new ItemStack(backpackT1), "X#X", "VYV", "X#X", '#', Blocks.wool,
 				'X', Items.string, 'V', crafting, 'Y', Blocks.chest);
 	}

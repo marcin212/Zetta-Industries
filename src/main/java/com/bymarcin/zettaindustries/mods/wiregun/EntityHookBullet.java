@@ -1,8 +1,10 @@
 package com.bymarcin.zettaindustries.mods.wiregun;
 
+import blusunrize.immersiveengineering.api.energy.IWireCoil;
 import blusunrize.immersiveengineering.common.entities.EntityRevolvershot;
 import blusunrize.immersiveengineering.common.items.ItemWireCoil;
 import blusunrize.immersiveengineering.common.util.IEDamageSources;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -42,7 +44,7 @@ public class EntityHookBullet extends EntityRevolvershot {
 			int next = (ep.inventory.currentItem + 1) % 10;
 			ItemStack toUse = ep.inventory.getStackInSlot(next);
 			
-			if (toUse != null && toUse.getItem() instanceof ItemWireCoil) {
+			if (toUse != null && toUse.getItem() instanceof IWireCoil) {
 				if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 					if (toUse.getItem().onItemUseFirst(toUse, ep, this.worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, (float) mop.hitVec.xCoord % 1, (float) mop.hitVec.yCoord % 1, (float) mop.hitVec.zCoord % 1)) {
 						this.worldObj.playSoundAtEntity(ep, "random.successful_hit", .8F, 1.2F / (this.rand.nextFloat() * .2F + .9F));

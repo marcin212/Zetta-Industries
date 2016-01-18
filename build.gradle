@@ -99,11 +99,17 @@ repositories {
         name 'ComputerCraft'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.cc.cf}/[module][revision].[ext]"
     }
-	
-		ivy {
+
+	ivy {
         name 'Magneticraft'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.mgc.cf}/[module]-[revision].[ext]"
     }
+
+	ivy {
+        name 'RedLogic'
+        artifactPattern "http://immibis.com/mcmoddl/files/[module]-[revision].[ext]"
+    }
+
 }
 
 dependencies {
@@ -116,6 +122,7 @@ dependencies {
 	compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
 	//compile name: 'magneticraft', version: config.mgc.version, ext: 'jar'
+	compile name: 'redlogic', version: '59.1.11', ext: 'jar'
 }
 
 processResources
