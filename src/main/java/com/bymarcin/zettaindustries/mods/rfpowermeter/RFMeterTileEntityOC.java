@@ -365,19 +365,6 @@ public class RFMeterTileEntityOC extends RFMeterTileEntity implements SimpleComp
 		 }else{
 			 lowImpedance();
 		 }
-		
-		
-		
-		//TileEntity target = MgUtils.getTileEntity(this, MgDirection.DOWN.toVecInt());
-		//IElectricConductor[] c = ElectricUtils.getElectricCond(target, MgDirection.UP.toVecInt(), 1);
-		//IElectricConductor con;
-		//if(c==null) return;
-		//	con  = c[0];
-		 if(inCounterMode){
-			// value+=con.getIntensity()*con.getVoltage();
-		 }else{
-			// value-=con.getIntensity()*con.getVoltage();
-		 }
 
 		
 	}
@@ -483,8 +470,11 @@ public class RFMeterTileEntityOC extends RFMeterTileEntity implements SimpleComp
 	                    	//moves the charge
 	                    	f.getSource().applyCurrent(-current);
 	                    	if(f.getOffset().equals(getDirection().toVecInt())){
-	                    		value+= current*cond.getVoltage()/cond.getVoltageMultiplier();
-	                    		System.out.println(( current*cond.getVoltage()/cond.getVoltageMultiplier() )+ "|" + current + "|" + cond.getVoltage() + "|" + getVoltage() + "|" + (current*current*cond.getResistance()) );
+	                   		 if(inCounterMode){
+	                   			value+= current*cond.getVoltage()/cond.getVoltageMultiplier();
+	                 		 }else{
+	                 			value-= current*cond.getVoltage()/cond.getVoltageMultiplier();
+	                 		 }
 	                    	}
 	                    	cond.applyCurrent(current);
 	                    }
