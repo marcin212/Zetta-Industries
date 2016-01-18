@@ -45,7 +45,7 @@ sourceSets{
 
 
 minecraft {
-    version = "1.7.10-10.13.4.1470-1.7.10"
+    version = "1.7.10-10.13.4.1614-1.7.10"
 	if (file('../run').exists()){
 		assetDir = "../run/assets"
 	}else{
@@ -115,7 +115,7 @@ dependencies {
 	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
 	compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
-	compile name: 'magneticraft', version: config.mgc.version, ext: 'jar'
+	//compile name: 'magneticraft', version: config.mgc.version, ext: 'jar'
 }
 
 processResources

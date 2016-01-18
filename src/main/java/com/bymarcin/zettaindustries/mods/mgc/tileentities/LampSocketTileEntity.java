@@ -97,7 +97,7 @@ public class LampSocketTileEntity extends TileEntity implements IInventory, IEle
 		
 		
 		if (lightBulb != null) {
-			filament.drainPower(LightBulbItem.getPower(lightBulb));
+			filament.drainPower(filament.getVoltage()*filament.getVoltage()/filament.getResistance());
 			int newLightValue = lastLightValue;
 
 			if (worldObj.getTotalWorldTime() % 20 == 0) {

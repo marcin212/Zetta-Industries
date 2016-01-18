@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
 import java.util.ArrayList;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
@@ -201,5 +202,14 @@ public class RFMeterBlock extends BasicBlockContainer{
 	public int getRenderType() {
 		return RFMeter.renderId;
 	}
+	
+	@Override
+    public void onNeighborBlockChange(World w, int x, int y, int z, Block b) {
+        TileEntity t = w.getTileEntity(x, y, z);
+        if (t instanceof RFMeterTileEntityOC) {
+            ((RFMeterTileEntityOC) t).cond.disconnect();
+        }
+    }
+	
 }
 

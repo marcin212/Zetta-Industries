@@ -18,7 +18,7 @@ import com.bymarcin.zettaindustries.utils.WorldUtils;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
 
-public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
+public class RFMeterTileEntity extends TileEntity {
 	int transfer=0;//curent flow in RF/t
 	int transferLimit=-1;
 	long value=0;//current used energy
@@ -119,12 +119,12 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 	}
 	
 	
-	@Override
+	
 	public boolean canConnectEnergy(ForgeDirection from) {
 		return from == ForgeDirection.UP || from == ForgeDirection.DOWN;
 	}
 
-	@Override
+	
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		if(!canEnergyFlow()) return 0;
 		int temp = 0;
@@ -147,17 +147,17 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		return 0;
 	}
 
-	@Override
+
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		return 0;
 	}
 
-	@Override
+
 	public int getEnergyStored(ForgeDirection from) {
 		return 0;
 	}
 
-	@Override
+
 	public int getMaxEnergyStored(ForgeDirection from) {
 		return 10000;
 	}
