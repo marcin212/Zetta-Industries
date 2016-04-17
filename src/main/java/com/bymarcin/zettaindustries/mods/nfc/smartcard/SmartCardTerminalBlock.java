@@ -3,7 +3,6 @@ package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 import java.util.ArrayList;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.mods.mgc.MGC;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
 import net.minecraft.block.Block;

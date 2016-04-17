@@ -87,7 +87,7 @@ public class SmartCardTerminalExtension extends Item implements EnvironmentProvi
 		
 		@Override
 		public void update() {
-			((Tablet)host).internalComponents().forEach( (x) -> System.out.println(x.getItem()) );
+			//((Tablet)host).internalComponents().forEach( (x) -> System.out.println(x.getItem()) );
 			super.update();
 		}
 	}
