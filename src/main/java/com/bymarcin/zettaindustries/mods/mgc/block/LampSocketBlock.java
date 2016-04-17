@@ -73,6 +73,7 @@ public class LampSocketBlock extends BlockContainer {
 		super(Material.iron);
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setBlockName("LampSocket");
+		setHardness(3f);
 		GameRegistry.registerBlock(this, LampSocketItem.class, "LampSocket");
 		GameRegistry.registerTileEntity(LampSocketTileEntity.class, "LampSocketTileEntity");
 		setBlockTextureName(ZettaIndustries.MODID + ":mgc/LampSocket");

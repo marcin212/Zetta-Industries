@@ -33,7 +33,18 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
 	boolean  updateClient = false;
 	
 	public ElectricalConnectorTileEntity() {
-		input = new ElectricConductor(this, tier, 0.001);
+		input = new ElectricConductor(this){
+			@Override
+			public int getTier() {
+				return tier;
+			}
+			
+		    @Override
+		    public double getVoltageMultiplier() {
+		        return ENERGY_TIERS[tier]/100D;
+		    }
+			
+		};
 		component = new ElectricPoleTiered(this, input) {
 			public VecDouble[] getWireConnectors() {
 				return new VecDouble[] { ElectricalConnectorTileEntity.this.vec.copy() };
@@ -67,15 +78,27 @@ public class ElectricalConnectorTileEntity extends TileEntity implements ITileEl
 			break;
 		case ElectricalConnectorBlock.connectorHV:
 			vec = new VecDouble(.5 + fd.offsetX * (.25), .5 + fd.offsetY * (.25), .5 + fd.offsetZ * (.25));
-			tier = 3;
+			tier = 2;
 			break;
 		case ElectricalConnectorBlock.relayHV:
 			vec = new VecDouble(.5, .125, .5);
-			tier = 3;
+			tier = 2;
 			break;
 		}
 
-		input = new ElectricConductor(this, tier, 0.001);
+		input = new ElectricConductor(this, tier, 0.001){
+			@Override
+			public int getTier() {
+				return tier;
+			}
+			
+		    @Override
+		    public double getVoltageMultiplier() {
+		        return ENERGY_TIERS[tier]/100D;
+		    }
+			
+		};
+		
 		component = new ElectricPoleTiered(this, input) {
 			public VecDouble[] getWireConnectors() {
 				return new VecDouble[] { ElectricalConnectorTileEntity.this.vec.copy() };

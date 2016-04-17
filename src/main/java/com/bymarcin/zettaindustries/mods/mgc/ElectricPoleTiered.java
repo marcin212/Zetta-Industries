@@ -95,7 +95,11 @@ public class ElectricPoleTiered implements IElectricPole {
 
     @Override
     public void onDisconnect(IInterPoleWire conn) {
-        connections.remove(conn);
+        int i = 0;
+    	while(connections.remove(conn))
+        	i++;
+    	System.out.println("Removed: " + i + "| " + this.hashCode());
+    	
         refreshList();
     }
 
@@ -149,7 +153,7 @@ public class ElectricPoleTiered implements IElectricPole {
     }
 
     public void allowConnections() {
-        findConnections(this);
+       // findConnections(this);
         connectionsBlocked = 0;
     }
 

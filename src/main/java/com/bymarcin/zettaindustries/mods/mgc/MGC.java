@@ -14,7 +14,10 @@ import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
+import li.cil.oc.api.Driver;
+
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -37,11 +40,14 @@ public class MGC implements IMod, IGUI, IProxy {
 		connector = new ElectricalConnectorBlock();
 		
 		ZIRegistry.registerProxy(this);
-
 	}
 
 	@Override
 	public void init() {
+		Driver.add(new MGCConverter());
+		Driver.add(new DriverElectricConductor());
+		Driver.add(new DriverHeatConductor());
+		
 		ZIRegistry.registerGUI(this);
 	}
 

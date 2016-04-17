@@ -73,8 +73,11 @@ public class ElectricalConnectorBlock extends BlockContainer {
             for(IInterPoleWire a: inventory.getPoleConnection().getConnectedConductors()){
                 WorldUtils.dropItem(ItemStack.copyItemStack(MGC.coil), rand, x, y, z, w);
             }
+            inventory.getPoleConnection().disconnectAll();
         }
     }
+    
+    
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
@@ -200,4 +203,5 @@ public class ElectricalConnectorBlock extends BlockContainer {
 			icons[i] = iconRegistry.registerIcon(ZettaIndustries.MODID + iconsName[i]);
 		}
 	}
+	
 }
