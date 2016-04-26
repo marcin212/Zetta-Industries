@@ -1,33 +1,32 @@
 package com.bymarcin.zettaindustries.mods.nfc;
 
-import li.cil.oc.api.Driver;
-import li.cil.oc.api.Items;
-import li.cil.oc.api.driver.EnvironmentProvider;
-
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.nfc.block.BlockNFCProgrammer;
 import com.bymarcin.zettaindustries.mods.nfc.block.BlockNFCReader;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemPrivateCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardBlockTerminalRenderer;
+import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardItem;
 import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardRackRenderer;
 import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardTerminalBlock;
 import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardTerminalExtension;
 import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardTerminalItem;
-import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardItem;
 import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardTerminalTileEntity;
 import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCProgrammer;
 import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCReader;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
+import li.cil.oc.api.Driver;
+import li.cil.oc.api.Items;
+
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import net.minecraftforge.common.MinecraftForge;
 
@@ -124,7 +123,8 @@ public class NFC implements IMod, IProxy{
 		
 
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
 		ClientRegistry.bindTileEntitySpecialRenderer(SmartCardTerminalTileEntity.class, new SmartCardBlockTerminalRenderer());
