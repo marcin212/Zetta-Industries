@@ -15,6 +15,7 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
 
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModAPIManager;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 
@@ -43,7 +44,7 @@ public class ModManager {
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-		addMod("rfpowermeter.RFMeter", "", "RFPowerMeter");
+		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
 //		addMod("battery.Battery", "", "BigBattery");
@@ -70,6 +71,10 @@ public class ModManager {
 		for (ModContainer mod : Loader.instance().getModList()) {
 			aMods.add(mod.getModId());
 		}
+		for (ModContainer api :ModAPIManager.INSTANCE.getAPIList()){
+			aMods.add(api.getModId());
+		}
+		
 		addMods();
 		
 		for (ModDescription mod : mods) {
@@ -77,6 +82,7 @@ public class ModManager {
 				loadMod(mod);
 			}
 			if (mod.isLoaded) {
+				ZettaIndustries.logger.info("Start loading [" + mod.classPath + "]");
 				mod.mod.preInit();
 				ZettaIndustries.logger.info("Modification has been loaded [" + mod.classPath + "]");
 			}
@@ -87,7 +93,9 @@ public class ModManager {
 	public void init() {
 		for (ModDescription mod : mods) {
 			if (mod.isLoaded) {
+				ZettaIndustries.logger.info("Start init [" + mod.classPath + "]");
 				mod.mod.init();
+				ZettaIndustries.logger.info("Finish init [" + mod.classPath + "]");
 			}
 		}
 	}
@@ -119,6 +127,9 @@ public class ModManager {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
+		} catch (NoClassDefFoundError e) {
+			ZettaIndustries.logger.info("NoClassDefFoundError in:" + mod.classPath);
+			throw e;
 		}
 	}
 	
