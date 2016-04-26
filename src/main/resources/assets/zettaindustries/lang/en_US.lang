@@ -12,9 +12,9 @@ item.itemcardnfc.name=NFC Card
 item.itemprivatecardnfc.name=Private NFC Card
 zettaindustries.text.nfc.message1=NFC data written!
 zettaindustries.text.nfc.message2=You are not the owner or the owner is not set!
-item.smartcard.name=Smart Card
-item.smartcardterminal.name=Smart Card Terminal
-tile.smartcardterminalblock.name=Smart Card Terminal
+item.smartcard.name=Smart Card [WIP]
+item.smartcardterminal.name=Smart Card Terminal [WIP]
+tile.smartcardterminalblock.name=Smart Card Terminal [WIP]
 #Battery
 tile.batterypowertap.name= Battery Power Tap
 tile.batteryelectrode.name=Battery Electrode
@@ -99,4 +99,4 @@ item.backpack.opencomputersT1.name=OpenComputers Backpack
 item.backpack.opencomputersT2.name=OpenComputers Woven Backpack
 
 #BundledViewerBlock
-tile.BundledViewer.name=Bundle Inspector
+tile.BundledViewer.name=Bundle Inspector [WIP]
