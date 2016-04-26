@@ -1,11 +1,8 @@
 package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
-import java.util.ArrayList;
-
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,6 +15,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 
 public class SmartCardTerminalBlock extends BlockContainer{
@@ -56,7 +55,8 @@ public class SmartCardTerminalBlock extends BlockContainer{
 		}
 		
 	}
-    
+	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister ir) {
 		icons[TOP_BOTTOM] = ir.registerIcon(ZettaIndustries.MODID + ":nfc/terminal_top");
@@ -65,6 +65,8 @@ public class SmartCardTerminalBlock extends BlockContainer{
 	}
 	
 	public static final int[] sides = {3,4,2,5};
+	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(int side, int metadata) {
 		if(metadata<4){

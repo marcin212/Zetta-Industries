@@ -2,7 +2,6 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter.render;
 
 import com.bymarcin.zettaindustries.mods.rfpowermeter.RFMeter;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.RFMeterTileEntity;
-import com.bymarcin.zettaindustries.mods.simpledhd.render.BlockRenderSimpleDHD;
 import com.bymarcin.zettaindustries.utils.render.CustomModel;
 import com.bymarcin.zettaindustries.utils.render.CustomModelFactory;
 import com.bymarcin.zettaindustries.utils.render.cmd.Normal;
@@ -15,7 +14,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.IBlockAccess;
 
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class RFMeterStaticRender implements ISimpleBlockRenderingHandler{
 	CustomModel[][] models = new CustomModel[4][2];

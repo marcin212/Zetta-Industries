@@ -9,12 +9,10 @@ import java.security.Signature;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.EnumSet;
 
 import javax.crypto.KeyAgreement;
 
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
-import com.bymarcin.zettaindustries.mods.nfc.smartcard.SmartCardTerminal.KeyType;
 
 import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;

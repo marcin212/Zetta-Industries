@@ -2,17 +2,12 @@ package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import li.cil.oc.api.Network;
 import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.driver.item.Container;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
-import li.cil.oc.api.internal.Tablet;
 import li.cil.oc.api.network.EnvironmentHost;
-import li.cil.oc.api.network.Message;
-import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.ManagedEnvironment;
 

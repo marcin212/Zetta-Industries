@@ -2,28 +2,26 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
 import java.util.ArrayList;
 
+import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
+import com.bymarcin.zettaindustries.utils.render.RenderUtils;
+
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
-import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterRender;
-import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterStaticRender;
-import com.bymarcin.zettaindustries.utils.render.RenderUtils;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class RFMeterBlock extends BasicBlockContainer{
 	//public static IIcon blockIcon;
@@ -94,7 +92,8 @@ public class RFMeterBlock extends BasicBlockContainer{
 	public boolean isNormalCube(IBlockAccess world, int x, int y, int z) {
 		return false;
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	@Override
 	public boolean isNormalCube() {
 		return false;

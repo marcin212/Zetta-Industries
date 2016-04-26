@@ -15,26 +15,24 @@ import javax.crypto.KeyAgreement;
 
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-
-import net.minecraftforge.common.util.ForgeDirection;
-
 import li.cil.oc.api.Network;
 import li.cil.oc.api.component.RackBusConnectable;
 import li.cil.oc.api.component.RackMountable;
-import li.cil.oc.api.driver.item.Inventory;
 import li.cil.oc.api.internal.Rack;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.Analyzable;
 import li.cil.oc.api.network.ComponentConnector;
-import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.Visibility;
 import li.cil.oc.api.prefab.ManagedEnvironment;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class SmartCardTerminal extends ManagedEnvironment implements RackMountable, Analyzable {
 	ItemStack card = null;

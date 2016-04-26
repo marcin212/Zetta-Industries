@@ -1,45 +1,19 @@
 package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
-import java.util.Set;
-
 import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.mods.nfc.NFC;
-
-import org.lwjgl.opengl.GL11;
 
 import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
-import li.cil.oc.api.driver.item.UpgradeRenderer;
-import li.cil.oc.api.event.RackMountableRenderEvent;
-import li.cil.oc.api.event.RobotRenderEvent.MountPoint;
 import li.cil.oc.api.internal.Rack;
-import li.cil.oc.api.internal.Robot;
 import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.ManagedEnvironment;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-
-import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
-
-import dan200.computercraft.ComputerCraft.Blocks;
 
 public class SmartCardTerminalItem extends Item implements EnvironmentProvider, HostAware, li.cil.oc.api.driver.Item {
 
