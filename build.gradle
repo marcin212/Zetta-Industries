@@ -11,12 +11,14 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
 
-apply plugin: 'forge'
-
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'idea'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 version = "1.1-"+System.getenv("BUILD_NUMBER")
 group= "com.bymarcin.zettaindustries" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "zettaindustries"
@@ -45,12 +47,14 @@ sourceSets{
 
 
 minecraft {
-    version = "1.7.10-10.13.4.1470-1.7.10"
-	if (file('../run').exists()){
-		assetDir = "../run/assets"
-	}else{
-		assetDir = "assets"
-	}
+    version = "1.9-12.16.0.1868-1.9"
+    mappings = "snapshot_20160421"
+	runDir = "run"
+	//if (file('../run').exists()){
+		//assetDir = "../run/assets"
+	//}else{
+		//assetDir = "assets"
+	//}
 }
 
 configurations {
@@ -108,16 +112,16 @@ repositories {
 }
 
 dependencies {
-	compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
-	compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
-	compile "net.sengir.forestry:forestry_1.7.10:${config.forestry.version}:dev"
-	compile "li.cil.oc:OpenComputers:${config.oc.version}:dev"
-	compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
-	compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
-	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
-	compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
-	compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
-	compile name: 'redlogic', version: '59.1.11', ext: 'jar'
+	//compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
+	//compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
+	//compile "net.sengir.forestry:forestry_1.7.10:${config.forestry.version}:dev"
+	//compile "li.cil.oc:OpenComputers:${config.oc.version}:dev"
+	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
+	//compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
+	//compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
+	//compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
+	//compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
+	//compile name: 'redlogic', version: '59.1.11', ext: 'jar'
 }
 
 processResources
