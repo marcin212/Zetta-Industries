@@ -16,28 +16,28 @@ public class VertexUVExecutor extends VertexExecutor {
 
 	@Override
 	public void execute(Tessellator tes, CustomModel model, boolean isInventory) {
-		if (!isInventory) {
-			LightInfo li = model.getCurrentLightForLastNormalDir();
-			switch (getCorner()) {
-			case 0:
-				tes.setColorOpaque_F(li.colorRedTopLeft, li.colorGreenTopLeft, li.colorBlueTopLeft);
-				tes.setBrightness(li.brightnessTopLeft);
-				break;
-			case 1:
-				tes.setColorOpaque_F(li.colorRedBottomLeft, li.colorGreenBottomLeft, li.colorBlueBottomLeft);
-				tes.setBrightness(li.brightnessBottomLeft);
-				break;
-			case 2:
-				tes.setColorOpaque_F(li.colorRedBottomRight, li.colorGreenBottomRight, li.colorBlueBottomRight);
-				tes.setBrightness(li.brightnessBottomRight);
-				break;
-			case 3:
-				tes.setColorOpaque_F(li.colorRedTopRight, li.colorGreenTopRight, li.colorBlueTopRight);
-				tes.setBrightness(li.brightnessTopRight);
-				break;
-			}
-		}
-		tes.addVertexWithUV(x, y, z, u, v);
+//		if (!isInventory) {
+//			LightInfo li = model.getCurrentLightForLastNormalDir();
+//			switch (getCorner()) {
+//			case 0:
+//				tes.setColorOpaque_F(li.colorRedTopLeft, li.colorGreenTopLeft, li.colorBlueTopLeft);
+//				tes.setBrightness(li.brightnessTopLeft);
+//				break;
+//			case 1:
+//				tes.setColorOpaque_F(li.colorRedBottomLeft, li.colorGreenBottomLeft, li.colorBlueBottomLeft);
+//				tes.setBrightness(li.brightnessBottomLeft);
+//				break;
+//			case 2:
+//				tes.setColorOpaque_F(li.colorRedBottomRight, li.colorGreenBottomRight, li.colorBlueBottomRight);
+//				tes.setBrightness(li.brightnessBottomRight);
+//				break;
+//			case 3:
+//				tes.setColorOpaque_F(li.colorRedTopRight, li.colorGreenTopRight, li.colorBlueTopRight);
+//				tes.setBrightness(li.brightnessTopRight);
+//				break;
+//			}
+//		}
+//		tes.addVertexWithUV(x, y, z, u, v);
 	}
 
 	@Override

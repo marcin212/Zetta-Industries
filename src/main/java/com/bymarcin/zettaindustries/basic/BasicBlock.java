@@ -1,21 +1,23 @@
 package com.bymarcin.zettaindustries.basic;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import net.minecraft.util.StatCollector;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.bymarcin.zettaindustries.ZettaIndustries;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.util.text.translation.I18n;
 
 public class BasicBlock extends Block implements IBlockInfo {
 
 	protected BasicBlock(Material material, String name) {
 		super(material);
-		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
-		setBlockName(name);
+		setCreativeTab(ZettaIndustries.tabZettaIndustries);
+		setRegistryName(name);
+		setUnlocalizedName(ZettaIndustries.MODID + "." + name);
 		setHardness(3.0F);
+		
 	}
 
     @Override
@@ -24,7 +26,7 @@ public class BasicBlock extends Block implements IBlockInfo {
     }
 
     public String localize(String key) {
-        return StatCollector.canTranslate(key) ? StatCollector.translateToLocal(key) : StatCollector.translateToFallback(key);
+        return I18n.canTranslate(key) ? I18n.translateToLocal(key) : I18n.translateToFallback(key);
     }
 
 }

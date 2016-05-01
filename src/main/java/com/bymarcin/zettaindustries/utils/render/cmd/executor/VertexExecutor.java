@@ -17,7 +17,7 @@ public class VertexExecutor implements IRenderCommandExecutor{
 	
 	@Override
 	public void execute(Tessellator tes, CustomModel model, boolean isInventory) {
-		tes.addVertex(x, y, z);
+		//tes.addVertex(x, y, z);
 	}
 
 	public float getX() {

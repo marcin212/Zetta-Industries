@@ -8,14 +8,15 @@ import java.lang.reflect.Type;
 
 import net.minecraft.tileentity.TileEntity;
 
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+
 import com.bymarcin.zettaindustries.utils.WorldUtils;
 import com.google.gson.Gson;
 
-import cpw.mods.fml.common.network.ByteBufUtils;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
 
 public abstract class Packet<T extends Packet<T,RES>,RES extends IMessage> implements IMessage,IMessageHandler<T, RES> {
 	private final ByteBuf write;
@@ -121,12 +122,12 @@ public abstract class Packet<T extends Packet<T,RES>,RES extends IMessage> imple
 	// Custom write instructions
 	
 	public Packet<T, RES> writeTileLocation(TileEntity te) throws IOException, RuntimeException {
-		if(te.getWorldObj() == null) throw new RuntimeException("World does not exist!");
+		if(te.getWorld() == null) throw new RuntimeException("World does not exist!");
 		if(te.isInvalid()) throw new RuntimeException("TileEntity is invalid!");
-		write.writeInt(te.getWorldObj().provider.dimensionId);
-		write.writeInt(te.xCoord);
-		write.writeInt(te.yCoord);
-		write.writeInt(te.zCoord);
+		write.writeInt(te.getWorld().provider.getDimension());
+		write.writeInt(te.getPos().getX());
+		write.writeInt(te.getPos().getY());
+		write.writeInt(te.getPos().getZ());
 		return this;
 	}
 	

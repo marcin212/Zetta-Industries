@@ -2,23 +2,24 @@ package com.bymarcin.zettaindustries;
 
 import java.util.Random;
 
+import com.bymarcin.zettaindustries.basic.FakeItemIcon;
 import com.bymarcin.zettaindustries.modmanager.ModManager;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.Proxy;
-
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,8 +34,7 @@ public class ZettaIndustries
     public static final Random RANDOM = new Random();
     
     /* Creative tab for Zetta Industries */
-    public CreativeTabs tabZettaIndustries;
-	
+    public static final CreativeTabs tabZettaIndustries = new ZettaIndustriesCreativeTab();
     public static Item itemLogo;
 
     
@@ -60,9 +60,12 @@ public class ZettaIndustries
     	logger.info("Start preInit!");
     	config = new Configuration(event.getSuggestedConfigurationFile());
     	config.load();	
+
+    	itemLogo = new FakeItemIcon();
+		GameRegistry.register(itemLogo);
+		
     	modManager = new ModManager();
     	ZIRegistry.preInitialize();
-    	tabZettaIndustries = new ZettaIndustriesCreativeTab();
     	modManager.preInit();
     	logger.info("End preInit!");
     }
@@ -74,7 +77,6 @@ public class ZettaIndustries
     	proxy.init();
     	ZIRegistry.initialize();
     	config.save();
-
     }
     
     @EventHandler

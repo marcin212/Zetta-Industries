@@ -18,7 +18,7 @@ public class Brightness extends RenderCommand implements IRenderCommandExecutor{
 
 	@Override
 	public void execute(Tessellator tes, CustomModel model, boolean isInventory) {
-		tes.setBrightness(arg);		
+		//tes.setBrightness(arg);		
 	}
 
 	@Override

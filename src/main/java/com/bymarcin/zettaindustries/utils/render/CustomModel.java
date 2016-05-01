@@ -9,17 +9,18 @@ import com.bymarcin.zettaindustries.utils.render.cmd.executor.NormalExecutor;
 
 import org.lwjgl.util.vector.Matrix4f;
 
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+
+
 
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CustomModel {
 	private LinkedList<RenderCommand> modelCommands = new LinkedList<RenderCommand>();
@@ -87,29 +88,29 @@ public class CustomModel {
 		return this;
 	}
 
-	
-	public void drawInventory(Tessellator tesselator, IIcon icon) {
-		if(!hasBuffer){
-			setUV(icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV()).create();
-		}
-		for (int i = 0; i < buffer.size(); i++) {
-			buffer.get(i).execute(tesselator, this, true);
-		}
-	}
-	
-	public void draw(Tessellator tesselator, IIcon icon, IBlockAccess w, int x, int y, int z, RenderBlocks renderer) {
-		if(!hasBuffer){
-			setUV(icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV()).create();
-		}
-		
-		for(int i=0; i<6; i++){
-			currentLight[i] = LightInfo.calculateBlockLighting(i, w, w.getBlock(x, y, z), x, y, z, 1, 1, 1);
-		}
-		
-		for (int i = 0; i < buffer.size(); i++) {
-			buffer.get(i).execute(tesselator, this, false);
-		}
-	}
+//	
+//	public void drawInventory(Tessellator tesselator, IIcon icon) {
+//		if(!hasBuffer){
+//			setUV(icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV()).create();
+//		}
+//		for (int i = 0; i < buffer.size(); i++) {
+//			buffer.get(i).execute(tesselator, this, true);
+//		}
+//	}
+//	
+//	public void draw(Tessellator tesselator, IIcon icon, IBlockAccess w, int x, int y, int z, RenderBlocks renderer) {
+//		if(!hasBuffer){
+//			setUV(icon.getMinU(), icon.getMaxU(), icon.getMinV(), icon.getMaxV()).create();
+//		}
+//		
+//		for(int i=0; i<6; i++){
+//			currentLight[i] = LightInfo.calculateBlockLighting(i, w, w.getBlock(x, y, z), x, y, z, 1, 1, 1);
+//		}
+//		
+//		for (int i = 0; i < buffer.size(); i++) {
+//			buffer.get(i).execute(tesselator, this, false);
+//		}
+//	}
 	
 	public LightInfo getCurrentLightForLastNormalDir(){
 		return currentLight[lastNormalDir];

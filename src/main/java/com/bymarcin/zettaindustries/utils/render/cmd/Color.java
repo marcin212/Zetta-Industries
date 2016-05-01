@@ -23,7 +23,7 @@ public class Color extends RenderCommand implements IRenderCommandExecutor{
 
 	@Override
 	public void execute(Tessellator tes, CustomModel model, boolean isInventory) {
-		tes.setColorRGBA_F(args[0], args[1], args[2], args[3]);
+		//tes.setColorRGBA_F(args[0], args[1], args[2], args[3]);
 	}
 
 	@Override

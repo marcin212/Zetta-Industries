@@ -18,7 +18,7 @@ public class NormalExecutor implements IRenderCommandExecutor{
 	@Override
 	public void execute(Tessellator tes, CustomModel model, boolean isInventory) {
 		model.setLastNormalDir(mcDir);
-		tes.setNormal(x, y, z);
+		//tes.setNormal(x, y, z);
 	}
 
 	@Override

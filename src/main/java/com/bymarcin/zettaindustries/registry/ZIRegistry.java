@@ -5,7 +5,12 @@ import java.util.Set;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.registry.gui.GuiHandler;
@@ -14,10 +19,6 @@ import com.bymarcin.zettaindustries.registry.network.Packet;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 import com.google.common.base.Preconditions;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
 
 public class ZIRegistry {
 	protected static Set<IProxy> proxy = new HashSet<IProxy>();
@@ -32,7 +33,7 @@ public class ZIRegistry {
 	public static void initialize(){
 		NetworkRegistry.INSTANCE.registerGuiHandler(ZettaIndustries.instance, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
-		MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
+		//TODO MinecraftForge.EVENT_BUS.register(new BlockHighlightHandler());
 	}
 //	public static <T extends IMessage & IMessageHandler<T, U>, U extends IMessage> void registerPacket(int id, Class<T> clazz, Side handleOn){
 	

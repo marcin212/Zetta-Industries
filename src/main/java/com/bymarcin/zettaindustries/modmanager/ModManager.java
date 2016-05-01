@@ -12,12 +12,11 @@ import murlen.util.fscript.FSFunctionExtension;
 import murlen.util.fscript.FScript;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModAPIManager;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModAPIManager;
+import net.minecraftforge.fml.common.ModContainer;
+
 
 public class ModManager {
 	HashSet<ModDescription> mods = new HashSet<ModManager.ModDescription>();
@@ -28,7 +27,7 @@ public class ModManager {
 		FSFastExtension ext = new FSFastExtension();
 		ext.addFunctionExtension("C", new FSFunctionExtension() {
 			@Override
-			public Object callFunction(String name, ArrayList params) throws FSException {
+			public Object callFunction(String name, @SuppressWarnings("rawtypes") ArrayList params) throws FSException {
 				if(params.size()!=1){
 					return 0;
 				}
@@ -39,28 +38,28 @@ public class ModManager {
 	}
 	
 	private void addMods() {
-		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
+//		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
-		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
+//		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
+//		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
 //		addMod("battery.Battery", "", "BigBattery");
-		addMod("battery.Battery", "$('CoFHCore')", "BigBattery");
+//		addMod("battery.Battery", "$('CoFHCore')", "BigBattery");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
-		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
-		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
-		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
-		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
-		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
-		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
-		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
-		addMod("forestrybackpacks.ForestyBackpacksMod","$('Forestry')","ForestyBackpacksMod");
+//		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
+//		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
+//		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
+//		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
+//		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
+//		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
+//		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
+//		addMod("forestrybackpacks.ForestyBackpacksMod","$('Forestry')","ForestyBackpacksMod");
 		//addMod("eawiring.EAWiring","","EAWiring");
-		addMod("bundledviewer.BundledViewerMod","$('RedLogic')","BundledViewer");
+//		addMod("bundledviewer.BundledViewerMod","$('RedLogic')","BundledViewer");
 	}
 
 	private void addMod(String path, String dependencies, String name) {
@@ -71,7 +70,7 @@ public class ModManager {
 		for (ModContainer mod : Loader.instance().getModList()) {
 			aMods.add(mod.getModId());
 		}
-		for (ModContainer api :ModAPIManager.INSTANCE.getAPIList()){
+		for (ModContainer api : ModAPIManager.INSTANCE.getAPIList()){
 			aMods.add(api.getModId());
 		}
 		
