@@ -108,7 +108,11 @@ repositories {
         name 'RedLogic'
         artifactPattern "http://immibis.com/mcmoddl/files/[module]-[revision].[ext]"
     }
-
+    
+    ivy {
+        name 'jei'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.jei.cf}/[module]_[revision].[ext]"
+    }
 }
 
 dependencies {
@@ -122,6 +126,7 @@ dependencies {
 	//compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	//compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
 	//compile name: 'redlogic', version: '59.1.11', ext: 'jar'
+	compile name: 'jei', version: config.jei.version, ext: 'jar'
 }
 
 processResources

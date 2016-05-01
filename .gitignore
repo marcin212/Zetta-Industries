@@ -24,4 +24,5 @@ emc2
 /out
 Thumbs.db
 /src/main/resources/oc_at.cfg
-*.launch
+/*.launch
+/run
