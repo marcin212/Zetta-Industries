@@ -1,0 +1,97 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "zettaindustries:blocks/vre/redstone_emitter_0",
+      "side": "zettaindustries:blocks/vre/redstone_emitter_side",
+	  "down": "zettaindustries:blocks/vre/redstone_emitter_bottom",
+	  "particle": "zettaindustries:blocks/vre/redstone_emitter_side"
+    },
+    "model": "zettaindustries:variableredstoneemitter",
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+	  "transform": "forge:default-block"
+	}],
+    "strength": {
+      "0": {},
+      "1": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_1"
+        }
+      },
+      "2": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_2"
+        }
+      },
+      "3": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_3"
+        }
+      },
+      "4": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_4"
+        }
+      },
+      "5": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_5"
+        }
+      },
+      "6": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_6"
+        }
+      },
+      "7": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_7"
+        }
+      },
+      "8": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_8"
+        }
+      },
+      "9": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_9"
+        }
+      },
+      "10": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_10"
+        }
+      },
+      "11": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_11"
+        }
+      },
+      "12": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_12"
+        }
+      },
+      "13": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_13"
+        }
+      },
+      "14": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_14"
+        }
+      },
+      "15": {
+        "textures": {
+          "up": "zettaindustries:blocks/vre/redstone_emitter_15"
+        }
+      }
+    }
+  }
+}

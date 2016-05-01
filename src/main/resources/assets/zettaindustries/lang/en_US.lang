@@ -2,7 +2,7 @@
 itemGroup.zettaindustries=Zetta Industries
 
 #VanillaUtils
-tile.variableredstoneemitter.name=Variable Redstone Emitter
+tile.zettaindustries.variableredstoneemitter.name=Variable Redstone Emitter
 tile.quarryfixer.name=Quarry Fixer
 
 #NFC

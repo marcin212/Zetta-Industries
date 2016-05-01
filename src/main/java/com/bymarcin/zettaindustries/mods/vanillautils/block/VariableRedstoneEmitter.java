@@ -1,78 +1,87 @@
 package com.bymarcin.zettaindustries.mods.vanillautils.block;
 
-
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IIcon;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlock;
 
-public class VariableRedstoneEmitter extends BasicBlock{
-	static IIcon emitterIcon[] = new IIcon[16];
-	static IIcon emitterIconBottom;
-	static IIcon emitterIconSide;
+public class VariableRedstoneEmitter extends BasicBlock {
+	PropertyInteger STRENGTH = PropertyInteger.create("strength", 0, 15);
 
 	public VariableRedstoneEmitter() {
-		super(Material.iron, "variableredstoneemitter");
+		super(Material.IRON, "variableredstoneemitter");
 	}
-	
+
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
-		if(player.getHeldItem()==null && player.isSneaking() && world.getBlockMetadata(x, y, z)>0){
-			world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) -1, 2);
-			world.notifyBlockChange(x, y, z, this);
-			return true;
-		}
-		
-		if(player.getHeldItem()==null && player.isSneaking() && world.getBlockMetadata(x, y, z)==0){
-			world.setBlockMetadataWithNotify(x, y, z, 15, 2);
-			world.notifyBlockChange(x, y, z, this);
-			return true;
-		}
-		
-		if(player.getHeldItem()==null && !player.isSneaking() && world.getBlockMetadata(x, y, z)<15){
-			world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z)+1, 2);
-			world.notifyBlockChange(x, y, z, this);
-			return true;
-		}
-		
-		if(player.getHeldItem()==null && !player.isSneaking() && world.getBlockMetadata(x, y, z)==15){
-			world.setBlockMetadataWithNotify(x, y, z,0, 2);
-			world.notifyBlockChange(x, y, z, this);
-			return true;
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (player.getHeldItemMainhand() == null) {
+			if (player.isSneaking()) {
+				if (state.getValue(STRENGTH) > 0) {
+					world.setBlockState(pos, state.withProperty(STRENGTH, state.getValue(STRENGTH) - 1), 2);
+					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					return true;
+				}
+
+				if (state.getValue(STRENGTH) == 0) {
+					world.setBlockState(pos, state.withProperty(STRENGTH, 15), 2);
+					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					return true;
+				}
+			} else {
+				if (state.getValue(STRENGTH) < 15) {
+					world.setBlockState(pos, state.withProperty(STRENGTH, state.getValue(STRENGTH) + 1), 2);
+					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					return true;
+				}
+
+				if (state.getValue(STRENGTH) == 15) {
+					world.setBlockState(pos, state.withProperty(STRENGTH, 0), 2);
+					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					return true;
+				}
+			}
 		}
 		return false;
 	}
-	
+
 	@Override
-	public int isProvidingWeakPower(IBlockAccess par1iBlockAccess, int par2, int par3, int par4, int par5) {
-		return par1iBlockAccess.getBlockMetadata(par2, par3, par4);
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return side != EnumFacing.UP && side != EnumFacing.DOWN;
 	}
+
 	@Override
-	
-	public boolean canProvidePower() {
+	public boolean canProvidePower(IBlockState state) {
 		return true;
 	}
-	
-	@Override
-	public void registerBlockIcons(IIconRegister par1IconRegister) {
-		for(int i=0;i<16;i++)
-			emitterIcon[i] = par1IconRegister.registerIcon(ZettaIndustries.MODID + ":vre/redstone_emitter_"+i);
-			emitterIconBottom = par1IconRegister.registerIcon(ZettaIndustries.MODID + ":vre/redstone_emitter_bottom");
-			emitterIconSide = par1IconRegister.registerIcon(ZettaIndustries.MODID + ":vre/redstone_emitter_side");
-	}
-	
-	@Override
-	public IIcon getIcon(int par1, int par2) {
-		switch(par1){
-			case 0: return emitterIconBottom;
-			case 1: return emitterIcon[par2];
-			default: return emitterIconSide;
-		}
-	}
-}
 
+	@Override
+	public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
+		return side != EnumFacing.UP && side != EnumFacing.DOWN ? blockState.getValue(STRENGTH) : 0;
+	}
+
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(STRENGTH, meta);
+	}
+
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(STRENGTH);
+	}
+
+	@Override
+	public BlockStateContainer createBlockState() {
+		STRENGTH = PropertyInteger.create("strength", 0, 15);
+		return new BlockStateContainer(this, STRENGTH);
+	}
+
+}
