@@ -5,7 +5,6 @@ import java.util.UUID;
 import com.mojang.authlib.GameProfile;
 
 import li.cil.oc.api.Network;
-import li.cil.oc.api.driver.EnvironmentHost;
 import li.cil.oc.api.internal.Agent;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
@@ -16,7 +15,9 @@ import li.cil.oc.api.prefab.ManagedEnvironment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import forestry.api.mail.EnumPostage;
 import forestry.api.mail.ILetter;
@@ -26,91 +27,91 @@ import forestry.api.mail.IPostalState;
 import forestry.api.mail.PostManager;
 import forestry.mail.items.ItemStamps;
 
-public class MailmanUpgrade extends ManagedEnvironment{
+public class MailmanUpgrade extends ManagedEnvironment {
 	private final Agent robot;
-	
+
 	public MailmanUpgrade(Agent entity) {
 		this.robot = entity;
 		setNode(Network.newNode(this, Visibility.Network).withConnector().withComponent("mailman", Visibility.Neighbors).create());
 	}
-	
-	public void getTileEntityHost(){
-		robot.world().getTileEntity((int)robot.xPosition(), (int)robot.yPosition(), (int)robot.zPosition());
+
+	public void getTileEntityHost() {
+		robot.world().getTileEntity(new BlockPos((int) robot.xPosition(), (int) robot.yPosition(), (int) robot.zPosition()));
 	}
-	
-	private IMailAddress getRecipientAddress(String name){
-		GameProfile gameProfile = MinecraftServer.getServer().func_152358_ax().func_152655_a(name);
+
+	private IMailAddress getRecipientAddress(String name) {
+		GameProfile gameProfile = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerProfileCache().getGameProfileForUsername(name);
 		if (gameProfile == null)
 			gameProfile = new GameProfile(new UUID(0, 0), name);
 		return PostManager.postRegistry.getMailAddress(gameProfile);
 	}
-	
-	private ItemStack consumePaper(int slot, boolean simulate){
+
+	private ItemStack consumePaper(int slot, boolean simulate) {
 		ItemStack paper = robot.mainInventory().getStackInSlot(slot);
-		if(paper!=null && paper.getItem().equals(Items.paper) && paper.stackSize>0){
-			if(simulate){
+		if (paper != null && paper.getItem().equals(Items.PAPER) && paper.stackSize > 0) {
+			if (simulate) {
 				paper = ItemStack.copyItemStack(paper);
-				paper.stackSize=1;
+				paper.stackSize = 1;
 				return paper;
-			}else{
+			} else {
 				return robot.mainInventory().decrStackSize(slot, 1);
 			}
-		}else{
+		} else {
 			return null;
 		}
 	}
-	
-	private int getStampValue(int slot){
-		 ItemStack stack = robot.mainInventory().getStackInSlot(slot);
-		 if(stack!=null && stack.getItem() instanceof ItemStamps){
-			 ItemStamps stamp = (ItemStamps) stack.getItem();
-			 return stamp.getPostage(stack).getValue();
-		 }
-		 return EnumPostage.P_0.getValue();
+
+	private int getStampValue(int slot) {
+		ItemStack stack = robot.mainInventory().getStackInSlot(slot);
+		if (stack != null && stack.getItem() instanceof ItemStamps) {
+			ItemStamps stamp = (ItemStamps) stack.getItem();
+			return stamp.getPostage(stack).getValue();
+		}
+		return EnumPostage.P_0.getValue();
 	}
-	
-	public int getNeededStampCount(int required, int stampValue){
-		if(stampValue>0){
-			return (int) Math.ceil(required/(double)stampValue);
-		}else{
+
+	public int getNeededStampCount(int required, int stampValue) {
+		if (stampValue > 0) {
+			return (int) Math.ceil(required / (double) stampValue);
+		} else {
 			return -1;
 		}
 	}
-	
-	private boolean consumeStamps(ILetter letter, int stampSlot, boolean simulate){
+
+	private boolean consumeStamps(ILetter letter, int stampSlot, boolean simulate) {
 		ItemStack stack = robot.mainInventory().getStackInSlot(stampSlot);
 		int stampValue = getStampValue(stampSlot);
-		if(stampValue!=0 && getNeededStampCount(letter.requiredPostage(), stampValue)>0 && getNeededStampCount(letter.requiredPostage(), stampValue)<=stack.stackSize){
-			if(simulate){
+		if (stampValue != 0 && getNeededStampCount(letter.requiredPostage(), stampValue) > 0 && getNeededStampCount(letter.requiredPostage(), stampValue) <= stack.stackSize) {
+			if (simulate) {
 				return true;
-			}else{
+			} else {
 				letter.addStamps(robot.mainInventory().decrStackSize(stampSlot, getNeededStampCount(letter.requiredPostage(), stampValue)));
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public boolean addAtachments(ILetter letter, Arguments args){
-		for(int i=4;i<args.count();i++){
-			if(args.isInteger(i)){
+
+	public boolean addAtachments(ILetter letter, Arguments args) {
+		for (int i = 4; i < args.count(); i++) {
+			if (args.isInteger(i)) {
 				int slot = args.checkInteger(i) - 1;
-				if(slot<robot.mainInventory().getSizeInventory() && slot >=0){
-					if(robot.mainInventory().getStackInSlot(slot)!=null){
+				if (slot < robot.mainInventory().getSizeInventory() && slot >= 0) {
+					if (robot.mainInventory().getStackInSlot(slot) != null) {
 						letter.addAttachment(robot.mainInventory().decrStackSize(slot, robot.mainInventory().getStackInSlot(slot).stackSize));
 					}
 				}
-			}else{
+			} else {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public Object[] error(String message){
-		return new Object[]{false, message};
+	public Object[] error(String message) {
+		return new Object[] { false, message };
 	}
-	
+
 	@Callback(doc = "function():table")
 	public Object[] getAllTrades(Context context, Arguments args) {
 		IPostOffice postOffice = PostManager.postRegistry.getPostOffice(robot.world());
@@ -118,86 +119,86 @@ public class MailmanUpgrade extends ManagedEnvironment{
 	}
 
 	@Callback(doc = "function(address:string, message:string, stampSlot:number, paperSlot:number, attachmentSlots:number...):boolean")
-	public Object[] sendMail(Context ctx, Arguments args){
+	public Object[] sendMail(Context ctx, Arguments args) {
 		IMailAddress recipient = getRecipientAddress(args.checkString(0));
 		IMailAddress sender = PostManager.postRegistry.getMailAddress(robot.name());
 		String message = args.checkString(1);
 		int stampSlot = args.checkInteger(2) - 1;
 		int paperSlot = args.checkInteger(3) - 1;
 
-		if(recipient==null || !recipient.isValid()){
+		if (recipient == null || !recipient.isValid()) {
 			return error("Wrong recipient address");
 		}
-		
-		if(!sender.isValid() || !PostManager.postRegistry.isValidTradeAddress(robot.world(), sender) || !PostManager.postRegistry.isAvailableTradeAddress(robot.world(), sender)){
+
+		if (!sender.isValid() || !PostManager.postRegistry.isValidTradeAddress(robot.world(), sender) || !PostManager.postRegistry.isAvailableTradeAddress(robot.world(), sender)) {
 			return error("Name reserved. Change robot name.");
 		}
-		
-		if(message.length()>128){
+
+		if (message.length() > 128) {
 			return error("Message is too long");
 		}
-		
-		if(stampSlot<0 || stampSlot > robot.mainInventory().getSizeInventory()){
+
+		if (stampSlot < 0 || stampSlot > robot.mainInventory().getSizeInventory()) {
 			return error("Wrong stamp slot.");
 		}
-		
-		if(paperSlot<0 || paperSlot > robot.mainInventory().getSizeInventory()){
+
+		if (paperSlot < 0 || paperSlot > robot.mainInventory().getSizeInventory()) {
 			return error("Wrong paper slot.");
 		}
 
 		ILetter letter = PostManager.postRegistry.createLetter(sender, recipient);
 		letter.setText(message);
-		if(args.count()>letter.getSizeInventory()){
+		if (args.count() > letter.getSizeInventory()) {
 			return error("Too much attachments.");
 		}
-		
-		if(consumePaper(paperSlot, true)==null){
+
+		if (consumePaper(paperSlot, true) == null) {
 			return error("Wrong item or slot paper is empty.");
 		}
-		
-		if(!consumeStamps(letter, stampSlot, true)){
+
+		if (!consumeStamps(letter, stampSlot, true)) {
 			return error("Wrong item, insufficient stamp value or too small amount.");
 		}
-		
-		if(!addAtachments(letter, args)){
-			for(ItemStack s: letter.getAttachments())
+
+		if (!addAtachments(letter, args)) {
+			for (ItemStack s : letter.getAttachments())
 				giveBack(s);
 			return error("Wrong attachment slots.");
 		}
-		
+
 		consumeStamps(letter, stampSlot, false);
 		ItemStack paperCache = consumePaper(paperSlot, false);
-		if(paperCache==null){
-			for(ItemStack stmp: letter.getPostage()){
+		if (paperCache == null) {
+			for (ItemStack stmp : letter.getPostage()) {
 				giveBack(stmp);
 			}
-			for(ItemStack s: letter.getAttachments())
+			for (ItemStack s : letter.getAttachments())
 				giveBack(s);
 			return error("Wrong item or slot paper is empty.");
 		}
-		
+
 		IPostalState state = PostManager.postRegistry.getPostOffice(robot.world()).lodgeLetter(robot.world(), PostManager.postRegistry.createLetterStack(letter), true);
-		if(!state.isOk()){
+		if (!state.isOk()) {
 			giveBack(paperCache);
-			for(ItemStack s: letter.getAttachments())
+			for (ItemStack s : letter.getAttachments())
 				giveBack(s);
-			for(ItemStack stmp: letter.getPostage()){
+			for (ItemStack stmp : letter.getPostage()) {
 				giveBack(stmp);
 			}
 		}
-		
-		return new Object[]{state.isOk(), state.getIdentifier()};
+
+		return new Object[] { state.isOk(), state.getDescription() };
 	}
-	
-	private void giveBack(ItemStack stack){
-		if(stack!=null){
-			if(!mergeItemStack(stack, 0, robot.mainInventory().getSizeInventory(), false)){
-				robot.world().spawnEntityInWorld(new EntityItem(robot.world(), robot.xPosition(), robot.yPosition()+1, robot.zPosition(), stack));
+
+	private void giveBack(ItemStack stack) {
+		if (stack != null) {
+			if (!mergeItemStack(stack, 0, robot.mainInventory().getSizeInventory(), false)) {
+				robot.world().spawnEntityInWorld(new EntityItem(robot.world(), robot.xPosition(), robot.yPosition() + 1, robot.zPosition(), stack));
 			}
 		}
 	}
-	
-	private boolean mergeItemStack(ItemStack stack, int start, int end, boolean backwards){
+
+	private boolean mergeItemStack(ItemStack stack, int start, int end, boolean backwards) {
 		boolean flag1 = false;
 		int k = (backwards ? end - 1 : start);
 		ItemStack itemstack1;
@@ -208,7 +209,7 @@ public class MailmanUpgrade extends ManagedEnvironment{
 			{
 				itemstack1 = robot.mainInventory().getStackInSlot(k);
 
-				if (!robot.mainInventory().isItemValidForSlot(k,stack)) {
+				if (!robot.mainInventory().isItemValidForSlot(k, stack)) {
 					k += (backwards ? -1 : 1);
 					continue;
 				}

@@ -7,11 +7,11 @@ import li.cil.oc.api.network.SimpleComponent;
 
 import net.minecraft.tileentity.TileEntity;
 
-import cpw.mods.fml.common.Optional;
-
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostOffice;
 import forestry.api.mail.PostManager;
+
+import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
 public class ECatalogueTileEntity extends TileEntity implements SimpleComponent {

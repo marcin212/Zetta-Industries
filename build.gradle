@@ -11,7 +11,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 
@@ -47,8 +47,8 @@ sourceSets{
 
 
 minecraft {
-    version = "1.9-12.16.0.1868-1.9"
-    mappings = "snapshot_20160421"
+    version = "1.9.4-12.17.0.1954"
+    mappings = "snapshot_20160518"
 	runDir = "run"
 	//if (file('../run').exists()){
 		//assetDir = "../run/assets"
@@ -65,7 +65,7 @@ configurations {
 
 repositories {
 	maven {
-		name = "OC repo"
+		name = "OpenComputers"
 		url = "http://maven.cil.li/"
 	}
 
@@ -115,11 +115,19 @@ repositories {
     }
 }
 
+runClient {
+    jvmArgs '-Dfml.coreMods.load=li.cil.oc.common.launch.TransformerLoader'
+}
+
+runServer {
+    jvmArgs '-Dfml.coreMods.load=li.cil.oc.common.launch.TransformerLoader'
+}
+
 dependencies {
 	//compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
 	//compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
-	//compile "net.sengir.forestry:forestry_1.7.10:${config.forestry.version}:dev"
-	//compile "li.cil.oc:OpenComputers:${config.oc.version}:dev"
+	compile "net.sengir.forestry:forestry_1.9.4:${config.forestry.version}"
+	compile "li.cil.oc:OpenComputers:${config.oc.version}"
 	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 	//compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
 	//compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'

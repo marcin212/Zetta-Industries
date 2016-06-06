@@ -1,15 +1,17 @@
 package com.bymarcin.zettaindustries.mods.ecatalogue;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import forestry.api.mail.PostManager;
@@ -17,23 +19,20 @@ import forestry.mail.Letter;
 import forestry.mail.items.ItemLetter;
 
 public class ECatalogueBlock extends BasicBlockContainer {
-	IIcon top;
-	IIcon bottom;
-	IIcon side;
 
 	public ECatalogueBlock() {
-		super(Material.iron, "ecatalogue");
+		super(Material.IRON, "ecatalogue");
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int w, float px, float py, float pz) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if (world.isRemote)
 			return false;
-		TileEntity te = world.getTileEntity(x, y, z);
-		if (te instanceof ECatalogueTileEntity && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof ItemLetter) {
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof ECatalogueTileEntity && heldItem != null && heldItem.getItem() instanceof ItemLetter) {
 			ECatalogueTileEntity eCalogueTileEntity = (ECatalogueTileEntity) te;
 			if (eCalogueTileEntity.isAddressSet()) {
-				ItemStack l = (ItemStack) player.getHeldItem();
+				ItemStack l = (ItemStack) heldItem;
 				if (l.stackSize == 1) {
 					NBTTagCompound nbt;
 					Letter letter;
@@ -60,28 +59,15 @@ public class ECatalogueBlock extends BasicBlockContainer {
 			return false;
 		}
 	}
-
+	
 	@Override
-	public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
+	public TileEntity createNewTileEntity(World w, int m) {
 		return new ECatalogueTileEntity();
 	}
-
+	
 	@Override
-	public void registerBlockIcons(IIconRegister r) {
-		top = r.registerIcon(ZettaIndustries.MODID + ":ecatalogue/ecatalogue_top");
-		bottom = r.registerIcon(ZettaIndustries.MODID + ":ecatalogue/ecatalogue_bottom");
-		side = r.registerIcon(ZettaIndustries.MODID + ":ecatalogue/ecatalogue_side");
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.MODEL;
 	}
-
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		switch (side) {
-		case 0:
-			return bottom;
-		case 1:
-			return top;
-		default:
-			return this.side;
-		}
-	}
+	
 }

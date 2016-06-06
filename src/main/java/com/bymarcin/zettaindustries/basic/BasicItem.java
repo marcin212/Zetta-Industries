@@ -6,8 +6,9 @@ import net.minecraft.item.Item;
 
 public class BasicItem extends Item {
 	public BasicItem(String name) {
-		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
+		setCreativeTab(ZettaIndustries.tabZettaIndustries);
 		setMaxStackSize(64);
 		setUnlocalizedName(name);
+		setRegistryName(name);
 	}
 }
