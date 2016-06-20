@@ -41,7 +41,7 @@ public class ModManager {
 //		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
-//		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
+		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
 //		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
@@ -51,7 +51,7 @@ public class ModManager {
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 //		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
-//		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('Forestry')", "E-Catalogue");
+		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
 //		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
 //		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");

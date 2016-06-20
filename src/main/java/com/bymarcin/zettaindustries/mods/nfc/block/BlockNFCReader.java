@@ -1,65 +1,56 @@
 package com.bymarcin.zettaindustries.mods.nfc.block;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-
-import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemPrivateCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCReader;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class BlockNFCReader extends BasicBlockContainer{
-	IIcon iconTop;
-	IIcon iconSides;
-	
-	public BlockNFCReader() {
-		super(Material.iron, "nfcreader");
-	}
+import javax.annotation.Nullable;
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityNFCReader();
-	}
-	
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, 
-									EntityPlayer player, int l, float px, float py, float pz) {
-		TileEntity tile =  world.getTileEntity(x, y, z);
-		if(tile instanceof TileEntityNFCReader){
-			if(player.getHeldItem()!=null){
-				if(player.getHeldItem().getItem() instanceof ItemPrivateCardNFC){
-					if(player.getCommandSenderName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItem()))){
-						((TileEntityNFCReader)tile).sendEvent(player.getCommandSenderName(),ItemPrivateCardNFC.getNFCData(player.getHeldItem()));
-						return true;
-					}
-					return false;
-				}else if(player.getHeldItem().getItem() instanceof ItemCardNFC){
-					((TileEntityNFCReader)tile).sendEvent(player.getCommandSenderName(),ItemCardNFC.getNFCData(player.getHeldItem()));
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	@Override
-	public IIcon getIcon(int par1, int par2) {
-		switch(par1){
-		case 0:
-		case 1:
-			return iconTop;
-		}
-		return iconSides;
-	}
-	
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		iconTop = iconRegister.registerIcon(ZettaIndustries.MODID + ":" + "nfc/nfc_block_top");
-		iconSides = iconRegister.registerIcon(ZettaIndustries.MODID + ":" + "nfc/nfc_reader_sides");
-	}
+public class BlockNFCReader extends BasicBlockContainer {
+
+    public BlockNFCReader() {
+        super(Material.IRON, "nfcreader");
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int meta) {
+        return new TileEntityNFCReader();
+    }
+
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tile = world.getTileEntity(pos);
+        if (tile instanceof TileEntityNFCReader) {
+            if (player.getHeldItemMainhand() != null) {
+                if (player.getHeldItemMainhand().getItem() instanceof ItemPrivateCardNFC) {
+                    if (player.getName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItemMainhand()))) {
+                        ((TileEntityNFCReader) tile).sendEvent(player.getName(), ItemPrivateCardNFC.getNFCData(player.getHeldItemMainhand()));
+                        return true;
+                    }
+                    return false;
+                } else if (player.getHeldItemMainhand().getItem() instanceof ItemCardNFC) {
+                    ((TileEntityNFCReader) tile).sendEvent(player.getName(), ItemCardNFC.getNFCData(player.getHeldItemMainhand()));
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
+    }
 }

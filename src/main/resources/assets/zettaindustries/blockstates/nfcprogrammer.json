@@ -1,0 +1,31 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "zettaindustries:blocks/nfc/nfc_block_top",
+      "down": "zettaindustries:blocks/nfc/nfc_block_top",
+      "side": "zettaindustries:blocks/nfc/nfc_programmer_off",
+      "particle": "zettaindustries:blocks/nfc/nfc_block_top"
+    },
+    "model": "zettaindustries:variableredstoneemitter",
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": "forge:default-block"
+    }],
+    "status": {
+      "true": {
+        "textures": {
+          "side": "zettaindustries:blocks/nfc/nfc_programmer_on"
+        }
+      },
+      "false": {
+        "textures": {
+          "side": "zettaindustries:blocks/nfc/nfc_programmer_off"
+        }
+      }
+    }
+  }
+}

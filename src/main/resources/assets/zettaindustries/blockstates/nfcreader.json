@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "zettaindustries:blocks/nfc/nfc_block_top",
+      "down": "zettaindustries:blocks/nfc/nfc_block_top",
+      "side": "zettaindustries:blocks/nfc/nfc_reader_sides",
+      "particle": "zettaindustries:blocks/nfc/nfc_reader_sides"
+    },
+    "model": "zettaindustries:variableredstoneemitter",
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": "forge:default-block"
+    }]
+  }
+}

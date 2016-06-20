@@ -15,4 +15,9 @@ public class TileEntityNFCReader extends TileEntityEnvironment{
     		node.sendToReachable("computer.signal","nfc_data",sennder, data);
     	}
     }
+
+    @Override
+    public void update() {
+        
+    }
 }
