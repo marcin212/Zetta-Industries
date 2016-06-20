@@ -6,14 +6,21 @@ import com.bymarcin.zettaindustries.mods.nfc.block.BlockNFCProgrammer;
 import com.bymarcin.zettaindustries.mods.nfc.block.BlockNFCReader;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemCardNFC;
 import com.bymarcin.zettaindustries.mods.nfc.item.ItemPrivateCardNFC;
+import com.bymarcin.zettaindustries.mods.nfc.smartcard.*;
 import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCProgrammer;
 import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCReader;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
+import li.cil.oc.api.Driver;
 import li.cil.oc.api.Items;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,9 +39,9 @@ public class NFC implements IMod, IProxy {
     public static double dataCardAsymmetric = 10;
     public static double dataCardComplexByte = 0.1;
 
-//	public static SmartCardItem smartCardItem;
-//	public static SmartCardTerminalItem smartCardTerminalItem;
-//	public static SmartCardTerminalBlock smartCardTerminalBlock;
+	public static SmartCardItem smartCardItem;
+	public static SmartCardTerminalItem smartCardTerminalItem;
+	public static SmartCardTerminalBlock smartCardTerminalBlock;
 
     @Override
     public void preInit() {
@@ -53,11 +60,27 @@ public class NFC implements IMod, IProxy {
         GameRegistry.registerTileEntity(TileEntityNFCReader.class, "nfcReader");
         GameRegistry.registerTileEntity(TileEntityNFCProgrammer.class, "nfcprogrammer");
 
-        ZettaIndustries.proxy.registermodel(GameRegistry.register(itemPrivateCardNFC), 0);
+        Item tempItem =  GameRegistry.register(itemPrivateCardNFC);
+
+        ZettaIndustries.proxy.registermodel(tempItem, 0);
+        ZettaIndustries.proxy.registermodel(tempItem, 1, new ModelResourceLocation(ZettaIndustries.MODID + ":itemprivatecardnfc_owner","inventory"));
+
         ZettaIndustries.proxy.registermodel(GameRegistry.register(itemCardNFC), 0);
-//		smartCardItem = new SmartCardItem();
-//		smartCardTerminalItem = new SmartCardTerminalItem();
-//		smartCardTerminalBlock = new SmartCardTerminalBlock();
+
+		smartCardItem = new SmartCardItem();
+		smartCardTerminalItem = new SmartCardTerminalItem();
+		smartCardTerminalBlock = new SmartCardTerminalBlock();
+
+        ZettaIndustries.proxy.registermodel(GameRegistry.register(smartCardTerminalItem),0);
+        ZettaIndustries.proxy.registermodel(GameRegistry.register(smartCardItem), 0);
+
+        Block temp = GameRegistry.register(smartCardTerminalBlock);
+        ZettaIndustries.proxy.registermodel(GameRegistry.register(new ItemBlock(temp).setRegistryName(temp.getRegistryName())),0);
+        GameRegistry.registerTileEntity(SmartCardTerminalTileEntity.class, "SmartCardTerminalTileEntity");
+
+        Driver.add((li.cil.oc.api.driver.Item)smartCardItem);
+        Driver.add((li.cil.oc.api.driver.Item)smartCardTerminalItem);
+
         ZIRegistry.registerProxy(this);
     }
 
@@ -88,25 +111,23 @@ public class NFC implements IMod, IProxy {
         GameRegistry.addRecipe(new ItemStack(itemPrivateCardNFC, 1),
                 "ppp", "pcp", "ppp", 'p', paper, 'c', microChip2);
 
+        GameRegistry.addRecipe(new ItemStack(smartCardItem,1),
+	        		"ppp","pcp","ppp",'p',paper,'c',microChip3);
 
-//
-//	     GameRegistry.addRecipe(new ItemStack(smartCardItem,1),
-//	        		"ppp","pcp","ppp",'p',paper,'c',microChip3);
-//
-//	     GameRegistry.addRecipe(new ItemStack(smartCardItem,1),
-//	        		"ppp","pcp","ppp",'p',paper,'c',smartCardItem);
-//
-//	     GameRegistry.addRecipe(new ItemStack(smartCardTerminalBlock,1),
-//	        		"ici","dp ","ibi",'p',pressurePlate,'c',microChip2,'i',iron,'d',dataCard2,'b',circuitBoard );
-//
-//	     GameRegistry.addRecipe(new ItemStack(smartCardTerminalItem,1),
-//	    		 "ici","dp ","ibi",'p',pressurePlate,'c',microChip2,'i',obsidian,'d',dataCard2,'b',circuitBoard );
-//	     Driver.add((li.cil.oc.api.driver.Item)smartCardTerminalItem);
+        GameRegistry.addRecipe(new ItemStack(smartCardItem,1),
+	        		"ppp","pcp","ppp",'p',paper,'c',smartCardItem);
+
+        GameRegistry.addRecipe(new ItemStack(smartCardTerminalBlock,1),
+	        		"ici","dp ","ibi",'p',pressurePlate,'c',microChip2,'i',iron,'d',dataCard2,'b',circuitBoard );
+
+        GameRegistry.addRecipe(new ItemStack(smartCardTerminalItem,1),
+	    		 "ici","dp ","ibi",'p',pressurePlate,'c',microChip2,'i',obsidian,'d',dataCard2,'b',circuitBoard );
+
 //
 //	     SmartCardTerminalExtension i = new SmartCardTerminalExtension();
 //	     GameRegistry.registerItem(i, "SmartCardTerminalExtension");
 //	     Driver.add((li.cil.oc.api.driver.Item)i);
-//	     Driver.add((li.cil.oc.api.driver.Item)smartCardItem);
+
 
     }
 
@@ -119,8 +140,8 @@ public class NFC implements IMod, IProxy {
     @SideOnly(Side.CLIENT)
     @Override
     public void clientSide() {
-        //ClientRegistry.bindTileEntitySpecialRenderer(SmartCardTerminalTileEntity.class, new SmartCardBlockTerminalRenderer());
-        //MinecraftForge.EVENT_BUS.register(new SmartCardRackRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(SmartCardTerminalTileEntity.class, new SmartCardBlockTerminalRenderer());
+        MinecraftForge.EVENT_BUS.register(new SmartCardRackRenderer());
     }
 
     @Override

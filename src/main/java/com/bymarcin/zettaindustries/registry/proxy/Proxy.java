@@ -1,5 +1,6 @@
 package com.bymarcin.zettaindustries.registry.proxy;
 
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
@@ -13,7 +14,11 @@ public class Proxy extends ZIRegistry {
 	public void registermodel(Item item, int meta){
 
 	}
-	
+
+	public void registermodel(Item item, int meta, ModelResourceLocation modelResourceLocation){
+
+	}
+
 	public void init() {
 		for (IProxy p : proxy)
 			p.serverSide();

@@ -1,0 +1,48 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "zettaindustries:blocks/nfc/terminal_top",
+      "west": "zettaindustries:blocks/nfc/terminal_side",
+      "east": "zettaindustries:blocks/nfc/terminal_side",
+      "north": "zettaindustries:blocks/nfc/terminal_side",
+      "south": "zettaindustries:blocks/nfc/terminal_side",
+      "down": "zettaindustries:blocks/nfc/terminal_top",
+      "particle": "zettaindustries:blocks/nfc/terminal_side"
+    },
+    "model": "cube",
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "transform": "forge:default-block"
+      }
+    ],
+    "facing": {
+      "0": {
+        "textures": {
+          "south": "zettaindustries:blocks/nfc/terminal_front"
+        }
+      },
+      "1": {
+        "textures": {
+          "west": "zettaindustries:blocks/nfc/terminal_front"
+        }
+      },
+      "2": {
+        "textures": {
+          "north": "zettaindustries:blocks/nfc/terminal_front"
+        }
+      },
+      "3": {
+        "textures": {
+          "east": "zettaindustries:blocks/nfc/terminal_front"
+        }
+      }
+    }
+  }
+}

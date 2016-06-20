@@ -32,7 +32,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 
 public class SmartCardTerminal extends ManagedEnvironment implements RackMountable, Analyzable {
 	ItemStack card = null;
@@ -215,30 +216,31 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 	}
 
 	@Override
-	public boolean onActivate(EntityPlayer player, ForgeDirection side, float hitX, float hitY, float hitZ) {
-		if (card == null && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof SmartCardItem) {
-			card = ItemStack.copyItemStack(player.getHeldItem());
-			player.getHeldItem().stackSize = 0;
-			this.player = player.getCommandSenderName();
+	public boolean onActivate(EntityPlayer player, EnumHand hand, ItemStack heldItem, float hitX, float hitY) {
+		if (card == null && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof SmartCardItem) {
+			card = ItemStack.copyItemStack(player.getHeldItemMainhand());
+			player.getHeldItemMainhand().stackSize = 0;
+			this.player = player.getName();
 			if (node != null)
-				node.sendToReachable("computer.signal", "smartcard_in", player.getCommandSenderName());
+				node.sendToReachable("computer.signal", "smartcard_in", player.getName());
 			host.markChanged(host.indexOfMountable(this));
 
 		}
 
-		if (card != null && player.getHeldItem() == null) {
+		if (card != null && player.getHeldItemMainhand() == null) {
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, card);
 			this.player = null;
 			card = null;
 			if (node != null)
-				node.sendToReachable("computer.signal", "smartcard_out", player.getCommandSenderName());
+				node.sendToReachable("computer.signal", "smartcard_out", player.getName());
 			host.markChanged(host.indexOfMountable(this));
 		}
 		return true;
 	}
 
+
 	@Override
-	public Node[] onAnalyze(EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public Node[] onAnalyze(EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
 		return new Node[] { node };
 	}
 

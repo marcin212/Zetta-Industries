@@ -37,10 +37,16 @@ public class ItemPrivateCardNFC extends ItemCardNFC{
 	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
 		if(itemStack.getItem() instanceof ItemPrivateCardNFC && player.isSneaking() && getOwner(itemStack)==null){
 			setOwner(player.getName(), itemStack);
+			itemStack.setItemDamage(1);
 		}
 		return ActionResult.newResult(EnumActionResult.SUCCESS,itemStack);
 	}
-	
+
+	@Override
+	public int getDamage(ItemStack stack) {
+		return getOwner(stack)==null?0:1;
+	}
+
 	public static String getOwner(ItemStack item) {
 		if(item.getTagCompound()!=null)
 			return item.getTagCompound().getString("ownerNFC");

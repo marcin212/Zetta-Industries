@@ -1,0 +1,12 @@
+{
+  "forge_marker": 1,
+  "variants": {
+    "inventory": {
+      "model": "forge:item-layer",
+      "transform": "forge:default-item",
+      "textures": {
+        "layer0": "zettaindustries:items/nfc/smart_card_terminal_item"
+      }
+    }
+  }
+}

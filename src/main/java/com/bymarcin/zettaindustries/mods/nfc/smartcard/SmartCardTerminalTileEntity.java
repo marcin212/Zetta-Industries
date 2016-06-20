@@ -10,6 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import javax.annotation.Nullable;
 import javax.crypto.KeyAgreement;
 
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
@@ -29,7 +30,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.util.EnumFacing;
 
 
 public class SmartCardTerminalTileEntity extends TileEntityEnvironment implements Analyzable {
@@ -44,49 +46,49 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	}
 
 	public boolean onBlockActivated(EntityPlayer player) {
-		if (card == null && player.getHeldItem() != null && player.getHeldItem().getItem() instanceof SmartCardItem) {
-			card = ItemStack.copyItemStack(player.getHeldItem());
-			player.getHeldItem().stackSize = 0;
-			this.player = player.getCommandSenderName();
+		if (card == null && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof SmartCardItem) {
+			card = ItemStack.copyItemStack(player.getHeldItemMainhand());
+			player.getHeldItemMainhand().stackSize = 0;
+			this.player = player.getName();
 			if(node!=null)
-				node.sendToReachable("computer.signal","smartcard_in",player.getCommandSenderName());
+				node.sendToReachable("computer.signal","smartcard_in",player.getName());
 			needsUpdate = true;
 		}
 
-		if (card != null && player.getHeldItem() == null) {
+		if (card != null && player.getHeldItemMainhand() == null) {
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, card);
 			this.player = null;
 			card = null;
 			if(node!=null)
-				node.sendToReachable("computer.signal","smartcard_out",player.getCommandSenderName());
+				node.sendToReachable("computer.signal","smartcard_out",player.getName());
 			needsUpdate = true;
 		}
 		return true;
 	}
-	
+
+	@Nullable
 	@Override
-	public Packet getDescriptionPacket() {
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 666, getData());
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(getPos(), 666, getData());
 	}
-	
+
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-		renderInfo = pkt.func_148857_g();
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		renderInfo = pkt.getNbtCompound();
 	}
-	
+
 	@Override
-	public void updateEntity() {
-		super.updateEntity();
+	public void update() {
 		if(needsUpdate){
 			needsUpdate = false;
 			markDirty();
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			worldObj.markBlockRangeForRenderUpdate(getPos(),getPos());
 		}
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		nbt = super.writeToNBT(nbt);
 		if (player != null) {
 			nbt.setString("PLAYER", player);
 		}
@@ -95,6 +97,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 			card.writeToNBT(tag);
 			nbt.setTag("CARD", tag);
 		}
+		return nbt;
 	}
 
 	@Override
@@ -223,7 +226,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	}
 
 	@Override
-	public Node[] onAnalyze(EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+	public Node[] onAnalyze(EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
 		return new Node[] { node };
 	}
 
