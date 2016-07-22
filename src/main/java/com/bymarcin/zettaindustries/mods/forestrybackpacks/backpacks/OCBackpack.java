@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks;
 
 import forestry.api.storage.EnumBackpackType;
+import net.minecraft.item.ItemStack;
 
 public class OCBackpack extends BasicBackpack{
 

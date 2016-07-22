@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 
@@ -78,11 +79,11 @@ public class BlockBigBatteryWall extends BasicBlockMultiblockBase {
 					if(controller != null) {
 						Exception e = controller.getLastValidationException();
 						if(e != null) {
-							player.addChatMessage(new ChatComponentText(e.getMessage()));
+							player.addChatMessage(new TextComponentString(e.getMessage()));
 							return true;
 						}
 					}else {
-						player.addChatMessage(new ChatComponentText("Block is not connected to a battery. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block."));
+						player.addChatMessage(new TextComponentString("Block is not connected to a battery. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block."));
 						return true;
 					}
 				}

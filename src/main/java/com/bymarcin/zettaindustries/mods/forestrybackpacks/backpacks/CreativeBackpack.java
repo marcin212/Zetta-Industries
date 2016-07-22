@@ -21,7 +21,7 @@ public class CreativeBackpack extends BasicBackpack{
 	}
 
 	@Override
-	public boolean isValidItem(ItemStack itemstack) {
+	public boolean test(ItemStack itemstack) {
 		return true;
 	}
 

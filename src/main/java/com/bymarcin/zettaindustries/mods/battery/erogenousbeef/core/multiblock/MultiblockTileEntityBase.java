@@ -8,11 +8,14 @@ import java.util.Set;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.IChunkProvider;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
+
+import javax.annotation.Nullable;
 
 /**
  * Base logic class for Multiblock-connected tile entities. Most multiblock machines
@@ -24,12 +27,14 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	
 	private boolean saveMultiblockData;
 	private NBTTagCompound cachedMultiblockData;
+	private boolean paused;
 
 	public MultiblockTileEntityBase() {
 		super();
 		controller = null;
 		visited = false;
 		saveMultiblockData = false;
+		paused = false;
 		cachedMultiblockData = null;
 	}
 
@@ -74,7 +79,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	@Override
 	public void assertDetached() {
 		if(this.controller != null) {
-			BeefCoreLog.info("[assert] Part @ (%d, %d, %d) should be detached already, but detected that it was not. This is not a fatal error, and will be repaired, but is unusual.", xCoord, yCoord, zCoord);
+			BeefCoreLog.info("[assert] Part @ (%d, %d, %d) should be detached already, but detected that it was not. This is not a fatal error, and will be repaired, but is unusual.", pos.getX(), pos.getY(), pos.getZ());
 			this.controller = null;
 		}
 	}
@@ -93,7 +98,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data) {
+	public NBTTagCompound writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
 
 		if(isMultiblockSaveDelegate() && isConnected()) {
@@ -101,16 +106,18 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 			this.controller.writeToNBT(multiblockData);
 			data.setTag("multiblockData", multiblockData);
 		}
+
+		return data;
 	}
 		
-	/**
+/*	*//**
 	 * Generally, TileEntities that are part of a multiblock should not subscribe to updates
 	 * from the main game loop. Instead, you should have lists of TileEntities which need to
 	 * be notified during an update() in your Controller and perform callbacks from there.
 	 * @see net.minecraft.tileentity.TileEntity#canUpdate()
-	 */
+	 *//*
 	@Override
-	public boolean canUpdate() { return false; }
+	public boolean canUpdate() { return false; }*/
 	
 	/**
 	 * Called when a block is removed by game actions, such as a player breaking the block
@@ -152,18 +159,18 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	}
 
 	// Network Communication
+	@Nullable
 	@Override
-	public Packet getDescriptionPacket() {
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound packetData = new NBTTagCompound();
 		encodeDescriptionPacket(packetData);
-		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, packetData);
+		return new SPacketUpdateTileEntity(pos, 0, packetData);
 	}
-	
+
 	@Override
-	public void onDataPacket(NetworkManager network, S35PacketUpdateTileEntity packet) {
-		decodeDescriptionPacket(packet.func_148857_g());
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		decodeDescriptionPacket(pkt.getNbtCompound());
 	}
-	
 	///// Things to override in most implementations (IMultiblockPart)
 	/**
 	 * Override this to easily modify the description packet's data without having
@@ -242,7 +249,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 
 	@Override
 	public CoordTriplet getWorldLocation() {
-		return new CoordTriplet(this.xCoord, this.yCoord, this.zCoord);
+		return new CoordTriplet(this.pos.getX(), this.pos.getY(), this.pos.getZ());
 	}
 	
 	@Override
@@ -295,24 +302,24 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	@Override
 	public IMultiblockPart[] getNeighboringParts() {
 		CoordTriplet[] neighbors = new CoordTriplet[] {
-				new CoordTriplet(this.xCoord-1, this.yCoord, this.zCoord),
-				new CoordTriplet(this.xCoord, this.yCoord-1, this.zCoord),
-				new CoordTriplet(this.xCoord, this.yCoord, this.zCoord-1),
-				new CoordTriplet(this.xCoord, this.yCoord, this.zCoord+1),
-				new CoordTriplet(this.xCoord, this.yCoord+1, this.zCoord),
-				new CoordTriplet(this.xCoord+1, this.yCoord, this.zCoord)
+				new CoordTriplet(this.pos.getX()-1, this.pos.getY(), this.pos.getZ()),
+				new CoordTriplet(this.pos.getX(), this.pos.getY()-1, this.pos.getZ()),
+				new CoordTriplet(this.pos.getX(), this.pos.getY(), this.pos.getZ()-1),
+				new CoordTriplet(this.pos.getX(), this.pos.getY(), this.pos.getZ()+1),
+				new CoordTriplet(this.pos.getX(), this.pos.getY()+1, this.pos.getZ()),
+				new CoordTriplet(this.pos.getX()+1, this.pos.getY(), this.pos.getZ())
 		};
 
 		TileEntity te;
 		List<IMultiblockPart> neighborParts = new ArrayList<IMultiblockPart>();
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 		for(CoordTriplet neighbor : neighbors) {
-			if(!chunkProvider.chunkExists(neighbor.getChunkX(), neighbor.getChunkZ())) {
+			if(!chunkProvider.getLoadedChunk(neighbor.getChunkX(), neighbor.getChunkZ()).isLoaded()) {
 				// Chunk not loaded, skip it.
 				continue;
 			}
 
-			te = this.worldObj.getTileEntity(neighbor.x, neighbor.y, neighbor.z);
+			te = this.worldObj.getTileEntity(new BlockPos(neighbor.x, neighbor.y, neighbor.z));
 			if(te instanceof IMultiblockPart) {
 				neighborParts.add((IMultiblockPart)te);
 			}
@@ -324,16 +331,16 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	@Override
 	public void onOrphaned(MultiblockControllerBase controller, int oldSize, int newSize) {
 		this.markDirty();
-		worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
+		worldObj.markChunkDirty(pos, this);
 	}
 	
 	//// Helper functions for notifying neighboring blocks
 	protected void notifyNeighborsOfBlockChange() {
-		worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+		worldObj.notifyNeighborsOfStateChange(pos, getBlockType());
 	}
 	
 	protected void notifyNeighborsOfTileChange() {
-		worldObj.func_147453_f(xCoord, yCoord, zCoord, getBlockType());
+		worldObj.notifyNeighborsOfStateChange(pos, getBlockType());
 	}
 
 	///// Private/Protected Logic Helpers

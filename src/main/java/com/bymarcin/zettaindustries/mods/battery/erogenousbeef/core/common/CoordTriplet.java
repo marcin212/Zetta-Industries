@@ -1,7 +1,8 @@
 package com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common;
 
-import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 
 /*
  * Simple wrapper class for XYZ coordinates.
@@ -17,7 +18,7 @@ public class CoordTriplet implements Comparable {
 	
 	public int getChunkX() { return x >> 4; }
 	public int getChunkZ() { return z >> 4; }
-	public long getChunkXZHash() { return ChunkCoordIntPair.chunkXZ2Int(x >> 4, z >> 4); }
+	public long getChunkXZHash() { return ChunkPos.chunkXZ2Int(x >> 4, z >> 4); }
 	
 	@Override
 	public boolean equals(Object other) {
@@ -32,10 +33,10 @@ public class CoordTriplet implements Comparable {
 		}
 	}
 	
-	public void translate(ForgeDirection dir) {
-		this.x += dir.offsetX;
-		this.y += dir.offsetY;
-		this.z += dir.offsetZ;
+	public void translate(EnumFacing dir) {
+		this.x += dir.getFrontOffsetX();
+		this.y += dir.getFrontOffsetY();
+		this.z += dir.getFrontOffsetZ();
 	}
 	
 	public boolean equals(int x, int y, int z) {
@@ -91,24 +92,24 @@ public class CoordTriplet implements Comparable {
 	
 	///// Really confusing code that should be cleaned up
 	
-	public ForgeDirection getDirectionFromSourceCoords(int x, int y, int z) {
-		if(this.x < x) { return ForgeDirection.WEST; }
-		else if(this.x > x) { return ForgeDirection.EAST; }
-		else if(this.y < y) { return ForgeDirection.DOWN; }
-		else if(this.y > y) { return ForgeDirection.UP; }
-		else if(this.z < z) { return ForgeDirection.SOUTH; }
-		else if(this.z > z) { return ForgeDirection.NORTH; }
-		else { return ForgeDirection.UNKNOWN; }
+	public EnumFacing getDirectionFromSourceCoords(int x, int y, int z) {
+		if(this.x < x) { return EnumFacing.WEST; }
+		else if(this.x > x) { return EnumFacing.EAST; }
+		else if(this.y < y) { return EnumFacing.DOWN; }
+		else if(this.y > y) { return EnumFacing.UP; }
+		else if(this.z < z) { return EnumFacing.SOUTH; }
+		else if(this.z > z) { return EnumFacing.NORTH; }
+		else { return null; }
 	}
 	
-	public ForgeDirection getOppositeDirectionFromSourceCoords(int x, int y, int z) {
-		if(this.x < x) { return ForgeDirection.EAST; }
-		else if(this.x > x) { return ForgeDirection.WEST; }
-		else if(this.y < y) { return ForgeDirection.UP; }
-		else if(this.y > y) { return ForgeDirection.DOWN; }
-		else if(this.z < z) { return ForgeDirection.NORTH; }
-		else if(this.z > z) { return ForgeDirection.SOUTH; }
-		else { return ForgeDirection.UNKNOWN; }
+	public EnumFacing getOppositeDirectionFromSourceCoords(int x, int y, int z) {
+		if(this.x < x) { return EnumFacing.EAST; }
+		else if(this.x > x) { return EnumFacing.WEST; }
+		else if(this.y < y) { return EnumFacing.UP; }
+		else if(this.y > y) { return EnumFacing.DOWN; }
+		else if(this.z < z) { return EnumFacing.NORTH; }
+		else if(this.z > z) { return EnumFacing.SOUTH; }
+		else { return null; }
 	}
 	
 	@Override

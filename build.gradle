@@ -47,8 +47,8 @@ sourceSets{
 
 
 minecraft {
-    version = "1.9.4-12.17.0.1954"
-    mappings = "snapshot_20160518"
+    version = "1.9.4-12.17.0.1968"
+    mappings = "snapshot_20160619"
 	runDir = "run"
 	//if (file('../run').exists()){
 		//assetDir = "../run/assets"

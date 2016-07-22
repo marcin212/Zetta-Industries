@@ -22,10 +22,9 @@ public class SmartCardBlockTerminalRenderer extends TileEntitySpecialRenderer<Sm
     public static final int[] sides = {3,4,2,5};
     @Override
     public void renderTileEntityAt(SmartCardTerminalTileEntity terminal, double x, double y, double z, float partialTicks, int destroyStage) {
-        System.out.println("WAT?");
         if(terminal.renderInfo==null) return;
 
-       // if(!terminal.renderInfo.getBoolean("hasCard"))return;
+        if(!terminal.renderInfo.getBoolean("hasCard"))return;
 
         if(!(terminal.getBlockMetadata()<4)) return;
 

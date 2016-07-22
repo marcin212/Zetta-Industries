@@ -1,10 +1,10 @@
 package com.bymarcin.zettaindustries.mods.battery;
 
-import cpw.mods.fml.common.IFuelHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.IFuelHandler;
 
-public class CharcoalFuelHandler implements IFuelHandler{
+public class CharcoalFuelHandler implements IFuelHandler {
 	@Override
 	public int getBurnTime(ItemStack fuel) {
 		

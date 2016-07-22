@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
@@ -113,14 +114,14 @@ public class MultiblockWorldRegistry {
 				// These are blocks that exist in a valid chunk and require a controller
 				for(IMultiblockPart orphan : orphansToProcess) {
 					coord = orphan.getWorldLocation();
-					if(!chunkProvider.chunkExists(coord.getChunkX(), coord.getChunkZ())) {
+					if(!chunkProvider.getLoadedChunk(coord.getChunkX(), coord.getChunkZ()).isLoaded()) {
 						continue;
 					}
 
 					// This can occur on slow machines.
 					if(orphan.isInvalid()) { continue; }
 
-					if(worldObj.getTileEntity(coord.x, coord.y, coord.z) != orphan) {
+					if(worldObj.getTileEntity(new BlockPos(coord.x, coord.y, coord.z)) != orphan) {
 						// This block has been replaced by another.
 						continue;
 					}
@@ -141,6 +142,7 @@ public class MultiblockWorldRegistry {
 						// THIS IS THE ONLY PLACE WHERE MERGES ARE DETECTED
 						// Multiple compatible controllers indicates an impending merge.
 						// Locate the appropriate merge pool(s)
+						boolean hasAddedToPool = false;
 						List<Set<MultiblockControllerBase>> candidatePools = new ArrayList<Set<MultiblockControllerBase>>();
 						for(Set<MultiblockControllerBase> candidatePool : mergePools) {
 							if(!Collections.disjoint(candidatePool, compatibleControllers)) {
@@ -271,7 +273,7 @@ public class MultiblockWorldRegistry {
 	public void onPartAdded(IMultiblockPart part) {
 		CoordTriplet worldLocation = part.getWorldLocation();
 		
-		if(!worldObj.getChunkProvider().chunkExists(worldLocation.getChunkX(), worldLocation.getChunkZ())) {
+		if(!worldObj.getChunkProvider().getLoadedChunk(worldLocation.getChunkX(), worldLocation.getChunkZ()).isLoaded()) {
 			// Part goes into the waiting-for-chunk-load list
 			Set<IMultiblockPart> partSet;
 			long chunkHash = worldLocation.getChunkXZHash();
@@ -356,7 +358,7 @@ public class MultiblockWorldRegistry {
 	 * @param chunkZ Chunk Z coordinate (world coordate >> 4) of the chunk that was loaded
 	 */
 	public void onChunkLoaded(int chunkX, int chunkZ) {
-		long chunkHash = ChunkCoordIntPair.chunkXZ2Int(chunkX, chunkZ);
+		long chunkHash = ChunkPos.chunkXZ2Int(chunkX, chunkZ);
 		if(partsAwaitingChunkLoad.containsKey(chunkHash)) {
 			synchronized(partsAwaitingChunkLoadMutex) {
 				if(partsAwaitingChunkLoad.containsKey(chunkHash)) {
@@ -412,4 +414,5 @@ public class MultiblockWorldRegistry {
 		}
 	}
 	
+	private String clientOrServer() { return worldObj.isRemote ? "CLIENT" : "SERVER"; }
 }

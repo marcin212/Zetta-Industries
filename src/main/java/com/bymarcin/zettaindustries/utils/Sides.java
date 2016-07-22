@@ -1,6 +1,10 @@
 package com.bymarcin.zettaindustries.utils;
 
 
+import net.minecraft.client.renderer.EnumFaceDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+
 public enum Sides {
 	
 	BOTTOM("bottom"),TOP("top"),BACK("back"),FRONT("front"),RIGHT("right"),LEFT("left");
@@ -9,6 +13,8 @@ public enum Sides {
 	Sides(String name){
 		this.name = name;
 	}
+
+
 	
 //	public ForgeDirection getForgeDirection(ForgeDirection front){
 //			switch(this){

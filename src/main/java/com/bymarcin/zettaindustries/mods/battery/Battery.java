@@ -34,6 +34,7 @@ import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
+import forestry.api.multiblock.MultiblockManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -91,6 +92,8 @@ public class Battery implements IMod, IGUI, IProxy{
 	public void preInit() {
 		capacityMultiplier = ZettaIndustries.instance.config.get("BigBattery", "energyMultiplier", 1d).getDouble(1d);
 		electrodeTransferRate = ZettaIndustries.instance.config.get("BigBattery", "electrodeTransferRate", 2500).getInt(2500);
+
+
 	}
 	
 	@Override

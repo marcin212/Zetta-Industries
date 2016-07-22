@@ -10,13 +10,12 @@ import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.M
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-import cpw.mods.fml.common.Optional;
-
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({
 		@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),

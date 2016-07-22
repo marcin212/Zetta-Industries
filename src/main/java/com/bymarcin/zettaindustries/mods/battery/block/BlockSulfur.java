@@ -24,7 +24,7 @@ public class BlockSulfur extends BasicBlock {
     private List<String> info = new ArrayList<String>();
 
     public BlockSulfur(Block fluid) {
-		super(Material.rock, "sulfurblock");
+		super(Material.ROCK, "sulfurblock");
 		setTickRandomly(true);
 		this.fluid = fluid;
         info.add(localize("tooltip.sulfur1"));

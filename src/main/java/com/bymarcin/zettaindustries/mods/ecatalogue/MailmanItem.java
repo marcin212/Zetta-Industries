@@ -13,8 +13,8 @@ import li.cil.oc.api.internal.Drone;
 import li.cil.oc.api.internal.Robot;
 import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.ManagedEnvironment;
-import li.cil.oc.client.KeyBindings;
-import li.cil.oc.util.ItemCosts;
+//import li.cil.oc.client.KeyBindings;
+//import li.cil.oc.util.ItemCosts;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -84,44 +84,44 @@ public class MailmanItem extends BasicItem implements EnvironmentProvider, Item,
 		return nbt.getCompoundTag("oc:data");
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean par4) {
-		{
-			FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
-			String tip = I18n.translateToLocal("item.mailman.tip").replace("\\n", "\n");
-			if (!tip.equals("item.mailman.tip")) {
-				String[] lines = tip.split("\n");
-				boolean shouldShorten = (font.getStringWidth(tip) > maxWidth) && !KeyBindings.showExtendedTooltips();
-				if (shouldShorten) {
-					tooltip.add(I18n.translateToLocalFormatted("oc:tooltip.TooLong",
-							KeyBindings.getKeyBindingName(KeyBindings.extendedTooltip())));
-				} else {
-					for (String line : lines) {
-						List list = font.listFormattedStringToWidth(line, maxWidth);
-						tooltip.addAll(list);
-					}
-				}
-			}
-		}
-		if (ItemCosts.hasCosts(stack)) {
-			if (KeyBindings.showMaterialCosts()) {
-				ItemCosts.addTooltip(stack, tooltip);
-			} else {
-				tooltip.add(I18n.translateToLocalFormatted(
-						"oc:tooltip.MaterialCosts",
-						KeyBindings.getKeyBindingName(KeyBindings.materialCosts())));
-			}
-		}
-		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("oc:data")) {
-			NBTTagCompound data = stack.getTagCompound().getCompoundTag("oc:data");
-			if (data.hasKey("node") && data.getCompoundTag("node").hasKey("address")) {
-				tooltip.add(TextFormatting.DARK_GRAY
-						+ data.getCompoundTag("node").getString("address").substring(0, 13) + "..."
-						+ TextFormatting.GRAY);
-			}
-		}
-	}
+//	@Override
+//	@SideOnly(Side.CLIENT)
+//	@SuppressWarnings({ "unchecked", "rawtypes" })
+//	public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean par4) {
+//		{
+//			FontRenderer font = Minecraft.getMinecraft().fontRendererObj;
+//			String tip = I18n.translateToLocal("item.mailman.tip").replace("\\n", "\n");
+//			if (!tip.equals("item.mailman.tip")) {
+//				String[] lines = tip.split("\n");
+//				boolean shouldShorten = (font.getStringWidth(tip) > maxWidth) && !KeyBindings.showExtendedTooltips();
+//				if (shouldShorten) {
+//					tooltip.add(I18n.translateToLocalFormatted("oc:tooltip.TooLong",
+//							KeyBindings.getKeyBindingName(KeyBindings.extendedTooltip())));
+//				} else {
+//					for (String line : lines) {
+//						List list = font.listFormattedStringToWidth(line, maxWidth);
+//						tooltip.addAll(list);
+//					}
+//				}
+//			}
+//		}
+//		if (ItemCosts.hasCosts(stack)) {
+//			if (KeyBindings.showMaterialCosts()) {
+//				ItemCosts.addTooltip(stack, tooltip);
+//			} else {
+//				tooltip.add(I18n.translateToLocalFormatted(
+//						"oc:tooltip.MaterialCosts",
+//						KeyBindings.getKeyBindingName(KeyBindings.materialCosts())));
+//			}
+//		}
+//		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("oc:data")) {
+//			NBTTagCompound data = stack.getTagCompound().getCompoundTag("oc:data");
+//			if (data.hasKey("node") && data.getCompoundTag("node").hasKey("address")) {
+//				tooltip.add(TextFormatting.DARK_GRAY
+//						+ data.getCompoundTag("node").getString("address").substring(0, 13) + "..."
+//						+ TextFormatting.GRAY);
+//			}
+//		}
+//	}
 
 }

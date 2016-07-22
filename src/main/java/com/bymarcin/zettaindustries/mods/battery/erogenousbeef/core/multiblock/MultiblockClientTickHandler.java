@@ -1,8 +1,8 @@
 package com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock;
 
 import net.minecraft.client.Minecraft;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class MultiblockClientTickHandler {
 

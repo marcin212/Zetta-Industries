@@ -12,7 +12,7 @@ import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.Coord
  * Preferably, you should derive from MultiblockTileEntityBase,
  * which does all the hard work for you.
  * 
- * {@link erogenousbeef.core.multiblock.MultiblockTileEntityBase}
+ * {@link com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockTileEntityBase}
  */
 public abstract class IMultiblockPart extends TileEntity {
 	public static final int INVALID_DISTANCE = Integer.MAX_VALUE;

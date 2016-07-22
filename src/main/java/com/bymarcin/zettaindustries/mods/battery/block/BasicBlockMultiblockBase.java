@@ -1,11 +1,12 @@
 package com.bymarcin.zettaindustries.mods.battery.block;
 
 import com.bymarcin.zettaindustries.basic.IBlockInfo;
+import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.BlockMultiblockBase;
 import net.minecraft.block.material.Material;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.BlockMultiblockBase;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,10 @@ public abstract class BasicBlockMultiblockBase extends BlockMultiblockBase imple
     protected List<String> info = new ArrayList<String>();
 
 	public BasicBlockMultiblockBase(String name) {
-		super(Material.iron);
+		super(Material.IRON);
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setHardness(3.0F);
-		setBlockName(name);
+        setRegistryName(name);
 	}
 
     @Override
@@ -26,7 +27,7 @@ public abstract class BasicBlockMultiblockBase extends BlockMultiblockBase imple
     }
 
     public String localize(String key) {
-        return StatCollector.canTranslate(key) ? StatCollector.translateToLocal(key) : StatCollector.translateToFallback(key);
+        return I18n.canTranslate(key) ? I18n.translateToLocal(key) : I18n.translateToFallback(key);
     }
 
 }

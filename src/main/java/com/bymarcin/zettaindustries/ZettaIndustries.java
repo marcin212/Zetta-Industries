@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "after:ImmersiveEngineering;after:Forestry;")
+@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "after:ImmersiveEngineering;after:forestry;")
 public class ZettaIndustries
 {
     public static final String MODID = "zettaindustries";

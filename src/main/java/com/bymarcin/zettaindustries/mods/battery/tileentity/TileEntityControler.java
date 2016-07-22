@@ -7,7 +7,7 @@ public class TileEntityControler extends BasicRectangularMultiblockTileEntityBas
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery frame", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery frame", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
@@ -17,17 +17,17 @@ public class TileEntityControler extends BasicRectangularMultiblockTileEntityBas
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery top", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery top", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery bottom", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery bottom", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery interior", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Controller may only be placed in the battery interior", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override

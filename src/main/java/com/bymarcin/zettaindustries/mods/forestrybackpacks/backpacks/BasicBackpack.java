@@ -6,10 +6,11 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.ResourceLocation;
 
 import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
+import net.minecraft.util.text.translation.I18n;
 
 public abstract class BasicBackpack implements IBackpackDefinition{
 	private List<String> names= new ArrayList<String>();
@@ -28,10 +29,9 @@ public abstract class BasicBackpack implements IBackpackDefinition{
 	
 	@Override
 	public String getName(ItemStack backpack) {
-		return StatCollector.translateToLocal("item." + getKey() + ".name");
+		return I18n.translateToLocal("item." + getKey() + ".name");
 	}
 
-	@Override
 	public String getKey() {
 		return getUniqueName() + type.name();
 	}
@@ -47,9 +47,20 @@ public abstract class BasicBackpack implements IBackpackDefinition{
 	}
 
 	@Override
-	public boolean isValidItem(ItemStack itemstack) {
+	public void addValidOreDictName(String oreDictName) {
+
+	}
+
+	@Override
+	public boolean test(ItemStack itemstack) {
 		if(itemstack!=null && itemstack.getItem()!=null){
-			String name = Item.itemRegistry.getNameForObject(itemstack.getItem());
+			ResourceLocation rl = itemstack.getItem().getRegistryName();
+			String name = null;
+			System.out.println(rl.getResourceDomain());
+			System.out.println(rl.getResourcePath());
+			if(rl!=null){
+				name = rl.getResourcePath();
+			}
 			if(name==null || name.isEmpty()) return false;
 			for(String names : this.names){
 				if(name.startsWith(names)){
