@@ -2,67 +2,73 @@ package com.bymarcin.zettaindustries.mods.battery.block;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityPowerTap;
-
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+
+import javax.annotation.Nullable;
 
 
-public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase{
-	public static IIcon icon;
-	public static IIcon iconTopIn;
-	public static IIcon iconTopOut;
-	
-	public BlockBigBatteryPowerTap() {
-		super("batterypowertap");
+public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase {
+    public static final PropertyInteger IO = PropertyInteger.create("io",0,1);
+    public static final int INPUT = 0;
+    public static final int OUTPUT = 1;
+
+    public BlockBigBatteryPowerTap() {
+        super("batterypowertap");
         info.add(localize("tooltip.validfor") + " " + localize("tooltip.top"));
         info.add(localize("tooltip.powertap1"));
         info.add(localize("tooltip.powertap2"));
         info.add(localize("tooltip.powertap3"));
-	}
+    }
 
-	@Override
-	public boolean onBlockActivated(World world, int par2, int par3, int par4, EntityPlayer player, int par6, float par7, float par8, float par9) {
-		if (!player.isSneaking()) {
-			if (!world.isRemote) {
-				player.openGui(ZettaIndustries.instance, 0, world, par2, par3, par4);
-			}
-			return true;
-		}
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (!player.isSneaking()) {
+            if (!world.isRemote) {
+                player.openGui(ZettaIndustries.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
+            }
+            return true;
+        }
 
-		if (player.getCurrentEquippedItem() == null && player.isSneaking()) {
-			if (world.getBlockMetadata(par2, par3, par4) == 0) {
-				world.setBlockMetadataWithNotify(par2, par3, par4, 1, 2);
+        if (heldItem == null && player.isSneaking()) {
+			if (state.getValue(IO) == INPUT) {
+				world.setBlockState(pos, state.withProperty(IO, OUTPUT), 2);
 			} else {
-				world.setBlockMetadataWithNotify(par2, par3, par4, 0, 2);
+                world.setBlockState(pos, state.withProperty(IO, INPUT), 2);
 			}
-			return true;
-		}
-		return false;
-	}
-	
-	
-	@Override
-	public TileEntity createNewTileEntity(World world, int metadata) {
-		return new TileEntityPowerTap();
-	}
-	
-	@Override
-	public IIcon getIcon(int par1, int par2) {
-		if(par1 != ForgeDirection.UP.ordinal()) return icon;
-		if(par2==0)
-			return iconTopIn;
-		else
-			return iconTopOut;
-	}
-	
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		icon = iconRegister.registerIcon(ZettaIndustries.MODID+":battery/bb_part");
-		iconTopOut = iconRegister.registerIcon(ZettaIndustries.MODID+":battery/bb_output");
-		iconTopIn = iconRegister.registerIcon(ZettaIndustries.MODID+":battery/bb_input");
-	}
+            return true;
+        }
+        return false;
+    }
+
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, IO);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(IO);
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
+        return meta == OUTPUT ? getDefaultState().withProperty(IO, OUTPUT) : getDefaultState().withProperty(IO, INPUT);
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World world, int metadata) {
+        return new TileEntityPowerTap();
+    }
+
 }

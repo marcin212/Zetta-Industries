@@ -5,6 +5,8 @@ import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.B
 import net.minecraft.block.material.Material;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.text.translation.I18n;
 
 
@@ -15,11 +17,15 @@ public abstract class BasicBlockMultiblockBase extends BlockMultiblockBase imple
     protected List<String> info = new ArrayList<String>();
 
 	public BasicBlockMultiblockBase(String name) {
-		super(Material.IRON);
-		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
-		setHardness(3.0F);
-        setRegistryName(name);
+		this(name, Material.IRON);
 	}
+
+    public BasicBlockMultiblockBase(String name, Material material) {
+        super(material);
+        setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
+        setHardness(3.0F);
+        setRegistryName(name);
+    }
 
     @Override
     public List<String> getInformation() {
@@ -30,4 +36,8 @@ public abstract class BasicBlockMultiblockBase extends BlockMultiblockBase imple
         return I18n.canTranslate(key) ? I18n.translateToLocal(key) : I18n.translateToFallback(key);
     }
 
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
+    }
 }

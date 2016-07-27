@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -97,24 +98,20 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	}
 
 	public static boolean isSourceFluid(World worldObj, int x, int y, int z) {
-		Block block = worldObj.getBlock(x, y, z);
-		if (block instanceof BlockFluidBase && worldObj.getBlockMetadata(x, y, z) == 0) {
-			return true;
-		}
-		if (block instanceof BlockFluidClassic && worldObj.getBlockMetadata(x, y, z) == 0) {
-			return true;
-		}
-		if (block instanceof BlockStaticLiquid && worldObj.getBlockMetadata(x, y, z) == 0) {
-			return true;
-		}
-		if (block instanceof BlockLiquid && worldObj.getBlockMetadata(x, y, z) == 0) {
-			return true;
+		BlockPos blockPos = new BlockPos(x,y,z);
+		Block block = worldObj.getBlockState(blockPos).getBlock();
+
+		if (block instanceof BlockFluidBase || block instanceof BlockFluidClassic || block instanceof BlockStaticLiquid || block instanceof BlockLiquid) {
+			if(worldObj.getBlockState(blockPos).getValue(BlockFluidBase.LEVEL)==0) {
+				return true;
+			}
 		}
 		return false;
 	}
 
 	public static int checkElectrolyte(World worldObj, int x, int y, int z) {
-		Block block = worldObj.getBlock(x, y, z);
+		BlockPos blockPos = new BlockPos(x,y,z);
+		Block block = worldObj.getBlockState(blockPos).getBlock();
 		if (isSourceFluid(worldObj, x, y, z)) {
 			if (Battery.getElectrolyteList().containsKey(FluidRegistry.lookupFluidForBlock(block))) {
 				return Battery.getElectrolyteList().get(FluidRegistry.lookupFluidForBlock(block));
@@ -177,14 +174,15 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	@Override
 	protected void isBlockGoodForInterior(World world, int x, int y, int z)
 			throws MultiblockValidationException {
-		if (world.isAirBlock(x, y, z)) {
+		BlockPos blockPos = new BlockPos(x,y,z);
+		if (world.isAirBlock(blockPos)) {
 			return;
 		}
-		Material material = world.getBlock(x, y, z).getMaterial();
+		Material material = world.getBlockState(blockPos).getMaterial();
 		if (material instanceof MaterialLiquid) {
 			return;
 		}
-		String blockName = world.getBlock(x, y, z).getLocalizedName();
+		String blockName = world.getBlockState(blockPos).getBlock().getLocalizedName();
 		throw new MultiblockValidationException(String.format("%d, %d, %d - Unrecognized block with ID %s, not valid for the reactor's interior", x, y, z, blockName));
 	}
 

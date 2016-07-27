@@ -4,6 +4,6 @@ import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityComputerPo
 
 public class IntegrationComputerCraft {
 	public static void computercraftInit(){
-		dan200.computercraft.api.ComputerCraftAPI.registerPeripheralProvider(new TileEntityComputerPort());
+		//dan200.computercraft.api.ComputerCraftAPI.registerPeripheralProvider(new TileEntityComputerPort());
 	}
 }

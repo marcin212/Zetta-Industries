@@ -2,14 +2,14 @@ package com.bymarcin.zettaindustries.mods.battery.gui;
 
 import java.io.IOException;
 
+import com.bymarcin.zettaindustries.registry.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 
 import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityPowerTap;
-import com.bymarcin.zettaindustries.registry.network.Packet;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 
-public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage>{
+public class PowerTapUpdatePacket extends Packet<PowerTapUpdatePacket,IMessage> {
 	int transfer = 0;
 	TileEntity te;
 	boolean side;

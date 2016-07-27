@@ -1,83 +1,67 @@
 package com.bymarcin.zettaindustries.mods.battery.block;
 
+import com.bymarcin.zettaindustries.basic.BasicBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.basic.BasicBlock;
-
 
 public class BlockSulfur extends BasicBlock {
-	protected IIcon blockIconTop;
-	private Block fluid;
+    private Block fluid;
     private List<String> info = new ArrayList<String>();
 
     public BlockSulfur(Block fluid) {
-		super(Material.ROCK, "sulfurblock");
-		setTickRandomly(true);
-		this.fluid = fluid;
+        super(Material.ROCK, "sulfurblock");
+        setTickRandomly(true);
+        this.fluid = fluid;
         info.add(localize("tooltip.sulfur1"));
     }
 
-	
-	@Override
-	public boolean isFireSource(World world, int x, int y, int z, ForgeDirection side) {
-		return side == ForgeDirection.UP;
-	}
-
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z) {
-		super.onBlockAdded(world, x, y, z);
-		world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-	}
-
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random random) {
-		if (world.getBlock(x, y + 1, z) == Blocks.fire) {
-			for (int i = x - 1; i <= x + 1; i++) {
-				for (int j = z - 1; j <= z + 1; j++) {
-					Fluid f = FluidRegistry.lookupFluidForBlock(world.getBlock(i, y, j));
-					int fid = f != null ? f.getID() : -1;
-					if (FluidRegistry.getFluid("water").getID() == fid && world.getBlockMetadata(i, y, j) == 0) {
-						world.setBlock(i, y, j, fluid , 0, 2);
-					}
-				}
-			}
-			world.setBlockToAir(x, y, z);
-		} else {
-			world.scheduleBlockUpdate(x, y, z, this, this.tickRate(world));
-		}
-	}
-
-	@Override
-	public void registerBlockIcons(IIconRegister iconRegister) {
-		blockIcon = iconRegister.registerIcon(ZettaIndustries.MODID + ":battery/sulfur_block");
-		blockIconTop = iconRegister.registerIcon(ZettaIndustries.MODID + ":battery/sulfur_block_top");
-	}
-
-	@Override
-	public IIcon getIcon(int side, int meta) {
-		return side == 1 ? blockIconTop : blockIcon;
-	}
-
-	@Override
-	public int tickRate(World par1World) {
-		return 20 * 15;
-	}
+    @Override
+    public boolean isFireSource(World world, BlockPos pos, EnumFacing side) {
+        return side == EnumFacing.UP;
+    }
 
     @Override
-    public List<String> getInformation(){
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(world, pos, state);
+        world.scheduleBlockUpdate(pos, this, this.tickRate(world), 0);
+    }
+
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (world.getBlockState(pos.up()).getBlock() == Blocks.FIRE) {
+            for (int i = pos.getX() - 1; i <= pos.getX() + 1; i++) {
+                for (int j = pos.getZ() - 1; j <= pos.getZ() + 1; j++) {
+                    Fluid f = FluidRegistry.lookupFluidForBlock(world.getBlockState(new BlockPos(i, pos.getY(), j)).getBlock());
+                    if (FluidRegistry.getFluid("water").equals(f)) {
+                        world.setBlockState(new BlockPos(i, pos.getY(), j), fluid.getDefaultState(), 2);
+                    }
+                }
+            }
+            world.setBlockToAir(pos);
+        } else {
+            world.scheduleBlockUpdate(pos, this, this.tickRate(world), 0);
+        }
+    }
+
+    @Override
+    public int tickRate(World par1World) {
+        return 20 * 15;
+    }
+
+    @Override
+    public List<String> getInformation() {
         return info;
     }
 }

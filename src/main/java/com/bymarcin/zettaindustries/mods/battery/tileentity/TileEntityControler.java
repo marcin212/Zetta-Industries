@@ -1,5 +1,7 @@
 package com.bymarcin.zettaindustries.mods.battery.tileentity;
 
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;
 
@@ -44,13 +46,13 @@ public class TileEntityControler extends BasicRectangularMultiblockTileEntityBas
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
 		if(this.worldObj.isRemote) return;
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
+		worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockBigBatteryController.OnOff, BlockBigBatteryController.ON), 2);
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
 		if(this.worldObj.isRemote) return;
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
+		worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockBigBatteryController.OnOff, BlockBigBatteryController.OFF), 2);
 	}
 }

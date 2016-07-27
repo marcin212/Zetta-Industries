@@ -1,10 +1,12 @@
 package com.bymarcin.zettaindustries.mods.battery.tileentity;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import com.bymarcin.zettaindustries.mods.battery.Battery;
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;
 import com.bymarcin.zettaindustries.mods.battery.gui.PowerTapContener;
@@ -19,12 +21,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
-import net.minecraftforge.common.util.ForgeDirection;
 
 import cofh.api.energy.IEnergyHandler;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 
 
-public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase implements IEnergyHandler{
+public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase implements IEnergyReceiver, IEnergyProvider, IEnergyHandler{
 	int transferMax = 0;
 	int transferCurrent = 0;
 	private Set<EntityPlayer> updatePlayers = new HashSet<EntityPlayer>();
@@ -46,13 +49,14 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	protected void sendIndividualUpdate(EntityPlayer player) {
 		if(this.worldObj.isRemote) { return; }
-		ZIRegistry.packetHandler.sendTo(getUpdatePacket(), (EntityPlayerMP) player);
+		ZIRegistry.packetHandler.sendTo(getUpdatePowerTapPacket(), (EntityPlayerMP) player);
 	}
 	
-	protected PowerTapUpdatePacket getUpdatePacket(){
+	protected PowerTapUpdatePacket getUpdatePowerTapPacket(){
 	     return new PowerTapUpdatePacket(this,transferCurrent,true,getLabel());
 	}
-	
+
+
 	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
 		updatePlayers.remove(playerToRemove);
 	}
@@ -63,38 +67,31 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's frame", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's frame", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForSides() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's sides", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's sides", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		TileEntity entityBelow = this.worldObj.getTileEntity(this.xCoord,  this.yCoord - 1, this.zCoord);
+		TileEntity entityBelow = this.worldObj.getTileEntity(this.getPos().down());
 		if ((entityBelow instanceof TileEntityElectrode)) {
 			return;
 		}
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap must be placed on electrode", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap must be placed on electrode", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's bottom", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's bottom", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's interior", this.xCoord, this.yCoord, this.zCoord));
-	}
-
-	private static ForgeDirection[] dirs;
-
-	{
-		dirs = Arrays.copyOf(WorldUtils.flatDirections, 5);
-		dirs[4] = ForgeDirection.DOWN;
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's interior", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
@@ -104,13 +101,14 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 		int i = 1;
 		Block b;
 		while (true) {
-			b = worldObj.getBlock(this.xCoord, this.yCoord - i, this.zCoord);
+			b = worldObj.getBlockState(new BlockPos(this.getPos().getX(), this.getPos().getY() - i, this.getPos().getZ())).getBlock();
 			if (b != Battery.blockBigBatteryElectrode) {
 				break;
 			}
 
-			for (ForgeDirection d : dirs) {
-				if (BatteryController.checkElectrolyte(worldObj, xCoord + d.offsetX, yCoord + d.offsetY - i, zCoord + d.offsetZ) != 0) {
+			for (EnumFacing d : EnumFacing.VALUES) {
+				if(EnumFacing.UP==d) continue;
+				if (BatteryController.checkElectrolyte(worldObj, getPos().getX() + d.getDirectionVec().getX(), getPos().getY() + d.getDirectionVec().getY() - i, getPos().getZ() + d.getDirectionVec().getZ()) != 0) {
 					transferMax += Battery.electrodeTransferRate;
 				}
 			}
@@ -133,10 +131,10 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	
 	public int onTransferEnergy(){
 			if(WorldUtils.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return 0;
-			TileEntity tile = WorldUtils.getAdjacentTileEntity(this, ForgeDirection.UP);
+			TileEntity tile = WorldUtils.getAdjacentTileEntity(getWorld(), getPos(), EnumFacing.UP);
 			int energyGet=0;
-			if (WorldUtils.isEnergyHandlerFromSide(tile,ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)])){
-				energyGet = ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)], Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false); 
+			if (WorldUtils.isEnergyReciverFromSide(tile,EnumFacing.UP)){
+				energyGet = ((IEnergyReceiver)tile).receiveEnergy(EnumFacing.UP, Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false);
 			}  
 			((BatteryController)getMultiblockController()).getStorage().modifyEnergyStored(-energyGet);
 			return energyGet;
@@ -152,7 +150,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	
 	public void updatePowerTap(){
 		for(EntityPlayer p: updatePlayers)
-			ZIRegistry.packetHandler.sendTo(getUpdatePacket(), (EntityPlayerMP) p);
+			ZIRegistry.packetHandler.sendTo(getUpdatePowerTapPacket(), (EntityPlayerMP) p);
 	}
 	
 	public Container getContainer(EntityPlayer player){
@@ -161,7 +159,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	
 	/* IEnergyHandler */
 	@Override
-	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
 		if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
 			 int temp =((BatteryController)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
 			    if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(temp);}
@@ -171,7 +169,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 
 	@Override
-	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
 		if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
 			int temp = ((BatteryController)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
             if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(-temp);}
@@ -181,7 +179,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 
 	@Override
-	public int getEnergyStored(ForgeDirection from) {
+	public int getEnergyStored(EnumFacing from) {
 		if(getMultiblockController()!=null){
 			return ((BatteryController)getMultiblockController()).getStorage().getEnergyStored();
 		}
@@ -189,7 +187,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 
 	@Override
-	public int getMaxEnergyStored(ForgeDirection from) {
+	public int getMaxEnergyStored(EnumFacing from) {
 		if(getMultiblockController()!=null){
 			return ((BatteryController)getMultiblockController()).getStorage().getMaxEnergyStored();
 		}
@@ -210,22 +208,24 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound data) {
+	public NBTTagCompound writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
 		data.setInteger("transfer",transferCurrent);
 		data.setString("powertap_label", label);
+		return data;
 	}
 	
 	public void setIn(){
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
+		getWorld().setBlockState(getPos(),worldObj.getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.INPUT),2);
 	}
 	
 	public void setOut(){
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
+		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.OUTPUT),2);
 	}
 
 	@Override
-	public boolean canConnectEnergy(ForgeDirection from) {
-        return true;
-    }
+	public boolean canConnectEnergy(EnumFacing enumFacing) {
+		return true;
+	}
+
 }

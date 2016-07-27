@@ -6,7 +6,7 @@ public class TileEntityGlass extends BasicRectangularMultiblockTileEntityBase{
 
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's frame", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's frame", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
@@ -16,17 +16,17 @@ public class TileEntityGlass extends BasicRectangularMultiblockTileEntityBase{
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's top", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's top", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForBottom() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's bottom", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's bottom", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override
 	public void isGoodForInterior() throws MultiblockValidationException {
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's interior", this.xCoord, this.yCoord, this.zCoord));
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Glass may not be placed in the battery's interior", this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()));
 	}
 
 	@Override

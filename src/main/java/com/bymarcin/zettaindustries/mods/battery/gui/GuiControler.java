@@ -11,6 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
+
 public class GuiControler extends GuiContainer{
 	BatteryController battery;
 	private ResourceLocation guiTexture = new ResourceLocation(ZettaIndustries.MODID, "textures/gui/battery/bb_gui.png");
@@ -32,8 +34,7 @@ public class GuiControler extends GuiContainer{
 		super.initGui();
 	}
 	
-	public void keyTyped(char keyChar, int keyID)
-	{
+	public void keyTyped(char keyChar, int keyID) throws IOException {
 		super.keyTyped(keyChar, keyID);
 		if (keyID == Keyboard.KEY_ESCAPE || keyID == mc.gameSettings.keyBindInventory.getKeyCode())
 		{

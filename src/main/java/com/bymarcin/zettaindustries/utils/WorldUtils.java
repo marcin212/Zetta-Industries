@@ -2,12 +2,15 @@ package com.bymarcin.zettaindustries.utils;
 
 import java.util.Random;
 
+import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -65,10 +68,10 @@ public class WorldUtils {
 		return !paramWorld.isRemote;
 	}
 
-//	public static TileEntity getAdjacentTileEntity(World paramWorld, int paramInt1, int paramInt2, int paramInt3, ForgeDirection paramForgeDirection)
-//	{
-//		return paramWorld == null ? null : paramWorld.getTileEntity(paramInt1 + paramForgeDirection.offsetX, paramInt2 + paramForgeDirection.offsetY, paramInt3 + paramForgeDirection.offsetZ);
-//	}
+	public static TileEntity getAdjacentTileEntity(World paramWorld, BlockPos pos, EnumFacing paramDirection)
+	{
+		return paramWorld == null ? null : paramWorld.getTileEntity(pos.add(paramDirection.getDirectionVec()));
+	}
 
 //	public static TileEntity getAdjacentTileEntity(World paramWorld, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
 //	{
@@ -85,10 +88,10 @@ public class WorldUtils {
 //		return paramTileEntity == null ? null : getAdjacentTileEntity(paramTileEntity.getWorldObj(), paramTileEntity.xCoord, paramTileEntity.yCoord, paramTileEntity.zCoord, ForgeDirection.values()[paramInt]);
 //	}
 
-//	public static boolean isEnergyHandlerFromSide(TileEntity paramTileEntity, ForgeDirection paramForgeDirection)
-//	{
-//		return (paramTileEntity instanceof IEnergyHandler) && ((IEnergyHandler) paramTileEntity).canConnectEnergy(paramForgeDirection);
-//	}
+	public static boolean isEnergyReciverFromSide(TileEntity paramTileEntity, EnumFacing paramDirection)
+	{
+		return (paramTileEntity instanceof IEnergyReceiver) && ((IEnergyReceiver) paramTileEntity).canConnectEnergy(paramDirection);
+	}
 
 //	public static Block getAdjencetBlock(TileEntity tile, ForgeDirection offset) {
 //		return tile.getWorldObj().getBlock(tile.xCoord + offset.offsetX, tile.yCoord + offset.offsetY, tile.zCoord + offset.offsetZ);

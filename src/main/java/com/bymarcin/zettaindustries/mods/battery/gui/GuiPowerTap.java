@@ -13,6 +13,8 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityPowerTap;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 
+import java.io.IOException;
+
 
 public class GuiPowerTap extends GuiContainer{
 	TileEntityPowerTap tile;
@@ -74,7 +76,7 @@ public class GuiPowerTap extends GuiContainer{
         plus100000 = new GuiButton(11, posX+136, posY+10, 36, 20, "+100K");
         minus100000 = new GuiButton(12, posX+136, posY+60-14, 36, 20, "-100K");
         
-        textfield = new GuiTextField(fontRendererObj, posX+51, posY-7, 120, 14);
+        textfield = new GuiTextField(0,fontRendererObj, posX+51, posY-7, 120, 14);
         textfield.setText(tile.getLabel());
         
         buttonList.add(minus1);
@@ -121,7 +123,7 @@ public class GuiPowerTap extends GuiContainer{
 
 	
 	@Override
-	protected void actionPerformed(GuiButton button) {
+	protected void actionPerformed(GuiButton button) throws IOException {
 		switch(button.id){
 		case 1:ZIRegistry.packetHandler.sendToServer(new PowerTapUpdatePacket(tile, tile.getTransferCurrent()+1,false,textfield.getText())); break;
 		case 2:ZIRegistry.packetHandler.sendToServer(new PowerTapUpdatePacket(tile, tile.getTransferCurrent()-1,false,textfield.getText())); break;
@@ -152,7 +154,7 @@ public class GuiPowerTap extends GuiContainer{
 	}
 	
 	@Override
-	protected void keyTyped(char sign, int hm) {
+	protected void keyTyped(char sign, int hm) throws IOException {
 		if(!textfield.textboxKeyTyped(sign, hm)){
 			super.keyTyped(sign, hm);
 		}
@@ -160,7 +162,7 @@ public class GuiPowerTap extends GuiContainer{
 	}
 	
 	@Override
-	protected void mouseClicked(int x, int y, int button) {
+	protected void mouseClicked(int x, int y, int button) throws IOException {
 		super.mouseClicked(x, y, button);
 		textfield.mouseClicked(x, y, button);
 	}

@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "zettaindustries:blocks/charcoal_block"
+      "all": "zettaindustries:blocks/battery/bb_glass_0"
     },
     "model": "minecraft:cube_all",
     "uvlock": false

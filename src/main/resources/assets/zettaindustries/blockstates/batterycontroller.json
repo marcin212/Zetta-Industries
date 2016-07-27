@@ -1,0 +1,30 @@
+{
+"forge_marker": 1,
+"defaults": {
+"textures": {
+  "top": "zettaindustries:blocks/battery/bb_part",
+  "bottom": "zettaindustries:blocks/battery/bb_part",
+  "side": "zettaindustries:blocks/battery/bb_controler_off"
+},
+"model": "minecraft:cube_bottom_top",
+"uvlock": false
+},
+"variants": {
+"normal": [{}],
+"inventory": [{
+"transform": "forge:default-block"
+}],
+  "on_off":{
+    "0":{
+      "textures": {
+        "side": "zettaindustries:blocks/battery/bb_controler_off"
+      }
+    },
+    "1":{
+      "textures": {
+        "side": "zettaindustries:blocks/battery/bb_controler_on"
+      }
+    }
+  }
+}
+}

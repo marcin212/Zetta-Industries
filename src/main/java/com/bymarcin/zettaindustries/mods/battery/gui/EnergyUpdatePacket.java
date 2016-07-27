@@ -2,15 +2,14 @@ package com.bymarcin.zettaindustries.mods.battery.gui;
 
 import java.io.IOException;
 
+import com.bymarcin.zettaindustries.registry.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 
 import com.bymarcin.zettaindustries.mods.battery.tileentity.BatteryController;
 import com.bymarcin.zettaindustries.mods.battery.tileentity.TileEntityControler;
-import com.bymarcin.zettaindustries.registry.network.Packet;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-
-public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage>{
+public class EnergyUpdatePacket extends Packet<EnergyUpdatePacket,IMessage> {
 	long capacity;
 	long energy;
 	TileEntity te;

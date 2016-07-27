@@ -1,0 +1,16 @@
+{
+"forge_marker": 1,
+"defaults": {
+"textures": {
+"all": "zettaindustries:blocks/battery/bb_electrode"
+},
+"model": "minecraft:cube_all",
+"uvlock": false
+},
+"variants": {
+"normal": [{}],
+"inventory": [{
+"transform": "forge:default-block"
+}]
+}
+}

@@ -1,56 +1,42 @@
 package com.bymarcin.zettaindustries.mods.battery.fluid;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.mods.battery.Battery;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.util.IIcon;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
+public class AcidFluid extends BlockFluidClassic  {
+    public static final ResourceLocation stillIcon = new ResourceLocation(ZettaIndustries.MODID,"blocks/battery/fluidAcidStill.png");
+    public static final ResourceLocation flowingIcon = new ResourceLocation(ZettaIndustries.MODID,"blocks/battery/fluidAcidFlowing.png");
 
-public class AcidFluid extends BlockFluidClassic{
-    public IIcon stillIcon;
-    public IIcon flowingIcon;
-    
-	public AcidFluid(Fluid fluid) {
-		super(fluid, Material.water);
-		  this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
-		  this.setBlockName("sulfurousacid");  
-	}
-
-    @Override
-    public IIcon getIcon(int side, int meta) {
-            return (side == 0 || side == 1)? stillIcon : flowingIcon;      
-    }
-    
-    @Override
-    public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z) {
-    	return false;
-    }
-    
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(net.minecraft.client.renderer.texture.IIconRegister register) {
-        blockIcon = stillIcon = register.registerIcon(ZettaIndustries.MODID+":battery/fluidAcidStill");
-        flowingIcon = register.registerIcon(ZettaIndustries.MODID+":battery/fluidAcidFlowing");
-        Battery.acid.setIcons(stillIcon, flowingIcon);
+    public AcidFluid(Fluid fluid) {
+        super(fluid, Material.WATER);
+        this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
+        this.setRegistryName("sulfurousacid");
     }
 
     @Override
-    public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
-        return !world.getBlock(x, y, z).getMaterial().isLiquid() && super.canDisplace(world, x, y, z);
+    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos, EntityLiving.SpawnPlacementType type) {
+        return false;
     }
-   
+
     @Override
-    public boolean displaceIfPossible(World world, int x, int y, int z) {
-        return !world.getBlock(x, y, z).getMaterial().isLiquid() && super.displaceIfPossible(world, x, y, z);
+    public boolean canDisplace(IBlockAccess world, BlockPos pos) {
+        return !world.getBlockState(pos).getMaterial().isLiquid() && super.canDisplace(world, pos);
     }
+
+    @Override
+    public boolean displaceIfPossible(World world, BlockPos pos) {
+        return !world.getBlockState(pos).getMaterial().isLiquid() && super.displaceIfPossible(world, pos);
+    }
+
+
 }
