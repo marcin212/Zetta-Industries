@@ -2,7 +2,9 @@ package com.bymarcin.zettaindustries.mods.battery.fluid;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
@@ -14,11 +16,11 @@ import net.minecraftforge.fluids.Fluid;
 
 
 public class AcidFluid extends BlockFluidClassic  {
-    public static final ResourceLocation stillIcon = new ResourceLocation(ZettaIndustries.MODID,"blocks/battery/fluidAcidStill.png");
-    public static final ResourceLocation flowingIcon = new ResourceLocation(ZettaIndustries.MODID,"blocks/battery/fluidAcidFlowing.png");
+    public static final ResourceLocation stillIcon = new ResourceLocation(ZettaIndustries.MODID,"blocks/battery/fluidAcidStill");
+    public static final ResourceLocation flowingIcon = new ResourceLocation(ZettaIndustries.MODID,"blocks/battery/fluidAcidFlowing");
 
     public AcidFluid(Fluid fluid) {
-        super(fluid, Material.WATER);
+        super(fluid, new MaterialLiquid(MapColor.YELLOW));
         this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
         this.setRegistryName("sulfurousacid");
     }

@@ -3,7 +3,6 @@ package com.bymarcin.zettaindustries.mods.battery;
 import java.util.HashMap;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.basic.InformationalItemBlock;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryComputerPort;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController;
@@ -17,7 +16,6 @@ import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.M
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.fluid.AcidFluid;
-import com.bymarcin.zettaindustries.mods.battery.fluid.FluidBucket;
 import com.bymarcin.zettaindustries.mods.battery.gui.BigBatteryContainer;
 import com.bymarcin.zettaindustries.mods.battery.gui.EnergyUpdatePacket;
 import com.bymarcin.zettaindustries.mods.battery.gui.GuiControler;
@@ -34,9 +32,13 @@ import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -45,17 +47,17 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class Battery implements IMod, IGUI, IProxy{
 	
@@ -65,7 +67,6 @@ public class Battery implements IMod, IGUI, IProxy{
 	public static BlockBigBatteryWall  blockBigBatteryWall;
 	public static BlockBigBatteryComputerPort  blockBigBatteryComputerPort;
 	public static BlockBigBatteryController  blockBigBatteryControler;
-	public static FluidBucket itemAcidBucket;
 	public static BlockGraphite blockGraphite;
 	public double capacityMultiplier = 1;
 	public static int electrodeTransferRate = 2500;
@@ -96,8 +97,12 @@ public class Battery implements IMod, IGUI, IProxy{
 
 
 		FluidRegistry.registerFluid(acid);
-		acid.setBlock(new AcidFluid(acid));
-		GameRegistry.register(acid.getBlock());
+		acidFluid = new AcidFluid(acid);
+		Block fluidBlock = GameRegistry.register(acidFluid);
+		Item fluidItem = GameRegistry.register(new ItemBlock(fluidBlock).setRegistryName(acidFluid.getRegistryName()));
+		//ZettaIndustries.proxy.registermodel(fluidItem, 0);
+		acid.setBlock(acidFluid);
+		registerFluidModel(acidFluid);
 
 //		acidFluid = new AcidFluid(acid);
 //		GameRegistry.register(acidFluid);
@@ -314,6 +319,8 @@ public class Battery implements IMod, IGUI, IProxy{
 	public void clientSide() {
 		MinecraftForge.EVENT_BUS.register(new MultiblockClientTickHandler());
 		MinecraftForge.EVENT_BUS.register(new MultiblockServerTickHandler());
+
+
 	}
 
 	@Override
@@ -322,4 +329,34 @@ public class Battery implements IMod, IGUI, IProxy{
 	}
 
 
+	private void registerFluidModel(IFluidBlock fluidBlock) {
+		final Item item = Item.getItemFromBlock((Block) fluidBlock);
+		assert item != null;
+
+		ModelBakery.registerItemVariants(item);
+		ModelResourceLocation modelResourceLocation = new ModelResourceLocation(ZettaIndustries.MODID + ":sulfurousacid");
+
+		ModelLoader.setCustomMeshDefinition(item, MeshDefinitionFix.create(stack -> modelResourceLocation));
+
+		ModelLoader.setCustomStateMapper((Block) fluidBlock, new StateMapperBase() {
+			@Override
+			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
+				return modelResourceLocation;
+			}
+		});
+	}
+
+	@SideOnly(Side.CLIENT)
+	interface MeshDefinitionFix extends ItemMeshDefinition {
+		ModelResourceLocation getLocation(ItemStack stack);
+
+		// Helper method to easily create lambda instances of this class
+		static ItemMeshDefinition create(MeshDefinitionFix lambda) {
+			return lambda;
+		}
+
+		default ModelResourceLocation getModelLocation(ItemStack stack) {
+			return getLocation(stack);
+		}
+	}
 }

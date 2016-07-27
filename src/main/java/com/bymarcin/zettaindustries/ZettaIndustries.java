@@ -67,14 +67,16 @@ public class ZettaIndustries
     	modManager = new ModManager();
     	ZIRegistry.preInitialize();
     	modManager.preInit();
+
+
     	logger.info("End preInit!");
     }
     
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	modManager.init(); 
-    	proxy.init();
+    	modManager.init();
+        proxy.init();
     	ZIRegistry.initialize();
     	config.save();
     }
