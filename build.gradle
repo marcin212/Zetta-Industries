@@ -47,14 +47,9 @@ sourceSets{
 
 
 minecraft {
-    version = "1.9.4-12.17.0.1968"
-    mappings = "snapshot_20160619"
+    version = "1.10.2-12.18.1.2026"
+    mappings = "snapshot_20160725"
 	runDir = "run"
-	//if (file('../run').exists()){
-		//assetDir = "../run/assets"
-	//}else{
-		//assetDir = "assets"
-	//}
 }
 
 configurations {
@@ -124,17 +119,18 @@ runServer {
 }
 
 dependencies {
-	//compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
-	//compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
-	compile "net.sengir.forestry:forestry_1.9.4:${config.forestry.version}"
+	compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
+	compile "net.sengir.forestry:forestry_1.10.2:${config.forestry.version}"
 	compile "li.cil.oc:OpenComputers:${config.oc.version}"
+    compile name: 'jei', version: config.jei.version, ext: 'jar'
 	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 	//compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
 	//compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
 	//compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	//compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
 	//compile name: 'redlogic', version: '59.1.11', ext: 'jar'
-	compile name: 'jei', version: config.jei.version, ext: 'jar'
+    //compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
+
 }
 
 processResources
