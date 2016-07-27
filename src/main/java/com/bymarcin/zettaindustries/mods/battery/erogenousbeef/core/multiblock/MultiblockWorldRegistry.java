@@ -11,6 +11,7 @@ import java.util.Set;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
@@ -272,8 +273,9 @@ public class MultiblockWorldRegistry {
 	 */
 	public void onPartAdded(IMultiblockPart part) {
 		CoordTriplet worldLocation = part.getWorldLocation();
-		
-		if(!worldObj.getChunkProvider().getLoadedChunk(worldLocation.getChunkX(), worldLocation.getChunkZ()).isLoaded()) {
+
+		Chunk chunk = worldObj.getChunkProvider().getLoadedChunk(worldLocation.getChunkX(), worldLocation.getChunkZ());
+		if(chunk ==null || !chunk.isLoaded()) {
 			// Part goes into the waiting-for-chunk-load list
 			Set<IMultiblockPart> partSet;
 			long chunkHash = worldLocation.getChunkXZHash();

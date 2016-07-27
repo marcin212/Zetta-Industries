@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -29,7 +30,7 @@ public abstract class MultiblockControllerBase {
 	protected enum AssemblyState { Disassembled, Assembled, Paused };
 	protected AssemblyState assemblyState;
 
-	protected HashSet<IMultiblockPart> connectedParts;
+	protected ConcurrentSet<IMultiblockPart> connectedParts;
 	
 	/** This is a deterministically-picked coordinate that identifies this
 	 * multiblock uniquely in its dimension.
@@ -66,7 +67,7 @@ public abstract class MultiblockControllerBase {
 	protected MultiblockControllerBase(World world) {
 		// Multiblock stuff
 		worldObj = world;
-		connectedParts  = new HashSet<IMultiblockPart>();
+		connectedParts  = new ConcurrentSet<IMultiblockPart>();
 
 		referenceCoord = null;
 		assemblyState = AssemblyState.Disassembled;
@@ -832,7 +833,7 @@ public abstract class MultiblockControllerBase {
 		}
 
 		Set<IMultiblockPart> detachedParts = connectedParts;
-		connectedParts = new HashSet<IMultiblockPart>();
+		connectedParts = new ConcurrentSet<IMultiblockPart>();
 		return detachedParts;
 	}
 
