@@ -78,8 +78,9 @@ public class NFC implements IMod, IProxy {
         ZettaIndustries.proxy.registermodel(GameRegistry.register(new ItemBlock(temp).setRegistryName(temp.getRegistryName())),0);
         GameRegistry.registerTileEntity(SmartCardTerminalTileEntity.class, "SmartCardTerminalTileEntity");
 
-        Driver.add((li.cil.oc.api.driver.Item)smartCardItem);
-        Driver.add((li.cil.oc.api.driver.Item)smartCardTerminalItem);
+
+
+
 
         ZIRegistry.registerProxy(this);
     }
@@ -100,7 +101,9 @@ public class NFC implements IMod, IProxy {
         ItemStack pressurePlate = new ItemStack(Blocks.STONE_PRESSURE_PLATE);
         ItemStack dataCard2 = Items.get("dataCard2").createItemStack(1);
 
-
+        Driver.add((li.cil.oc.api.driver.Item)smartCardItem);
+        Driver.add((li.cil.oc.api.driver.Item)smartCardTerminalItem);
+        Driver.add((li.cil.oc.api.driver.EnvironmentProvider)smartCardTerminalItem);
 
         GameRegistry.addRecipe(new ItemStack(blockNFCReader, 1),
                 "i i", "cnw", "ibi", 'i', iron, 'c', microChip2, 'n', interweb, 'w', wifi, 'b', circuitBoard);
@@ -123,7 +126,7 @@ public class NFC implements IMod, IProxy {
         GameRegistry.addRecipe(new ItemStack(smartCardTerminalItem,1),
 	    		 "ici","dp ","ibi",'p',pressurePlate,'c',microChip2,'i',obsidian,'d',dataCard2,'b',circuitBoard );
 
-//
+
 //	     SmartCardTerminalExtension i = new SmartCardTerminalExtension();
 //	     GameRegistry.registerItem(i, "SmartCardTerminalExtension");
 //	     Driver.add((li.cil.oc.api.driver.Item)i);

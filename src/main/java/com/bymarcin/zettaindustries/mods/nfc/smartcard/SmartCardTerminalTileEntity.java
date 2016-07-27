@@ -16,6 +16,7 @@ import javax.crypto.KeyAgreement;
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
 
 import li.cil.oc.api.Network;
+import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
@@ -29,7 +30,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 
@@ -73,16 +73,27 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	}
 
 	@Override
+	public NBTTagCompound getUpdateTag() {
+		return getData();
+	}
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		renderInfo = tag;
+	}
+
+	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
 		renderInfo = pkt.getNbtCompound();
 	}
 
 	@Override
 	public void update() {
-		if(needsUpdate){
+		super.update();
+		if(!worldObj.isRemote && needsUpdate){
 			needsUpdate = false;
 			markDirty();
-			worldObj.markBlockRangeForRenderUpdate(getPos(),getPos());
+			worldObj.notifyBlockUpdate(getPos(), worldObj.getBlockState(getPos()), worldObj.getBlockState(getPos()), 2);
 		}
 	}
 

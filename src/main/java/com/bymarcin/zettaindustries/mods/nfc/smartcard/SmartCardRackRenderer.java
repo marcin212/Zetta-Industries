@@ -4,6 +4,7 @@ import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
 
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -51,7 +52,8 @@ public class SmartCardRackRenderer {
 			if (e.data.getBoolean("hasCard")) {
 				GL11.glPushMatrix();
 				GL11.glScalef(1, -1, 1);
-				GL11.glTranslatef(11 / 16f, -(3.5f + e.mountable * 3f) / 16f, 2 / 16f);
+				GL11.glTranslatef(11.5f / 16f, -(3.5f + e.mountable * 3f) / 16f, -2.5f / 16f);
+				GL11.glScalef(0.7f, 0.7f, 0.7f);
 				GL11.glRotatef(90, -1, 0, 0);
 				int brightness = e.rack.world().getCombinedLight(new BlockPos(
 						(int) e.rack.xPosition() + e.rack.facing().getFrontOffsetX(),
@@ -61,9 +63,10 @@ public class SmartCardRackRenderer {
 				// This is very 'meh', but item frames do it like this, too!
 				EntityItem entity = new EntityItem(e.rack.world(), 0, 0, 0, new ItemStack(NFC.smartCardItem));
 				entity.hoverStart = 0;
-//				RenderItem.renderInFrame = true;
-//				RenderManager.instance.renderEntityWithPosYaw(entity, 0, 0, 0, 0, 0);
-//				RenderItem.renderInFrame = false;
+
+
+				Minecraft.getMinecraft().getRenderItem().renderItem(entity.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+
 				GL11.glPopMatrix();
 				GL11.glColor3d(0, 1, 0);
 				e.renderOverlay(texture_lights, 5 / 16f, 7 / 16f);

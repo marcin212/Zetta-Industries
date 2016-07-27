@@ -22,12 +22,10 @@ public class SmartCardBlockTerminalRenderer extends TileEntitySpecialRenderer<Sm
     public static final int[] sides = {3,4,2,5};
     @Override
     public void renderTileEntityAt(SmartCardTerminalTileEntity terminal, double x, double y, double z, float partialTicks, int destroyStage) {
+
         if(terminal.renderInfo==null) return;
-
         if(!terminal.renderInfo.getBoolean("hasCard"))return;
-
         if(!(terminal.getBlockMetadata()<4)) return;
-
         EnumFacing facing = EnumFacing.values()[sides[terminal.getBlockMetadata()]];
         //GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
         GlStateManager.pushMatrix();
@@ -42,9 +40,9 @@ public class SmartCardBlockTerminalRenderer extends TileEntitySpecialRenderer<Sm
         }
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0, 4.5f / 16, 5 / 16f);
+        GlStateManager.translate(0, 4.5f / 16, 5.5f / 16f);
         GlStateManager.rotate(90, -1, 0, 0);
-
+        GL11.glScalef(0.7f, 0.7f, 0.7f);
         int brightness = terminal.getWorld().getCombinedLight(new BlockPos(
                 terminal.getPos().getX() + facing.getFrontOffsetX(),
                 terminal.getPos().getY() + facing.getFrontOffsetY(),
