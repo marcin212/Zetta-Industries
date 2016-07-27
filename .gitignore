@@ -26,3 +26,6 @@ Thumbs.db
 /src/main/resources/oc_at.cfg
 /*.launch
 /run
+/*.dll
+/*.log
+/*.json
