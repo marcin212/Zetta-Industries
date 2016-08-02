@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.mods.nfc.NFC;
 import li.cil.oc.api.driver.item.Slot;
 import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.ManagedEnvironment;
@@ -8,17 +9,22 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.UUID;
 
 public class SmartCardItem extends Item implements li.cil.oc.api.driver.Item {
     public static final String PRIVATE_KEY = "sc:private_key";
     public static final String PUBLIC_KEY = "sc:public_key";
+    public static final String UUID_KEY = "sc:uuid_key";
     public static final String OWNER = "sc:owner";
     public static SecureRandom srand;
 
@@ -39,12 +45,19 @@ public class SmartCardItem extends Item implements li.cil.oc.api.driver.Item {
     public void addInformation(ItemStack stack, EntityPlayer p, List list, boolean q) {
         super.addInformation(stack, p, list, q);
 
-        String info = getOwner(stack);
-        if (info != null && !info.isEmpty())
-            list.add("Protected");
+        NBTTagCompound tag = stack.getTagCompound();
+        if (tag != null) {
+            if (tag.hasKey(OWNER)) {
+                list.add("Protected");
+            }
+            if (tag.hasKey(UUID_KEY)) {
+                list.add(tag.getString(UUID_KEY));
+            }
+        }
     }
 
-    public static void generateKeyPair(NBTTagCompound tag) {
+    public static NBTTagCompound generateKeyPair() {
+        NBTTagCompound tag = new NBTTagCompound();
         try {
             KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC");
             kpg.initialize(384, srand);
@@ -54,33 +67,62 @@ public class SmartCardItem extends Item implements li.cil.oc.api.driver.Item {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+        return tag;
     }
+
+    private static void saveNewUUID(NBTTagCompound tag) {
+        String uuid = UUID.randomUUID().toString();
+        NBTTagCompound keys = generateKeyPair();
+        Path filePub = NFC.saveDirParent.toPath().resolve(uuid + ".pub");
+        Path filePriv = NFC.saveDirParent.toPath().resolve(uuid + ".prv");
+        try {
+            Files.write(filePub, keys.getByteArray(PUBLIC_KEY), StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+            Files.write(filePriv, keys.getByteArray(PRIVATE_KEY), StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE);
+            tag.setString(UUID_KEY, uuid);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static NBTTagCompound getNBT(ItemStack stack) {
         if (stack.hasTagCompound()) {
-            if (!stack.getTagCompound().hasKey(PRIVATE_KEY) || !stack.getTagCompound().hasKey(PUBLIC_KEY)) {
-                generateKeyPair(stack.getTagCompound());
+            if (!stack.getTagCompound().hasKey(UUID_KEY)) {
+                saveNewUUID(stack.getTagCompound());
             }
             return stack.getTagCompound();
         } else {
             NBTTagCompound tag = new NBTTagCompound();
-            generateKeyPair(tag);
+            saveNewUUID(tag);
             stack.setTagCompound(tag);
             return tag;
         }
     }
 
     public static byte[] getPrivateKey(ItemStack stack) {
-        return getNBT(stack).getByteArray(PRIVATE_KEY);
+        String uuid = getNBT(stack).getString(UUID_KEY);
+        try {
+            return Files.readAllBytes(NFC.saveDirParent.toPath().resolve(uuid + ".prv"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
     }
 
     public static byte[] getPublicKey(ItemStack stack) {
-        return getNBT(stack).getByteArray(PUBLIC_KEY);
+        String uuid = getNBT(stack).getString(UUID_KEY);
+        try {
+            return Files.readAllBytes(NFC.saveDirParent.toPath().resolve(uuid + ".pub"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new byte[0];
     }
 
     public static String getOwner(ItemStack stack) {
         return getNBT(stack).getString(OWNER);
     }
+
 
     @Override
     public boolean worksWith(ItemStack stack) {

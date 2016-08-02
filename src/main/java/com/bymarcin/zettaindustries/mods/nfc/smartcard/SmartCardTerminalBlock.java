@@ -33,6 +33,8 @@ public class SmartCardTerminalBlock extends BlockContainer{
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setHardness(3f);
 		setRegistryName("smartcardterminalblock");
+		setUnlocalizedName("smartcardterminalblock");
+		setDefaultState(getDefaultState().withProperty(FACING,2));
 	}
 
 	@Override
@@ -87,6 +89,8 @@ public class SmartCardTerminalBlock extends BlockContainer{
 		worldIn.setBlockState(pos, state.withProperty(FACING, whichDirectionFacing), 2);
 		worldIn.notifyNeighborsOfStateChange(pos, state.getBlock());
 	}
+
+
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {

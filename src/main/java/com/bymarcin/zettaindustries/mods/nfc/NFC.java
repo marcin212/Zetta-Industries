@@ -19,11 +19,19 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 
 
 public class NFC implements IMod, IProxy {
@@ -42,9 +50,12 @@ public class NFC implements IMod, IProxy {
 	public static SmartCardItem smartCardItem;
 	public static SmartCardTerminalItem smartCardTerminalItem;
 	public static SmartCardTerminalBlock smartCardTerminalBlock;
+    public static File saveDirParent = null;
 
     @Override
     public void preInit() {
+
+
 
         blockNFCProgrammer = new BlockNFCProgrammer();
         blockNFCReader = new BlockNFCReader();
@@ -79,9 +90,7 @@ public class NFC implements IMod, IProxy {
         GameRegistry.registerTileEntity(SmartCardTerminalTileEntity.class, "SmartCardTerminalTileEntity");
 
 
-
-
-
+        MinecraftForge.EVENT_BUS.register(this);
         ZIRegistry.registerProxy(this);
     }
 
@@ -150,5 +159,17 @@ public class NFC implements IMod, IProxy {
     @Override
     public void serverSide() {
 
+    }
+
+    @SubscribeEvent
+    public void onWorldLoad(WorldEvent.Load event) {
+        saveDirParent = new File(new File(DimensionManager.getCurrentSaveRootDirectory(), "zettaindustries"),"smartnfc");
+        if(!saveDirParent.exists()){
+            try {
+                Files.createDirectories(saveDirParent.toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
