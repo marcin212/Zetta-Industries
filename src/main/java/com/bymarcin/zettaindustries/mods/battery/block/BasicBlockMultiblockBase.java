@@ -25,6 +25,7 @@ public abstract class BasicBlockMultiblockBase extends BlockMultiblockBase imple
         setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
         setHardness(3.0F);
         setRegistryName(name);
+        setUnlocalizedName(name);
     }
 
     @Override

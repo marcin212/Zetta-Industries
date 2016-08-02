@@ -52,7 +52,7 @@ public class ModManager {
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 //		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
 		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
-//		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
+		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
 //		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
 //		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");

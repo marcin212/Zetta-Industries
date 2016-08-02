@@ -23,6 +23,7 @@ public class AcidFluid extends BlockFluidClassic  {
         super(fluid, new MaterialLiquid(MapColor.YELLOW));
         this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
         this.setRegistryName("sulfurousacid");
+        this.setUnlocalizedName("sulfurousacid");
     }
 
     @Override

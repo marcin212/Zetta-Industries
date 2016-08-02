@@ -1,5 +1,6 @@
 #ZettaIndustries
 itemGroup.zettaindustries=Zetta Industries
+item.zettaindustries.logo.name=Zetta Industries
 
 #VanillaUtils
 tile.zettaindustries.variableredstoneemitter.name=Variable Redstone Emitter
@@ -18,15 +19,15 @@ tile.smartcardterminalblock.name=Smart Card Terminal [WIP]
 #Battery
 tile.batterypowertap.name= Battery Power Tap
 tile.batteryelectrode.name=Battery Electrode
-tile.sulfurblock.name=Block of Sulfur
+tile.zettaindustries.sulfurblock.name=Block of Sulfur
 tile.batteryglass.name=Battery Glass
 tile.batterycontroller.name=Battery Controller
 tile.batterycomputerport.name=Battery Computer Port
 tile.sulfurousacid.name=Sulfurous Acid
 tile.batterywall.name=Battery Wall
 item.acidbucket.name=Bucket of Sulfurous Acid
-tile.charcoalblock.name=Block of Charcoal
-tile.blockGraphite.name=Block of Graphite
+tile.zettaindustries.charcoalblock.name=Block of Charcoal
+tile.zettaindustries.blockGraphite.name=Block of Graphite
 tooltip.validfor=Valid for\:
 tooltip.sides=Sides
 tooltip.inside=Inside
@@ -40,6 +41,7 @@ tooltip.powertap1=Must be placed on top of a column of electrodes
 tooltip.powertap2=Right click to adjust power throughput
 tooltip.powertap3=Right click while sneaking with an empty hand to toggle mode
 tooltip.sulfur1=Place in a 3x3 pool of water and ignite
+fluid.sulfurousacid=Sulfurous Acid
 
 #OCWires
 tooltip.coil.info0=For OpenComputers network only
