@@ -68,7 +68,7 @@ public class ZettaIndustries
     	ZIRegistry.preInitialize();
     	modManager.preInit();
 
-
+        proxy.init();
     	logger.info("End preInit!");
     }
     
@@ -76,7 +76,7 @@ public class ZettaIndustries
     public void init(FMLInitializationEvent event)
     {
     	modManager.init();
-        proxy.init();
+
     	ZIRegistry.initialize();
     	config.save();
     }
@@ -91,4 +91,5 @@ public class ZettaIndustries
     public void loadComplete(FMLLoadCompleteEvent event) {
         proxy.loadComplete();
     }
+
 }
