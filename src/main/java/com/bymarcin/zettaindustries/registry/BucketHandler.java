@@ -35,6 +35,7 @@ public class BucketHandler {
     private ItemStack fillCustomBucket(World world, RayTraceResult pos) {
 
             IBlockState blockFluidState = world.getBlockState(pos.getBlockPos());
+            if(blockFluidState==null) return null;
             Item bucket = buckets.get(blockFluidState.getBlock());
             if (bucket != null && blockFluidState.getBlock().getMetaFromState(blockFluidState)== 0) {
                     world.setBlockToAir(pos.getBlockPos());
