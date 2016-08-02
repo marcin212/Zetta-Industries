@@ -108,6 +108,10 @@ repositories {
         name 'jei'
         artifactPattern "http://addons-origin.cursecdn.com/files/${config.jei.cf}/[module]_[revision].[ext]"
     }
+
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
 }
 
 runClient {
@@ -119,10 +123,11 @@ runServer {
 }
 
 dependencies {
-	compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
+	//compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
 	compile "net.sengir.forestry:forestry_1.10.2:${config.forestry.version}"
-	compile "li.cil.oc:OpenComputers:${config.oc.version}"
-    compile name: 'jei', version: config.jei.version, ext: 'jar'
+	compile "li.cil.oc:OpenComputers:${config.oc.version}:api"
+    compile "mezz.jei:jei_1.10.2:${config.jei.version}"
+    //compile name: 'jei', version: config.jei.version, ext: 'jar'
 	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 	//compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
 	//compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
