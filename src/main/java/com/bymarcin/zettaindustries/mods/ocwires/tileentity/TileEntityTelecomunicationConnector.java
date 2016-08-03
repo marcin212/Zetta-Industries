@@ -1,43 +1,40 @@
 package com.bymarcin.zettaindustries.mods.ocwires.tileentity;
 
-import java.util.Set;
-
+import blusunrize.immersiveengineering.api.ApiUtils;
+import blusunrize.immersiveengineering.api.TargetingInfo;
+import blusunrize.immersiveengineering.api.energy.wires.IImmersiveConnectable;
+import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler.Connection;
+import blusunrize.immersiveengineering.api.energy.wires.WireType;
+import blusunrize.immersiveengineering.common.util.IELogger;
+import blusunrize.immersiveengineering.common.util.Utils;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.ocwires.TelecommunicationWireType;
-
+import com.bymarcin.zettaindustries.mods.ocwires.block.BlockTelecomunicationConnector;
+import com.google.common.collect.ImmutableSet;
 import li.cil.oc.api.Network;
-import li.cil.oc.api.network.Environment;
-import li.cil.oc.api.network.Message;
-import li.cil.oc.api.network.Node;
-import li.cil.oc.api.network.SidedEnvironment;
-import li.cil.oc.api.network.Visibility;
-
+import li.cil.oc.api.network.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
-import net.minecraftforge.common.util.ForgeDirection;
 
-import blusunrize.immersiveengineering.api.TargetingInfo;
-import blusunrize.immersiveengineering.api.energy.IImmersiveConnectable;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler;
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.api.energy.WireType;
-import blusunrize.immersiveengineering.common.util.IELogger;
-import blusunrize.immersiveengineering.common.util.Utils;
-
-public class TileEntityTelecomunicationConnector extends TileEntity implements IImmersiveConnectable, Environment, SidedEnvironment{
+public class TileEntityTelecomunicationConnector extends TileEntity implements IImmersiveConnectable, Environment, SidedEnvironment, ITickable{
     protected Node node;
     protected boolean addedToNetwork = false;
-    private int facing;
     private boolean needUpdate = false;
     
     public TileEntityTelecomunicationConnector() {
@@ -45,11 +42,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	}
     
     public int getFacing() {
-		return facing;
-	}
-    
-    public void setFacing(int facing) {
-		this.facing = facing;
+		return getBlockMetadata();
 	}
 
 	@Override
@@ -67,7 +60,7 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	{
 		if(id==-1)
 		{
-			worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+			//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 			return true;
 		}
 		return false;
@@ -81,20 +74,20 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 			return;
 		}
 		if(con.start.equals(Utils.toCC(this))){
-			if(CCToTileEntity(con.end)!=null && node!=null){
-				node.disconnect(CCToTileEntity(con.end).node());
+			if(PosToTileEntity(con.end)!=null && node!=null){
+				node.disconnect(PosToTileEntity(con.end).node());
 				//System.out.println("Disconnecting:  " + CCToTileEntity(con.end) + " --FROM-- " + this);
 			}
 		}
-		worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void checkConnections(){
 		Set<Connection> a = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
 		if(a==null)return;
 		for(Connection s : a){
-			if(s.start.equals(Utils.toCC(this)) && CCToTileEntity(s.end)!=null){
-				Node n = CCToTileEntity(s.end).node();
+			if(s.start.equals(Utils.toCC(this)) && PosToTileEntity(s.end)!=null){
+				Node n = PosToTileEntity(s.end).node();
 				if(!node.isNeighborOf(n)){
 					node.connect(n);
 					//System.out.println( Utils.toCC(this).equals(s.start)+ " +++ "+ CCToTileEntity(s.start) + "-k-" + CCToTileEntity(s.end));
@@ -103,8 +96,8 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 		}
 	}
 	
-	public TileEntityTelecomunicationConnector CCToTileEntity(ChunkCoordinates cc){
-		TileEntity te  = worldObj.getTileEntity(cc.posX, cc.posY, cc.posZ);
+	public TileEntityTelecomunicationConnector PosToTileEntity(BlockPos pos){
+		TileEntity te  = worldObj.getTileEntity(pos);
 		if(te instanceof TileEntityTelecomunicationConnector){
 			return (TileEntityTelecomunicationConnector)te;
 		}else{
@@ -113,19 +106,19 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	}
 	
 	@Override
-	public Vec3 getRaytraceOffset(IImmersiveConnectable arg0) {
-		ForgeDirection fd = ForgeDirection.getOrientation(facing).getOpposite();
-		return Vec3.createVectorHelper(.5+fd.offsetX*.0625, .5+fd.offsetY*.0625, .5+fd.offsetZ*.0625);
+	public Vec3d getRaytraceOffset(IImmersiveConnectable arg0) {
+		EnumFacing fd = EnumFacing.values()[getFacing()].getOpposite();
+		return new Vec3d(.5+fd.getFrontOffsetX()*.0625, .5+fd.getFrontOffsetY()*.0625, .5+fd.getFrontOffsetZ()*.0625);
 	}
 	
 	@Override
-	public Vec3 getConnectionOffset(Connection con)
+	public Vec3d getConnectionOffset(Connection con)
 	{
-		ForgeDirection fd = ForgeDirection.getOrientation(facing).getOpposite();
+		EnumFacing fd = EnumFacing.values()[getFacing()].getOpposite();
 		double conRadius = .03125;
-		return Vec3.createVectorHelper(.5-conRadius*fd.offsetX, .5-conRadius*fd.offsetY, .5-conRadius*fd.offsetZ);	
+		return new Vec3d(.5-conRadius*fd.getFrontOffsetX(), .5-conRadius*fd.getFrontOffsetY(), .5-conRadius*fd.getFrontOffsetZ());
 	}
-	
+
 	@Override
 	public WireType getCableLimiter(TargetingInfo arg0) {
 		return TelecommunicationWireType.TELECOMMUNICATION;
@@ -139,6 +132,11 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	@Override
 	public int outputEnergy(int arg0, boolean arg1, int arg2) {
 		return 0;
+	}
+
+	@Override
+	public BlockPos getConnectionMaster(WireType wireType, TargetingInfo targetingInfo) {
+		return getPos();
 	}
 
 	@Override
@@ -168,9 +166,48 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	public void onMessage(Message message) {
 		
 	}
-	
+
+
+	public Set<Connection> genConnBlockstate()
+	{
+		Set<Connection> conns = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, pos);
+		if (conns == null)
+			return ImmutableSet.of();
+		Set<Connection> ret = new HashSet<Connection>()
+		{
+			@Override
+			public boolean equals(Object o)
+			{
+				if (o == this)
+					return true;
+				if (!(o instanceof HashSet))
+					return false;
+				HashSet<Connection> other = (HashSet<Connection>) o;
+				if (other.size() != this.size())
+					return false;
+				for (Connection c : this)
+					if (!other.contains(c))
+						return false;
+				return true;
+			}
+		};
+		for (Connection c : conns)
+		{
+			// generate subvertices
+			if (c.end.compareTo(pos) >= 0)
+				continue;
+			IImmersiveConnectable end = ApiUtils.toIIC(c.end, worldObj, false);
+			if (end==null)
+				continue;
+			c.getSubVertices(worldObj);
+			ret.add(c);
+		}
+
+		return ret;
+	}
+
     @Override
-    public void updateEntity() {
+    public void update() {
     	if(worldObj.isRemote) return;
         if (!addedToNetwork) {
             addedToNetwork = true;
@@ -206,28 +243,30 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 
     // ----------------------------------------------------------------------- //
 
-    
+
+	@Nullable
 	@Override
-	public Packet getDescriptionPacket()
-	{
-		NBTTagCompound nbttagcompound = new NBTTagCompound();
-		this.writeToNBT(nbttagcompound);
-		if(worldObj!=null && !worldObj.isRemote)
+	public SPacketUpdateTileEntity getUpdatePacket() {
 		{
-			NBTTagList connectionList = new NBTTagList();
-			Set<Connection> conL = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
-			if(conL!=null)
-				for(Connection con : conL)
-					connectionList.appendTag(con.writeToNBT());
-			nbttagcompound.setTag("connectionList", connectionList);
+			NBTTagCompound nbttagcompound = new NBTTagCompound();
+			this.writeToNBT(nbttagcompound);
+			if (worldObj != null && !worldObj.isRemote) {
+				NBTTagList connectionList = new NBTTagList();
+				Set<Connection> conL = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+				if (conL != null)
+					for (Connection con : conL)
+						connectionList.appendTag(con.writeToNBT());
+				nbttagcompound.setTag("connectionList", connectionList);
+			}
+			return new SPacketUpdateTileEntity(getPos(), 3, nbttagcompound);
 		}
-		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, nbttagcompound);
+
 	}
 	
 	@Override
-	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt)
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt)
 	{
-		NBTTagCompound nbt = pkt.func_148857_g();
+		NBTTagCompound nbt = pkt.getNbtCompound();
 		this.readFromNBT(nbt);
 		if(worldObj!=null && worldObj.isRemote && !Minecraft.getMinecraft().isSingleplayer())
 		{
@@ -258,9 +297,6 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
     @Override
     public void readFromNBT(final NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        if(nbt.hasKey("facing")){
-        	facing = nbt.getInteger("facing");
-        }
         
         // The host check may be superfluous for you. It's just there to allow
         // some special cases, where getNode() returns some node managed by
@@ -276,25 +312,25 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
     }
 
     @Override
-    public void writeToNBT(final NBTTagCompound nbt) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        nbt.setInteger("facing", facing);
         // See readFromNBT() regarding host check.
         if (node != null && node.host() == this) {
             final NBTTagCompound nodeNbt = new NBTTagCompound();
             node.save(nodeNbt);
             nbt.setTag("oc:node", nodeNbt);
         }
+        return nbt;
     }
 
 	@Override
-	public Node sidedNode(ForgeDirection side) {
+	public Node sidedNode(EnumFacing side) {
 		return node();
 	}
 
 	@Override
-	public boolean canConnect(ForgeDirection side) {
-		return side==ForgeDirection.getOrientation(facing);
+	public boolean canConnect(EnumFacing side) {
+		return side == EnumFacing.values()[getBlockMetadata()];
 	}
 
 	@Override
@@ -306,5 +342,6 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	public void onEnergyPassthrough(int arg0) {
 
 	}
+
 
 }

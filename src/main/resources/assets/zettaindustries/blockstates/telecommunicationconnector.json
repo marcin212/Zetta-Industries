@@ -1,0 +1,38 @@
+{
+  "forge_marker": 1,
+  "defaults":
+  {
+    "transform": "forge:default-block",
+    "textures": {
+      "#immersiveengineering:blocks/connector_connectorLV": "zettaindustries:blocks/ocwires/metal_connectorTC"
+    },
+    "model": "immersiveengineering:connector/connectorLV.obj",
+    "custom": { "flip-v": true }
+  },
+  "variants":
+  {
+    "normal": [{
+    }],
+    "inventory": [{
+    }],
+    "facing":
+    {
+      "down": {},
+      "up": { "transform": {
+        "rotation": {"z": 180 }
+      }},
+      "north": { "transform": {
+        "rotation": {"x": 90 }
+      }},
+      "south": { "transform": {
+        "rotation": {"x": -90 }
+      }},
+      "west": { "transform": {
+        "rotation": {"z": -90 }
+      }},
+      "east": { "transform": {
+        "rotation": {"z": 90 }
+      }}
+    }
+  }
+}

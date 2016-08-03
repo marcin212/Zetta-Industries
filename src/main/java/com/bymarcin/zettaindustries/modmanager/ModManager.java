@@ -54,7 +54,7 @@ public class ModManager {
 		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
 		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
-//		addMod("ocwires.OCWires","$('ImmersiveEngineering') && $('OpenComputers')","OCWires");
+		addMod("ocwires.OCWires","$('OpenComputers')","OCWires");
 //		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 //		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
 //		addMod("forestrybackpacks.ForestyBackpacksMod","$('forestry')","ForestyBackpacksMod");

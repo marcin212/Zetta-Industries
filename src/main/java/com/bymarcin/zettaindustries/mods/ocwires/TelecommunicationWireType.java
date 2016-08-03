@@ -1,15 +1,14 @@
 package com.bymarcin.zettaindustries.mods.ocwires;
 
+import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler;
+import blusunrize.immersiveengineering.api.energy.wires.WireType;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-
-import blusunrize.immersiveengineering.api.energy.ImmersiveNetHandler.Connection;
-import blusunrize.immersiveengineering.api.energy.WireType;
 
 
-public class TelecommunicationWireType extends WireType{
+public class TelecommunicationWireType extends WireType {
 
 	public static TelecommunicationWireType TELECOMMUNICATION = new TelecommunicationWireType();
 	
@@ -55,7 +54,7 @@ public class TelecommunicationWireType extends WireType{
 	}
 
 	@Override
-	public int getColour(Connection arg0) {
+	public int getColour(ImmersiveNetHandler.Connection arg0) {
 		return 1318204;
 	}
 
@@ -65,7 +64,7 @@ public class TelecommunicationWireType extends WireType{
 	}
 
 	@Override
-	public IIcon getIcon(Connection arg0) {
+	public TextureAtlasSprite getIcon(ImmersiveNetHandler.Connection arg0) {
 		return iconDefaultWire;
 	}
 
