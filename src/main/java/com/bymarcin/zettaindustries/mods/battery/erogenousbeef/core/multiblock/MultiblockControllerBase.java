@@ -723,7 +723,8 @@ public abstract class MultiblockControllerBase {
 
 		for(IMultiblockPart part : connectedParts) {
 			// This happens during chunk unload.
-			if(!chunkProvider.getLoadedChunk(part.getPos().getX() >> 4, part.getPos().getZ() >> 4).isLoaded() || part.isInvalid()) {
+			Chunk chunk = chunkProvider.getLoadedChunk(part.getPos().getX() >> 4, part.getPos().getZ() >> 4);
+			if(chunk==null || !chunk.isLoaded() || part.isInvalid()) {
 				deadParts.add(part);
 				onDetachBlock(part);
 				continue;
@@ -827,7 +828,8 @@ public abstract class MultiblockControllerBase {
 		
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 		for(IMultiblockPart part : connectedParts) {
-			if(chunkProvider.getLoadedChunk(part.getPos().getX() >> 4, part.getPos().getZ() >> 4).isLoaded()) {
+			Chunk chunk = chunkProvider.getLoadedChunk(part.getPos().getX() >> 4, part.getPos().getZ() >> 4);
+			if(chunk == null || chunk.isLoaded()) {
 				onDetachBlock(part);
 			}
 		}
@@ -850,7 +852,8 @@ public abstract class MultiblockControllerBase {
 		referenceCoord = null;
 
 		for(IMultiblockPart part : connectedParts) {
-			if(part.isInvalid() || !chunkProvider.getLoadedChunk(part.getPos().getX() >> 4, part.getPos().getZ() >> 4).isLoaded()) {
+			Chunk chunk = chunkProvider.getLoadedChunk(part.getPos().getX() >> 4, part.getPos().getZ() >> 4);
+			if(part.isInvalid() || chunk==null || !chunk.isLoaded()) {
 				// Chunk is unloading, skip this coord to prevent chunk thrashing
 				continue;
 			}
