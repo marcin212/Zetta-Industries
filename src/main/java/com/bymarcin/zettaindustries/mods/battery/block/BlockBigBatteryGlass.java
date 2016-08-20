@@ -20,7 +20,7 @@ public class BlockBigBatteryGlass extends BasicBlockMultiblockBase {
 
     public BlockBigBatteryGlass() {
         super("batteryglass", Material.GLASS);
-        info.add(localize("tooltip.validfor") + " " + localize("tooltip.sides"));
+        info.add(localize("tooltip.validfor") + " " + localize("tooltip.sides") + ", " + localize("tooltip.top"));
     }
 
     @Override
