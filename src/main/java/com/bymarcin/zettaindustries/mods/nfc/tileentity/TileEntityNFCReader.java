@@ -18,6 +18,6 @@ public class TileEntityNFCReader extends TileEntityEnvironment{
 
     @Override
     public void update() {
-        
+        super.update();
     }
 }

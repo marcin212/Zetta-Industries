@@ -1,21 +1,25 @@
 package com.bymarcin.zettaindustries.mods.nfc.tileentity;
 
 import com.bymarcin.zettaindustries.mods.nfc.block.BlockNFCProgrammer;
+import li.cil.oc.api.Network;
 import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import li.cil.oc.api.network.Visibility;
+import li.cil.oc.api.prefab.TileEntityEnvironment;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
-public class TileEntityNFCProgrammer extends TileEntity implements SimpleComponent {
+public class TileEntityNFCProgrammer extends TileEntityEnvironment {
     public byte[] NFCData = null;
 
-    @Override
-    public String getComponentName() {
-        return "NFCProgrammer";
+    public TileEntityNFCProgrammer() {
+        node = Network.newNode(this, Visibility.Network).withComponent("NFCProgrammer").create();
     }
 
     @Callback
@@ -51,11 +55,11 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt = super.writeToNBT(nbt);
-        if (NFCData != null) {
-            nbt.setByteArray("NFCDataByte", NFCData);
-        }
-        return nbt;
+            nbt = super.writeToNBT(nbt);
+            if (NFCData != null) {
+                nbt.setByteArray("NFCDataByte", NFCData);
+            }
+            return nbt;
     }
 
     @Override
@@ -72,4 +76,8 @@ public class TileEntityNFCProgrammer extends TileEntity implements SimpleCompone
         }
     }
 
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+        return false;
+    }
 }
