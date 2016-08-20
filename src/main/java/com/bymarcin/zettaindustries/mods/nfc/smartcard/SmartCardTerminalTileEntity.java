@@ -37,6 +37,7 @@ import net.minecraft.util.EnumFacing;
 public class SmartCardTerminalTileEntity extends TileEntityEnvironment implements Analyzable {
 	ItemStack card = null;
 	String player;
+	String playerUUID;
 	boolean needsUpdate = true;
 
 	NBTTagCompound renderInfo = null;
@@ -50,6 +51,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 			card = ItemStack.copyItemStack(player.getHeldItemMainhand());
 			player.getHeldItemMainhand().stackSize = 0;
 			this.player = player.getName();
+			this.playerUUID = player.getUniqueID().toString();
 			if(node!=null)
 				node.sendToReachable("computer.signal","smartcard_in",player.getName());
 			needsUpdate = true;
@@ -58,6 +60,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 		if (card != null && player.getHeldItemMainhand() == null) {
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, card);
 			this.player = null;
+			this.playerUUID = null;
 			card = null;
 			if(node!=null)
 				node.sendToReachable("computer.signal","smartcard_out",player.getName());
@@ -103,6 +106,9 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 		if (player != null) {
 			nbt.setString("PLAYER", player);
 		}
+		if (playerUUID != null) {
+			nbt.setString("PLAYERUUID", playerUUID);
+		}
 		if (card != null) {
 			NBTTagCompound tag = new NBTTagCompound();
 			card.writeToNBT(tag);
@@ -117,7 +123,9 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 		if (nbt.hasKey("PLAYER")) {
 			player = nbt.getString("PLAYER");
 		}
-
+		if (nbt.hasKey("PLAYERUUID")) {
+			playerUUID = nbt.getString("PLAYERUUID");
+		}
 		if (nbt.hasKey("CARD")) {
 			card = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("CARD"));
 		}
@@ -153,7 +161,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	public Object[] ecdh(Context context, Arguments args) throws Exception {
 		if (card == null)
 			return new Object[] { null, "Card expected" };
-		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(player)) {
+		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(playerUUID)) {
 			return new Object[] { null, "You are not owner" };
 		}
 		
@@ -169,7 +177,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	@Callback(direct = true)
 	public Object[] protect(Context ctx, Arguments args) {
 		if (card != null && !SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER)) {
-			SmartCardItem.getNBT(card).setString(SmartCardItem.OWNER, player);
+			SmartCardItem.getNBT(card).setString(SmartCardItem.OWNER, playerUUID);
 			needsUpdate = true;
 			return new Object[] { true, player};
 		}
@@ -180,7 +188,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	public Object[] ecdsa(Context context, Arguments args) throws Exception {
 		if (card == null)
 			return new Object[] { null, "Card expected" };
-		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(player)) {
+		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(playerUUID)) {
 			return new Object[] { null, "You are not owner" };
 		}
 
@@ -227,7 +235,7 @@ public class SmartCardTerminalTileEntity extends TileEntityEnvironment implement
 	public NBTTagCompound getData() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("hasCard", card != null);
-		if ((card != null && SmartCardItem.getOwner(card).isEmpty()) || (card != null && player != null && player.equals(SmartCardItem.getOwner(card)))) {
+		if ((card != null && SmartCardItem.getOwner(card).isEmpty()) || (card != null && playerUUID != null && playerUUID.equals(SmartCardItem.getOwner(card)))) {
 			nbt.setBoolean("validOwner", true);
 			nbt.setBoolean("isProtected", !SmartCardItem.getOwner(card).isEmpty());
 		} else {
