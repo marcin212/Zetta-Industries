@@ -47,7 +47,7 @@ sourceSets{
 
 
 minecraft {
-    version = "1.10.2-12.18.1.2026"
+    version = "1.10.2-12.18.1.2046"
     mappings = "snapshot_20160725"
 	runDir = "run"
 }
@@ -124,7 +124,7 @@ runServer {
 
 dependencies {
 	//compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
-	compile "net.sengir.forestry:forestry_1.10.2:${config.forestry.version}"
+	compile "net.sengir.forestry:forestry_1.10.2:5.2.4.215"
 	compile "li.cil.oc:OpenComputers:${config.oc.version}:api"
     compile "mezz.jei:jei_1.10.2:${config.jei.version}"
     //compile name: 'jei', version: config.jei.version, ext: 'jar'
