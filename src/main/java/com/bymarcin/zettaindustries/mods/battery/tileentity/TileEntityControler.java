@@ -4,6 +4,9 @@ import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryController
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class TileEntityControler extends BasicRectangularMultiblockTileEntityBase{
 
@@ -41,7 +44,7 @@ public class TileEntityControler extends BasicRectangularMultiblockTileEntityBas
 	public void onMachineDeactivated() {
 		
 	}
-	
+
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);

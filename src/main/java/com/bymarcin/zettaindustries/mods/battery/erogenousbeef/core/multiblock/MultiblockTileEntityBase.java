@@ -11,6 +11,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.BeefCoreLog;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
@@ -314,7 +315,8 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 		List<IMultiblockPart> neighborParts = new ArrayList<IMultiblockPart>();
 		IChunkProvider chunkProvider = worldObj.getChunkProvider();
 		for(CoordTriplet neighbor : neighbors) {
-			if(!chunkProvider.getLoadedChunk(neighbor.getChunkX(), neighbor.getChunkZ()).isLoaded()) {
+			Chunk chunk = chunkProvider.getLoadedChunk(neighbor.getChunkX(), neighbor.getChunkZ());
+			if(chunk == null || !chunk.isLoaded()) {
 				// Chunk not loaded, skip it.
 				continue;
 			}

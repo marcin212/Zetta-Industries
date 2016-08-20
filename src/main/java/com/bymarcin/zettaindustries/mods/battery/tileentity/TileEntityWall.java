@@ -1,8 +1,12 @@
 package com.bymarcin.zettaindustries.mods.battery.tileentity;
 
+import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryWall;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.common.CoordTriplet;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockValidationException;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLLog;
 
 public class TileEntityWall extends BasicRectangularMultiblockTileEntityBase {
@@ -11,7 +15,7 @@ public class TileEntityWall extends BasicRectangularMultiblockTileEntityBase {
     public void onMachineBroken() {
         super.onMachineBroken();
         if (this.worldObj.isRemote) return;
-        //this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, BlockBigBatteryWall.CASING_METADATA_BASE, 2);
+        getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE ,BlockBigBatteryWall.ConnectedTexture.CASING_METADATA_BASE), 2);
     }
 
     @Override
@@ -110,32 +114,28 @@ public class TileEntityWall extends BasicRectangularMultiblockTileEntityBase {
 
         if (extremes == 3) {
             // Corner
-//			this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord,
-//					this.zCoord, BlockBigBatteryWall.CASING_CORNER, 2);
+            getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE , BlockBigBatteryWall.ConnectedTexture.CASING_CORNER), 2);
         } else if (extremes == 2) {
             if (!xExtreme) {
-                // Y/Z - must be east/west
-//				this.worldObj.setBlockMetadataWithNotify(this.xCoord,
-//						this.yCoord, this.zCoord,
-//						BlockBigBatteryWall.CASING_EASTWEST, 2);
+                 //Y/Z - must be east/west
+                getWorld().setBlockState(getPos(),
+                        getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE ,BlockBigBatteryWall.ConnectedTexture.CASING_EASTWEST), 2);
             } else if (!zExtreme) {
                 // X/Y - must be north-south
-//				this.worldObj.setBlockMetadataWithNotify(this.xCoord,
-//						this.yCoord, this.zCoord,
-//						BlockBigBatteryWall.CASING_NORTHSOUTH, 2);
+                getWorld().setBlockState(getPos(),
+                        getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE ,BlockBigBatteryWall.ConnectedTexture.CASING_NORTHSOUTH), 2);
             } else {
                 // Not a y-extreme, must be vertical
-//				this.worldObj.setBlockMetadataWithNotify(this.xCoord,
-//						this.yCoord, this.zCoord,
-//						BlockBigBatteryWall.CASING_VERTICAL, 2);
+                getWorld().setBlockState(getPos(),
+                        getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE ,BlockBigBatteryWall.ConnectedTexture.CASING_VERTICAL), 2);
             }
         } else if (extremes == 1) {
-//			this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord,
-//					this.zCoord, BlockBigBatteryWall.CASING_CENTER, 2);
+            getWorld().setBlockState(getPos(),
+                    getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE ,BlockBigBatteryWall.ConnectedTexture.CASING_CENTER), 2);
         } else {
             // This shouldn't happen.
-//			this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord,
-//					this.zCoord, BlockBigBatteryWall.CASING_METADATA_BASE, 2);
+            getWorld().setBlockState(getPos(),
+                    getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryWall.SIDE ,BlockBigBatteryWall.ConnectedTexture.CASING_METADATA_BASE), 2);
         }
     }
 
