@@ -43,7 +43,7 @@ public class ModManager {
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-//		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
+		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
 		addMod("battery.Battery", "", "BigBattery");
@@ -54,7 +54,7 @@ public class ModManager {
 		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
 		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
-		addMod("ocwires.OCWires","$('OpenComputers')","OCWires");
+//		addMod("ocwires.OCWires","$('OpenComputers')","OCWires");
 //		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 //		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
 //		addMod("forestrybackpacks.ForestyBackpacksMod","$('forestry')","ForestyBackpacksMod");

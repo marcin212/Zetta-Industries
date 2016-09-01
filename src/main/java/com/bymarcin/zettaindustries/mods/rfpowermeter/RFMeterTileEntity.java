@@ -1,5 +1,8 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -12,8 +15,12 @@ import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.utils.Avg;
 import com.bymarcin.zettaindustries.utils.MathUtils;
 import com.bymarcin.zettaindustries.utils.WorldUtils;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
+public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITickable, IEnergyProvider, IEnergyReceiver{
 	int transfer=0;//curent flow in RF/t
 	int transferLimit=-1;
 	long value=0;//current used energy
@@ -64,8 +71,9 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 //		b=pkt.func_148857_g().getFloat("b");
 //		isInverted = pkt.func_148857_g().getBoolean("isInverted");
 //	}
-//	
-	public void invert(){
+
+
+    public void invert(){
 		isInverted = !isInverted;
 	}
 	
@@ -100,71 +108,69 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		return isOn && (inCounterMode || (0 < value));
 	}
 
-//	
-//	public void onPacket(long value, int transfer, boolean inCounterMode){
-//		if(WorldUtils.isServerWorld(worldObj)) return;
-//		this.value=value;
-//		this.transfer = transfer;
-//		this.inCounterMode = inCounterMode;
-//	}
-//	
-//	@Override
-//	public void updateEntity() {
-//		tick++;
-//		if(WorldUtils.isServerWorld(worldObj)){
-//			//tick++;
-//			if(tick%20==0){
-//				ZIRegistry.packetHandler.sendToAllAround(new RFMeterUpdatePacket(this, value, transfer, inCounterMode),
-//						new TargetPoint(getWorldObj().provider.dimensionId, xCoord+0.5, yCoord+0.5, zCoord+0.5, 32));
-//				tick=0;
-//			}
-//			long lastRecive = Math.abs(value - lastValue);
-//			avg.putValue(lastRecive);
-//			transfer= (int)avg.getAvg();
-//			lastValue = value;
-//		}else{
-//			if(inCounterMode)
-//				value+=transfer;
-//			else
-//				value-=transfer;
-//		}
-//	}
-//	
-//	
 
-//	@Override
-//	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-//		if(!canEnergyFlow()) return 0;
-//		int temp = 0;
-//		if(from == (isInverted?ForgeDirection.DOWN:ForgeDirection.UP) ){
-//			if(WorldUtils.isEnergyHandlerFromSide(this, from)){
-//                TileEntity tile= WorldUtils.getAdjacentTileEntity(worldObj,this.xCoord, this.yCoord, this.zCoord, isInverted?ForgeDirection.UP:ForgeDirection.DOWN);
-//                if(tile==null || !WorldUtils.isEnergyHandlerFromSide(tile,isInverted?ForgeDirection.DOWN:ForgeDirection.UP)){
-//                    return 0;
-//                }
-//				IEnergyHandler a = (IEnergyHandler) tile;
-//				temp= a.receiveEnergy(from, transferLimit==-1?
-//												(inCounterMode ? maxReceive : Math.min((int)value, maxReceive))
-//												:Math.min(transferLimit,(inCounterMode ? maxReceive : Math.min((int)value, maxReceive)))
-//												, simulate);
-//				
-//				if(!simulate) if(inCounterMode) value+=temp; else value-=temp;
-//				return temp;
-//			}
-//		}
-//		return 0;
-//	}
-//
-//	@Override
-//	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-//		return 0;
-//	}
-//
+	public void onPacket(long value, int transfer, boolean inCounterMode){
+		if(WorldUtils.isServerWorld(worldObj)) return;
+		this.value=value;
+		this.transfer = transfer;
+		this.inCounterMode = inCounterMode;
+	}
+
+	@Override
+	public void update() {
+		tick++;
+		if(WorldUtils.isServerWorld(worldObj)){
+			//tick++;
+			if(tick%20==0){
+				ZIRegistry.packetHandler.sendToAllAround(new RFMeterUpdatePacket(this, value, transfer, inCounterMode),
+						new NetworkRegistry.TargetPoint(getWorld().provider.getDimension(), getPos().getX()+0.5, getPos().getY()+0.5, getPos().getZ()+0.5, 32));
+				tick=0;
+			}
+			long lastRecive = Math.abs(value - lastValue);
+			avg.putValue(lastRecive);
+			transfer= (int)avg.getAvg();
+			lastValue = value;
+		}else{
+			if(inCounterMode)
+				value+=transfer;
+			else
+				value-=transfer;
+		}
+	}
+
+	@Override
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+		if(!canEnergyFlow()) return 0;
+		int temp = 0;
+		if(from == (isInverted?EnumFacing.DOWN:EnumFacing.UP) ){
+			if(WorldUtils.isEnergyReciverFromSide(this, from)){
+                TileEntity tile= WorldUtils.getAdjacentTileEntity(worldObj,this.getPos(), isInverted?EnumFacing.UP:EnumFacing.DOWN);
+                if(tile==null || !WorldUtils.isEnergyReciverFromSide(tile,isInverted?EnumFacing.DOWN:EnumFacing.UP)){
+                    return 0;
+                }
+                IEnergyReceiver a = (IEnergyReceiver) tile;
+				temp= a.receiveEnergy(from, transferLimit==-1?
+												(inCounterMode ? maxReceive : Math.min((int)value, maxReceive))
+												:Math.min(transferLimit,(inCounterMode ? maxReceive : Math.min((int)value, maxReceive)))
+												, simulate);
+
+				if(!simulate) if(inCounterMode) value+=temp; else value-=temp;
+				return temp;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+		return 0;
+	}
+
 
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt2) {
+        NBTTagCompound nbt = super.writeToNBT(nbt2);
 		nbt.setInteger("transfer", transfer);
 		nbt.setInteger("transferLimit", transferLimit);
 		
@@ -185,6 +191,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		nbt.setFloat("b", b);
 		
 		nbt.setBoolean("isInverted", isInverted);
+        return nbt;
 	}
 	
 	public void getTag(NBTTagCompound nbt){
@@ -269,5 +276,9 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler{
 		if(nbt.hasKey("isInverted"))
 			isInverted = nbt.getBoolean("isInverted");
 	}
-	
+
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
+		return newSate.getBlock()!=oldState.getBlock();
+	}
 }

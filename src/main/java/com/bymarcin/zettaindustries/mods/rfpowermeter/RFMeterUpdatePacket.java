@@ -1,12 +1,11 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
+import com.bymarcin.zettaindustries.registry.network.Packet;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+
 import java.io.IOException;
 
-import com.bymarcin.zettaindustries.registry.network.Packet;
-
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-
-public class RFMeterUpdatePacket extends Packet<RFMeterUpdatePacket,IMessage>{
+public class RFMeterUpdatePacket extends Packet<RFMeterUpdatePacket,IMessage> {
 	long value;
 	int transfer;
 	RFMeterTileEntity te;
