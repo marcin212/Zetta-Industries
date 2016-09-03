@@ -130,7 +130,7 @@ dependencies {
     //compile name: 'jei', version: config.jei.version, ext: 'jar'
 	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 	//compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
-	//compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'deobf', ext: 'jar'
+	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, classifier: 'sources', ext: 'jar'
 	//compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	//compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
 	//compile name: 'redlogic', version: '59.1.11', ext: 'jar'
