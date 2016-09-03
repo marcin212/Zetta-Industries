@@ -3,9 +3,11 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
@@ -19,6 +21,8 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+
+import javax.annotation.Nullable;
 
 public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITickable, IEnergyProvider, IEnergyReceiver{
 	int transfer=0;//curent flow in RF/t
@@ -34,7 +38,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 	boolean isInverted = false;
 	
 	int tick = 0;
-	public float r,g=1,b;
+	public int color = EnumDyeColor.LIME.ordinal();
 	
 	@Override
 	public boolean canConnectEnergy(EnumFacing from) {
@@ -49,32 +53,32 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 		return 10000;
 	}
 
-	
-	
-	
-	
-	
-//	@Override
-//	public Packet getDescriptionPacket() {
-//		NBTTagCompound data = new NBTTagCompound();
-//		data.setFloat("r", r);
-//		data.setFloat("g", g);
-//		data.setFloat("b", b);
-//		data.setBoolean("isInverted", isInverted);
-//		return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 2, data);
-//	}
-//	
-//	@Override
-//	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-//		r=pkt.func_148857_g().getFloat("r");
-//		g=pkt.func_148857_g().getFloat("g");
-//		b=pkt.func_148857_g().getFloat("b");
-//		isInverted = pkt.func_148857_g().getBoolean("isInverted");
-//	}
+	public NBTTagCompound writeNBTData(NBTTagCompound data) {
+		data.setFloat("color", color);
+		return data;
+	}
 
+	public void readNBTData(NBTTagCompound compound) {
+		color = compound.getInteger("color");
+	}
+
+	@Override
+	public final NBTTagCompound getUpdateTag() {
+		NBTTagCompound compound = super.writeToNBT(new NBTTagCompound());
+		writeNBTData(compound);
+		return compound;
+	}
+
+	@Override
+	public final void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		if (pkt != null && pkt.getNbtCompound() != null) {
+			readNBTData(pkt.getNbtCompound());
+		}
+	}
 
     public void invert(){
 		isInverted = !isInverted;
+		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(RFMeterBlock.inverted, isInverted),2);
 	}
 	
 	public boolean isInverted() {
@@ -166,8 +170,6 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 		return 0;
 	}
 
-
-	
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt2) {
         NBTTagCompound nbt = super.writeToNBT(nbt2);
@@ -185,10 +187,9 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 		nbt.setBoolean("isProtected", isProtected);
 		
 		nbt.setInteger("tick", tick);
-		
-		nbt.setFloat("r", r);
-		nbt.setFloat("g", g);
-		nbt.setFloat("b", b);
+
+		nbt.setInteger("color", color);
+
 		
 		nbt.setBoolean("isInverted", isInverted);
         return nbt;
@@ -206,16 +207,13 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 		nbt.setBoolean("inCounterMode", inCounterMode);
 		nbt.setBoolean("isOn", isOn);
 		nbt.setBoolean("isProtected", isProtected);
-		
-		
-		nbt.setFloat("r", r);
-		nbt.setFloat("g", g);
-		nbt.setFloat("b", b);
+
+		nbt.setInteger("color", color);
 		
 		nbt.setBoolean("isInverted", isInverted);
 	}
 	
-	public void  setTag(NBTTagCompound nbt){
+	public void setTag(NBTTagCompound nbt){
 		if(nbt.hasKey("transferLimit"))
 			transferLimit= nbt.getInteger("transferLimit");
 		if(nbt.hasKey("value"))
@@ -232,12 +230,8 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 			isOn = nbt.getBoolean("isOn");
 		if(nbt.hasKey("isProtected"))
 			isProtected = nbt.getBoolean("isProtected");
-		if(nbt.hasKey("r"))
-			r = nbt.getFloat("r");
-		if(nbt.hasKey("g"))
-			g = nbt.getFloat("g");
-		if(nbt.hasKey("b"))
-			b = nbt.getFloat("b");	
+		if(nbt.hasKey("color"))
+			color = nbt.getInteger("color");
 		if(nbt.hasKey("isInverted")){
 			isInverted = nbt.getBoolean("isInverted");
 		}
@@ -267,12 +261,8 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 			isProtected = nbt.getBoolean("isProtected");
 		if(nbt.hasKey("tick"))
 			tick = nbt.getInteger("tick");
-		if(nbt.hasKey("r"))
-			r = nbt.getFloat("r");
-		if(nbt.hasKey("g"))
-			g = nbt.getFloat("g");
-		if(nbt.hasKey("b"))
-			b = nbt.getFloat("b");	
+		if(nbt.hasKey("color"))
+			color = nbt.getInteger("color");
 		if(nbt.hasKey("isInverted"))
 			isInverted = nbt.getBoolean("isInverted");
 	}

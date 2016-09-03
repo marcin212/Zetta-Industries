@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
@@ -67,19 +68,20 @@ public class RFMeterRender extends FastTESR<RFMeterTileEntity>//implements IItem
 	}
 
 	public static RFMeterRender render = new RFMeterRender();
-	RFMeterModel[] model;
+	RFMeterModel[][] model;
 
 	@Override
 	public void renderTileEntityFast(RFMeterTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage, VertexBuffer vertexBuffer) {
 		EnumFacing facing = tile.getWorld().getBlockState(tile.getPos()).getValue(RFMeterBlock.front);
 		BlockPos pos = tile.getPos();
 
-		if(model==null) {
-			model = new RFMeterModel[EnumFacing.HORIZONTALS.length];
+		//if(model==null) {
+			model = new RFMeterModel[EnumFacing.HORIZONTALS.length][EnumDyeColor.values().length];
 			for (int i = 0; i < EnumFacing.HORIZONTALS.length; i++) {
-				model[i] = new RFMeterModel(EnumFacing.HORIZONTALS[i]);
+				for (int j = 0; j<EnumDyeColor.values().length; j++)
+					model[i][j] = new RFMeterModel(EnumFacing.HORIZONTALS[i], EnumDyeColor.values()[j]);
 			}
-		}
+		//}
 
 		long total = tile.getCurrentValue();
 		int unit=0;
@@ -92,7 +94,7 @@ public class RFMeterRender extends FastTESR<RFMeterTileEntity>//implements IItem
 		SI si = SI.reverse[unit];
 
 
-		RFMeterModel m = model[facing.getHorizontalIndex()];
+		RFMeterModel m = model[facing.getHorizontalIndex()][tile.color];
 		m.setNumber(total,tile.getTransfer(), si, tile.isInverted());
 
 		vertexBuffer.setTranslation(x - pos.getX(), y - pos.getY(), z - pos.getZ());

@@ -87,10 +87,7 @@ public class RFMeterBlock extends BasicBlockContainer {
 		 if(player.getHeldItemMainhand()!=null && player.getHeldItemMainhand().getItem() instanceof ItemDye){
 		 	RFMeterTileEntity te = (RFMeterTileEntity) world.getTileEntity(pos);
 		 	if(te!=null){
-		 		int color = EnumDyeColor.byDyeDamage(player.getHeldItemMainhand().getMetadata()).getMapColor().colorValue;
-		 		te.r = (float)(color >> 16 & 255) / 255.0F;
-		 		te.g = (float)(color >> 8 & 255) / 255.0F;
-		 		te.b = (float)(color & 255) / 255.0F;
+		 		te.color = EnumDyeColor.byDyeDamage(player.getHeldItemMainhand().getMetadata()).ordinal();
 		 		return true;
 		 	}
 		 }
@@ -98,8 +95,7 @@ public class RFMeterBlock extends BasicBlockContainer {
 		 if(player.getHeldItemMainhand()==null && player.isSneaking()){
 		 RFMeterTileEntity te = (RFMeterTileEntity) world.getTileEntity(pos);
 		 	if(te!=null){
-		 		te.invert();
-				world.setBlockState(pos, world.getBlockState(pos).withProperty(RFMeterBlock.inverted, te.isInverted),2);
+				te.invert();
 		 	}
 		 	return true;
 		 }

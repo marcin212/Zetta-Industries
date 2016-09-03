@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ModelRotation;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.util.vector.Vector3f;
@@ -35,9 +36,16 @@ public class RFMeterModel extends BaseBakedModel {
     TextureAtlasSprite texture;
     BakedQuad[] si = new BakedQuad[RFMeterRender.SI.values().length - 1];
     BakedQuad[] direction = new BakedQuad[2];
+    int color;
+    int colorDark;
 
-    public RFMeterModel(EnumFacing facing) {
+
+    public RFMeterModel(EnumFacing facing, EnumDyeColor color) {
         this.texture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(cTexture1.toString());
+        this.color = color.getMapColor().colorValue;
+        this.color = 0XFF000000 | ((this.color >> 16 & 255)) | ((this.color >> 8 & 255)<<8) | ((this.color & 255)<<16);
+        colorDark = 0XFF000000 | ((int)((this.color >> 16 & 255)*0.3d)<<16) | ((int)((this.color >> 8 & 255)*0.3d)<<8) | ((int)((this.color & 255)*0.3d));
+
 
         switch (facing){
             case WEST: rotation = ModelRotation.X0_Y0; rotationOpposite = ModelRotation.X0_Y180; break;
@@ -48,7 +56,7 @@ public class RFMeterModel extends BaseBakedModel {
 
         // up LCD background
         quadsBackground.add(
-                CustomFaceBakery.INSTANCE.makeBakedQuad(new Vector3f(2.999f,12,4), new Vector3f(2.999f,14,12),0XFF002200,
+                CustomFaceBakery.INSTANCE.makeBakedQuad(new Vector3f(2.999f,12,4), new Vector3f(2.999f,14,12),this.color,
                         new float[] {0, 11f/4f,
                                 43f/4f, 22f/4f},
                         texture, EnumFacing.WEST, rotation, true)
@@ -56,7 +64,7 @@ public class RFMeterModel extends BaseBakedModel {
 
         // down LCD background
         quadsBackground.add(
-                CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,9,4), new Vector3f(2.999f,11,12),0XFF002200,
+                CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,9,4), new Vector3f(2.999f,11,12),this.color,
                         new float[] {0, 11f/4f,
                                 43f/4f, 22f/4f},
                         texture, EnumFacing.WEST, rotation, true)
@@ -64,7 +72,7 @@ public class RFMeterModel extends BaseBakedModel {
 
         // SI background
         quadsBackground.add(
-                CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,5,4), new Vector3f(2.999f,7,12),0xFF002200,
+                CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,5,4), new Vector3f(2.999f,7,12),colorDark,
                         new float[] {26f/4f, 40f/4f,
                                 55f/4f, 47f/4f},
                         texture, EnumFacing.WEST, rotation, true)
@@ -75,10 +83,10 @@ public class RFMeterModel extends BaseBakedModel {
         // Direction background
         float[] up=new float[] {56f/4f, 40f/4f, 62f/4f, 47f/4f};
         float[] down=new float[] {62f/4f, 47f/4f, 56f/4f, 40f/4f};
-        direction[0] = CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,2,7), new Vector3f(2.999f,4,9),0xFF00ff00,
+        direction[0] = CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,2,7), new Vector3f(2.999f,4,9),this.color,
                 down, texture, EnumFacing.WEST, rotation, false);
         direction[1] =
-                CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,2,7), new Vector3f(2.999f,4,9),0xFF00ff00,
+                CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(2.999f,2,7), new Vector3f(2.999f,4,9),this.color,
                         up, texture, EnumFacing.WEST, rotation, false);
     }
 
@@ -93,7 +101,7 @@ public class RFMeterModel extends BaseBakedModel {
                     CustomFaceBakery.INSTANCE.makeBakedQuad(
                             new Vector3f(2.998f, 5, 4 + 1.655f * (RFMeterRender.SI.K.ordinal() - si.ordinal())),
                             new Vector3f(2.998f, 7, 4 + 1.655f * (RFMeterRender.SI.K.ordinal() - si.ordinal() + 1)),
-                            0xFF00ff00,
+                            this.color,
                             new float[]{textMin, 40f / 4f,
                                     textMin + siSize, 47f / 4f},
                             texture, EnumFacing.WEST, rotation, true);
@@ -123,12 +131,12 @@ public class RFMeterModel extends BaseBakedModel {
         quads.clear();
         float offset = 3.8f;
 
-        for(int i=0;number != 0 || i<(dot?2:1);number = number/10,i++){
+        for(int i=0;number != 0 || i<(dot?1:2);number = number/10,i++){
             long dig = number%10;
             long x = dig *6;
 
             quads.add(
-                    CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(13.002f,posFrom,offset), new Vector3f(13.002f,posFrom+2,offset + 4.5f/4f),0xFF00FF00,
+                    CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(13.002f,posFrom,offset), new Vector3f(13.002f,posFrom+2,offset + 4.5f/4f),this.color,
                             new float[] {x/4f, 0, (x+6)/4f, 11/4f},
                             texture, EnumFacing.EAST, rotationOpposite, true)
             );
@@ -137,7 +145,7 @@ public class RFMeterModel extends BaseBakedModel {
             if(i==0){
                 if(dot){
                     quads.add(
-                            CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(13.002f,9,offset), new Vector3f(13.002f,11,offset + 1.5f/4f),0xFF00FF00,
+                            CustomFaceBakery.INSTANCE.makeBakedQuad( new Vector3f(13.002f,9,offset), new Vector3f(13.002f,11,offset + 1.5f/4f),this.color,
                                     new float[] {60f/4f, 0, 62f/4f, 11/4f},
                                     texture, EnumFacing.EAST, rotationOpposite, true)
                     );
