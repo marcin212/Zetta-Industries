@@ -46,7 +46,7 @@ public class ModManager {
 		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
-		addMod("battery.Battery", "", "BigBattery");
+		addMod("battery.Battery", "$('CoFHAPI|energy')", "BigBattery");
 //		addMod("battery.Battery", "$('CoFHCore')", "BigBattery");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
