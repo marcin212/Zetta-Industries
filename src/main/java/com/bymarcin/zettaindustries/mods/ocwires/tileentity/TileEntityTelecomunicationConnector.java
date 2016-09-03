@@ -51,8 +51,8 @@ public class TileEntityTelecomunicationConnector extends TileEntity implements I
 	}
 
 	@Override
-	public void connectCable(WireType wiretype, TargetingInfo target) {
-		checkConnections();	
+	public void connectCable(WireType wireType, TargetingInfo targetingInfo, IImmersiveConnectable iImmersiveConnectable) {
+		checkConnections();
 	}
 
 	@Override

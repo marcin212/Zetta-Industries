@@ -129,8 +129,9 @@ public class ItemTelecommunicationWire extends BasicItem implements IWireCoil {
 								TargetingInfo targetLink = TargetingInfo.readFromNBT(stack.getTagCompound());
 								ImmersiveNetHandler.INSTANCE.addConnection(world, Utils.toCC(nodeHere), Utils.toCC(nodeLink), (int)Math.sqrt(distanceSq), type);
 
-								nodeHere.connectCable(type, target);
-								nodeLink.connectCable(type, targetLink);
+								// FIXME: 03.09.2016 connect nodes
+								//nodeHere.connectCable(type, target);
+								//nodeLink.connectCable(type, targetLink);
 								IESaveData.setDirty(world.provider.getDimension());
 								player.addStat(IEAchievements.connectWire);
 

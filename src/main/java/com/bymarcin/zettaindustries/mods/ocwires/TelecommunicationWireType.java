@@ -4,9 +4,9 @@ import blusunrize.immersiveengineering.api.energy.wires.ImmersiveNetHandler;
 import blusunrize.immersiveengineering.api.energy.wires.WireType;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
+
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
-
 
 public class TelecommunicationWireType extends WireType {
 
@@ -33,7 +33,8 @@ public class TelecommunicationWireType extends WireType {
 		return 0;
 	}
 
-	@Override
+
+    @Override
 	public String getUniqueName() {
 		return ZettaIndustries.MODID + ":telecommunication";
 	}
