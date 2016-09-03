@@ -3,6 +3,7 @@ package com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,9 +13,13 @@ import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
 import net.minecraft.util.text.translation.I18n;
 
+import javax.annotation.Nonnull;
+
 public abstract class BasicBackpack implements IBackpackDefinition{
-	private List<String> names= new ArrayList<String>();
+	private static List<String> names= new ArrayList<String>();
 	protected EnumBackpackType type;
+	private Predicate<ItemStack> itemStackPredicate = new ItemTest();
+
 	public BasicBackpack(EnumBackpackType type, String... names) {
 		this(type);
 		Collections.addAll(this.names, names);
@@ -35,23 +40,20 @@ public abstract class BasicBackpack implements IBackpackDefinition{
 	public String getKey() {
 		return getUniqueName() + type.name();
 	}
-	
-	@Override
-	public void addValidItem(ItemStack validItem) {
-		
+
+	public static List<String> getNames() {
+		return names;
 	}
 
+	@Nonnull
 	@Override
-	public void addValidItems(List<ItemStack> validItems) {
-
+	public Predicate<ItemStack> getFilter() {
+		return itemStackPredicate;
 	}
 
-	@Override
-	public void addValidOreDictName(String oreDictName) {
 
-	}
-
-	@Override
+	public static class ItemTest implements Predicate<ItemStack> {
+		@Override
 	public boolean test(ItemStack itemstack) {
 		if(itemstack!=null && itemstack.getItem()!=null){
 			ResourceLocation rl = itemstack.getItem().getRegistryName();
@@ -62,7 +64,7 @@ public abstract class BasicBackpack implements IBackpackDefinition{
 				name = rl.getResourcePath();
 			}
 			if(name==null || name.isEmpty()) return false;
-			for(String names : this.names){
+			for(String names : getNames()){
 				if(name.startsWith(names)){
 					return true;
 				}
@@ -70,5 +72,5 @@ public abstract class BasicBackpack implements IBackpackDefinition{
 		}
 		return false;
 	}
-
+	}
 }

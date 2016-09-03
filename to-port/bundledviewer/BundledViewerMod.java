@@ -2,7 +2,6 @@ package com.bymarcin.zettaindustries.mods.bundledviewer;
 
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.RFMeterTileEntity;
-import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterStaticRender;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 

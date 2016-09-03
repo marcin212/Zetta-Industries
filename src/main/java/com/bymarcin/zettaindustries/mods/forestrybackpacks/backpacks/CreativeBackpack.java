@@ -4,7 +4,11 @@ import net.minecraft.item.ItemStack;
 
 import forestry.api.storage.EnumBackpackType;
 
+import javax.annotation.Nonnull;
+import java.util.function.Predicate;
+
 public class CreativeBackpack extends BasicBackpack{
+	True filter = new True();
 
 	public CreativeBackpack(EnumBackpackType type) {
 		super(type);
@@ -20,13 +24,21 @@ public class CreativeBackpack extends BasicBackpack{
 		return 0xd4c9a9;
 	}
 
+	@Nonnull
 	@Override
-	public boolean test(ItemStack itemstack) {
-		return true;
+	public Predicate<ItemStack> getFilter() {
+		return filter;
 	}
 
 	@Override
 	public String getUniqueName() {
 		return "backpack.creative";
+	}
+
+	public static class True implements Predicate<ItemStack> {
+		@Override
+		public boolean test(ItemStack itemStack) {
+			return true;
+		}
 	}
 }

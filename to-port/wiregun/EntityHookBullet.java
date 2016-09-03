@@ -1,14 +1,14 @@
 package com.bymarcin.zettaindustries.mods.wiregun;
 
-import blusunrize.immersiveengineering.api.energy.IWireCoil;
+import blusunrize.immersiveengineering.api.energy.wires.IWireCoil;
 import blusunrize.immersiveengineering.common.entities.EntityRevolvershot;
-import blusunrize.immersiveengineering.common.items.ItemWireCoil;
+
 import blusunrize.immersiveengineering.common.util.IEDamageSources;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityHookBullet extends EntityRevolvershot {
@@ -33,7 +33,7 @@ public class EntityHookBullet extends EntityRevolvershot {
 
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop) {
+	protected void onImpact(RayTraceResult mop) {
 		if (!this.worldObj.isRemote && this.shootingEntity != null && this.shootingEntity instanceof EntityPlayer) {
 			if (alredyHit) {
 				return;
@@ -45,14 +45,14 @@ public class EntityHookBullet extends EntityRevolvershot {
 			ItemStack toUse = ep.inventory.getStackInSlot(next);
 			
 			if (toUse != null && toUse.getItem() instanceof IWireCoil) {
-				if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-					if (toUse.getItem().onItemUseFirst(toUse, ep, this.worldObj, mop.blockX, mop.blockY, mop.blockZ, mop.sideHit, (float) mop.hitVec.xCoord % 1, (float) mop.hitVec.yCoord % 1, (float) mop.hitVec.zCoord % 1)) {
+				if (mop.typeOfHit == RayTraceResult.Type.BLOCK) {
+					if (toUse.getItem().onItemUseFirst(toUse, ep, this.worldObj, mop.getBlockPos(), mop.sideHit, (float) mop.hitVec.xCoord % 1, (float) mop.hitVec.yCoord % 1, (float) mop.hitVec.zCoord % 1)) {
 						this.worldObj.playSoundAtEntity(ep, "random.successful_hit", .8F, 1.2F / (this.rand.nextFloat() * .2F + .9F));
 					}
 				}
 			}
 
-			if (mop.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+			if (mop.typeOfHit == RayTraceResult.Type.ENTITY) {
 				mop.entityHit.attackEntityFrom(IEDamageSources.causeCasullDamage(this, shootingEntity), .5F);
 			}
 		}

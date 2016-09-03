@@ -16,7 +16,7 @@ import net.minecraft.item.ItemStack;
 import forestry.api.recipes.RecipeManagers;
 import forestry.api.storage.BackpackManager;
 import forestry.api.storage.EnumBackpackType;
-import forestry.core.fluids.Fluids;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ForestyBackpacksMod implements IMod {
@@ -71,7 +71,7 @@ public class ForestyBackpacksMod implements IMod {
 	}
 
 	private Item addBackpack(BasicBackpack backpack, EnumBackpackType type) {
-		Item backpakItem = BackpackManager.backpackInterface.createBackpack(backpack, type);
+		Item backpakItem = BackpackManager.backpackInterface.createBackpack(backpack.getUniqueName(), type);
 		backpakItem.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		backpakItem.setRegistryName(backpack.getKey());
 		ZettaIndustries.proxy.registermodel(GameRegistry.register(backpakItem),0);
@@ -79,7 +79,7 @@ public class ForestyBackpacksMod implements IMod {
 	}
 
 	private void addRecipe(Item backpackT1, Item backpackT2, ItemStack crafting) {
-		RecipeManagers.carpenterManager.addRecipe(200, Fluids.WATER.getFluid(1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.DIAMOND, 'W',
+		RecipeManagers.carpenterManager.addRecipe(200, FluidRegistry.getFluidStack("water", 1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.DIAMOND, 'W',
 				PluginCore.items.craftingMaterial.getSilkWisp(), 'T', backpackT1);
 		GameRegistry.addShapedRecipe(new ItemStack(backpackT1), "X#X", "VYV", "X#X", '#', Blocks.WOOL,
 				'X', Items.STRING, 'V', crafting, 'Y', Blocks.CHEST);
