@@ -75,13 +75,13 @@ public class RFMeterRender extends FastTESR<RFMeterTileEntity>//implements IItem
 		EnumFacing facing = tile.getWorld().getBlockState(tile.getPos()).getValue(RFMeterBlock.front);
 		BlockPos pos = tile.getPos();
 
-		//if(model==null) {
+		if(model==null) {
 			model = new RFMeterModel[EnumFacing.HORIZONTALS.length][EnumDyeColor.values().length];
 			for (int i = 0; i < EnumFacing.HORIZONTALS.length; i++) {
 				for (int j = 0; j<EnumDyeColor.values().length; j++)
 					model[i][j] = new RFMeterModel(EnumFacing.HORIZONTALS[i], EnumDyeColor.values()[j]);
 			}
-		//}
+		}
 
 		long total = tile.getCurrentValue();
 		int unit=0;
