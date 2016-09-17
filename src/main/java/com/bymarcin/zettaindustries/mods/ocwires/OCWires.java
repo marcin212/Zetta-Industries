@@ -1,48 +1,32 @@
 package com.bymarcin.zettaindustries.mods.ocwires;
 
-import blusunrize.immersiveengineering.ImmersiveEngineering;
+import blusunrize.immersiveengineering.client.models.smart.ConnLoader;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
-import com.bymarcin.zettaindustries.mods.battery.Battery;
 import com.bymarcin.zettaindustries.mods.ocwires.block.BlockTelecomunicationConnector;
-import com.bymarcin.zettaindustries.mods.ocwires.item.ItemBlockTelecommunicationConnector;
 import com.bymarcin.zettaindustries.mods.ocwires.item.ItemTelecommunicationWire;
-import com.bymarcin.zettaindustries.mods.ocwires.render.BlockRenderTelecommunication;
 import com.bymarcin.zettaindustries.mods.ocwires.tileentity.TileEntityTelecomunicationConnector;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
-import net.minecraftforge.client.GuiIngameForge;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 import blusunrize.immersiveengineering.api.ManualHelper;
-import blusunrize.immersiveengineering.client.ClientUtils;
-import blusunrize.immersiveengineering.common.util.ItemNBTHelper;
 
 import blusunrize.lib.manual.ManualInstance;
 import blusunrize.lib.manual.ManualPages;
@@ -59,7 +43,6 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@Override
 	public void preInit() {
 		GameRegistry.register(connector);
-		GameRegistry.register(new ItemBlockTelecommunicationConnector(connector).setRegistryName(connector.getRegistryName()));
 		GameRegistry.register(wire);
 		ZettaIndustries.proxy.registermodel(wire,0);
 		GameRegistry.registerTileEntity(TileEntityTelecomunicationConnector.class, "TileEntityTelecomunicationConnector");
@@ -105,7 +88,11 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
-		//RenderingRegistry.registerBlockHandler(new BlockRenderTelecommunication());
+		ConnLoader.baseModels.put("conn_tele", new ResourceLocation("immersiveengineering:block/connector/connectorLV.obj"));
+		ConnLoader.textureReplacements.put("conn_tele", ImmutableMap.of("#immersiveengineering:blocks/connector_connectorLV",
+				ZettaIndustries.MODID+":blocks/ocwires/metal_connectorTC"));
+		Item blockItem = Item.getItemFromBlock(connector);
+		ZettaIndustries.proxy.registermodel(blockItem, 0);
 	}
 	
 	
@@ -117,75 +104,11 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 				new ManualPages.Crafting(manual, "ocwires0", new ItemStack(OCWires.connector))	
 		);
 	}
-	
-	
+
 	@Override
 	public void serverSide() {
 	
 	}
-
-
-//	@SideOnly(Side.CLIENT)
-//	private void registerFluidModel(IFluidBlock fluidBlock) {
-//		final Item item = Item.getItemFromBlock((Block) fluidBlock);
-//		assert item != null;
-//
-//		ModelBakery.registerItemVariants(item);
-//		ModelResourceLocation modelResourceLocation = new ModelResourceLocation(ImmersiveEngineering.MODID + ":models/block/connectorLV");
-//
-//		ModelLoader.setCustomMeshDefinition(item, OCWires.MeshDefinitionFix.create(stack -> modelResourceLocation));
-//
-//		ModelLoader.setCustomStateMapper((Block) fluidBlock, new StateMapperBase() {
-//			@Override
-//			protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-//				return modelResourceLocation;
-//			}
-//		});
-//	}
-//
-//	@SideOnly(Side.CLIENT)
-//	interface MeshDefinitionFix extends ItemMeshDefinition {
-//		ModelResourceLocation getLocation(ItemStack stack);
-//
-//		// Helper method to easily create lambda instances of this class
-//		static ItemMeshDefinition create(OCWires.MeshDefinitionFix lambda) {
-//			return lambda;
-//		}
-//
-//		default ModelResourceLocation getModelLocation(ItemStack stack) {
-//			return getLocation(stack);
-//		}
-//	}
-
-
-
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent()
-	public void textureStich(TextureStitchEvent.Post event)
-	{
-//			BlockRenderTelecommunication.model = (WavefrontObject) AdvancedModelLoader.loadModel(BlockRenderTelecommunication.rl);
-//			rebindUVsToIcon(BlockRenderTelecommunication.model, connector.getIcon(0, 0));
-	}
-
-//	void rebindUVsToIcon(WavefrontObject model, IIcon icon)
-//	{
-//		float minU = icon.getInterpolatedU(0);
-//		float sizeU = icon.getInterpolatedU(16) - minU;
-//		float minV = icon.getInterpolatedV(0);
-//		float sizeV = icon.getInterpolatedV(16) - minV;
-//
-//		for(GroupObject groupObject : model.groupObjects)
-//			for(Face face : groupObject.faces)
-//				for (int i = 0; i < face.vertices.length; ++i)
-//				{
-//					TextureCoordinate textureCoordinate = face.textureCoordinates[i];
-//					face.textureCoordinates[i] = new TextureCoordinate(
-//							minU + sizeU * textureCoordinate.u,
-//							minV + sizeV * textureCoordinate.v
-//							);
-//				}
-//	}
 
 	@Override
 	public void serverLoadComplete() {
