@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class CharcoalBlockMod implements IMod{
 	public static CharcoalBlock charcoalblock;
@@ -21,6 +22,7 @@ public class CharcoalBlockMod implements IMod{
 		Item itemCharcoalblock = GameRegistry.register(new ItemBlock(GameRegistry.register(charcoalblock)).setRegistryName(charcoalblock.getRegistryName()));
 		ZettaIndustries.proxy.registermodel(itemCharcoalblock,0);
 		GameRegistry.registerFuelHandler(new CharcoalFuelHandler());
+		OreDictionary.registerOre("blockCharcoal", charcoalblock);
 	}
 	
 	@Override

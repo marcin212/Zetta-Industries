@@ -174,7 +174,7 @@ public class Battery implements IMod, IGUI, IProxy {
 //
 //		sulfur = "dustSulfur";
 //
-        GameRegistry.addSmelting(CharcoalBlockMod.charcoalblock, new ItemStack(blockGraphite), 0F);
+        OreDictionary.getOres("blockCharcoal").forEach( cb -> GameRegistry.addSmelting(cb, new ItemStack(blockGraphite), 0F));
 //
 //		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
 //		    enderFrame != null && electrumFrame != null && sulfur!=null && gunpowder!=null){
