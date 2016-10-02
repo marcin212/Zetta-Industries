@@ -27,15 +27,81 @@ import cofh.api.energy.IEnergyHandler;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
 
-public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase implements IEnergyReceiver, IEnergyProvider, IEnergyHandler{
+public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase implements IEnergyReceiver, IEnergyProvider, IEnergyHandler, IEnergyStorage{
 	int transferMax = 0;
 	int transferCurrent = 0;
 	private Set<EntityPlayer> updatePlayers = new HashSet<EntityPlayer>();
 	String label = "";
-	
-	
+
+	public TileEntityPowerTap() {
+
+	}
+
+    @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
+            int temp =((BatteryController)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
+            if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(temp);}
+            return temp;
+        }
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
+            int temp = ((BatteryController)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
+            if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(-temp);}
+            return temp;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored() {
+        if(getMultiblockController()!=null){
+            return ((BatteryController)getMultiblockController()).getStorage().getEnergyStored();
+        }
+        return 0;
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        if(getMultiblockController()!=null){
+            return ((BatteryController)getMultiblockController()).getStorage().getMaxEnergyStored();
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean canExtract() {
+        return !isOutput();
+    }
+
+    @Override
+    public boolean canReceive() {
+        return isOutput();
+    }
+
+    @Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		return (capability == CapabilityEnergy.ENERGY) || super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        if (capability == CapabilityEnergy.ENERGY) {
+            return (T) this;
+        }
+        return super.getCapability(capability, facing);
+	}
+
 	public String getLabel() {
 		return label;
 	}
@@ -135,8 +201,11 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 			if(WorldUtils.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return 0;
 			TileEntity tile = WorldUtils.getAdjacentTileEntity(getWorld(), getPos(), EnumFacing.UP);
 			int energyGet=0;
-			if (WorldUtils.isEnergyReciverFromSide(tile,EnumFacing.UP)){
-				energyGet = ((IEnergyReceiver)tile).receiveEnergy(EnumFacing.UP, Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false);
+		    if(tile!= null && tile.hasCapability(CapabilityEnergy.ENERGY, EnumFacing.DOWN)) {
+                IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, EnumFacing.DOWN);
+                energyGet = energyStorage.receiveEnergy(Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false);
+            } else if (WorldUtils.isEnergyReciverFromSide(tile,EnumFacing.DOWN)){
+				energyGet = ((IEnergyReceiver)tile).receiveEnergy(EnumFacing.DOWN, Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false);
 			}  
 			((BatteryController)getMultiblockController()).getStorage().modifyEnergyStored(-energyGet);
 			return energyGet;
