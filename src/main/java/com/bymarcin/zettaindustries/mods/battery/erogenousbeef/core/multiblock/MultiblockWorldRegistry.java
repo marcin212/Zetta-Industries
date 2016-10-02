@@ -361,7 +361,7 @@ public class MultiblockWorldRegistry {
 	 * @param chunkZ Chunk Z coordinate (world coordate >> 4) of the chunk that was loaded
 	 */
 	public void onChunkLoaded(int chunkX, int chunkZ) {
-		long chunkHash = ChunkPos.chunkXZ2Int(chunkX, chunkZ);
+		long chunkHash = ChunkPos.asLong(chunkX, chunkZ);
 		if(partsAwaitingChunkLoad.containsKey(chunkHash)) {
 			synchronized(partsAwaitingChunkLoadMutex) {
 				if(partsAwaitingChunkLoad.containsKey(chunkHash)) {

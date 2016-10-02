@@ -47,8 +47,8 @@ sourceSets{
 
 
 minecraft {
-    version = "1.10.2-12.18.1.2046"
-    mappings = "snapshot_20160725"
+    version = "1.10.2-12.18.1.2094"
+    mappings = "snapshot_20160930"
 	runDir = "run"
 }
 

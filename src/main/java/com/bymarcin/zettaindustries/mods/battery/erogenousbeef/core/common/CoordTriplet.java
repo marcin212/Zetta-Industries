@@ -18,7 +18,7 @@ public class CoordTriplet implements Comparable {
 	
 	public int getChunkX() { return x >> 4; }
 	public int getChunkZ() { return z >> 4; }
-	public long getChunkXZHash() { return ChunkPos.chunkXZ2Int(x >> 4, z >> 4); }
+	public long getChunkXZHash() { return ChunkPos.asLong(x >> 4, z >> 4); }
 	
 	@Override
 	public boolean equals(Object other) {
