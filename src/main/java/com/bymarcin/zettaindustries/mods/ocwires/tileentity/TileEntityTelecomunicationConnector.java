@@ -279,7 +279,7 @@ public class TileEntityTelecomunicationConnector extends TileEntityImmersiveConn
 
 	@Override
 	public boolean canConnect(EnumFacing side) {
-		return side == EnumFacing.values()[getBlockMetadata()];
+		return side == f;
 	}
 
 	@Override
