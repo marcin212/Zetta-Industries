@@ -62,6 +62,7 @@ public class TileEntityNFCProgrammer extends TileEntityEnvironment {
             return nbt;
     }
 
+
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
@@ -78,6 +79,6 @@ public class TileEntityNFCProgrammer extends TileEntityEnvironment {
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newSate) {
-        return false;
+        return oldState.getBlock()!=newSate.getBlock();
     }
 }
