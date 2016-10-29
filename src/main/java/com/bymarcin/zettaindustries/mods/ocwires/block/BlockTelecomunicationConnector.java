@@ -11,7 +11,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -31,8 +30,6 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 		setHardness(3.0F);
 		setResistance(15.0F);
 		lightOpacity = 0;
-		setAllNotNormalBlock();
-		setBlockLayer(BlockRenderLayer.SOLID, BlockRenderLayer.TRANSLUCENT);
 		this.setCreativeTab(ZettaIndustries.tabZettaIndustries);
 	}
 
@@ -40,46 +37,81 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 	@Override
 	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
 		TileEntity te = world.getTileEntity(pos);
-		if(te instanceof TileEntityTelecomunicationConnector) {
+		if (te instanceof TileEntityTelecomunicationConnector) {
 			TileEntityTelecomunicationConnector connector = (TileEntityTelecomunicationConnector) te;
-			if(world.isAirBlock(pos.offset(connector.f))) {
+			if (world.isAirBlock(pos.offset(connector.f))) {
 				this.dropBlockAsItem(connector.getWorld(), pos, world.getBlockState(pos), 0);
 				connector.getWorld().setBlockToAir(pos);
 			}
 		}
 	}
+
 	@Override
 	protected BlockStateContainer createBlockState() {
 		BlockStateContainer base = super.createBlockState();
 		IUnlistedProperty<?>[] unlisted = (base instanceof ExtendedBlockState) ? ((ExtendedBlockState) base).getUnlistedProperties().toArray(new IUnlistedProperty[0]) : new IUnlistedProperty[0];
-		unlisted = Arrays.copyOf(unlisted, unlisted.length+1);
-		unlisted[unlisted.length-1] = IEProperties.CONNECTIONS;
+		unlisted = Arrays.copyOf(unlisted, unlisted.length + 1);
+		unlisted[unlisted.length - 1] = IEProperties.CONNECTIONS;
 		return new ExtendedBlockState(this, base.getProperties().toArray(new IProperty[0]), unlisted);
 	}
+
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		state = super.getExtendedState(state, world, pos);
-		if(state instanceof IExtendedBlockState) {
+		if (state instanceof IExtendedBlockState) {
 			IExtendedBlockState ext = (IExtendedBlockState) state;
 			TileEntity te = world.getTileEntity(pos);
 			if (!(te instanceof TileEntityTelecomunicationConnector))
 				return state;
-			state = ext.withProperty(IEProperties.CONNECTIONS, ((TileEntityTelecomunicationConnector)te).genConnBlockstate());
+			state = ext.withProperty(IEProperties.CONNECTIONS, ((TileEntityTelecomunicationConnector) te).genConnBlockstate());
 		}
 		return state;
 	}
+
 	@Override
 	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return false;
 	}
+
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		if (meta==0)
+		if (meta == 0)
 			return new TileEntityTelecomunicationConnector();
 		return null;
 	}
+
 	@Override
 	public String createRegistryName() {
-		return ZettaIndustries.MODID+":"+name;
+		return ZettaIndustries.MODID + ":" + name;
+	}
+
+	@Override
+	public boolean canRenderInLayer(BlockRenderLayer layer) {
+		return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.SOLID;
+	}
+
+	@Override
+	public boolean isFullBlock(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isNormalCube(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return false;
+	}
+
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public boolean isVisuallyOpaque() {
+		return false;
 	}
 }
