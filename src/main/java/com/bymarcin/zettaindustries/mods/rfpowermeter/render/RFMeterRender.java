@@ -72,6 +72,7 @@ public class RFMeterRender extends FastTESR<RFMeterTileEntity>//implements IItem
 
 	@Override
 	public void renderTileEntityFast(RFMeterTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage, VertexBuffer vertexBuffer) {
+		if(!(tile.getWorld().getBlockState(tile.getPos()).getBlock() instanceof RFMeterBlock)) return;
 		EnumFacing facing = tile.getWorld().getBlockState(tile.getPos()).getValue(RFMeterBlock.front);
 		BlockPos pos = tile.getPos();
 

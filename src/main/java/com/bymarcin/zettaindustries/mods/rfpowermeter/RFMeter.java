@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -34,7 +35,7 @@ public class RFMeter implements IMod, IProxy{
 	@Override
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(this);
-		isOCAllowed = ZettaIndustries.instance.config.get("rfmeter", "oc.methods.allowed", true).getBoolean(true);
+		isOCAllowed = ZettaIndustries.instance.config.get("rfmeter", "oc.methods.allowed", true).getBoolean(true) && Loader.isModLoaded("OpenComputers");
 		meter = new RFMeterBlock();
 		GameRegistry.register(meter);
 		Item itemMeter = new RFMeterItem(meter).setRegistryName(meter.getRegistryName());
@@ -91,6 +92,4 @@ public class RFMeter implements IMod, IProxy{
 
 	}
 	
-
-
 }
