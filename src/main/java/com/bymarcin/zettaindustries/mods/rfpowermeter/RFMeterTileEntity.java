@@ -217,7 +217,17 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
         if (!canEnergyFlow()) return 0;
         int temp = 0;
         if (from == (isInverted ? EnumFacing.DOWN : EnumFacing.UP)) {
-            if (WorldUtils.isEnergyReciverFromSide(this, from)) {
+            IEnergyStorage storage = WorldUtils.getEnergyStorage(worldObj, this.getPos(), isInverted ? EnumFacing.UP : EnumFacing.DOWN);
+            if(storage!=null){
+                temp = storage.receiveEnergy(transferLimit == -1 ?
+                                (inCounterMode ? maxReceive : Math.min((int) value, maxReceive))
+                                : Math.min(transferLimit, (inCounterMode ? maxReceive : Math.min((int) value, maxReceive)))
+                        , simulate);
+
+                if (!simulate) if (inCounterMode) value += temp;
+                else value -= temp;
+                return temp;
+            }else if (WorldUtils.isEnergyReciverFromSide(this, from)) {
                 TileEntity tile = WorldUtils.getAdjacentTileEntity(worldObj, this.getPos(), isInverted ? EnumFacing.UP : EnumFacing.DOWN);
                 if (tile == null || !WorldUtils.isEnergyReciverFromSide(tile, isInverted ? EnumFacing.DOWN : EnumFacing.UP)) {
                     return 0;

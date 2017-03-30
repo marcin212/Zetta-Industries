@@ -15,8 +15,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 
-
-
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 //import cofh.api.energy.IEnergyHandler;
@@ -71,6 +73,14 @@ public class WorldUtils {
 	public static TileEntity getAdjacentTileEntity(World paramWorld, BlockPos pos, EnumFacing paramDirection)
 	{
 		return paramWorld == null ? null : paramWorld.getTileEntity(pos.add(paramDirection.getDirectionVec()));
+	}
+
+	public static IEnergyStorage getEnergyStorage(World world, BlockPos pos, EnumFacing facing){
+		TileEntity tileEntity = world.getTileEntity(pos.add(facing.getDirectionVec()));
+		if (tileEntity!=null && tileEntity.hasCapability(CapabilityEnergy.ENERGY, facing)){
+			return tileEntity.getCapability(CapabilityEnergy.ENERGY, facing);
+		}
+		return null;
 	}
 
 //	public static TileEntity getAdjacentTileEntity(World paramWorld, int paramInt1, int paramInt2, int paramInt3, int paramInt4)
