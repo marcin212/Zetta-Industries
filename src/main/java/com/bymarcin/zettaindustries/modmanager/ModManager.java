@@ -60,6 +60,7 @@ public class ModManager {
 //		addMod("forestrybackpacks.ForestyBackpacksMod","$('forestry')","ForestyBackpacksMod");
 		//addMod("eawiring.EAWiring","","EAWiring");
 //		addMod("bundledviewer.BundledViewerMod","$('RedLogic')","BundledViewer");
+		addMod("battery.BlazeBlockMod", "", "BlazeBlock");
 	}
 
 	private void addMod(String path, String dependencies, String name) {
