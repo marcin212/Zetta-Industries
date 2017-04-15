@@ -32,7 +32,6 @@ tile.zettaindustries.blazeblock.name=Blaze Block
 tile.sulfuricacid.name=Sulfuric Acid
 tile.zettaindustries.blockprismarinecatalisator.name=Prismarine Catalisator
 tile.prismarineacid.name=Prismarine Acid
-tile.batteryelectrodet2.name=Battery Electrode Tier 2
 tooltip.validfor=Valid for\:
 tooltip.sides=Sides
 tooltip.inside=Inside
