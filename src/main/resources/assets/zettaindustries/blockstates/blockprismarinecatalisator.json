@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "zettaindustries:blocks/battery/bb_electrode"
+      "all": "zettaindustries:blocks/battery/block_prismarine_catalisator"
     },
     "model": "minecraft:cube_all",
     "uvlock": false

@@ -1,6 +1,5 @@
 package com.bymarcin.zettaindustries.mods.battery.fluid;
 
-
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -14,15 +13,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 
-public class SulfuricAcidFluid extends BlockFluidClassic {
-    public static final ResourceLocation stillIcon = new ResourceLocation(ZettaIndustries.MODID, "blocks/battery/fluidSulfuricStill");
-    public static final ResourceLocation flowingIcon = new ResourceLocation(ZettaIndustries.MODID, "blocks/battery/fluidSulfuricFlowing");
 
-    public SulfuricAcidFluid(Fluid fluid) {
+public class PrismarineAcidFluid extends BlockFluidClassic {
+    public static final ResourceLocation stillIcon = new ResourceLocation(ZettaIndustries.MODID, "blocks/battery/fluidPrismarineStill");
+    public static final ResourceLocation flowingIcon = new ResourceLocation(ZettaIndustries.MODID, "blocks/battery/fluidPrismarineFlowing");
+
+    public PrismarineAcidFluid(Fluid fluid) {
         super(fluid, Material.WATER);
         this.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
-        this.setRegistryName("sulfuricacid");
-        this.setUnlocalizedName("sulfuricacid");
+        this.setRegistryName("prismarineacid");
+        this.setUnlocalizedName("prismarineacid");
         setHardness(101f);
         setLightOpacity(3);
     }
@@ -55,4 +55,5 @@ public class SulfuricAcidFluid extends BlockFluidClassic {
         entityIn.attackEntityFrom(DamageSource.drown, 1);
         entityIn.attackEntityFrom(DamageSource.lava, 2);
     }
+
 }
