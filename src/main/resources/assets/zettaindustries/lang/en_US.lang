@@ -28,6 +28,10 @@ tile.batterywall.name=Battery Wall
 item.acidbucket.name=Bucket of Sulfurous Acid
 tile.zettaindustries.charcoalblock.name=Block of Charcoal
 tile.zettaindustries.blockGraphite.name=Block of Graphite
+tile.zettaindustries.blazeblock.name=Blaze Block
+tile.sulfuricacid.name=Sulfuric Acid
+tile.zettaindustries.blockprismarinecatalisator.name=Prismarine Catalisator
+tile.prismarineacid.name=Prismarine Acid
 tooltip.validfor=Valid for\:
 tooltip.sides=Sides
 tooltip.inside=Inside
@@ -42,6 +46,8 @@ tooltip.powertap2=Right click to adjust power throughput
 tooltip.powertap3=Right click while sneaking with an empty hand to toggle mode
 tooltip.sulfur1=Place in a 3x3 pool of water and ignite
 fluid.sulfurousacid=Sulfurous Acid
+fluid.sulfuricacid=Sulfuric Acid
+fluid.prismarineacid=Prismarine Acid
 
 #OCWires
 tooltip.coil.info0=For OpenComputers network only

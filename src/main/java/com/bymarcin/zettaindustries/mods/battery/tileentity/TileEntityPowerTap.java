@@ -170,7 +170,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 		Block b;
 		while (true) {
 			b = worldObj.getBlockState(new BlockPos(this.getPos().getX(), this.getPos().getY() - i, this.getPos().getZ())).getBlock();
-			if (b != Battery.blockBigBatteryElectrode) {
+			if (b != Battery.blockBigBatteryElectrode /*|| b != Battery.blockBigBatteryElectrodeT2*/) {
 				break;
 			}
 

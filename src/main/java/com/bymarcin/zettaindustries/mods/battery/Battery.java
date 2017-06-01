@@ -8,6 +8,8 @@ import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.M
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockEventHandler;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockServerTickHandler;
 import com.bymarcin.zettaindustries.mods.battery.fluid.AcidFluid;
+import com.bymarcin.zettaindustries.mods.battery.fluid.PrismarineAcidFluid;
+import com.bymarcin.zettaindustries.mods.battery.fluid.SulfuricAcidFluid;
 import com.bymarcin.zettaindustries.mods.battery.gui.*;
 import com.bymarcin.zettaindustries.mods.battery.tileentity.*;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
@@ -41,6 +43,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import java.util.HashMap;
 
@@ -56,10 +59,16 @@ public class Battery implements IMod, IGUI, IProxy {
     public double capacityMultiplier = 1;
     public static int electrodeTransferRate = 2500;
     public static BlockSulfur blockSulfur;
+    public static BlockBlaze blockBlaze;
+    public static BlockPrismarineCatalisator blockPrismarineCatalisator;
     public static AcidFluid acidFluid;
+    public static SulfuricAcidFluid sulfuricAcidFluid;
+    public static PrismarineAcidFluid prismarineAcidFluid;
     static HashMap<Fluid, Integer> electrolyteList = new HashMap<Fluid, Integer>();
 
     public static Fluid acid = new Fluid("sulfurousacid", AcidFluid.stillIcon, AcidFluid.flowingIcon).setLuminosity(0).setDensity(1200).setViscosity(1500).setTemperature(320).setRarity(EnumRarity.UNCOMMON);
+    public static Fluid sulfuric = new Fluid("sulfuricacid", SulfuricAcidFluid.stillIcon, SulfuricAcidFluid.flowingIcon).setLuminosity(0).setDensity(1200).setViscosity(1500).setTemperature(320).setRarity(EnumRarity.UNCOMMON);
+    public static Fluid prismarine = new Fluid("prismarineacid", PrismarineAcidFluid.stillIcon, PrismarineAcidFluid.flowingIcon).setLuminosity(0).setDensity(1200).setViscosity(1500).setTemperature(320).setRarity(EnumRarity.UNCOMMON);
     /*Crafting items*/
 
     ItemStack obsidian;
@@ -88,8 +97,27 @@ public class Battery implements IMod, IGUI, IProxy {
         //ZettaIndustries.proxy.registermodel(fluidItem, 0);
         acid.setBlock(acidFluid);
 
-
         FluidRegistry.addBucketForFluid(acid);
+
+
+        FluidRegistry.registerFluid(sulfuric);
+        sulfuricAcidFluid = new SulfuricAcidFluid(sulfuric);
+        Block sulfuricFluid = GameRegistry.register(sulfuricAcidFluid);
+        Item sulfuricItem = GameRegistry.register(new ItemBlock(sulfuricFluid).setRegistryName(sulfuricAcidFluid.getRegistryName()));
+        //ZettaIndustries.proxy.registermodel(sulfuricItem, 0);
+        sulfuric.setBlock(sulfuricAcidFluid);
+
+        FluidRegistry.addBucketForFluid(sulfuric);
+
+        FluidRegistry.registerFluid(prismarine);
+        prismarineAcidFluid = new PrismarineAcidFluid(prismarine);
+        Block prismarineFluid = GameRegistry.register(prismarineAcidFluid);
+        Item prismarineItem = GameRegistry.register(new ItemBlock(prismarineFluid).setRegistryName(prismarineAcidFluid.getRegistryName()));
+        //ZettaIndustries.proxy.registermodel(prismarineItem, 0);
+        sulfuric.setBlock(sulfuricAcidFluid);
+
+        FluidRegistry.addBucketForFluid(prismarine);
+
 
 
         blockSulfur = new BlockSulfur(acidFluid);
@@ -97,6 +125,19 @@ public class Battery implements IMod, IGUI, IProxy {
         Item itemBlockSulfur = GameRegistry.register(new ItemBlock(blockSulfur).setRegistryName(blockSulfur.getRegistryName()));
         ZettaIndustries.proxy.registermodel(itemBlockSulfur, 0);
         OreDictionary.registerOre("blockSulfur", blockSulfur);
+
+        blockBlaze = new BlockBlaze(sulfuricAcidFluid);
+        GameRegistry.register(blockBlaze);
+        Item itemBlockBlaze = GameRegistry.register(new ItemBlock(blockBlaze).setRegistryName(blockBlaze.getRegistryName()));
+        ZettaIndustries.proxy.registermodel(itemBlockBlaze, 0);
+        OreDictionary.registerOre("blockSulfur", blockBlaze);
+
+        blockPrismarineCatalisator = new BlockPrismarineCatalisator(prismarineAcidFluid);
+        GameRegistry.register( blockPrismarineCatalisator);
+        Item itemBlockPrismarineCatalisator = GameRegistry.register(new ItemBlock(blockPrismarineCatalisator).setRegistryName(blockPrismarineCatalisator.getRegistryName()));
+        ZettaIndustries.proxy.registermodel(itemBlockPrismarineCatalisator, 0);
+        OreDictionary.registerOre("blockPrismarineCatalisator", blockPrismarineCatalisator);
+
 
         blockBigBatteryWall = GameRegistry.register(new BlockBigBatteryWall());
         Item itemBlockBigBatteryWall = GameRegistry.register(new InformationalItemBlock(blockBigBatteryWall).setRegistryName(blockBigBatteryWall.getRegistryName()));
@@ -159,6 +200,8 @@ public class Battery implements IMod, IGUI, IProxy {
 //		registerElectrolyte("redstone", (int)Math.floor(75000000*capacityMultiplier));
 //		registerElectrolyte("ender", (int)Math.floor(100000000*capacityMultiplier));
         registerElectrolyte("sulfurousacid", (int) Math.floor(150000000 * capacityMultiplier));
+        registerElectrolyte("sulfuricacid", (int) Math.floor(500000000 * capacityMultiplier));
+        registerElectrolyte("prismarineacid", (int) Math.floor((1000000000 * capacityMultiplier)));
 //
         redstone = new ItemStack(Items.REDSTONE, 1);
         obsidian = new ItemStack(Blocks.OBSIDIAN, 1);
@@ -224,6 +267,12 @@ public class Battery implements IMod, IGUI, IProxy {
 
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur, 1), "SGS", "SSS", "SSS",
                 'S', "dustSulfur", 'G', Items.GUNPOWDER));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBlaze, 1), "BBB", "BGB", "BBB",
+                'B', Items.BLAZE_ROD, 'G', Items.GUNPOWDER));
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockPrismarineCatalisator, 1), "SCS", "CGC", "SCS",
+                'S', Items.PRISMARINE_SHARD, 'C', Items.PRISMARINE_CRYSTALS, 'G', Blocks.GLOWSTONE));
 //		}
     }
 
@@ -282,7 +331,9 @@ public class Battery implements IMod, IGUI, IProxy {
     public void clientSide() {
         MinecraftForge.EVENT_BUS.register(new MultiblockClientTickHandler());
         MinecraftForge.EVENT_BUS.register(new MultiblockServerTickHandler());
-        registerFluidModel(acidFluid);
+        registerFluidModel(acidFluid, "sulfurousacid");
+        registerFluidModel(sulfuricAcidFluid, "SulfuricAcidFluid");
+        registerFluidModel(prismarineAcidFluid, "PrismarineAcidFluid");
 
     }
 
@@ -292,12 +343,12 @@ public class Battery implements IMod, IGUI, IProxy {
     }
 
     @SideOnly(Side.CLIENT)
-    private void registerFluidModel(IFluidBlock fluidBlock) {
+    private void registerFluidModel(IFluidBlock fluidBlock, String modelname) {
         final Item item = Item.getItemFromBlock((Block) fluidBlock);
         assert item != null;
 
         ModelBakery.registerItemVariants(item);
-        ModelResourceLocation modelResourceLocation = new ModelResourceLocation(ZettaIndustries.MODID + ":sulfurousacid");
+        ModelResourceLocation modelResourceLocation = new ModelResourceLocation(ZettaIndustries.MODID + ":" + modelname);
 
         ModelLoader.setCustomMeshDefinition(item, MeshDefinitionFix.create(stack -> modelResourceLocation));
 
