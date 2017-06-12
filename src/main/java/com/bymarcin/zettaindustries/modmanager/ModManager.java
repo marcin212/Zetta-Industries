@@ -41,27 +41,27 @@ public class ModManager {
 //		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
-		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
+//		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
+//		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
-		addMod("battery.Battery", "$('CoFHAPI|energy')", "BigBattery");
+//		addMod("battery.Battery", "$('CoFHAPI|energy')", "BigBattery");
 //		addMod("battery.Battery", "$('CoFHCore')", "BigBattery");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 //		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
-		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
-		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
+//		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
+//		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
-		addMod("ocwires.OCWires","$('OpenComputers') && $('immersiveengineering')","OCWires");
+//		addMod("ocwires.OCWires","$('OpenComputers') && $('immersiveengineering')","OCWires");
 //		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 //		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
 //		addMod("forestrybackpacks.ForestyBackpacksMod","$('forestry')","ForestyBackpacksMod");
 		//addMod("eawiring.EAWiring","","EAWiring");
 //		addMod("bundledviewer.BundledViewerMod","$('RedLogic')","BundledViewer");
-		addMod("battery.block.BlazeBlock", "", "BlazeBlock");
-		addMod("battery.block.BlockPrismarineCatalisator", "", "BlockPrismarineCatalisator");
+//		addMod("battery.block.BlazeBlock", "", "BlazeBlock");
+//		addMod("battery.block.BlockPrismarineCatalisator", "", "BlockPrismarineCatalisator");
 	}
 
 	private void addMod(String path, String dependencies, String name) {

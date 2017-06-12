@@ -39,11 +39,11 @@ public class ClientProxy extends Proxy {
 		if (getCurrentClientDimension() != dimensionId) {
 			return null;
 		} else
-			return Minecraft.getMinecraft().theWorld;
+			return Minecraft.getMinecraft().world;
 	}
 
 	@Override
 	public int getCurrentClientDimension() {
-		return Minecraft.getMinecraft().theWorld.provider.getDimension();
+		return Minecraft.getMinecraft().world.provider.getDimension();
 	}
 }

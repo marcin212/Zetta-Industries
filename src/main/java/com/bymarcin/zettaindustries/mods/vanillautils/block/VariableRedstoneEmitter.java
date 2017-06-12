@@ -22,30 +22,30 @@ public class VariableRedstoneEmitter extends BasicBlock {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (player.getHeldItemMainhand() == null) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+		if (player.getHeldItemMainhand().isEmpty()) {
 			if (player.isSneaking()) {
 				if (state.getValue(STRENGTH) > 0) {
 					world.setBlockState(pos, state.withProperty(STRENGTH, state.getValue(STRENGTH) - 1), 2);
-					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					world.notifyNeighborsOfStateChange(pos, state.getBlock(), true);
 					return true;
 				}
 
 				if (state.getValue(STRENGTH) == 0) {
 					world.setBlockState(pos, state.withProperty(STRENGTH, 15), 2);
-					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					world.notifyNeighborsOfStateChange(pos, state.getBlock(), true);
 					return true;
 				}
 			} else {
 				if (state.getValue(STRENGTH) < 15) {
 					world.setBlockState(pos, state.withProperty(STRENGTH, state.getValue(STRENGTH) + 1), 2);
-					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					world.notifyNeighborsOfStateChange(pos, state.getBlock(), true);
 					return true;
 				}
 
 				if (state.getValue(STRENGTH) == 15) {
 					world.setBlockState(pos, state.withProperty(STRENGTH, 0), 2);
-					world.notifyNeighborsOfStateChange(pos, state.getBlock());
+					world.notifyNeighborsOfStateChange(pos, state.getBlock(), true);
 					return true;
 				}
 			}

@@ -24,11 +24,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "required-after:Forge@[12.18.1.2080,);after:ImmersiveEngineering;after:forestry;")
+@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "required-after:forge@[13.20.0.2315,);after:immersiveengineering;after:forestry;")
 public class ZettaIndustries
 {
     public static final String MODID = "zettaindustries";
-    public static final String VERSION = "1.2";
+    public static final String VERSION = "1.3";
     public static final String MODNAME = "Zetta Industries";
     
     public static final Random RANDOM = new Random();
