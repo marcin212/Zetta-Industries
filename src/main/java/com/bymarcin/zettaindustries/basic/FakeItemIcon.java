@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 public class FakeItemIcon extends Item{
 	public FakeItemIcon() {
 		setMaxStackSize(1);
+		setMaxDamage(212);
 		setRegistryName("logo");
 		setUnlocalizedName(ZettaIndustries.MODID + ".logo");
 		setCreativeTab(ZettaIndustries.tabZettaIndustries);
@@ -21,7 +22,7 @@ public class FakeItemIcon extends Item{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if (!worldIn.isRemote) {
-			EntityShurikenMarcina shurikenMarcina = new EntityShurikenMarcina(worldIn, playerIn);
+			EntityShurikenMarcina shurikenMarcina = new EntityShurikenMarcina(worldIn, playerIn, playerIn.getHeldItem(handIn).getItemDamage());
 			shurikenMarcina.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
 			worldIn.spawnEntity(shurikenMarcina);
 		}
