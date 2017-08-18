@@ -85,6 +85,11 @@ repositories {
     maven {
         url "http://maven.blamejared.com/"
     }
+    
+      ivy {
+        name 'ImmersiveEngineering'
+        artifactPattern "http://addons-origin.cursecdn.com/files/${config.immersiveengineering.cf}/[module]-[revision].[ext]"
+	}
 }
 
 runClient {
