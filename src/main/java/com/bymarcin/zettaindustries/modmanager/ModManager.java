@@ -57,7 +57,7 @@ public class ModManager {
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
 		addMod("ocwires.OCWires","$('opencomputers') && $('immersiveengineering')","OCWires");
 //		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
-//		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
+		addMod("wiregun.WireGun", "$('immersiveengineering')", "WireGun");
 //		addMod("forestrybackpacks.ForestyBackpacksMod","$('forestry')","ForestyBackpacksMod");
 		//addMod("eawiring.EAWiring","","EAWiring");
 //		addMod("bundledviewer.BundledViewerMod","$('RedLogic')","BundledViewer");

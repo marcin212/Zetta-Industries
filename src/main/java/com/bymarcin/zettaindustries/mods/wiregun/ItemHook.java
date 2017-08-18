@@ -6,6 +6,5 @@ import com.bymarcin.zettaindustries.basic.BasicItem;
 public class ItemHook extends BasicItem{
 	public ItemHook() {
 		super("hook");
-		iconString = ZettaIndustries.MODID+":hook";
 	}
 }
