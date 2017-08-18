@@ -41,7 +41,7 @@ public class RFMeter implements IMod, IProxy{
 	@Override
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(this);
-		isOCAllowed = ZettaIndustries.instance.config.get("rfmeter", "oc.methods.allowed", true).getBoolean(true) && Loader.isModLoaded("OpenComputers");
+		isOCAllowed = ZettaIndustries.instance.config.get("rfmeter", "computer.methods.allowed", true).getBoolean(true) && (Loader.isModLoaded("opencomputers") || Loader.isModLoaded("computercraft"));
 		meter = new RFMeterBlock();
 		itemMeter = new RFMeterItem(meter).setRegistryName(meter.getRegistryName());
 		GameRegistry.registerTileEntity(RFMeterTileEntity.class, "terfmeterblock");
@@ -83,10 +83,10 @@ public class RFMeter implements IMod, IProxy{
 
 	@Override
 	public void init() {
-//		
-//		if(Loader.isModLoaded("ComputerCraft")){
-//			RFMeterIntegrationComputerCraft.computercraftInit();
-//		}
+
+		if(Loader.isModLoaded("computercraft")){
+			RFMeterIntegrationComputerCraft.computercraftInit();
+		}
 		
 	}
 

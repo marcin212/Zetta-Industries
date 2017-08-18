@@ -71,6 +71,11 @@ repositories {
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
+
+    maven {
+        name 'Ninth Circle of Hell'
+        url 'https://cc.crzd.me/maven'
+    }
 	
     ivy {
         name "BuildCraft"
@@ -96,6 +101,7 @@ dependencies {
 		exclude module: "jei_1.12"
 	}
  	deobfCompile "li.cil.oc:OpenComputers:${config.oc.version}"
+	deobfCompile "dan200.computercraft:${config.cc.version}"
         deobfCompile "mezz.jei:jei_1.12.1:${config.jei.version}"
         deobfCompile ("blusunrize:ImmersiveEngineering:0.12-+") {
 		exclude module: "jei_1.12"

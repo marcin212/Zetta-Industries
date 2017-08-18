@@ -55,7 +55,7 @@ public abstract class BasicBackpack implements IBackpackDefinition{
 	public static class ItemTest implements Predicate<ItemStack> {
 		@Override
 	public boolean test(ItemStack itemstack) {
-		if(itemstack!=null && itemstack.getItem()!=null){
+		if(!itemstack.isEmpty()){
 			ResourceLocation rl = itemstack.getItem().getRegistryName();
 			String name = null;
 			System.out.println(rl.getResourceDomain());

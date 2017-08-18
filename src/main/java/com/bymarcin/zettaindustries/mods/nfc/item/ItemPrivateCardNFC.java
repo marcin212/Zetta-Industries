@@ -54,7 +54,7 @@ public class ItemPrivateCardNFC extends ItemCardNFC{
 	}
 
 	public static String getOwner(ItemStack item) {
-		if(item.getTagCompound()!=null)
+		if(item.hasTagCompound())
 			return item.getTagCompound().getString("ownerNFC");
 		else
 			return null;

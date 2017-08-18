@@ -37,7 +37,7 @@ public class ECatalogueBlock extends BasicBlockContainer {
 				if (l.getCount() == 1) {
 					NBTTagCompound nbt;
 					Letter letter;
-					if (l.getTagCompound() != null) {
+					if (l.hasTagCompound()) {
 						nbt = l.getTagCompound();
 						letter = new Letter(nbt);
 						letter.setRecipient(eCalogueTileEntity.getAddress());

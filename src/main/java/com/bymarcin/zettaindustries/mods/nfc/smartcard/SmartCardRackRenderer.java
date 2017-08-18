@@ -37,7 +37,7 @@ public class SmartCardRackRenderer {
 	@SubscribeEvent
 	public void onRackMountableRender(RackMountableRenderEvent.Block e) {
 		ItemStack stack = e.rack.getStackInSlot(e.mountable);
-		if (stack!=null && stack.getItem() instanceof SmartCardTerminalItem) {
+		if (!stack.isEmpty() && stack.getItem() instanceof SmartCardTerminalItem) {
 			e.setFrontTextureOverride(texture);
 		}
 	}

@@ -152,7 +152,7 @@ public class MailmanUpgrade extends AbstractManagedEnvironment {
 			return error("Too much attachments.");
 		}
 
-		if (consumePaper(paperSlot, true) == null) {
+		if (consumePaper(paperSlot, true).isEmpty()) {
 			return error("Wrong item or slot paper is empty.");
 		}
 
@@ -168,7 +168,7 @@ public class MailmanUpgrade extends AbstractManagedEnvironment {
 
 		consumeStamps(letter, stampSlot, false);
 		ItemStack paperCache = consumePaper(paperSlot, false);
-		if (paperCache == null) {
+		if (paperCache.isEmpty()) {
 			for (ItemStack stmp : letter.getPostage()) {
 				giveBack(stmp);
 			}
@@ -191,7 +191,7 @@ public class MailmanUpgrade extends AbstractManagedEnvironment {
 	}
 
 	private void giveBack(ItemStack stack) {
-		if (stack != null) {
+		if (!stack.isEmpty()) {
 			if (!mergeItemStack(stack, 0, robot.mainInventory().getSizeInventory(), false)) {
 				robot.world().spawnEntity(new EntityItem(robot.world(), robot.xPosition(), robot.yPosition() + 1, robot.zPosition(), stack));
 			}
@@ -214,7 +214,7 @@ public class MailmanUpgrade extends AbstractManagedEnvironment {
 					continue;
 				}
 
-				if (itemstack1 != null && itemstack1.getItem() == stack.getItem() &&
+				if (!itemstack1.isEmpty() && itemstack1.getItem() == stack.getItem() &&
 						(!stack.getHasSubtypes() || stack.getItemDamage() == itemstack1.getItemDamage()) &&
 						ItemStack.areItemStackTagsEqual(stack, itemstack1))
 				{
@@ -249,7 +249,7 @@ public class MailmanUpgrade extends AbstractManagedEnvironment {
 					continue;
 				}
 
-				if (itemstack1 == null) {
+				if (itemstack1.isEmpty()) {
 					int l = stack.getCount();
 
 					if (l <= robot.mainInventory().getInventoryStackLimit()) {

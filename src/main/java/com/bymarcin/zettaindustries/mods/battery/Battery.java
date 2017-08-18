@@ -178,12 +178,12 @@ public class Battery implements IMod, IGUI, IProxy {
         gunpowder = new ItemStack(Items.GUNPOWDER, 1);
 
 		electrum = "ingotElectrum";
-		sawDust = GameRegistry.makeItemStack("ThermalExpansion:dustWoodCompressed", 0,1, "");
-		specialGlass = GameRegistry.makeItemStack("ThermalExpansion:frameIlluminator", 0,1, "");
+		sawDust = GameRegistry.makeItemStack("thermalfoundation:material", 801,1, "");
+		specialGlass = GameRegistry.makeItemStack("thermalexpansion:frameIlluminator", 0,1, "");
 
-		rfmeter =GameRegistry.makeItemStack("ThermalExpansion:multimeter",0,1,"");
-		enderFrame =GameRegistry.makeItemStack("ThermalExpansion:frameTesseractEmpty",0,1,"");
-		electrumFrame =GameRegistry.makeItemStack("ThermalExpansion:frameCellReinforcedEmpty",0,1,"");
+		rfmeter =GameRegistry.makeItemStack("thermalfoundation:meter",0,1,"");
+		enderFrame =GameRegistry.makeItemStack("thermalexpansion:frameTesseractEmpty",0,1,"");
+		electrumFrame =GameRegistry.makeItemStack("thermalexpansion:frameCellReinforcedEmpty",0,1,"");
 
 		sulfur = "dustSulfur";
 

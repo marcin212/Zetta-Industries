@@ -38,7 +38,7 @@ public class RFMeterItem extends ItemBlock{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, World p_77624_2_, List info, ITooltipFlag p_77624_4_) {
 		super.addInformation(stack, p_77624_2_, info, p_77624_4_);
-		if(stack.getTagCompound() !=null){
+		if(stack.hasTagCompound()){
 			
 				if(RFMeter.isOCAllowed && stack.getTagCompound().hasKey("name") && !stack.getTagCompound().getString("name").isEmpty())
 					info.add("Name: " + stack.getTagCompound().getString("name"));
