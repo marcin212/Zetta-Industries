@@ -13,6 +13,7 @@ import com.bymarcin.zettaindustries.mods.battery.tileentity.*;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.gui.IGUI;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
+import com.bymarcin.zettaindustries.utils.RecipeUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -26,16 +27,21 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -52,6 +58,8 @@ public class Battery implements IMod, IGUI, IProxy {
     public static BlockBigBatteryWall blockBigBatteryWall;
     public static BlockBigBatteryComputerPort blockBigBatteryComputerPort;
     public static BlockBigBatteryController blockBigBatteryControler;
+    public static Block fluidBlock;
+    public static Item fluidItem, itemBlockSulfur, itemBlockBigBatteryWall, itemBlockBigBatteryPowerTap, itemBlockBigBatteryControler, itemBlockBigBatteryComputerPort, itemBlockBigBatteryGlass, itemBlockBigBatteryElectrode, itemBlockGraphite;
     public static BlockGraphite blockGraphite;
     public double capacityMultiplier = 1;
     public static int electrodeTransferRate = 2500;
@@ -72,7 +80,6 @@ public class Battery implements IMod, IGUI, IProxy {
     ItemStack electrumFrame;
     String sulfur;
     ItemStack gunpowder;
-
     @Override
     public void preInit() {
         capacityMultiplier = ZettaIndustries.instance.config.get("BigBattery", "energyMultiplier", 1d).getDouble(1d);
@@ -80,59 +87,44 @@ public class Battery implements IMod, IGUI, IProxy {
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
 
-
         FluidRegistry.registerFluid(acid);
         acidFluid = new AcidFluid(acid);
-        Block fluidBlock = GameRegistry.register(acidFluid);
-        Item fluidItem = GameRegistry.register(new ItemBlock(fluidBlock).setRegistryName(acidFluid.getRegistryName()));
-        //ZettaIndustries.proxy.registermodel(fluidItem, 0);
+        fluidBlock = acidFluid;
+        fluidItem = new ItemBlock(fluidBlock).setRegistryName(acidFluid.getRegistryName());
         acid.setBlock(acidFluid);
-
 
         FluidRegistry.addBucketForFluid(acid);
 
-
         blockSulfur = new BlockSulfur(acidFluid);
-        GameRegistry.register(blockSulfur);
-        Item itemBlockSulfur = GameRegistry.register(new ItemBlock(blockSulfur).setRegistryName(blockSulfur.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockSulfur, 0);
-        OreDictionary.registerOre("blockSulfur", blockSulfur);
+        itemBlockSulfur = (new ItemBlock(blockSulfur).setRegistryName(blockSulfur.getRegistryName()));
 
-        blockBigBatteryWall = GameRegistry.register(new BlockBigBatteryWall());
-        Item itemBlockBigBatteryWall = GameRegistry.register(new InformationalItemBlock(blockBigBatteryWall).setRegistryName(blockBigBatteryWall.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryWall, 0);
+        blockBigBatteryWall = (new BlockBigBatteryWall());
+        itemBlockBigBatteryWall = (new InformationalItemBlock(blockBigBatteryWall).setRegistryName(blockBigBatteryWall.getRegistryName()));
         GameRegistry.registerTileEntity(TileEntityWall.class, "BatteryTileEntityWall");
 
 
-        blockBigBatteryPowerTap = GameRegistry.register(new BlockBigBatteryPowerTap());
-        Item itemBlockBigBatteryPowerTap = GameRegistry.register(new InformationalItemBlock(blockBigBatteryPowerTap).setRegistryName(blockBigBatteryPowerTap.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryPowerTap, 0);
+        blockBigBatteryPowerTap = (new BlockBigBatteryPowerTap());
+        itemBlockBigBatteryPowerTap = (new InformationalItemBlock(blockBigBatteryPowerTap).setRegistryName(blockBigBatteryPowerTap.getRegistryName()));
         GameRegistry.registerTileEntity(TileEntityPowerTap.class, "BatteryTileEntityPowerTap");
 
-        blockBigBatteryGlass = GameRegistry.register(new BlockBigBatteryGlass());
-        Item itemBlockBigBatteryGlass = GameRegistry.register(new InformationalItemBlock(blockBigBatteryGlass).setRegistryName(blockBigBatteryGlass.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryGlass, 0);
+        blockBigBatteryGlass = (new BlockBigBatteryGlass());
+        itemBlockBigBatteryGlass = (new InformationalItemBlock(blockBigBatteryGlass).setRegistryName(blockBigBatteryGlass.getRegistryName()));
         GameRegistry.registerTileEntity(TileEntityGlass.class, "BatteryTileEntityGlass");
 
-        blockBigBatteryElectrode = GameRegistry.register(new BlockBigBatteryElectrode());
-        Item itemBlockBigBatteryElectrode = GameRegistry.register(new InformationalItemBlock(blockBigBatteryElectrode).setRegistryName(blockBigBatteryElectrode.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryElectrode, 0);
+        blockBigBatteryElectrode = (new BlockBigBatteryElectrode());
+        itemBlockBigBatteryElectrode = (new InformationalItemBlock(blockBigBatteryElectrode).setRegistryName(blockBigBatteryElectrode.getRegistryName()));
         GameRegistry.registerTileEntity(TileEntityElectrode.class, "BatteryTileEntityElectrode");
 
-        blockBigBatteryControler = GameRegistry.register(new BlockBigBatteryController());
-        Item itemBlockBigBatteryControler = GameRegistry.register(new InformationalItemBlock(blockBigBatteryControler).setRegistryName(blockBigBatteryControler.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryControler, 0);
+        blockBigBatteryControler = (new BlockBigBatteryController());
+        itemBlockBigBatteryControler = (new InformationalItemBlock(blockBigBatteryControler).setRegistryName(blockBigBatteryControler.getRegistryName()));
         GameRegistry.registerTileEntity(TileEntityControler.class, "BatteryTileEntityControler");
 
-        blockBigBatteryComputerPort = GameRegistry.register(new BlockBigBatteryComputerPort());
-        Item itemBlockBigBatteryComputerPort = GameRegistry.register(new InformationalItemBlock(blockBigBatteryComputerPort).setRegistryName(blockBigBatteryComputerPort.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryComputerPort, 0);
+        blockBigBatteryComputerPort = (new BlockBigBatteryComputerPort());
+        itemBlockBigBatteryComputerPort = (new InformationalItemBlock(blockBigBatteryComputerPort).setRegistryName(blockBigBatteryComputerPort.getRegistryName()));
         GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BatteryTileEntityComputerPort");
 
-        blockGraphite = GameRegistry.register(new BlockGraphite());
-        Item itemBlockGraphite = GameRegistry.register(new InformationalItemBlock(blockGraphite).setRegistryName(blockGraphite.getRegistryName()));
-        ZettaIndustries.proxy.registermodel(itemBlockGraphite, 0);
-        OreDictionary.registerOre("blockGraphite", blockGraphite);
+        blockGraphite = (new BlockGraphite());
+        itemBlockGraphite = (new InformationalItemBlock(blockGraphite).setRegistryName(blockGraphite.getRegistryName()));
 
 
 //		if(Loader.isModLoaded("ComputerCraft")){
@@ -150,7 +142,99 @@ public class Battery implements IMod, IGUI, IProxy {
 
     @Override
     public void init() {
+        OreDictionary.registerOre("blockGraphite", blockGraphite);
+        OreDictionary.registerOre("blockSulfur", blockSulfur);
+    }
 
+    @SubscribeEvent
+    public void registerBlocks(RegistryEvent.Register<Block> event) {
+        event.getRegistry().registerAll(fluidBlock, blockBigBatteryWall, blockSulfur, blockGraphite, blockBigBatteryElectrode, blockBigBatteryComputerPort, blockBigBatteryControler,
+                blockBigBatteryGlass, blockBigBatteryPowerTap);
+    }
+
+    @SubscribeEvent
+    public void registerItems(RegistryEvent.Register<Item> event) {
+        event.getRegistry().registerAll(fluidItem, itemBlockBigBatteryComputerPort, itemBlockBigBatteryControler, itemBlockBigBatteryElectrode, itemBlockBigBatteryGlass,
+                itemBlockBigBatteryPowerTap, itemBlockBigBatteryWall, itemBlockGraphite, itemBlockSulfur);
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void registerModels(ModelRegistryEvent event) {
+        ZettaIndustries.proxy.registermodel(itemBlockSulfur, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryWall, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryPowerTap, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryGlass, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryElectrode, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryControler, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockBigBatteryComputerPort, 0);
+        ZettaIndustries.proxy.registermodel(itemBlockGraphite, 0);
+        registerFluidModel(acidFluid);
+    }
+
+    @SubscribeEvent
+    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+        obsidian = new ItemStack(Blocks.OBSIDIAN, 1);
+        gunpowder = new ItemStack(Items.GUNPOWDER, 1);
+
+		electrum = "ingotElectrum";
+		sawDust = GameRegistry.makeItemStack("ThermalExpansion:dustWoodCompressed", 0,1, "");
+		specialGlass = GameRegistry.makeItemStack("ThermalExpansion:frameIlluminator", 0,1, "");
+
+		rfmeter =GameRegistry.makeItemStack("ThermalExpansion:multimeter",0,1,"");
+		enderFrame =GameRegistry.makeItemStack("ThermalExpansion:frameTesseractEmpty",0,1,"");
+		electrumFrame =GameRegistry.makeItemStack("ThermalExpansion:frameCellReinforcedEmpty",0,1,"");
+
+		sulfur = "dustSulfur";
+
+		if(!electrum.isEmpty() && !sawDust.isEmpty() && !specialGlass.isEmpty() && !rfmeter.isEmpty() &&
+		    !enderFrame.isEmpty() && !electrumFrame.isEmpty()){
+
+			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryWall,16), "ODE","OFE","ODE",
+					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame).setRegistryName(blockBigBatteryWall.getRegistryName()));
+
+			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryControler), "ODE","MRE","ODE",
+					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', electrumFrame).setRegistryName(blockBigBatteryControler.getRegistryName()));
+
+			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryElectrode,2), "WGW","WGW","WWW",
+					'W', "blockGraphite", 'G', "blockGold").setRegistryName(blockBigBatteryElectrode.getRegistryName()));
+
+			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryGlass,4), "GGG","GFG","GGG",
+					'G',specialGlass,'F', enderFrame).setRegistryName(blockBigBatteryGlass.getRegistryName()));
+
+			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryPowerTap), "ORO","DFD","EEE",
+					'O', obsidian, 'D', sawDust, 'R', "dustRedstone", 'E', electrum, 'F', electrumFrame).setRegistryName(blockBigBatteryPowerTap.getRegistryName()));
+
+			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryComputerPort),"ODE","RMF","ODE",
+					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', "dustRedstone", 'F', enderFrame).setRegistryName(blockBigBatteryComputerPort.getRegistryName()));
+
+		}else{
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryWall, 4), "OGB", "ODB", "OGB",
+                    'O', Blocks.OBSIDIAN, 'D', Items.DIAMOND, 'G', Blocks.GOLD_BLOCK, 'B', Items.BLAZE_POWDER).setRegistryName(blockBigBatteryWall.getRegistryName()));
+
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryControler), "CLR", "XTX", "BBB", 'B', Items.BLAZE_POWDER,
+                    'C', Items.COMPARATOR, 'L', Blocks.REDSTONE_LAMP, 'R', Items.REPEATER, 'X', blockBigBatteryWall, 'T', Blocks.REDSTONE_BLOCK).setRegistryName(blockBigBatteryControler.getRegistryName()));
+
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryElectrode, 2), "WGW", "WGW", "WWW",
+                    'W', "blockGraphite", 'G', "blockGold").setRegistryName(blockBigBatteryElectrode.getRegistryName()));
+
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryGlass, 1), "GGG", "GFG", "GGG",
+                    'G', Blocks.GLASS, 'F', blockBigBatteryWall).setRegistryName(blockBigBatteryGlass.getRegistryName()));
+
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryPowerTap), "OCO", "RHR", "BGB", 'G', blockGraphite,
+                    'O', Blocks.OBSIDIAN, 'C', Items.COMPARATOR, 'R', Blocks.REDSTONE_BLOCK, 'H', blockBigBatteryWall, 'B', Items.BLAZE_POWDER)
+                   .setRegistryName(blockBigBatteryPowerTap.getRegistryName()));
+
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockBigBatteryComputerPort), "RCR", "OHO", "BRB",
+                    'R', Blocks.REDSTONE_BLOCK, 'C', Items.COMPARATOR, 'O', Blocks.OBSIDIAN, 'H', blockBigBatteryWall, 'B', Items.BLAZE_ROD)
+                    .setRegistryName(blockBigBatteryComputerPort.getRegistryName()));
+
+            event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockSulfur, 1), "SGS", "SSS", "SSS",
+                    'S', Items.BLAZE_POWDER, 'G', Items.GUNPOWDER).setRegistryName(new ResourceLocation("zettaindustries:sulfur_blaze")));
+		}
+
+        event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(blockSulfur, 1), "SGS", "SSS", "SSS",
+                'S', "dustSulfur", 'G', Items.GUNPOWDER).setRegistryName(blockSulfur.getRegistryName()));
     }
 
     @Override
@@ -160,71 +244,7 @@ public class Battery implements IMod, IGUI, IProxy {
 //		registerElectrolyte("ender", (int)Math.floor(100000000*capacityMultiplier));
         registerElectrolyte("sulfurousacid", (int) Math.floor(150000000 * capacityMultiplier));
 //
-        redstone = new ItemStack(Items.REDSTONE, 1);
-        obsidian = new ItemStack(Blocks.OBSIDIAN, 1);
-        gunpowder = new ItemStack(Items.GUNPOWDER, 1);
-//
-//		electrum = "ingotElectrum";
-//		sawDust = GameRegistry.findItemStack("ThermalExpansion","dustWoodCompressed",1);
-//		specialGlass = GameRegistry.findItemStack("ThermalExpansion","frameIlluminator",1);
-//
-//		rfmeter =GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
-//		enderFrame =GameRegistry.findItemStack("ThermalExpansion","frameTesseractEmpty",1);
-//		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","frameCellReinforcedEmpty",1);
-//
-//		sulfur = "dustSulfur";
-//
         OreDictionary.getOres("blockCharcoal").forEach( cb -> GameRegistry.addSmelting(cb, new ItemStack(blockGraphite), 0F));
-//
-//		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
-//		    enderFrame != null && electrumFrame != null && sulfur!=null && gunpowder!=null){
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall,16), "ODE","OFE","ODE",
-//					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryControler, "ODE","MRE","ODE",
-//					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', electrumFrame));
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryElectrode,2), "WGW","WGW","WWW",
-//					'W', "blockGraphite", 'G', "blockGold"));
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryGlass,4), "GGG","GFG","GGG",
-//					'G',specialGlass,'F', enderFrame));
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryPowerTap, "ORO","DFD","EEE",
-//					'O', obsidian, 'D', sawDust, 'R', redstone, 'E', electrum, 'F', electrumFrame));
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryComputerPort,"ODE","RMF","ODE",
-//					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', redstone, 'F', enderFrame));
-//
-//			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur,1), "SGS","SSS","SSS",
-//					'S',sulfur, 'G', gunpowder));
-//
-//		}else{
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryWall, 4), "OGB", "ODB", "OGB",
-                'O', Blocks.OBSIDIAN, 'D', Items.DIAMOND, 'G', Blocks.GOLD_BLOCK, 'B', Items.BLAZE_POWDER));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryControler, "CLR", "XTX", "BBB", 'B', Items.BLAZE_POWDER,
-                'C', Items.COMPARATOR, 'L', Blocks.REDSTONE_LAMP, 'R', Items.REPEATER, 'X', blockBigBatteryWall, 'T', Blocks.REDSTONE_BLOCK));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryElectrode, 2), "WGW", "WGW", "WWW",
-                'W', "blockGraphite", 'G', "blockGold"));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockBigBatteryGlass, 1), "GGG", "GFG", "GGG",
-                'G', Blocks.GLASS, 'F', blockBigBatteryWall));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryPowerTap, "OCO", "RHR", "BGB", 'G', blockGraphite,
-                'O', Blocks.OBSIDIAN, 'C', Items.COMPARATOR, 'R', Blocks.REDSTONE_BLOCK, 'H', blockBigBatteryWall, 'B', Items.BLAZE_POWDER));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(blockBigBatteryComputerPort, "RCR", "OHO", "BRB",
-                'R', Blocks.REDSTONE_BLOCK, 'C', Items.COMPARATOR, 'O', Blocks.OBSIDIAN, 'H', blockBigBatteryWall, 'B', Items.BLAZE_ROD));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur, 1), "SGS", "SSS", "SSS",
-                'S', Items.BLAZE_POWDER, 'G', Items.GUNPOWDER));
-
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSulfur, 1), "SGS", "SSS", "SSS",
-                'S', "dustSulfur", 'G', Items.GUNPOWDER));
-//		}
     }
 
     private void registerElectrolyte(String name, int valuePerBlock) {
@@ -282,8 +302,6 @@ public class Battery implements IMod, IGUI, IProxy {
     public void clientSide() {
         MinecraftForge.EVENT_BUS.register(new MultiblockClientTickHandler());
         MinecraftForge.EVENT_BUS.register(new MultiblockServerTickHandler());
-        registerFluidModel(acidFluid);
-
     }
 
     @Override

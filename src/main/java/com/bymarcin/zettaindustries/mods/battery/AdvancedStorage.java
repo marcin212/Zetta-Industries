@@ -1,9 +1,9 @@
 package com.bymarcin.zettaindustries.mods.battery;
 
 import net.minecraft.nbt.NBTTagCompound;
-import cofh.api.energy.IEnergyStorage;
+import net.minecraftforge.energy.IEnergyStorage;
 
-public class AdvancedStorage implements IEnergyStorage{
+public class AdvancedStorage implements IEnergyStorage {
 
 	protected long energy;
 	protected long capacity;
@@ -149,7 +149,17 @@ public class AdvancedStorage implements IEnergyStorage{
 	public int getMaxEnergyStored() {
 		return (capacity <= Integer.MAX_VALUE)?(int) capacity:Integer.MAX_VALUE;
 	}
-	
+
+	@Override
+	public boolean canExtract() {
+		return getMaxExtract() > 0;
+	}
+
+	@Override
+	public boolean canReceive() {
+		return getMaxReceive() > 0;
+	}
+
 	public long getRealEnergyStored() {
 		return energy;
 	}

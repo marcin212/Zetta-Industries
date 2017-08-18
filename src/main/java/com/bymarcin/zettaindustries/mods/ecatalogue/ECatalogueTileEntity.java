@@ -37,8 +37,8 @@ public class ECatalogueTileEntity extends TileEntity implements SimpleComponent 
 
 	@Callback
 	public Object[] getAllTrades(Context context, Arguments args) {
-		IPostOffice postOffice = PostManager.postRegistry.getPostOffice(worldObj);
-		return new Object[] { postOffice.getActiveTradeStations(worldObj).values() };
+		IPostOffice postOffice = PostManager.postRegistry.getPostOffice(getWorld());
+		return new Object[] { postOffice.getActiveTradeStations(getWorld()).values() };
 	}
 
 	@Callback
@@ -46,7 +46,7 @@ public class ECatalogueTileEntity extends TileEntity implements SimpleComponent 
 		String address = args.checkString(0);
 		IMailAddress addr = PostManager.postRegistry.getMailAddress(address);
 	
-		if (PostManager.postRegistry.isValidTradeAddress(worldObj, addr)) {
+		if (PostManager.postRegistry.isValidTradeAddress(getWorld(), addr)) {
 				this.address = addr;
 				setAddressSet(true);
 				return null;

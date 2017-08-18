@@ -3,8 +3,6 @@ package com.bymarcin.zettaindustries.mods.battery.tileentity;
 import java.util.HashSet;
 import java.util.Set;
 
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
 import com.bymarcin.zettaindustries.mods.battery.Battery;
 import com.bymarcin.zettaindustries.mods.battery.block.BlockBigBatteryPowerTap;
 import com.bymarcin.zettaindustries.mods.battery.erogenousbeef.core.multiblock.MultiblockControllerBase;
@@ -23,7 +21,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 
-import cofh.api.energy.IEnergyHandler;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -33,7 +30,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
 
-public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase implements IEnergyReceiver, IEnergyProvider, IEnergyHandler, IEnergyStorage{
+public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase implements IEnergyStorage {
 	int transferMax = 0;
 	int transferCurrent = 0;
 	private Set<EntityPlayer> updatePlayers = new HashSet<EntityPlayer>();
@@ -116,7 +113,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}	
 
 	protected void sendIndividualUpdate(EntityPlayer player) {
-		if(this.worldObj.isRemote) { return; }
+		if(this.getWorld().isRemote) { return; }
 		ZIRegistry.packetHandler.sendTo(getUpdatePowerTapPacket(), (EntityPlayerMP) player);
 	}
 	
@@ -145,7 +142,7 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	@Override
 	public void isGoodForTop() throws MultiblockValidationException {
-		TileEntity entityBelow = this.worldObj.getTileEntity(this.getPos().down());
+		TileEntity entityBelow = this.getWorld().getTileEntity(this.getPos().down());
 		if ((entityBelow instanceof TileEntityElectrode)) {
 			return;
 		}
@@ -169,14 +166,14 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 		int i = 1;
 		Block b;
 		while (true) {
-			b = worldObj.getBlockState(new BlockPos(this.getPos().getX(), this.getPos().getY() - i, this.getPos().getZ())).getBlock();
+			b = getWorld().getBlockState(new BlockPos(this.getPos().getX(), this.getPos().getY() - i, this.getPos().getZ())).getBlock();
 			if (b != Battery.blockBigBatteryElectrode) {
 				break;
 			}
 
 			for (EnumFacing d : EnumFacing.VALUES) {
 				if(EnumFacing.UP==d) continue;
-				if (BatteryController.checkElectrolyte(worldObj, getPos().getX() + d.getDirectionVec().getX(), getPos().getY() + d.getDirectionVec().getY() - i, getPos().getZ() + d.getDirectionVec().getZ()) != 0) {
+				if (BatteryController.checkElectrolyte(getWorld(), getPos().getX() + d.getDirectionVec().getX(), getPos().getY() + d.getDirectionVec().getY() - i, getPos().getZ() + d.getDirectionVec().getZ()) != 0) {
 					transferMax += Battery.electrodeTransferRate;
 				}
 			}
@@ -198,21 +195,19 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 
 	
 	public int onTransferEnergy(){
-			if(WorldUtils.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return 0;
+			if(WorldUtils.isClientWorld(getWorld()) || isOutput() || getMultiblockController()==null) return 0;
 			TileEntity tile = WorldUtils.getAdjacentTileEntity(getWorld(), getPos(), EnumFacing.UP);
 			int energyGet=0;
 		    if(tile!= null && tile.hasCapability(CapabilityEnergy.ENERGY, EnumFacing.DOWN)) {
                 IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, EnumFacing.DOWN);
                 energyGet = energyStorage.receiveEnergy(Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false);
-            } else if (WorldUtils.isEnergyReciverFromSide(tile,EnumFacing.DOWN)){
-				energyGet = ((IEnergyReceiver)tile).receiveEnergy(EnumFacing.DOWN, Math.min(transferCurrent, ((BatteryController)getMultiblockController()).getStorage().getEnergyStored()), false);
-			}  
+			}
 			((BatteryController)getMultiblockController()).getStorage().modifyEnergyStored(-energyGet);
 			return energyGet;
 	}
 
 	public void setTransfer(int transfer){
-		if(worldObj.isRemote){
+		if(getWorld().isRemote){
 			transferCurrent = transfer;
 		}else{
 			transferCurrent = Math.max(0,Math.min(transfer, transferMax));	
@@ -226,43 +221,6 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	
 	public Container getContainer(EntityPlayer player){
 		return new PowerTapContener(this, player);
-	}
-	
-	/* IEnergyHandler */
-	@Override
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-		if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
-			 int temp =((BatteryController)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
-			    if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(temp);}
-			 return temp;
-		}
-		return 0;
-	}
-
-	@Override
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-		if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
-			int temp = ((BatteryController)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
-            if(!simulate){((BatteryController)getMultiblockController()).modifyLastTickBalance(-temp);}
-			return temp;
-		}
-		return 0;
-	}
-
-	@Override
-	public int getEnergyStored(EnumFacing from) {
-		if(getMultiblockController()!=null){
-			return ((BatteryController)getMultiblockController()).getStorage().getEnergyStored();
-		}
-		return 0;
-	}
-
-	@Override
-	public int getMaxEnergyStored(EnumFacing from) {
-		if(getMultiblockController()!=null){
-			return ((BatteryController)getMultiblockController()).getStorage().getMaxEnergyStored();
-		}
-		return 0;
 	}
 	
 	public boolean isOutput() {
@@ -287,16 +245,10 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 	}
 	
 	public void setIn(){
-		getWorld().setBlockState(getPos(),worldObj.getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.INPUT),2);
+		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.INPUT),2);
 	}
 	
 	public void setOut(){
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.OUTPUT),2);
 	}
-
-	@Override
-	public boolean canConnectEnergy(EnumFacing enumFacing) {
-		return true;
-	}
-
 }

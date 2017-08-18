@@ -3,19 +3,21 @@ package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
 import li.cil.oc.api.Network;
+import li.cil.oc.api.driver.DriverItem;
 import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.driver.item.Container;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
 import li.cil.oc.api.network.EnvironmentHost;
+import li.cil.oc.api.network.ManagedEnvironment;
 import li.cil.oc.api.network.Visibility;
-import li.cil.oc.api.prefab.ManagedEnvironment;
 
+import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class SmartCardTerminalExtension extends Item implements EnvironmentProvider, HostAware, li.cil.oc.api.driver.Item, Container{
+public class SmartCardTerminalExtension extends Item implements EnvironmentProvider, HostAware, DriverItem, Container{
 
 	public SmartCardTerminalExtension() {
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
@@ -38,7 +40,6 @@ public class SmartCardTerminalExtension extends Item implements EnvironmentProvi
 
 	@Override
 	public ManagedEnvironment createEnvironment(ItemStack stack, EnvironmentHost host) {
-
 		return new SCE(host);
 	}
 
@@ -66,7 +67,7 @@ public class SmartCardTerminalExtension extends Item implements EnvironmentProvi
 	public Class<?> getEnvironment(ItemStack stack) {
 		return SCE.class;
 	}
-	public static class SCE extends ManagedEnvironment{
+	public static class SCE extends AbstractManagedEnvironment {
 		
 		EnvironmentHost host;
 		

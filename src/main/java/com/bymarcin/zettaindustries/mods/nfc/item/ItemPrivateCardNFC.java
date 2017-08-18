@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.nfc.item;
 
 import java.util.List;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,6 +12,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemPrivateCardNFC extends ItemCardNFC{
 
@@ -21,7 +24,9 @@ public class ItemPrivateCardNFC extends ItemCardNFC{
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public void addInformation(ItemStack itemStack,EntityPlayer player,List par3List, boolean par4) {
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack itemStack, World world, List par3List, ITooltipFlag par4) {
+		super.addInformation(itemStack, world, par3List, par4);
 		if(itemStack.getItem()instanceof ItemPrivateCardNFC && getOwner(itemStack)!=null)
 			par3List.add(getOwner(itemStack));
 	}
@@ -34,7 +39,8 @@ public class ItemPrivateCardNFC extends ItemCardNFC{
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand handIn) {
+		ItemStack itemStack = player.getHeldItem(handIn);
 		if(itemStack.getItem() instanceof ItemPrivateCardNFC && player.isSneaking() && getOwner(itemStack)==null){
 			setOwner(player.getName(), itemStack);
 			itemStack.setItemDamage(1);

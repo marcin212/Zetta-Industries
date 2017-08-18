@@ -11,15 +11,19 @@ import com.bymarcin.zettaindustries.registry.proxy.INeedLoadCompleteEvent;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,15 +46,36 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	
 	@Override
 	public void preInit() {
-		GameRegistry.register(connector);
-		GameRegistry.register(wire);
-		ZettaIndustries.proxy.registermodel(wire,0);
+		connector.setRegistryName(new ResourceLocation("zettaindustries:telecommunicationconnector"));
+
 		GameRegistry.registerTileEntity(TileEntityTelecomunicationConnector.class, "TileEntityTelecomunicationConnector");
 		ZIRegistry.registerProxy(this);
 		MinecraftForge.EVENT_BUS.register(this);
 		cableLength = ZettaIndustries.instance.config.get("OCWires", "cableLength", 32, "The maximum length cables can have.",8,64).getInt(32);	
 	}
-	
+
+	@SubscribeEvent
+	public void onRegisterBlock(RegistryEvent.Register<Block> event) {
+		event.getRegistry().register(connector);
+	}
+
+	@SubscribeEvent
+	public void onRegisterItem(RegistryEvent.Register<Item> event) {
+		event.getRegistry().register(wire);
+	}
+
+	@SubscribeEvent
+	public void onRegisterRecipe(RegistryEvent.Register<IRecipe> event) {
+		event.getRegistry().register(new ShapedOreRecipe(connector.getRegistryName(), new ItemStack(connector,8), "BIB"," I ","BIB", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1),'B',Blocks.HARDENED_CLAY).setRegistryName(connector.getRegistryName()));
+		event.getRegistry().register(new ShapedOreRecipe(wire.getRegistryName(), new ItemStack(wire,4), " I ","ISI"," I ", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1), 'S',"stickWood").setRegistryName(wire.getRegistryName()));
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void registerModels(ModelRegistryEvent event) {
+		ZettaIndustries.proxy.registermodel(wire, 0);
+	}
+
 	@Override
 	public void init() {
 
@@ -59,8 +84,6 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@Override
 	public void postInit() {
 		TelecommunicationWireType.register();
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(connector,8), "BIB"," I ","BIB", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1),'B',Blocks.HARDENED_CLAY));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(wire,4), " I ","ISI"," I ", 'I',li.cil.oc.api.Items.get("cable").createItemStack(1), 'S',"stickWood"));
 	}
 	
 	@SideOnly(Side.CLIENT)

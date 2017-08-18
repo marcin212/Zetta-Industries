@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.block.model.ItemOverrideList;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -16,7 +15,7 @@ import java.util.EnumMap;
 /**
  * Created by Marcin on 29.08.2016.
  */
-public abstract class BaseBakedModel implements IPerspectiveAwareModel {
+public abstract class BaseBakedModel implements IBakedModel {
     private final EnumMap<ItemCameraTransforms.TransformType, TRSRTransformation> transformMap = new EnumMap(ItemCameraTransforms.TransformType.class);
     private final ResourceLocation particle;
 

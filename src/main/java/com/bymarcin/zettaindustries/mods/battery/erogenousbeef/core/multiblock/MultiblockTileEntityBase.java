@@ -145,7 +145,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 
 	/**
 	 * This is called when a block is being marked as valid by the chunk, but has not yet fully
-	 * been placed into the world's TileEntity cache. this.worldObj, xCoord, yCoord and zCoord have
+	 * been placed into the world's TileEntity cache. this.getWorld(), xCoord, yCoord and zCoord have
 	 * been initialized, but any attempts to read data about the world can cause infinite loops -
 	 * if you call getTileEntity on this TileEntity's coordinate from within validate(), you will
 	 * blow your call stack.
@@ -156,7 +156,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	@Override
 	public void validate() {
 		super.validate();
-		MultiblockRegistry.onPartAdded(this.worldObj, this);
+		MultiblockRegistry.onPartAdded(getWorld(), this);
 	}
 
 	// Network Communication
@@ -313,7 +313,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 
 		TileEntity te;
 		List<IMultiblockPart> neighborParts = new ArrayList<IMultiblockPart>();
-		IChunkProvider chunkProvider = worldObj.getChunkProvider();
+		IChunkProvider chunkProvider = getWorld().getChunkProvider();
 		for(CoordTriplet neighbor : neighbors) {
 			Chunk chunk = chunkProvider.getLoadedChunk(neighbor.getChunkX(), neighbor.getChunkZ());
 			if(chunk == null || !chunk.isLoaded()) {
@@ -321,7 +321,7 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 				continue;
 			}
 
-			te = this.worldObj.getTileEntity(new BlockPos(neighbor.x, neighbor.y, neighbor.z));
+			te = this.getWorld().getTileEntity(new BlockPos(neighbor.x, neighbor.y, neighbor.z));
 			if(te instanceof IMultiblockPart) {
 				neighborParts.add((IMultiblockPart)te);
 			}
@@ -333,16 +333,16 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 	@Override
 	public void onOrphaned(MultiblockControllerBase controller, int oldSize, int newSize) {
 		this.markDirty();
-		worldObj.markChunkDirty(pos, this);
+		getWorld().markChunkDirty(pos, this);
 	}
 	
 	//// Helper functions for notifying neighboring blocks
 	protected void notifyNeighborsOfBlockChange() {
-		worldObj.notifyNeighborsOfStateChange(pos, getBlockType());
+		getWorld().notifyNeighborsOfStateChange(pos, getBlockType(), false);
 	}
 	
 	protected void notifyNeighborsOfTileChange() {
-		worldObj.notifyNeighborsOfStateChange(pos, getBlockType());
+		getWorld().notifyNeighborsOfStateChange(pos, getBlockType(), false);
 	}
 
 	///// Private/Protected Logic Helpers
@@ -359,6 +359,6 @@ public abstract class MultiblockTileEntityBase extends IMultiblockPart {
 		}
 
 		// Clean part out of lists in the registry
-		MultiblockRegistry.onPartRemovedFromWorld(worldObj, this);
+		MultiblockRegistry.onPartRemovedFromWorld(getWorld(), this);
 	}
 }

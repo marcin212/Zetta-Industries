@@ -33,7 +33,7 @@ public class Proxy extends ZIRegistry {
 	}
 
 	public World getWorld(int dimensionId) {
-		return FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(dimensionId);
+		return FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimensionId);
 	}
 
 	public int getCurrentClientDimension() {

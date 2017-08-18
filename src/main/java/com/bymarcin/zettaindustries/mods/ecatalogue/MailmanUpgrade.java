@@ -10,8 +10,8 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.Visibility;
-import li.cil.oc.api.prefab.ManagedEnvironment;
 
+import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -27,7 +27,7 @@ import forestry.api.mail.IPostalState;
 import forestry.api.mail.PostManager;
 import forestry.mail.items.ItemStamps;
 
-public class MailmanUpgrade extends ManagedEnvironment {
+public class MailmanUpgrade extends AbstractManagedEnvironment {
 	private final Agent robot;
 
 	public MailmanUpgrade(Agent entity) {
@@ -48,10 +48,10 @@ public class MailmanUpgrade extends ManagedEnvironment {
 
 	private ItemStack consumePaper(int slot, boolean simulate) {
 		ItemStack paper = robot.mainInventory().getStackInSlot(slot);
-		if (paper != null && paper.getItem().equals(Items.PAPER) && paper.stackSize > 0) {
+		if (!paper.isEmpty() && paper.getItem() == Items.PAPER) {
 			if (simulate) {
-				paper = ItemStack.copyItemStack(paper);
-				paper.stackSize = 1;
+				paper = paper.copy();
+				paper.setCount(1);
 				return paper;
 			} else {
 				return robot.mainInventory().decrStackSize(slot, 1);
@@ -63,7 +63,7 @@ public class MailmanUpgrade extends ManagedEnvironment {
 
 	private int getStampValue(int slot) {
 		ItemStack stack = robot.mainInventory().getStackInSlot(slot);
-		if (stack != null && stack.getItem() instanceof ItemStamps) {
+		if (!stack.isEmpty() && stack.getItem() instanceof ItemStamps) {
 			ItemStamps stamp = (ItemStamps) stack.getItem();
 			return stamp.getPostage(stack).getValue();
 		}
@@ -81,7 +81,7 @@ public class MailmanUpgrade extends ManagedEnvironment {
 	private boolean consumeStamps(ILetter letter, int stampSlot, boolean simulate) {
 		ItemStack stack = robot.mainInventory().getStackInSlot(stampSlot);
 		int stampValue = getStampValue(stampSlot);
-		if (stampValue != 0 && getNeededStampCount(letter.requiredPostage(), stampValue) > 0 && getNeededStampCount(letter.requiredPostage(), stampValue) <= stack.stackSize) {
+		if (stampValue != 0 && getNeededStampCount(letter.requiredPostage(), stampValue) > 0 && getNeededStampCount(letter.requiredPostage(), stampValue) <= stack.getCount()) {
 			if (simulate) {
 				return true;
 			} else {
@@ -97,8 +97,8 @@ public class MailmanUpgrade extends ManagedEnvironment {
 			if (args.isInteger(i)) {
 				int slot = args.checkInteger(i) - 1;
 				if (slot < robot.mainInventory().getSizeInventory() && slot >= 0) {
-					if (robot.mainInventory().getStackInSlot(slot) != null) {
-						letter.addAttachment(robot.mainInventory().decrStackSize(slot, robot.mainInventory().getStackInSlot(slot).stackSize));
+					if (!robot.mainInventory().getStackInSlot(slot).isEmpty()) {
+						letter.addAttachment(robot.mainInventory().decrStackSize(slot, robot.mainInventory().getStackInSlot(slot).getCount()));
 					}
 				}
 			} else {
@@ -193,7 +193,7 @@ public class MailmanUpgrade extends ManagedEnvironment {
 	private void giveBack(ItemStack stack) {
 		if (stack != null) {
 			if (!mergeItemStack(stack, 0, robot.mainInventory().getSizeInventory(), false)) {
-				robot.world().spawnEntityInWorld(new EntityItem(robot.world(), robot.xPosition(), robot.yPosition() + 1, robot.zPosition(), stack));
+				robot.world().spawnEntity(new EntityItem(robot.world(), robot.xPosition(), robot.yPosition() + 1, robot.zPosition(), stack));
 			}
 		}
 	}
@@ -205,7 +205,7 @@ public class MailmanUpgrade extends ManagedEnvironment {
 
 		if (stack.isStackable())
 		{
-			while (stack.stackSize > 0 && (!backwards && k < end || backwards && k >= start))
+			while (stack.getCount() > 0 && (!backwards && k < end || backwards && k >= start))
 			{
 				itemstack1 = robot.mainInventory().getStackInSlot(k);
 
@@ -218,16 +218,16 @@ public class MailmanUpgrade extends ManagedEnvironment {
 						(!stack.getHasSubtypes() || stack.getItemDamage() == itemstack1.getItemDamage()) &&
 						ItemStack.areItemStackTagsEqual(stack, itemstack1))
 				{
-					int l = itemstack1.stackSize + stack.stackSize;
+					int l = itemstack1.getCount() + stack.getCount();
 
 					if (l <= stack.getMaxStackSize() && l <= robot.mainInventory().getInventoryStackLimit()) {
-						stack.stackSize = 0;
-						itemstack1.stackSize = l;
+						stack.setCount(0);
+						itemstack1.setCount(l);
 						robot.mainInventory().markDirty();
 						flag1 = true;
-					} else if (itemstack1.stackSize < stack.getMaxStackSize() && l < robot.mainInventory().getInventoryStackLimit()) {
-						stack.stackSize -= stack.getMaxStackSize() - itemstack1.stackSize;
-						itemstack1.stackSize = stack.getMaxStackSize();
+					} else if (itemstack1.getCount() < stack.getMaxStackSize() && l < robot.mainInventory().getInventoryStackLimit()) {
+						stack.shrink(stack.getMaxStackSize() - itemstack1.getCount());
+						itemstack1.setCount(stack.getMaxStackSize());
 						robot.mainInventory().markDirty();
 						flag1 = true;
 					}
@@ -237,7 +237,7 @@ public class MailmanUpgrade extends ManagedEnvironment {
 			}
 		}
 
-		if (stack.stackSize > 0)
+		if (stack.getCount() > 0)
 		{
 			k = (backwards ? end - 1 : start);
 
@@ -250,17 +250,17 @@ public class MailmanUpgrade extends ManagedEnvironment {
 				}
 
 				if (itemstack1 == null) {
-					int l = stack.stackSize;
+					int l = stack.getCount();
 
 					if (l <= robot.mainInventory().getInventoryStackLimit()) {
 						robot.mainInventory().setInventorySlotContents(k, stack.copy());
-						stack.stackSize = 0;
+						stack.setCount(0);
 						robot.mainInventory().markDirty();
 						flag1 = true;
 						break;
 					} else {
 						robot.mainInventory().setInventorySlotContents(k, new ItemStack(stack.getItem(), robot.mainInventory().getInventoryStackLimit(), stack.getItemDamage()));
-						stack.stackSize -= robot.mainInventory().getInventoryStackLimit();
+						stack.shrink(robot.mainInventory().getInventoryStackLimit());
 						robot.mainInventory().markDirty();
 						flag1 = true;
 					}

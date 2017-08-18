@@ -13,6 +13,7 @@ import murlen.util.fscript.FScript;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModAPIManager;
 import net.minecraftforge.fml.common.ModContainer;
@@ -41,20 +42,20 @@ public class ModManager {
 //		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
-		addMod("nfc.NFC", "$('OpenComputers')", "NFC");
+		addMod("nfc.NFC", "$('opencomputers')", "NFC");
 	//	addMod("rfpowermeter.RFMeter", "$('OpenComponents') && $('ThermalExpansion')", "RFPowerMeter");
-		addMod("rfpowermeter.RFMeter", "$('CoFHAPI|energy')", "RFPowerMeter");
+		addMod("rfpowermeter.RFMeter", "", "FUPowerMeter");
 //		addMod("additionalconverters.ModAdditionalConverters", "$('OpenComponents')", "AdditionalConverters");
 		addMod("vanillautils.VanillaUtils", "", "VanillaUtils");
-		addMod("battery.Battery", "$('CoFHAPI|energy')", "BigBattery");
+		addMod("battery.Battery", "", "BigBattery");
 //		addMod("battery.Battery", "$('CoFHCore')", "BigBattery");
 //		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 //		addMod("superconductor.SuperConductorMod", "", "SuperConductor");
 //		addMod("superconductor.SuperConductorMod", "$('ThermalExpansion')", "SuperConductor");
-		addMod("ecatalogue.ECatalogueMod", "$('OpenComputers') && $('forestry')", "E-Catalogue");
+		addMod("ecatalogue.ECatalogueMod", "$('opencomputers') && $('forestry')", "E-Catalogue");
 		addMod("battery.CharcoalBlockMod","","CharcoalBlock");
 //		addMod("simpledhd.SimpleDHD","$('StargateTech2')","SimpleDHD");
-		addMod("ocwires.OCWires","$('OpenComputers') && $('immersiveengineering')","OCWires");
+		addMod("ocwires.OCWires","$('opencomputers') && $('immersiveengineering')","OCWires");
 //		addMod("lightningrocket.LightningRocket","$('ImmersiveEngineering')","LightningRocket");
 //		addMod("wiregun.WireGun", "$('ImmersiveEngineering')", "WireGun");
 //		addMod("forestrybackpacks.ForestyBackpacksMod","$('forestry')","ForestyBackpacksMod");
@@ -82,6 +83,7 @@ public class ModManager {
 			}
 			if (mod.isLoaded) {
 				ZettaIndustries.logger.info("Start loading [" + mod.classPath + "]");
+				MinecraftForge.EVENT_BUS.register(mod.mod);
 				mod.mod.preInit();
 				ZettaIndustries.logger.info("Modification has been loaded [" + mod.classPath + "]");
 			}

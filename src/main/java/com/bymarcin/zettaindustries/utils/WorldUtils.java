@@ -2,8 +2,6 @@ package com.bymarcin.zettaindustries.utils;
 
 import java.util.Random;
 
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -36,27 +34,23 @@ public class WorldUtils {
 	}
 	
     public static void dropItem(ItemStack item, Random rand, int x, int y, int z, World w) {
-        if (item != null && item.stackSize > 0) {
+        if (!item.isEmpty()) {
             float rx = rand.nextFloat() * 0.8F + 0.1F;
             float ry = rand.nextFloat() * 0.8F + 0.1F;
             float rz = rand.nextFloat() * 0.8F + 0.1F;
             EntityItem entityItem = new EntityItem(w,
-                    x + rx, y + ry, z + rz,
-                    new ItemStack(item.getItem(), item.stackSize, item.getItemDamage()));
-            if (item.hasTagCompound()) {
-                entityItem.getEntityItem().setTagCompound((NBTTagCompound) item.getTagCompound().copy());
-            }
+                    x + rx, y + ry, z + rz, item.copy());
             float factor = 0.05F;
             entityItem.motionX = rand.nextGaussian() * factor;
             entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
             entityItem.motionZ = rand.nextGaussian() * factor;
-            w.spawnEntityInWorld(entityItem);
-            item.stackSize = 0;
+            w.spawnEntity(entityItem);
+            item.setCount(0);
         }
     }
     
 	public static TileEntity getTileEntityServer(int dimensionId, int x, int y, int z) {
-		World world = FMLCommonHandler.instance().getMinecraftServerInstance().worldServerForDimension(dimensionId);
+		World world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(dimensionId);
 		if (world == null)
 			return null;
 		return world.getTileEntity(new BlockPos(x, y, z));
@@ -97,11 +91,6 @@ public class WorldUtils {
 //	{
 //		return paramTileEntity == null ? null : getAdjacentTileEntity(paramTileEntity.getWorldObj(), paramTileEntity.xCoord, paramTileEntity.yCoord, paramTileEntity.zCoord, ForgeDirection.values()[paramInt]);
 //	}
-
-	public static boolean isEnergyReciverFromSide(TileEntity paramTileEntity, EnumFacing paramDirection)
-	{
-		return (paramTileEntity instanceof IEnergyReceiver) && ((IEnergyReceiver) paramTileEntity).canConnectEnergy(paramDirection);
-	}
 
 //	public static Block getAdjencetBlock(TileEntity tile, ForgeDirection offset) {
 //		return tile.getWorldObj().getBlock(tile.xCoord + offset.offsetX, tile.yCoord + offset.offsetY, tile.zCoord + offset.offsetZ);

@@ -26,8 +26,8 @@ item.acidbucket.name=Sceau d'acide sulfurique
 tile.charcoalblock.name=Bloc de charbon de bois
 tile.blockGraphite.name=Bloc de graphite
 
-#RF Meter
-tile.rfmeterblock.name=RF-Mètre
+#FU Meter
+tile.rfmeterblock.name=FU-Mètre
 
 #Super Conductor
 tile.blockwire.name=Supra conducteur

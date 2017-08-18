@@ -8,7 +8,7 @@ public abstract class BasicRectangularMultiblockTileEntityBase extends Rectangul
 
 	@Override
 	public MultiblockControllerBase createNewMultiblock() {
-		return new BatteryController(worldObj);
+		return new BatteryController(getWorld());
 	}
 
 	@Override

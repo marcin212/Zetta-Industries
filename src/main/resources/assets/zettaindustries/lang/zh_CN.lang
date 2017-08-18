@@ -68,8 +68,8 @@ ie.manual.entry.lightningfirework.name=雷霆火箭
 ie.manual.entry.lightningfirework.subtext=呼唤雷电的火箭
 ie.manual.entry.lightningfirework0=一枚拴有细长铜导线的火箭弹，爆炸后会召唤落雷。需要在高度大于120的地方才有可能奏效。下雨时也可以用，当然在雷暴来临的时候触发几率更高。在沙漠放这个没什么用。
 
-#RF Meter
-tile.rfmeterblock.name=RF电表
+#FU Meter
+tile.rfmeterblock.name=FU电表
 
 #Super Conductor
 tile.blockwire.name=超导体

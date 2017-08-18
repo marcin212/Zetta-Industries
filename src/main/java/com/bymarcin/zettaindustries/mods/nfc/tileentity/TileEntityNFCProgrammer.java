@@ -26,8 +26,8 @@ public class TileEntityNFCProgrammer extends TileEntityEnvironment {
     public Object[] writeNFCData(Context contex, Arguments args) {
         if (args.count() == 1 && args.checkByteArray(0).length <= 2048) {
             NFCData = args.checkByteArray(0);
-            worldObj.setBlockState(pos, worldObj.getBlockState(getPos()).withProperty(BlockNFCProgrammer.STATUS, true), 2);
-            worldObj.notifyNeighborsOfStateChange(pos, worldObj.getBlockState(getPos()).getBlock());
+            getWorld().setBlockState(pos, getWorld().getBlockState(getPos()).withProperty(BlockNFCProgrammer.STATUS, true), 2);
+            getWorld().notifyNeighborsOfStateChange(pos, getWorld().getBlockState(getPos()).getBlock(), false);
         } else {
             return new Object[]{false, "No arguments or data is bigger than 2048 characters."};
         }
@@ -37,8 +37,8 @@ public class TileEntityNFCProgrammer extends TileEntityEnvironment {
     @Callback
     public Object[] clearNFCData(Context contex, Arguments args) {
         NFCData = null;
-        worldObj.setBlockState(pos, worldObj.getBlockState(getPos()).withProperty(BlockNFCProgrammer.STATUS, false), 2);
-        worldObj.notifyNeighborsOfStateChange(pos, worldObj.getBlockState(getPos()).getBlock());
+        getWorld().setBlockState(pos, getWorld().getBlockState(getPos()).withProperty(BlockNFCProgrammer.STATUS, false), 2);
+        getWorld().notifyNeighborsOfStateChange(pos, getWorld().getBlockState(getPos()).getBlock(), false);
         return null;
     }
 

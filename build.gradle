@@ -11,15 +11,13 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'idea'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-version = "1.2-1.10.2-"+System.getenv("BUILD_NUMBER")
+version = "1.2-1.12.1-"+System.getenv("BUILD_NUMBER")
 group= "com.bymarcin.zettaindustries" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "zettaindustries"
 
@@ -47,8 +45,8 @@ sourceSets{
 
 
 minecraft {
-    version = "1.10.2-12.18.2.2104"
-    mappings = "snapshot_20160930"
+    version = "1.12.1-14.22.0.2457"
+    mappings = "snapshot_20170818"
 	runDir = "run"
 }
 
@@ -68,49 +66,19 @@ repositories {
         name = "ic2, forestry"
         url = "http://maven.ic2.player.to/"
     }
+
+    maven {
+        name 'DVS1 Maven FS'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
 	
     ivy {
         name "BuildCraft"
         artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
     }
-	
-	ivy {
-        name 'CoFHLib'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.cofhlib.cf}/[module]-[revision].[ext]"
-    }
-	
-	ivy {
-        name 'StargateTech2'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.stargatetech.cf}/[module]-[revision].[ext]"
-    }
-	
-	ivy {
-        name 'Immersive Engineering'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.immersiveengineering.cf}/[module]-[revision].[ext]"
-    }
-    
-    ivy {
-        name 'MineTweaker3'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.minetweaker3.cf}/[module]-[revision].[ext]"
-    }
-	
-	ivy {
-        name 'ComputerCraft'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.cc.cf}/[module][revision].[ext]"
-    }
-	
-	ivy {
-        name 'RedLogic'
-        artifactPattern "http://immibis.com/mcmoddl/files/[module]-[revision].[ext]"
-    }
-    
-    ivy {
-        name 'jei'
-        artifactPattern "http://addons-origin.cursecdn.com/files/${config.jei.cf}/[module]_[revision].[ext]"
-    }
 
     maven {
-        url "http://dvs1.progwml6.com/files/maven"
+        url "http://maven.blamejared.com/"
     }
 }
 
@@ -123,19 +91,21 @@ runServer {
 }
 
 dependencies {
-	//compile "li.cil.tis3d:TIS-3D:${config.tis3d.version}:dev"
-	compile "net.sengir.forestry:forestry_1.10.2:5.2.4.215"
-	compile "li.cil.oc:OpenComputers:${config.oc.version}:api"
-    compile "mezz.jei:jei_1.10.2:${config.jei.version}"
-    //compile name: 'jei', version: config.jei.version, ext: 'jar'
+	deobfCompile "li.cil.tis3d:TIS-3D:${config.tis3d.version}"
+	deobfCompile ("net.sengir.forestry:forestry_1.12:5.5.0.169") {
+		exclude module: "jei_1.12"
+	}
+ 	deobfCompile "li.cil.oc:OpenComputers:${config.oc.version}"
+        deobfCompile "mezz.jei:jei_1.12.1:${config.jei.version}"
+        deobfCompile ("blusunrize:ImmersiveEngineering:0.12-+") {
+		exclude module: "jei_1.12"
+	}
 	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'
 	//compile name: 'StargateTech2', version: config.stargatetech.version, ext: 'jar'
 	compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, ext: 'jar'
 	//compile name: 'MineTweaker3', version: config.minetweaker3.version, ext: 'jar'
 	//compile name: 'ComputerCraft', version: config.cc.version, ext: 'jar'
 	//compile name: 'redlogic', version: '59.1.11', ext: 'jar'
-    //compile name: "buildcraft", version: "${config.buildcraft.version}", classifier: "dev"
-
 }
 
 processResources

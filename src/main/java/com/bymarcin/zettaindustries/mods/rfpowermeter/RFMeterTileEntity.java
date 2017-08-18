@@ -1,8 +1,5 @@
 package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
-import cofh.api.energy.IEnergyHandler;
-import cofh.api.energy.IEnergyProvider;
-import cofh.api.energy.IEnergyReceiver;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.utils.Avg;
 import com.bymarcin.zettaindustries.utils.MathUtils;
@@ -22,7 +19,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITickable, IEnergyProvider, IEnergyReceiver {
+public class RFMeterTileEntity extends TileEntity implements ITickable {
     int transfer = 0;//curent flow in RF/t
     int transferLimit = -1;
     long value = 0;//current used energy
@@ -39,8 +36,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
     public int color = EnumDyeColor.LIME.ordinal();
     ForgeEnergy up;
     ForgeEnergy down;
-
-
+    
     public RFMeterTileEntity() {
         this.up = new ForgeEnergy(this, EnumFacing.UP);
         this.down = new ForgeEnergy(this, EnumFacing.DOWN);
@@ -77,12 +73,12 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 
         @Override
         public boolean canExtract() {
-            return tileEntity.canConnectEnergy(face);
+            return tileEntity.canConnectEnergy(face, false);
         }
 
         @Override
         public boolean canReceive() {
-            return tileEntity.canConnectEnergy(face);
+            return tileEntity.canConnectEnergy(face, true);
         }
     }
 
@@ -108,18 +104,15 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
         return super.getCapability(capability, facing);
     }
 
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return from == EnumFacing.UP || from == EnumFacing.DOWN;
+    protected boolean canConnectEnergy(EnumFacing from, boolean receive) {
+        return (receive ^ isInverted) ? (from == EnumFacing.UP) : (from == EnumFacing.DOWN);
     }
 
-    @Override
-    public int getEnergyStored(EnumFacing from) {
+    protected int getEnergyStored(EnumFacing from) {
         return 0;
     }
 
-    @Override
-    public int getMaxEnergyStored(EnumFacing from) {
+    protected int getMaxEnergyStored(EnumFacing from) {
         return 10000;
     }
 
@@ -184,7 +177,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
 
 
     public void onPacket(long value, int transfer, boolean inCounterMode) {
-        if (WorldUtils.isServerWorld(worldObj)) return;
+        if (WorldUtils.isServerWorld(getWorld())) return;
         this.value = value;
         this.transfer = transfer;
         this.inCounterMode = inCounterMode;
@@ -193,7 +186,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
     @Override
     public void update() {
         tick++;
-        if (WorldUtils.isServerWorld(worldObj)) {
+        if (WorldUtils.isServerWorld(getWorld())) {
             //tick++;
             if (tick % 20 == 0) {
                 ZIRegistry.packetHandler.sendToAllAround(new RFMeterUpdatePacket(this, value, transfer, inCounterMode),
@@ -212,28 +205,13 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
         }
     }
 
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+    protected int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (!canEnergyFlow()) return 0;
         int temp = 0;
         if (from == (isInverted ? EnumFacing.DOWN : EnumFacing.UP)) {
-            IEnergyStorage storage = WorldUtils.getEnergyStorage(worldObj, this.getPos(), isInverted ? EnumFacing.UP : EnumFacing.DOWN);
+            IEnergyStorage storage = WorldUtils.getEnergyStorage(getWorld(), this.getPos(), isInverted ? EnumFacing.UP : EnumFacing.DOWN);
             if(storage!=null){
                 temp = storage.receiveEnergy(transferLimit == -1 ?
-                                (inCounterMode ? maxReceive : Math.min((int) value, maxReceive))
-                                : Math.min(transferLimit, (inCounterMode ? maxReceive : Math.min((int) value, maxReceive)))
-                        , simulate);
-
-                if (!simulate) if (inCounterMode) value += temp;
-                else value -= temp;
-                return temp;
-            }else if (WorldUtils.isEnergyReciverFromSide(this, from)) {
-                TileEntity tile = WorldUtils.getAdjacentTileEntity(worldObj, this.getPos(), isInverted ? EnumFacing.UP : EnumFacing.DOWN);
-                if (tile == null || !WorldUtils.isEnergyReciverFromSide(tile, isInverted ? EnumFacing.DOWN : EnumFacing.UP)) {
-                    return 0;
-                }
-                IEnergyReceiver a = (IEnergyReceiver) tile;
-                temp = a.receiveEnergy(from, transferLimit == -1 ?
                                 (inCounterMode ? maxReceive : Math.min((int) value, maxReceive))
                                 : Math.min(transferLimit, (inCounterMode ? maxReceive : Math.min((int) value, maxReceive)))
                         , simulate);
@@ -246,8 +224,7 @@ public class RFMeterTileEntity extends TileEntity implements IEnergyHandler, ITi
         return 0;
     }
 
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+    protected int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 

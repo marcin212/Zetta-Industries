@@ -66,8 +66,8 @@ tile.simpledhd.name=Urządzenie Sterujace Gwiezdnych Wrót
 #LightningFirework
 item.lightningfirework.name=Rakieta Piorunotwórcza
 
-#RF Meter
-tile.rfmeterblock.name=Miernik RF
+#FU Meter
+tile.rfmeterblock.name=Miernik FU
 
 #Super Conductor
 tile.blockwire.name=Kabel Nadprzewodzący

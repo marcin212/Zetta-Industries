@@ -72,8 +72,8 @@ ie.manual.entry.lightningfirework.name=Lightning Rocket
 ie.manual.entry.lightningfirework.subtext=Lightning Rocket
 ie.manual.entry.lightningfirework0=A simple rocket tethered to a long thin copper wire that goes boom and makes thunder come down. It has to exceed height 120. Works during rain, higher chance of thunder during storm. Useless on desert.
 
-#RF Meter
-tile.rfmeterblock.name=RF Meter
+#FU Meter
+tile.rfmeterblock.name=FU Meter
 
 #Super Conductor
 tile.blockwire.name=Super Conductor

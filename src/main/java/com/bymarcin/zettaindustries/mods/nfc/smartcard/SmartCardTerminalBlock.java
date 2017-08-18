@@ -38,7 +38,7 @@ public class SmartCardTerminalBlock extends BlockContainer{
 	}
 
 	@Override
-	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		TileEntity te = worldIn.getTileEntity(pos);
 		if(te instanceof SmartCardTerminalTileEntity){
 			return ((SmartCardTerminalTileEntity) te).onBlockActivated(playerIn);
@@ -51,9 +51,9 @@ public class SmartCardTerminalBlock extends BlockContainer{
 		TileEntity te = worldIn.getTileEntity(pos);
 		 if (te instanceof SmartCardTerminalTileEntity) {
 			ItemStack card = ((SmartCardTerminalTileEntity) te).card;
-			if(card!=null){
-				WorldUtils.dropItem(ItemStack.copyItemStack(card), worldIn.rand, pos.getX(), pos.getY(), pos.getZ(), worldIn);
-				((SmartCardTerminalTileEntity) te).card = null;
+			if(!card.isEmpty()){
+				WorldUtils.dropItem(card.copy(), worldIn.rand, pos.getX(), pos.getY(), pos.getZ(), worldIn);
+				((SmartCardTerminalTileEntity) te).card = ItemStack.EMPTY;
 			}
 		}
 	}
@@ -85,9 +85,9 @@ public class SmartCardTerminalBlock extends BlockContainer{
 
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-		int whichDirectionFacing = MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
+		int whichDirectionFacing = MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
 		worldIn.setBlockState(pos, state.withProperty(FACING, whichDirectionFacing), 2);
-		worldIn.notifyNeighborsOfStateChange(pos, state.getBlock());
+		worldIn.notifyNeighborsOfStateChange(pos, state.getBlock(), false);
 	}
 
 

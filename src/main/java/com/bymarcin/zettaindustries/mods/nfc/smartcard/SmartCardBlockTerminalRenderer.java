@@ -21,7 +21,7 @@ public class SmartCardBlockTerminalRenderer extends TileEntitySpecialRenderer<Sm
 	ResourceLocation rl = new ResourceLocation(ZettaIndustries.MODID+":textures/blocks/nfc/terminal_front_lights.png");
     public static final int[] sides = {3,4,2,5};
     @Override
-    public void renderTileEntityAt(SmartCardTerminalTileEntity terminal, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(SmartCardTerminalTileEntity terminal, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
         if(terminal.renderInfo==null) return;
         if(!terminal.renderInfo.getBoolean("hasCard"))return;
@@ -54,7 +54,7 @@ public class SmartCardBlockTerminalRenderer extends TileEntitySpecialRenderer<Sm
         EntityItem entity = new EntityItem(terminal.getWorld(), 0, 0, 0, new ItemStack(NFC.smartCardItem));
         entity.hoverStart = 0;
 
-        Minecraft.getMinecraft().getRenderItem().renderItem(entity.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+        Minecraft.getMinecraft().getRenderItem().renderItem(entity.getItem(), ItemCameraTransforms.TransformType.FIXED);
 
         GlStateManager.popMatrix();
 
@@ -63,7 +63,7 @@ public class SmartCardBlockTerminalRenderer extends TileEntitySpecialRenderer<Sm
         GlStateManager.translate(-0.5, 0.5, 0.5005);
         GlStateManager.scale(1, -1, 1);
         bindTexture(rl);
-        VertexBuffer t = Tessellator.getInstance().getBuffer();
+        BufferBuilder t = Tessellator.getInstance().getBuffer();
         t.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
         t.pos(0, 1, 0)     .tex(0, 1).endVertex();
