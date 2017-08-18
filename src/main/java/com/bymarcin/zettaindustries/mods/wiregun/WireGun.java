@@ -37,6 +37,7 @@ public class WireGun implements IMod, IProxy, INeedLoadCompleteEvent{
 	ItemHook itemHook;
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onItemTooltip(ItemTooltipEvent event) {
 		if (event.getItemStack().getItem() instanceof ItemBullet
 				&& event.getItemStack().hasTagCompound()) {
@@ -53,6 +54,7 @@ public class WireGun implements IMod, IProxy, INeedLoadCompleteEvent{
 	}
 
 	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
 	public void onRegisterModels(ModelRegistryEvent event) {
 		ZettaIndustries.proxy.registermodel(itemHook, 0);
 	}

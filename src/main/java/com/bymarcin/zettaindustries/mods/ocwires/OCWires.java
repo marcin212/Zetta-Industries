@@ -50,7 +50,6 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 
 		GameRegistry.registerTileEntity(TileEntityTelecomunicationConnector.class, "TileEntityTelecomunicationConnector");
 		ZIRegistry.registerProxy(this);
-		MinecraftForge.EVENT_BUS.register(this);
 		cableLength = ZettaIndustries.instance.config.get("OCWires", "cableLength", 32, "The maximum length cables can have.",8,64).getInt(32);	
 	}
 
