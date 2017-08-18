@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.ocwires.block;
 
 import blusunrize.immersiveengineering.api.IEProperties;
+import blusunrize.immersiveengineering.common.IEContent;
 import blusunrize.immersiveengineering.common.blocks.BlockIETileProvider;
 import blusunrize.immersiveengineering.common.blocks.ItemBlockIEBase;
 import com.bymarcin.zettaindustries.ZettaIndustries;
@@ -9,8 +10,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -22,6 +26,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class BlockTelecomunicationConnector extends BlockIETileProvider<ConnectorTypes> {
 
@@ -31,11 +36,19 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 		setResistance(15.0F);
 		lightOpacity = 0;
 		this.setCreativeTab(ZettaIndustries.tabZettaIndustries);
+
+		IEContent.registeredIEBlocks.remove(this);
+		Iterator<Item> itIt = IEContent.registeredIEItems.iterator();
+		while (itIt.hasNext()) {
+			Item i = itIt.next();
+			if (i instanceof ItemBlock && ((ItemBlock) i).getBlock() == this) {
+				itIt.remove();
+			}
+		}
 	}
 
-
 	@Override
-	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
+	public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		TileEntity te = world.getTileEntity(pos);
 		if (te instanceof TileEntityTelecomunicationConnector) {
 			TileEntityTelecomunicationConnector connector = (TileEntityTelecomunicationConnector) te;
@@ -86,7 +99,7 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 	}
 
 	@Override
-	public boolean canRenderInLayer(BlockRenderLayer layer) {
+	public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
 		return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.SOLID;
 	}
 
@@ -111,7 +124,7 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 	}
 
 	@Override
-	public boolean isVisuallyOpaque() {
-		return false;
+	public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+		return BlockFaceShape.UNDEFINED;
 	}
 }

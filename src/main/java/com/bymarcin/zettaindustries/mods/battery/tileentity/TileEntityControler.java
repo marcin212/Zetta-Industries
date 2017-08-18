@@ -48,14 +48,14 @@ public class TileEntityControler extends BasicRectangularMultiblockTileEntityBas
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
-		if(this.worldObj.isRemote) return;
-		worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockBigBatteryController.OnOff, BlockBigBatteryController.ON), 2);
+		if(this.getWorld().isRemote) return;
+		getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryController.OnOff, BlockBigBatteryController.ON), 2);
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		if(this.worldObj.isRemote) return;
-		worldObj.setBlockState(getPos(), worldObj.getBlockState(getPos()).withProperty(BlockBigBatteryController.OnOff, BlockBigBatteryController.OFF), 2);
+		if(this.getWorld().isRemote) return;
+		getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryController.OnOff, BlockBigBatteryController.OFF), 2);
 	}
 }

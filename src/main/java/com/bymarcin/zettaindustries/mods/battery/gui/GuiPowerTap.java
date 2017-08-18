@@ -76,7 +76,7 @@ public class GuiPowerTap extends GuiContainer{
         plus100000 = new GuiButton(11, posX+136, posY+10, 36, 20, "+100K");
         minus100000 = new GuiButton(12, posX+136, posY+60-14, 36, 20, "-100K");
         
-        textfield = new GuiTextField(0,fontRendererObj, posX+51, posY-7, 120, 14);
+        textfield = new GuiTextField(0,fontRenderer, posX+51, posY-7, 120, 14);
         textfield.setText(tile.getLabel());
         
         buttonList.add(minus1);
@@ -108,8 +108,8 @@ public class GuiPowerTap extends GuiContainer{
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(guiTexture);
 		drawTexturedModalRect(posX, posY, 0, 0, xSize, ySize);
-		fontRendererObj.drawString("Current transfer: "+String.valueOf(tile.getTransferCurrent())+" RF/t",posX+10, posY+10+20+10+8, 0);
-		fontRendererObj.drawString("Name: ",posX+10, posY+10, 0);
+		fontRenderer.drawString("Current transfer: "+String.valueOf(tile.getTransferCurrent())+" RF/t",posX+10, posY+10+20+10+8, 0);
+		fontRenderer.drawString("Name: ",posX+10, posY+10, 0);
 		textfield.drawTextBox();
 		if(textfield.isFocused() && !isFocused){
 			isFocused = true;

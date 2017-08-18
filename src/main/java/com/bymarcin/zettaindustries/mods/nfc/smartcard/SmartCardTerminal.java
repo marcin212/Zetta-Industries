@@ -11,6 +11,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.EnumSet;
 
+import javax.annotation.Nonnull;
 import javax.crypto.KeyAgreement;
 
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
@@ -26,7 +27,7 @@ import li.cil.oc.api.network.Analyzable;
 import li.cil.oc.api.network.ComponentConnector;
 import li.cil.oc.api.network.Node;
 import li.cil.oc.api.network.Visibility;
-import li.cil.oc.api.prefab.ManagedEnvironment;
+import li.cil.oc.api.prefab.AbstractManagedEnvironment;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -35,8 +36,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 
-public class SmartCardTerminal extends ManagedEnvironment implements RackMountable, Analyzable {
-	ItemStack card = null;
+public class SmartCardTerminal extends AbstractManagedEnvironment implements RackMountable, Analyzable {
+	@Nonnull ItemStack card = ItemStack.EMPTY;
 	protected ComponentConnector node;
 	String player;
 	Rack host;
@@ -67,7 +68,7 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 		if (player != null) {
 			nbt.setString("PLAYER", player);
 		}
-		if (card != null) {
+		if (!card.isEmpty()) {
 			NBTTagCompound tag = new NBTTagCompound();
 			card.writeToNBT(tag);
 			nbt.setTag("CARD", tag);
@@ -82,7 +83,9 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 		}
 
 		if (nbt.hasKey("CARD")) {
-			card = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("CARD"));
+			card = new ItemStack(nbt.getCompoundTag("CARD"));
+		} else {
+			card = ItemStack.EMPTY;
 		}
 	}
 
@@ -114,12 +117,12 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 
 	@Callback(direct = true)
 	public Object[] hasCard(Context ctx, Arguments args) {
-		return card == null ? new Object[] { false } : new Object[] { true };
+		return card.isEmpty() ? new Object[] { false } : new Object[] { true };
 	}
 
 	@Callback(direct = true)
 	public Object[] protect(Context ctx, Arguments args) {
-		if (card != null && !SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER)) {
+		if (!card.isEmpty() && !SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER)) {
 			SmartCardItem.getNBT(card).setString(SmartCardItem.OWNER, player);
 			host.markChanged(host.indexOfMountable(this));
 			return new Object[] { true, player };
@@ -129,7 +132,7 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 
 	@Callback(direct = true, limit = 1, doc = "function(data:string [, sig:string]):string or bool -- Signs or verifies data.")
 	public Object[] ecdsa(Context context, Arguments args) throws Exception {
-		if (card == null)
+		if (card.isEmpty())
 			return new Object[] { null, "Card expected" };
 		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(player)) {
 			return new Object[] { null, "You are not owner" };
@@ -155,14 +158,14 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 
 	@Callback(direct = true, doc = "function():string")
 	public Object[] getPublicKey(Context context, Arguments args) throws Exception {
-		if (card == null)
+		if (card.isEmpty())
 			return new Object[] { null, "Card expected" };
 		return new Object[] { SmartCardItem.getPublicKey(card) };
 	}
 
 	@Callback(direct = true, limit = 1, doc = "function(pub:userdata):string -- Generates a shared key. ecdh(a.priv, b.pub) == ecdh(b.priv, a.pub)")
 	public Object[] ecdh(Context context, Arguments args) throws Exception {
-		if (card == null)
+		if (card.isEmpty())
 			return new Object[] { null, "Card expected" };
 		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(player)) {
 			return new Object[] { null, "You are not owner" };
@@ -195,8 +198,8 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 	@Override
 	public NBTTagCompound getData() {
 		NBTTagCompound nbt = new NBTTagCompound();
-		nbt.setBoolean("hasCard", card != null);
-		if ((card != null && SmartCardItem.getOwner(card).isEmpty()) || (card != null && player != null && player.equals(SmartCardItem.getOwner(card)))) {
+		nbt.setBoolean("hasCard", !card.isEmpty());
+		if ((!card.isEmpty() && SmartCardItem.getOwner(card).isEmpty()) || (!card.isEmpty() && player != null && player.equals(SmartCardItem.getOwner(card)))) {
 			nbt.setBoolean("validOwner", true);
 			nbt.setBoolean("isProtected", !SmartCardItem.getOwner(card).isEmpty());
 		} else {
@@ -217,9 +220,9 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 
 	@Override
 	public boolean onActivate(EntityPlayer player, EnumHand hand, ItemStack heldItem, float hitX, float hitY) {
-		if (card == null && player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof SmartCardItem) {
-			card = ItemStack.copyItemStack(player.getHeldItemMainhand());
-			player.getHeldItemMainhand().stackSize = 0;
+		if (card.isEmpty() && !player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() instanceof SmartCardItem) {
+			card = player.getHeldItemMainhand().copy();
+			player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
 			this.player = player.getName();
 			if (node != null)
 				node.sendToReachable("computer.signal", "smartcard_in", player.getName());
@@ -227,10 +230,10 @@ public class SmartCardTerminal extends ManagedEnvironment implements RackMountab
 
 		}
 
-		if (card != null && player.getHeldItemMainhand() == null) {
+		if (!card.isEmpty() && player.getHeldItemMainhand().isEmpty()) {
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, card);
 			this.player = null;
-			card = null;
+			card = ItemStack.EMPTY;
 			if (node != null)
 				node.sendToReachable("computer.signal", "smartcard_out", player.getName());
 			host.markChanged(host.indexOfMountable(this));

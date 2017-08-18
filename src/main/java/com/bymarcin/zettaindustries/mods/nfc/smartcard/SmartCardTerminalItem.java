@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
+import li.cil.oc.api.driver.DriverItem;
 import li.cil.oc.api.driver.EnvironmentProvider;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
@@ -12,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class SmartCardTerminalItem extends Item implements EnvironmentProvider, HostAware, li.cil.oc.api.driver.Item {
+public class SmartCardTerminalItem extends Item implements EnvironmentProvider, HostAware, DriverItem {
 
     public SmartCardTerminalItem() {
         setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);

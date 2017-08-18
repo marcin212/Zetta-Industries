@@ -4,12 +4,15 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RFMeterItem extends ItemBlock{
 
@@ -32,9 +35,10 @@ public class RFMeterItem extends ItemBlock{
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer p_77624_2_, List info, boolean p_77624_4_) {
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack stack, World p_77624_2_, List info, ITooltipFlag p_77624_4_) {
 		super.addInformation(stack, p_77624_2_, info, p_77624_4_);
-		if(stack.getTagCompound() !=null){
+		if(stack.hasTagCompound()){
 			
 				if(RFMeter.isOCAllowed && stack.getTagCompound().hasKey("name") && !stack.getTagCompound().getString("name").isEmpty())
 					info.add("Name: " + stack.getTagCompound().getString("name"));

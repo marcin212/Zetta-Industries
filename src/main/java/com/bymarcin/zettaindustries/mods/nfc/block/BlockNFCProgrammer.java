@@ -51,28 +51,29 @@ public class BlockNFCProgrammer extends BasicBlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (hand != EnumHand.MAIN_HAND) return false;
         TileEntity tile = world.getTileEntity(pos);
         if (tile instanceof TileEntityNFCProgrammer && ((TileEntityNFCProgrammer) tile).NFCData != null) {
             TileEntityNFCProgrammer tilenfc = (TileEntityNFCProgrammer) tile;
-            if (player.getHeldItemMainhand() != null) {
+            if (!player.getHeldItemMainhand().isEmpty()) {
                 if (player.getHeldItemMainhand().getItem() instanceof ItemPrivateCardNFC) {
                     if (ItemPrivateCardNFC.getOwner(player.getHeldItemMainhand()) != null && player.getName().equals(ItemPrivateCardNFC.getOwner(player.getHeldItemMainhand()))) {
                         ItemPrivateCardNFC.setNFCData(tilenfc.writeCardNFC(), player.getHeldItemMainhand());
 
-                        player.addChatMessage(new TextComponentString(I18n.translateToLocal(ZettaIndustries.MODID + ".text.nfc.message1")));
+                        player.sendMessage(new TextComponentString(I18n.translateToLocal(ZettaIndustries.MODID + ".text.nfc.message1")));
                         world.setBlockState(pos, state.withProperty(STATUS, false), 2);
-                        world.notifyNeighborsOfStateChange(pos, state.getBlock());
+                        world.notifyNeighborsOfStateChange(pos, state.getBlock(), false);
                         return true;
                     } else {
-                        player.addChatMessage(new TextComponentString(I18n.translateToLocal(ZettaIndustries.MODID + ".text.nfc.message2")));
+                        player.sendMessage(new TextComponentString(I18n.translateToLocal(ZettaIndustries.MODID + ".text.nfc.message2")));
                         return false;
                     }
                 } else if (player.getHeldItemMainhand().getItem() instanceof ItemCardNFC) {
                     ItemCardNFC.setNFCData(tilenfc.writeCardNFC(), player.getHeldItemMainhand());
-                    player.addChatMessage(new TextComponentString(I18n.translateToLocal(ZettaIndustries.MODID + ".text.nfc.message1")));
+                    player.sendMessage(new TextComponentString(I18n.translateToLocal(ZettaIndustries.MODID + ".text.nfc.message1")));
                     world.setBlockState(pos, state.withProperty(STATUS, false), 2);
-                    world.notifyNeighborsOfStateChange(pos, state.getBlock());
+                    world.notifyNeighborsOfStateChange(pos, state.getBlock(), false);
                     return true;
                 }
             }

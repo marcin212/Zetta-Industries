@@ -2,13 +2,18 @@ package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.mods.nfc.NFC;
+import li.cil.oc.api.driver.DriverItem;
 import li.cil.oc.api.driver.item.Slot;
 import li.cil.oc.api.network.EnvironmentHost;
 import li.cil.oc.api.network.ManagedEnvironment;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +26,7 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.UUID;
 
-public class SmartCardItem extends Item implements li.cil.oc.api.driver.Item {
+public class SmartCardItem extends Item implements DriverItem {
     public static final String PRIVATE_KEY = "sc:private_key";
     public static final String PUBLIC_KEY = "sc:public_key";
     public static final String UUID_KEY = "sc:uuid_key";
@@ -34,7 +39,7 @@ public class SmartCardItem extends Item implements li.cil.oc.api.driver.Item {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
+        setCreativeTab(ZettaIndustries.tabZettaIndustries);
         setUnlocalizedName("smartcard");
         setRegistryName("smartcard");
         setMaxStackSize(1);
@@ -42,7 +47,8 @@ public class SmartCardItem extends Item implements li.cil.oc.api.driver.Item {
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer p, List list, boolean q) {
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, World p, List list, ITooltipFlag q) {
         super.addInformation(stack, p, list, q);
 
         NBTTagCompound tag = stack.getTagCompound();

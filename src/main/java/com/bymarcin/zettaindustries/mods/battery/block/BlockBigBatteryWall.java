@@ -65,24 +65,25 @@ public class BlockBigBatteryWall extends BasicBlockMultiblockBase {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (hand != EnumHand.MAIN_HAND) return false;
         if (player.isSneaking()) {
             return false;
         }
 
         if (!world.isRemote) {
-            if (heldItem == null) {
+            if (player.getHeldItemMainhand().isEmpty()) {
                 TileEntity te = world.getTileEntity(pos);
                 if (te instanceof IMultiblockPart) {
                     MultiblockControllerBase controller = ((IMultiblockPart) te).getMultiblockController();
                     if (controller != null) {
                         Exception e = controller.getLastValidationException();
                         if (e != null) {
-                            player.addChatMessage(new TextComponentString(e.getMessage()));
+                            player.sendMessage(new TextComponentString(e.getMessage()));
                             return true;
                         }
                     } else {
-                        player.addChatMessage(new TextComponentString("Block is not connected to a battery. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block."));
+                        player.sendMessage(new TextComponentString("Block is not connected to a battery. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block."));
                         return true;
                     }
                 }

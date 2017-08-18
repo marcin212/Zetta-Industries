@@ -16,13 +16,13 @@ public class ItemCardNFC extends BasicItem {
     }
 
     public static void setNFCData(byte[] NFCData, ItemStack stack) {
-        if (stack.getTagCompound() == null)
+        if (!stack.hasTagCompound())
             stack.setTagCompound(new NBTTagCompound());
         stack.getTagCompound().setByteArray("NFCDataByte", NFCData);
     }
 
     public static byte[] getNFCData(ItemStack stack) {
-        if (stack.getTagCompound() != null) {
+        if (stack.hasTagCompound()) {
             if (stack.getTagCompound().hasKey("NFCData")) {
                 stack.getTagCompound().setByteArray("NFCDataByte", stack.getTagCompound().getString("NFCData").getBytes());
                 stack.getTagCompound().removeTag("NFCData");

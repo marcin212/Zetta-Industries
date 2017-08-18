@@ -82,6 +82,11 @@ public class TileEntityTelecomunicationConnector extends TileEntityImmersiveConn
 	}
 
 	@Override
+	public boolean canRotate(EnumFacing axis) {
+		return false;
+	}
+
+	@Override
 	public EnumFacing getFacing() {
 		return f;
 	}
@@ -108,11 +113,11 @@ public class TileEntityTelecomunicationConnector extends TileEntityImmersiveConn
 				//System.out.println("Disconnecting:  " + CCToTileEntity(con.end) + " --FROM-- " + this);
 			}
 		}
-		//worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+		//getWorld().markBlockForUpdate(xCoord, yCoord, zCoord);
 	}
 	
 	public void checkConnections(){
-		Set<Connection> a = ImmersiveNetHandler.INSTANCE.getConnections(worldObj, Utils.toCC(this));
+		Set<Connection> a = ImmersiveNetHandler.INSTANCE.getConnections(getWorld(), Utils.toCC(this));
 		if(a==null)return;
 		for(Connection s : a){
 			if(s.start.equals(Utils.toCC(this)) && PosToTileEntity(s.end)!=null){
@@ -126,7 +131,7 @@ public class TileEntityTelecomunicationConnector extends TileEntityImmersiveConn
 	}
 	
 	public TileEntityTelecomunicationConnector PosToTileEntity(BlockPos pos){
-		TileEntity te  = worldObj.getTileEntity(pos);
+		TileEntity te  = getWorld().getTileEntity(pos);
 		if(te instanceof TileEntityTelecomunicationConnector){
 			return (TileEntityTelecomunicationConnector)te;
 		}else{
@@ -198,7 +203,7 @@ public class TileEntityTelecomunicationConnector extends TileEntityImmersiveConn
 
     @Override
     public void update() {
-    	if(worldObj.isRemote) return;
+    	if(getWorld().isRemote) return;
         if (!addedToNetwork) {
             addedToNetwork = true;
             Network.joinOrCreateNetwork(this);

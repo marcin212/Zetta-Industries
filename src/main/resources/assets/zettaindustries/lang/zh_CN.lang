@@ -68,8 +68,8 @@ ie.manual.entry.lightningfirework.name=雷霆火箭
 ie.manual.entry.lightningfirework.subtext=呼唤雷电的火箭
 ie.manual.entry.lightningfirework0=一枚拴有细长铜导线的火箭弹，爆炸后会召唤落雷。需要在高度大于120的地方才有可能奏效。下雨时也可以用，当然在雷暴来临的时候触发几率更高。在沙漠放这个没什么用。
 
-#RF Meter
-tile.rfmeterblock.name=RF电表
+#FU Meter
+tile.rfmeterblock.name=FU电表
 
 #Super Conductor
 tile.blockwire.name=超导体
@@ -82,8 +82,8 @@ item.mailman.tip=允许机器人或无人机发送信件并查找发信人。
 
 #WireGun
 item.hook.name=铁钩
-item.hook_bullet.name=钩弹
-item.hook_bullet.tip=发射后将线缆连上右手边的连接器
+item.immersiveengineering.bullet.zettaindustries:hook_bullet.name=钩弹
+item.immersiveengineering.bullet.zettaindustries:hook_bullet.tip=发射后将线缆连上右手边的连接器
 ie.manual.entry.wiregun.name=钩弹
 ie.manual.entry.wiregun.subtext=只是一发带着钩子的子弹
 ie.manual.entry.wiregun1=这种子弹可以让你远程连接两个连接器。只需要为你的左轮上这种子弹，然后瞄准连接器打一枪，就可以将线缆连上右手边的连接器了。虽然没什么实战价值，但对于工程师的日常来说却是个好东西。

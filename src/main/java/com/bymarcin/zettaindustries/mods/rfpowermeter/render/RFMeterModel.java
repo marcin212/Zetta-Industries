@@ -42,7 +42,7 @@ public class RFMeterModel extends BaseBakedModel {
 
     public RFMeterModel(EnumFacing facing, EnumDyeColor color) {
         this.texture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(cTexture1.toString());
-        this.color = color.getMapColor().colorValue;
+        this.color = color.getColorValue();
         this.color = 0XFF000000 | ((this.color >> 16 & 255)) | ((this.color >> 8 & 255)<<8) | ((this.color & 255)<<16);
         colorDark = 0XFF000000 | ((int)((this.color >> 16 & 255)*0.3d)<<16) | ((int)((this.color >> 8 & 255)*0.3d)<<8) | ((int)((this.color & 255)*0.3d));
 

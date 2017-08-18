@@ -31,7 +31,7 @@ public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!player.isSneaking()) {
             if (!world.isRemote) {
                 player.openGui(ZettaIndustries.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
@@ -39,7 +39,8 @@ public class BlockBigBatteryPowerTap extends BasicBlockMultiblockBase {
             return true;
         }
 
-        if (heldItem == null && player.isSneaking()) {
+        ItemStack heldItem = player.getHeldItem(hand);
+        if (heldItem.isEmpty() && player.isSneaking()) {
 			if (state.getValue(IO) == INPUT) {
 				world.setBlockState(pos, state.withProperty(IO, OUTPUT), 2);
 			} else {

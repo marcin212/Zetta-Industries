@@ -37,7 +37,7 @@ public class SmartCardRackRenderer {
 	@SubscribeEvent
 	public void onRackMountableRender(RackMountableRenderEvent.Block e) {
 		ItemStack stack = e.rack.getStackInSlot(e.mountable);
-		if (stack!=null && stack.getItem() instanceof SmartCardTerminalItem) {
+		if (!stack.isEmpty() && stack.getItem() instanceof SmartCardTerminalItem) {
 			e.setFrontTextureOverride(texture);
 		}
 	}
@@ -66,7 +66,7 @@ public class SmartCardRackRenderer {
 				entity.hoverStart = 0;
 
 
-				Minecraft.getMinecraft().getRenderItem().renderItem(entity.getEntityItem(), ItemCameraTransforms.TransformType.FIXED);
+				Minecraft.getMinecraft().getRenderItem().renderItem(entity.getItem(), ItemCameraTransforms.TransformType.FIXED);
 
 				GL11.glPopMatrix();
 				GL11.glColor3d(0, 1, 0);

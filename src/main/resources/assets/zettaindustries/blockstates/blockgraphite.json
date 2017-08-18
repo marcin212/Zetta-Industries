@@ -2,7 +2,7 @@
 "forge_marker": 1,
 "defaults": {
 "textures": {
-"all": "zettaindustries:blocks/battery/blockGraphite"
+"all": "zettaindustries:blocks/battery/blockgraphite"
 },
 "model": "minecraft:cube_all",
 "uvlock": false

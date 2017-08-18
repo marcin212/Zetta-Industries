@@ -2,8 +2,10 @@ package com.bymarcin.zettaindustries.mods.battery.test;
 
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.multiblock.IMultiblockController;
+import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 /**
@@ -22,6 +24,12 @@ public class ControllerTileEntity implements IMultiblockController {
 
     @Override
     public String getLastValidationError() {
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public BlockPos getLastValidationErrorPosition() {
         return null;
     }
 

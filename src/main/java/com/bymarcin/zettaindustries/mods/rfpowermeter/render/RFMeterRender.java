@@ -71,7 +71,7 @@ public class RFMeterRender extends FastTESR<RFMeterTileEntity>//implements IItem
 	RFMeterModel[][] model;
 
 	@Override
-	public void renderTileEntityFast(RFMeterTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage, VertexBuffer vertexBuffer) {
+	public void renderTileEntityFast(RFMeterTileEntity tile, double x, double y, double z, float partialTicks, int destroyStage, float partial, BufferBuilder bufferBuilder) {
 		if(!(tile.getWorld().getBlockState(tile.getPos()).getBlock() instanceof RFMeterBlock)) return;
 		EnumFacing facing = tile.getWorld().getBlockState(tile.getPos()).getValue(RFMeterBlock.front);
 		BlockPos pos = tile.getPos();
@@ -98,8 +98,8 @@ public class RFMeterRender extends FastTESR<RFMeterTileEntity>//implements IItem
 		RFMeterModel m = model[facing.getHorizontalIndex()][tile.color];
 		m.setNumber(total,tile.getTransfer(), si, tile.isInverted());
 
-		vertexBuffer.setTranslation(x - pos.getX(), y - pos.getY(), z - pos.getZ());
-		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(tile.getWorld(),m, tile.getWorld().getBlockState(tile.getPos()), tile.getPos(), vertexBuffer, false);
-
+		bufferBuilder.setTranslation(x - pos.getX(), y - pos.getY(), z - pos.getZ());
+		Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(tile.getWorld(),m, tile.getWorld().getBlockState(tile.getPos()), tile.getPos(), bufferBuilder, false);
+		bufferBuilder.setTranslation(0, 0, 0);
 	}
 }

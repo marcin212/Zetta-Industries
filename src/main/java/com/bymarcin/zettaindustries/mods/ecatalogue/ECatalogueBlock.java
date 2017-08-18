@@ -25,18 +25,19 @@ public class ECatalogueBlock extends BasicBlockContainer {
 	}
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (world.isRemote)
 			return false;
+		ItemStack heldItem = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
-		if (te instanceof ECatalogueTileEntity && heldItem != null && heldItem.getItem() instanceof ItemLetter) {
+		if (te instanceof ECatalogueTileEntity && !heldItem.isEmpty() && heldItem.getItem() instanceof ItemLetter) {
 			ECatalogueTileEntity eCalogueTileEntity = (ECatalogueTileEntity) te;
 			if (eCalogueTileEntity.isAddressSet()) {
 				ItemStack l = (ItemStack) heldItem;
-				if (l.stackSize == 1) {
+				if (l.getCount() == 1) {
 					NBTTagCompound nbt;
 					Letter letter;
-					if (l.getTagCompound() != null) {
+					if (l.hasTagCompound()) {
 						nbt = l.getTagCompound();
 						letter = new Letter(nbt);
 						letter.setRecipient(eCalogueTileEntity.getAddress());

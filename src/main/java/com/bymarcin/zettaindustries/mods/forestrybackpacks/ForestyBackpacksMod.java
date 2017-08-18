@@ -16,10 +16,24 @@ import net.minecraft.item.ItemStack;
 import forestry.api.recipes.RecipeManagers;
 import forestry.api.storage.BackpackManager;
 import forestry.api.storage.EnumBackpackType;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.registries.IForgeRegistry;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class ForestyBackpacksMod implements IMod {
+	private static final Set<Item> itemsToRegister = new HashSet<>();
+	private static final Set<IRecipe> recipesToRegister = new HashSet<>();
 
 	static Item creativeBackpackT1;
 	static Item creativeBackpackT2;
@@ -57,32 +71,62 @@ public class ForestyBackpacksMod implements IMod {
 	@Override
 	public void postInit() {
 		if (!preinit) return;
+
+		if (ie != null) {
+			addRecipe(immersiveEngineeringBackpackT1, immersiveEngineeringBackpackT2, ie, null);
+		}
+
+		if (oc != null) {
+			addRecipe(OCBackpackT1, OCBackpackT2, oc, null);
+		}
+
+	}
+
+	@SubscribeEvent
+	public void onRecipeRegister(RegistryEvent.Register<IRecipe> event) {
 		ie = GameRegistry.makeItemStack("ImmersiveEngineering:material", 4, 1, "");
 		oc = GameRegistry.makeItemStack("OpenComputers:item", 1, 96, "");
 
 		if (ie != null) {
-			addRecipe(immersiveEngineeringBackpackT1, immersiveEngineeringBackpackT2, ie);
+			addRecipe(immersiveEngineeringBackpackT1, immersiveEngineeringBackpackT2, ie, event.getRegistry());
 		}
 
 		if (oc != null) {
-			addRecipe(OCBackpackT1, OCBackpackT2, oc);
+			addRecipe(OCBackpackT1, OCBackpackT2, oc, event.getRegistry());
 		}
+	}
 
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onModelRegister(ModelRegistryEvent event) {
+		for (Item item : itemsToRegister) {
+			ZettaIndustries.proxy.registermodel(item,0);
+		}
+	}
+
+	@SubscribeEvent
+	public void onItemRegister(RegistryEvent.Register<Item> event) {
+		for (Item item : itemsToRegister) {
+			event.getRegistry().register(item);
+		}
 	}
 
 	private Item addBackpack(BasicBackpack backpack, EnumBackpackType type) {
 		Item backpakItem = BackpackManager.backpackInterface.createBackpack(backpack.getUniqueName(), type);
 		backpakItem.setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		backpakItem.setRegistryName(backpack.getKey());
-		ZettaIndustries.proxy.registermodel(GameRegistry.register(backpakItem),0);
+		itemsToRegister.add(backpakItem);
 		return backpakItem;
 	}
 
-	private void addRecipe(Item backpackT1, Item backpackT2, ItemStack crafting) {
-		RecipeManagers.carpenterManager.addRecipe(200, FluidRegistry.getFluidStack("water", 1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.DIAMOND, 'W',
-				PluginCore.items.craftingMaterial.getSilkWisp(), 'T', backpackT1);
-		GameRegistry.addShapedRecipe(new ItemStack(backpackT1), "X#X", "VYV", "X#X", '#', Blocks.WOOL,
-				'X', Items.STRING, 'V', crafting, 'Y', Blocks.CHEST);
+	private void addRecipe(Item backpackT1, Item backpackT2, ItemStack crafting, IForgeRegistry<IRecipe> registry) {
+		if (registry != null) {
+			registry.register(new ShapedOreRecipe(backpackT1.getRegistryName(), new ItemStack(backpackT1), "X#X", "VYV", "X#X", '#', Blocks.WOOL,
+					'X', Items.STRING, 'V', crafting, 'Y', Blocks.CHEST).setRegistryName(backpackT1.getRegistryName()));
+		} else {
+			RecipeManagers.carpenterManager.addRecipe(200, FluidRegistry.getFluidStack("water", 1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.DIAMOND, 'W',
+					PluginCore.items.craftingMaterial.getSilkWisp(), 'T', backpackT1);
+		}
 	}
 
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.bymarcin.zettaindustries.basic.BasicItem;
 
+import li.cil.oc.api.driver.DriverItem;
 import li.cil.oc.api.driver.EnvironmentProvider;
-import li.cil.oc.api.driver.Item;
 import li.cil.oc.api.driver.item.HostAware;
 import li.cil.oc.api.driver.item.Slot;
 import li.cil.oc.api.internal.Agent;
@@ -28,7 +28,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class MailmanItem extends BasicItem implements EnvironmentProvider, Item, HostAware {
+public class MailmanItem extends BasicItem implements EnvironmentProvider, DriverItem, HostAware {
 	private static final int maxWidth = 220;
 
 	public MailmanItem() {
