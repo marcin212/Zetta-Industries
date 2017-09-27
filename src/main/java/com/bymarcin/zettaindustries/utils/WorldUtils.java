@@ -71,8 +71,8 @@ public class WorldUtils {
 
 	public static IEnergyStorage getEnergyStorage(World world, BlockPos pos, EnumFacing facing){
 		TileEntity tileEntity = world.getTileEntity(pos.add(facing.getDirectionVec()));
-		if (tileEntity!=null && tileEntity.hasCapability(CapabilityEnergy.ENERGY, facing)){
-			return tileEntity.getCapability(CapabilityEnergy.ENERGY, facing);
+		if (tileEntity!=null && tileEntity.hasCapability(CapabilityEnergy.ENERGY, facing.getOpposite())){
+			return tileEntity.getCapability(CapabilityEnergy.ENERGY, facing.getOpposite());
 		}
 		return null;
 	}
