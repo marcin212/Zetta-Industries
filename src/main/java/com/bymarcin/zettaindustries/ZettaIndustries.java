@@ -36,7 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "after:immersiveengineering;after:forestry;")
+@Mod(modid = ZettaIndustries.MODID, version = ZettaIndustries.VERSION, dependencies = "required-after:forge@[14.23.0.2500,);after:immersiveengineering;after:forestry;")
 public class ZettaIndustries
 {
     public static final String MODID = "zettaindustries";
