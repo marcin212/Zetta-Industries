@@ -1,5 +1,7 @@
 package com.bymarcin.zettaindustries.mods.ocwires.block;
 
+import javax.annotation.Nullable;
+
 import blusunrize.immersiveengineering.api.IEProperties;
 import blusunrize.immersiveengineering.common.IEContent;
 import blusunrize.immersiveengineering.common.blocks.BlockIETileProvider;
@@ -67,7 +69,13 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 		unlisted[unlisted.length - 1] = IEProperties.CONNECTIONS;
 		return new ExtendedBlockState(this, base.getProperties().toArray(new IProperty[0]), unlisted);
 	}
-
+	
+	@Nullable
+	@Override
+	public TileEntity createBasicTE(World world, ConnectorTypes connectorTypes) {
+		return new TileEntityTelecomunicationConnector();
+	}
+	
 	@Override
 	public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
 		state = super.getExtendedState(state, world, pos);
@@ -85,14 +93,7 @@ public class BlockTelecomunicationConnector extends BlockIETileProvider<Connecto
 	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
 		return false;
 	}
-
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		if (meta == 0)
-			return new TileEntityTelecomunicationConnector();
-		return null;
-	}
-
+	
 	@Override
 	public String createRegistryName() {
 		return ZettaIndustries.MODID + ":" + name;

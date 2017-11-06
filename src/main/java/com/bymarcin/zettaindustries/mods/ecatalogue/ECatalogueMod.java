@@ -1,27 +1,26 @@
 package com.bymarcin.zettaindustries.mods.ecatalogue;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.modmanager.IMod;
-
-import com.bymarcin.zettaindustries.utils.RecipeUtils;
-import li.cil.oc.api.Driver;
-import li.cil.oc.api.Items;
-
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-
 import net.minecraft.item.crafting.IRecipe;
+
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 
-import forestry.mail.PluginMail;
+import forestry.mail.ModuleMail;
+
+import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.modmanager.IMod;
+import com.bymarcin.zettaindustries.utils.RecipeUtils;
+import li.cil.oc.api.Driver;
+import li.cil.oc.api.Items;
+
 
 public class ECatalogueMod implements IMod {
 	public static ECatalogueBlock ecatalogueBlock;
@@ -58,8 +57,8 @@ public class ECatalogueMod implements IMod {
 	public void onRegisterRecipes(RegistryEvent.Register<IRecipe> event) {
 		ItemStack cpu1 = Items.get("cpu1").createItemStack(1);
 		ItemStack microChip1 = Items.get("chip1").createItemStack(1);
-		ItemStack stamp = PluginMail.getItems().stamps.getItemStack();
-		ItemStack catalogue = PluginMail.getItems().catalogue.getItemStack(1);
+		ItemStack stamp = ModuleMail.getItems().stamps.getItemStack();
+		ItemStack catalogue = ModuleMail.getItems().catalogue.getItemStack(1);
 		ItemStack iron = new ItemStack(net.minecraft.init.Items.IRON_INGOT, 1);
 		ItemStack book = new ItemStack(net.minecraft.init.Items.BOOK, 1);
 		event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(ecatalogueBlock), "IBI", "BCB", "IBI", 'I', iron, 'C', cpu1, 'B', book)

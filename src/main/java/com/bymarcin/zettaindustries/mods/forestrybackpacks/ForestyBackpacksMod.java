@@ -1,35 +1,35 @@
 package com.bymarcin.zettaindustries.mods.forestrybackpacks;
 
-import com.bymarcin.zettaindustries.ZettaIndustries;
-import com.bymarcin.zettaindustries.modmanager.IMod;
-import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.BasicBackpack;
-import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.CreativeBackpack;
-import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.ImmersiveEngineeringBackpack;
-import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.OCBackpack;
+import java.util.HashSet;
+import java.util.Set;
 
-import forestry.core.PluginCore;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import forestry.api.recipes.RecipeManagers;
-import forestry.api.storage.BackpackManager;
-import forestry.api.storage.EnumBackpackType;
 import net.minecraft.item.crafting.IRecipe;
+
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.HashSet;
-import java.util.Set;
+import forestry.api.recipes.RecipeManagers;
+import forestry.api.storage.BackpackManager;
+import forestry.api.storage.EnumBackpackType;
+import forestry.core.ModuleCore;
+
+import com.bymarcin.zettaindustries.ZettaIndustries;
+import com.bymarcin.zettaindustries.modmanager.IMod;
+import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.BasicBackpack;
+import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.CreativeBackpack;
+import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.ImmersiveEngineeringBackpack;
+import com.bymarcin.zettaindustries.mods.forestrybackpacks.backpacks.OCBackpack;
 
 public class ForestyBackpacksMod implements IMod {
 	private static final Set<Item> itemsToRegister = new HashSet<>();
@@ -125,7 +125,7 @@ public class ForestyBackpacksMod implements IMod {
 					'X', Items.STRING, 'V', crafting, 'Y', Blocks.CHEST).setRegistryName(backpackT1.getRegistryName()));
 		} else {
 			RecipeManagers.carpenterManager.addRecipe(200, FluidRegistry.getFluidStack("water", 1000), null, new ItemStack(backpackT2), "WXW", "WTW", "WWW", 'X', Items.DIAMOND, 'W',
-					PluginCore.items.craftingMaterial.getSilkWisp(), 'T', backpackT1);
+					ModuleCore.getItems().craftingMaterial.getSilkWisp(), 'T', backpackT1);
 		}
 	}
 
