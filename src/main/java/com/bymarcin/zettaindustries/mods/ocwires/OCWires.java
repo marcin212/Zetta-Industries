@@ -110,9 +110,9 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void clientSide() {
-		ConnLoader.baseModels.put("conn_tele", new ResourceLocation("immersiveengineering:block/connector/connectorLV.obj"));
-		ConnLoader.textureReplacements.put("conn_tele", ImmutableMap.of("#immersiveengineering:blocks/connector_connectorLV",
-				ZettaIndustries.MODID+":blocks/ocwires/metal_connectorTC"));
+		ConnLoader.baseModels.put("conn_tele", new ResourceLocation("immersiveengineering:block/connector/connector_lv.obj"));
+		ConnLoader.textureReplacements.put("conn_tele", ImmutableMap.of("#immersiveengineering:blocks/connector_connector_lv",
+				ZettaIndustries.MODID+":blocks/ocwires/metal_connectortc"));
 		Item blockItem = Item.getItemFromBlock(connector);
 		ZettaIndustries.proxy.registermodel(blockItem, 0);
 	}
