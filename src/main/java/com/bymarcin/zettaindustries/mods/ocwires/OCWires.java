@@ -1,6 +1,7 @@
 package com.bymarcin.zettaindustries.mods.ocwires;
 
 import blusunrize.immersiveengineering.client.models.smart.ConnLoader;
+import blusunrize.immersiveengineering.common.blocks.ItemBlockIEBase;
 import com.bymarcin.zettaindustries.ZettaIndustries;
 import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.mods.ocwires.block.BlockTelecomunicationConnector;
@@ -14,6 +15,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 import net.minecraft.item.crafting.IRecipe;
@@ -37,6 +39,7 @@ import blusunrize.lib.manual.ManualPages;
 
 public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	public static BlockTelecomunicationConnector connector = new BlockTelecomunicationConnector();
+	public static ItemBlock connectorItem = new ItemBlockIEBase(connector);
 	public static ItemTelecommunicationWire wire = new ItemTelecommunicationWire();
 	public static int cableLength = 32;
 	
@@ -47,6 +50,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@Override
 	public void preInit() {
 		connector.setRegistryName(new ResourceLocation("zettaindustries:telecommunicationconnector"));
+		connectorItem.setRegistryName(new ResourceLocation("zettaindustries:telecommunicationconnector"));
 
 		GameRegistry.registerTileEntity(TileEntityTelecomunicationConnector.class, "TileEntityTelecomunicationConnector");
 		ZIRegistry.registerProxy(this);
@@ -60,6 +64,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 
 	@SubscribeEvent
 	public void onRegisterItem(RegistryEvent.Register<Item> event) {
+		event.getRegistry().register(connectorItem);
 		event.getRegistry().register(wire);
 	}
 
@@ -112,9 +117,8 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	public void clientSide() {
 		ConnLoader.baseModels.put("conn_tele", new ResourceLocation("immersiveengineering:block/connector/connector_lv.obj"));
 		ConnLoader.textureReplacements.put("conn_tele", ImmutableMap.of("#immersiveengineering:blocks/connector_connector_lv",
-				ZettaIndustries.MODID+":blocks/ocwires/metal_connectortc"));
-		Item blockItem = Item.getItemFromBlock(connector);
-		ZettaIndustries.proxy.registermodel(blockItem, 0);
+				ZettaIndustries.MODID+":blocks/ocwires/metal_connector_tc"));
+		ZettaIndustries.proxy.registermodel(connectorItem, 0);
 	}
 	
 	

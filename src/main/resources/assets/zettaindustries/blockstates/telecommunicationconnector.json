@@ -4,9 +4,9 @@
   {
     "transform": "forge:default-block",
     "textures": {
-      "#immersiveengineering:blocks/connector_connectorLV": "zettaindustries:blocks/ocwires/metal_connectorTC"
+      "#immersiveengineering:blocks/connector_connector_lv": "zettaindustries:blocks/ocwires/metal_connector_tc"
     },
-    "model": "immersiveengineering:connector/connectorLV.obj",
+    "model": "immersiveengineering:connector/connector_lv.obj",
     "custom": { "flip-v": true }
   },
   "variants":
