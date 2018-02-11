@@ -78,6 +78,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 	@SideOnly(Side.CLIENT)
 	public void registerModels(ModelRegistryEvent event) {
 		ZettaIndustries.proxy.registermodel(wire, 0);
+		ZettaIndustries.proxy.registermodel(connectorItem, 0);
 	}
 
 	@Override
@@ -118,7 +119,7 @@ public class OCWires implements IMod, IProxy, INeedLoadCompleteEvent{
 		ConnLoader.baseModels.put("conn_tele", new ResourceLocation("immersiveengineering:block/connector/connector_lv.obj"));
 		ConnLoader.textureReplacements.put("conn_tele", ImmutableMap.of("#immersiveengineering:blocks/connector_connector_lv",
 				ZettaIndustries.MODID+":blocks/ocwires/metal_connector_tc"));
-		ZettaIndustries.proxy.registermodel(connectorItem, 0);
+
 	}
 	
 	
