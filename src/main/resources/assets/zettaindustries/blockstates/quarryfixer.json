@@ -1,0 +1,46 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "up": "zettaindustries:blocks/quarry_fixer/quarry_fixer_top_off_1",
+      "down": "zettaindustries:blocks/quarry_fixer/quarry_fixer_bottom",
+      "east": "zettaindustries:blocks/quarry_fixer/quarry_fixer_side",
+      "west": "zettaindustries:blocks/quarry_fixer/quarry_fixer_front",
+      "north": "zettaindustries:blocks/quarry_fixer/quarry_fixer_side",
+      "south": "zettaindustries:blocks/quarry_fixer/quarry_fixer_side",
+      "particle": "zettaindustries:blocks/quarry_fixer/quarry_fixer_front"
+    },
+    "model": "minecraft:cube",
+    "uvlock": false
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": "forge:default-block"
+    }],
+    "on_off":{
+      "0":{
+        "textures": {
+          "up": "zettaindustries:blocks/quarry_fixer/quarry_fixer_top_off_1"
+        }
+      },
+      "1":{
+        "textures": {
+          "up": "zettaindustries:blocks/quarry_fixer/quarry_fixer_top_on_1"
+        }
+      }
+    },
+    "front": {
+      "north": {
+        "y":90
+      },
+      "east": {
+        "y":180
+      },
+      "south": {
+        "y":270
+      },
+      "west": {}
+    }
+  }
+}

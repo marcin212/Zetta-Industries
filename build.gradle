@@ -102,6 +102,12 @@ runServer {
         dest file('libs/ImmersiveEngineering.jar')
         overwrite true
     }
+
+download{
+	src 'https://media.forgecdn.net/files/2519/347/buildcraft-7.99.14.jar'
+	dest file('libs/buildcraft.jar')
+	overwrite true
+}
 	
 dependencies {
 	deobfCompile "li.cil.tis3d:TIS-3D:${config.tis3d.version}"
@@ -110,10 +116,8 @@ dependencies {
 	}
  	deobfCompile "li.cil.oc:OpenComputers:${config.oc.version}"
 	deobfCompile "dan200.computercraft:${config.cc.version}"
-        deobfCompile "mezz.jei:jei_1.12.2:${config.jei.version}"
-        deobfCompile ("blusunrize:ImmersiveEngineering:0.12-+") {
-		exclude module: "jei_1.12"
-	}
+	deobfCompile "mezz.jei:jei_1.12.2:${config.jei.version}"
+
 	//compile name: 'ImmersiveEngineering', version: config.immersiveengineering.version, ext: 'jar' 
 	
 	//compile name: 'CoFHLib', version: config.cofhlib.version, ext: 'jar'

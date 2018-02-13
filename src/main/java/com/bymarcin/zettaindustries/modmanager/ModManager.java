@@ -39,7 +39,7 @@ public class ModManager {
 	}
 	
 	private void addMods() {
-//		addMod("quarryfixer.QuarryFixer", "$('BuildCraft|Energy')", "QuarryFixer");
+		addMod("quarryfixer.QuarryFixer", "$('buildcraftbuilders')", "QuarryFixer");
 //		addMod("energysiphon.EnergySiphonMod", "$('ThermalExpansion')", "EnergySiphonMod");
 //		addMod("scanner.ScannerMod", "$('OpenComponents')", "ScannerMod");
 		addMod("nfc.NFC", "$('opencomputers')", "NFC");
