@@ -31,6 +31,7 @@ import com.bymarcin.zettaindustries.registry.ZIRegistry;
 public class BatteryController extends RectangularMultiblockControllerBase {
 	private Set<TileEntityPowerTap> powerTaps;
 	private Set<TileEntityControler> controlers;
+	private Set<TileEntityComputerPort> computerPorts;
 	private Set<EntityPlayer> updatePlayers;
 	private TileEntityControler controler;
 	private short lastUpdate = 0;
@@ -39,11 +40,13 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	private long electrolyte = 0;
 	private AdvancedStorage storage = new AdvancedStorage(Long.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 	int i = 0;
+	private int redstoneSignal = 0;
 
 	public BatteryController(World world) {
 		super(world);
 		powerTaps = new HashSet<TileEntityPowerTap>();
 		controlers = new HashSet<TileEntityControler>();
+		computerPorts = new HashSet<TileEntityComputerPort>();
 		updatePlayers = new HashSet<EntityPlayer>();
 	}
 
@@ -209,7 +212,11 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 	public void modifyLastTickBalance(int energy) {
 		tickBalance += energy;
 	}
-
+	
+	public int getRedstoneSignal() {
+		return redstoneSignal;
+	}
+	
 	@Override
 	protected boolean updateServer() {
 		if (electrolyte == 0)
@@ -218,6 +225,14 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 			powerTap.onTransferEnergy();
 		}
 		if (lastUpdate % 4 == 0) {
+			
+			int newRedstoneSignal = (int)Math.round(storage.getRealEnergyStored()/(double)storage.getRealMaxEnergyStored() * 15d);
+			if(newRedstoneSignal!=redstoneSignal){
+				redstoneSignal = newRedstoneSignal;
+				for (TileEntityComputerPort computerPort: computerPorts){
+					worldObj.notifyNeighborsOfStateChange(computerPort.getPos(), worldObj.getBlockState(computerPort.getPos()).getBlock(), false);
+				}
+			}
 			EnergyUpdatePacket packet = getUpdatePacket();
 			for (EntityPlayer p : updatePlayers) {
 				ZIRegistry.packetHandler.sendTo(packet, (EntityPlayerMP) p);
@@ -242,6 +257,9 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		if (newPart instanceof TileEntityControler) {
 			controlers.add((TileEntityControler) newPart);
 		}
+		if(newPart instanceof TileEntityComputerPort){
+			computerPorts.add((TileEntityComputerPort) newPart);
+		}
 	}
 
 	@Override
@@ -251,6 +269,9 @@ public class BatteryController extends RectangularMultiblockControllerBase {
 		}
 		if (oldPart instanceof TileEntityControler) {
 			controlers.remove(oldPart);
+		}
+		if(oldPart instanceof  TileEntityComputerPort){
+			computerPorts.remove(oldPart);
 		}
 	}
 
