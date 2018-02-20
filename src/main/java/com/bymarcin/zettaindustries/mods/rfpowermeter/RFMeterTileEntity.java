@@ -31,6 +31,7 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
     boolean isOn = true;
     boolean isProtected = false;
     boolean isInverted = false;
+    boolean redstone = false;
 
     int tick = 0;
     public int color = EnumDyeColor.LIME.ordinal();
@@ -141,7 +142,7 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
 
     public void invert() {
         isInverted = !isInverted;
-        getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(RFMeterBlock.inverted, isInverted), 2);
+        getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(RFMeterBlock.inverted, isInverted), 3);
     }
 
     public boolean isInverted() {
@@ -172,7 +173,16 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
 
 
     public boolean canEnergyFlow() {
-        return isOn && (inCounterMode || (0 < value));
+        return isOn && (inCounterMode || (0 < value)) && !redstone;
+    }
+    
+    private int checkRedstone(){
+        EnumFacing front = world.getBlockState(getPos()).getValue(RFMeterBlock.front).getOpposite();
+        return world.getRedstonePower(getPos().offset(front), front);
+    }
+    
+    void updateRedstone(){
+        redstone = 0!=checkRedstone();
     }
 
 
@@ -250,6 +260,7 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
 
 
         nbt.setBoolean("isInverted", isInverted);
+        nbt.setBoolean("redstone", redstone);
         return nbt;
     }
 
@@ -269,6 +280,7 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
         nbt.setInteger("color", color);
 
         nbt.setBoolean("isInverted", isInverted);
+        nbt.setBoolean("redstone", redstone);
     }
 
     public void setTag(NBTTagCompound nbt) {
@@ -292,6 +304,9 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
             color = nbt.getInteger("color");
         if (nbt.hasKey("isInverted")) {
             isInverted = nbt.getBoolean("isInverted");
+        }
+        if(nbt.hasKey("redstone")){
+            redstone = nbt.getBoolean("redstone");
         }
     }
 
@@ -323,6 +338,8 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
             color = nbt.getInteger("color");
         if (nbt.hasKey("isInverted"))
             isInverted = nbt.getBoolean("isInverted");
+        if(nbt.hasKey("redstone"))
+            redstone = nbt.getBoolean("redstone");
     }
 
     @Override

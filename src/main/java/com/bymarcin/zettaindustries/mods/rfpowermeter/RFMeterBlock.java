@@ -2,6 +2,7 @@ package com.bymarcin.zettaindustries.mods.rfpowermeter;
 
 import com.bymarcin.zettaindustries.basic.BasicBlockContainer;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -19,7 +20,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -120,6 +120,19 @@ public class RFMeterBlock extends BasicBlockContainer {
 		 return false;
 	}
 
+	@Override
+	public void observedNeighborChange(IBlockState observerState, World world, BlockPos observerPos, Block changedBlock, BlockPos changedBlockPos) {
+		super.observedNeighborChange(observerState, world, observerPos, changedBlock, changedBlockPos);
+		TileEntity te = world.getTileEntity(observerPos);
+		if(te instanceof RFMeterTileEntity){
+			((RFMeterTileEntity) te).updateRedstone();
+		}
+	}
+	
+	@Override
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
+		return (side!=null && side.getOpposite()== state.getValue(front)) || super.canConnectRedstone(state, world, pos, side);
+	}
 
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
