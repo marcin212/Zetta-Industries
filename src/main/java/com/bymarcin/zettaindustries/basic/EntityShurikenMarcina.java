@@ -67,7 +67,7 @@ public class EntityShurikenMarcina extends EntityThrowable {
             }
 
             if (!hit) {
-                result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
+                result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.5f);
             }
         }
 

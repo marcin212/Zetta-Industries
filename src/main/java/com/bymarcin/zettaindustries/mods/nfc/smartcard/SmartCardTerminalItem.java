@@ -13,18 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public class SmartCardTerminalItem extends Item implements EnvironmentProvider, HostAware, DriverItem {
+public class SmartCardTerminalItem extends Item implements HostAware, DriverItem {
 
     public SmartCardTerminalItem() {
         setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
         setUnlocalizedName("smartcardterminal");
         setRegistryName("smartcardterminal");
         setMaxStackSize(1);
-    }
-
-    @Override
-    public Class<?> getEnvironment(ItemStack stack) {
-        return SmartCardTerminal.class;
     }
 
     @Override

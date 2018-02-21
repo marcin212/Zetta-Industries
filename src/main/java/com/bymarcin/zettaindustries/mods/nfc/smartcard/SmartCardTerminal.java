@@ -10,6 +10,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.EnumSet;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 import javax.crypto.KeyAgreement;
@@ -35,11 +36,12 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class SmartCardTerminal extends AbstractManagedEnvironment implements RackMountable, Analyzable {
 	@Nonnull ItemStack card = ItemStack.EMPTY;
 	protected ComponentConnector node;
-	String player;
+	UUID player;
 	Rack host;
 
 	public SmartCardTerminal(Rack host) {
@@ -66,7 +68,7 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 	public void save(NBTTagCompound nbt) {
 		super.save(nbt);
 		if (player != null) {
-			nbt.setString("PLAYER", player);
+			nbt.setUniqueId("PLAYER_UUID", player);
 		}
 		if (!card.isEmpty()) {
 			NBTTagCompound tag = new NBTTagCompound();
@@ -78,8 +80,10 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 	@Override
 	public void load(NBTTagCompound nbt) {
 		super.load(nbt);
-		if (nbt.hasKey("PLAYER")) {
-			player = nbt.getString("PLAYER");
+		if (nbt.hasKey("PLAYER_UUID")) {
+			player = nbt.getUniqueId("PLAYER_UUID");
+		} else if (nbt.hasKey("PLAYER")) {
+			player = NFC.getUUIDForPlayer(nbt.getString("PLAYER"));
 		}
 
 		if (nbt.hasKey("CARD")) {
@@ -122,8 +126,8 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 
 	@Callback(direct = true)
 	public Object[] protect(Context ctx, Arguments args) {
-		if (!card.isEmpty() && !SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER)) {
-			SmartCardItem.getNBT(card).setString(SmartCardItem.OWNER, player);
+		if (!card.isEmpty() && !SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER_UUID_LEAST)) {
+			SmartCardItem.getNBT(card).setUniqueId(SmartCardItem.OWNER_UUID, player);
 			host.markChanged(host.indexOfMountable(this));
 			return new Object[] { true, player };
 		}
@@ -134,7 +138,7 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 	public Object[] ecdsa(Context context, Arguments args) throws Exception {
 		if (card.isEmpty())
 			return new Object[] { null, "Card expected" };
-		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(player)) {
+		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER_UUID_LEAST) && !SmartCardItem.getOwner(card).equals(player)) {
 			return new Object[] { null, "You are not owner" };
 		}
 
@@ -167,7 +171,7 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 	public Object[] ecdh(Context context, Arguments args) throws Exception {
 		if (card.isEmpty())
 			return new Object[] { null, "Card expected" };
-		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER) && !SmartCardItem.getOwner(card).equals(player)) {
+		if (SmartCardItem.getNBT(card).hasKey(SmartCardItem.OWNER_UUID_LEAST) && !SmartCardItem.getOwner(card).equals(player)) {
 			return new Object[] { null, "You are not owner" };
 		}
 		
@@ -199,9 +203,9 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 	public NBTTagCompound getData() {
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("hasCard", !card.isEmpty());
-		if ((!card.isEmpty() && SmartCardItem.getOwner(card).isEmpty()) || (!card.isEmpty() && player != null && player.equals(SmartCardItem.getOwner(card)))) {
+		if ((!card.isEmpty() && SmartCardItem.getOwner(card) == null) || (!card.isEmpty() && player != null && player.equals(SmartCardItem.getOwner(card)))) {
 			nbt.setBoolean("validOwner", true);
-			nbt.setBoolean("isProtected", !SmartCardItem.getOwner(card).isEmpty());
+			nbt.setBoolean("isProtected", SmartCardItem.getOwner(card) != null);
 		} else {
 			nbt.setBoolean("validOwner", false);
 		}
@@ -223,11 +227,11 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 		if (card.isEmpty() && !player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() instanceof SmartCardItem) {
 			card = player.getHeldItemMainhand().copy();
 			player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-			this.player = player.getName();
+			this.player = player.getGameProfile().getId();
 			if (node != null)
 				node.sendToReachable("computer.signal", "smartcard_in", player.getName());
 			host.markChanged(host.indexOfMountable(this));
-
+			return true;
 		}
 
 		if (!card.isEmpty() && player.getHeldItemMainhand().isEmpty()) {
@@ -237,8 +241,10 @@ public class SmartCardTerminal extends AbstractManagedEnvironment implements Rac
 			if (node != null)
 				node.sendToReachable("computer.signal", "smartcard_out", player.getName());
 			host.markChanged(host.indexOfMountable(this));
+			return true;
 		}
-		return true;
+
+		return false;
 	}
 
 

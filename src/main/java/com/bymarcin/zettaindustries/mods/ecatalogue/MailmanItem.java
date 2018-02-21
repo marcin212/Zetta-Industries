@@ -28,7 +28,7 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class MailmanItem extends BasicItem implements EnvironmentProvider, DriverItem, HostAware {
+public class MailmanItem extends BasicItem implements DriverItem, HostAware {
 	private static final int maxWidth = 220;
 
 	public MailmanItem() {
@@ -43,11 +43,6 @@ public class MailmanItem extends BasicItem implements EnvironmentProvider, Drive
 	@Override
 	public boolean worksWith(ItemStack stack, Class<? extends EnvironmentHost> host) {
 		return worksWith(stack) && (Robot.class.isAssignableFrom(host) || Drone.class.isAssignableFrom(host));
-	}
-
-	@Override
-	public Class<?> getEnvironment(ItemStack stack) {
-		return MailmanUpgrade.class;
 	}
 
 	@Override

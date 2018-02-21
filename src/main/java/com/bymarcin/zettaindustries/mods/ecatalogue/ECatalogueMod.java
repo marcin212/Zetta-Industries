@@ -70,7 +70,7 @@ public class ECatalogueMod implements IMod {
 	@Override
 	public void init() {
 		Driver.add(new TradeStationConventer());
-		Driver.add((li.cil.oc.api.driver.DriverItem) mailmanItem);
+		Driver.add(mailmanItem);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.bymarcin.zettaindustries.mods.nfc.tileentity.TileEntityNFCReader;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
 import com.bymarcin.zettaindustries.utils.RecipeUtils;
+import com.mojang.authlib.GameProfile;
 import li.cil.oc.api.Driver;
 import li.cil.oc.api.Items;
 import net.minecraft.block.Block;
@@ -21,13 +22,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,7 +41,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
+import java.util.UUID;
 
 
 public class NFC implements IMod, IProxy {
@@ -77,6 +82,7 @@ public class NFC implements IMod, IProxy {
         GameRegistry.registerTileEntity(SmartCardTerminalTileEntity.class, "SmartCardTerminalTileEntity");
 
         ZIRegistry.registerProxy(this);
+        MinecraftForge.EVENT_BUS.register(new DyeableItemWashHandler());
     }
 
     @SubscribeEvent
@@ -87,6 +93,12 @@ public class NFC implements IMod, IProxy {
     @SubscribeEvent
     public void onRegisterItems(RegistryEvent.Register<Item> event) {
         event.getRegistry().registerAll(itemBlockNFCProgrammer, itemBlockNFCReader, itemCardNFC, itemPrivateCardNFC, smartCardItem, smartCardTerminalItem, smartCardTerminalItemBlock);
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onRegisterBlockColor(ColorHandlerEvent.Item event) {
+        event.getItemColors().registerItemColorHandler(new SmartCardItemColor(), smartCardItem);
     }
 
     @SubscribeEvent
@@ -138,13 +150,24 @@ public class NFC implements IMod, IProxy {
         event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(smartCardTerminalItem,1),
                 "ici","dp ","ibi",'p',pressurePlate,'c',microChip2,'i',obsidian,'d',dataCard2,'b',circuitBoard).setRegistryName(smartCardTerminalItem.getRegistryName()));
 
+        event.getRegistry().register(new SmartCardDyeRecipe(Ingredient.fromItem(smartCardItem)).setRegistryName("zettaindustries:smartcard_dye"));
+    }
+
+    public static UUID getUUIDForPlayer(String name) {
+        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+        if (server != null) {
+            GameProfile profile = server.getPlayerProfileCache().getGameProfileForUsername(name);
+            if (profile != null) {
+                return profile.getId();
+            }
+        }
+        return null;
     }
 
     @Override
     public void init() {
         Driver.add(smartCardItem);
-        Driver.add((li.cil.oc.api.driver.DriverItem)smartCardTerminalItem);
-        Driver.add((li.cil.oc.api.driver.EnvironmentProvider)smartCardTerminalItem);
+        Driver.add(smartCardTerminalItem);
 
 //	     SmartCardTerminalExtension i = new SmartCardTerminalExtension();
 //	     GameRegistry.registerItem(i, "SmartCardTerminalExtension");
