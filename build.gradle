@@ -98,7 +98,7 @@ runServer {
 }
 
   download {
-        src 'https://media.forgecdn.net/files/2515/333/ImmersiveEngineering-0.12-76.jar'
+        src 'https://media.forgecdn.net/files/2532/895/ImmersiveEngineering-0.12-77.jar'
         dest file('libs/ImmersiveEngineering.jar')
         overwrite true
     }

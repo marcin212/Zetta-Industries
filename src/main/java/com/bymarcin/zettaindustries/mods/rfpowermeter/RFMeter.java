@@ -6,17 +6,17 @@ import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterModel;
 import com.bymarcin.zettaindustries.mods.rfpowermeter.render.RFMeterRender;
 import com.bymarcin.zettaindustries.registry.ZIRegistry;
 import com.bymarcin.zettaindustries.registry.proxy.IProxy;
-
 import com.bymarcin.zettaindustries.utils.RecipeUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -79,6 +79,8 @@ public class RFMeter implements IMod, IProxy{
 		}else{
 			event.getRegistry().register(RecipeUtils.createShapedRecipe(new ItemStack(meter),"IXI","IYI","IXI", 'X', Items.COMPARATOR, 'Y', Blocks.REDSTONE_BLOCK, 'I', "ingotIron").setRegistryName(meter.getRegistryName()));
 		}
+		
+		event.getRegistry().register(RecipeUtils.createShapelessRecipe(new ItemStack(meter), meter).setRegistryName(new ResourceLocation(ZettaIndustries.MODID, "rfmeter1")));
 	}
 
 	@Override
