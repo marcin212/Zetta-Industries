@@ -47,6 +47,7 @@ public class MailmanItem extends BasicItem implements EnvironmentProvider, Drive
 
 	@Override
 	public Class<?> getEnvironment(ItemStack stack) {
+		if (!worksWith(stack)) return null;
 		return MailmanUpgrade.class;
 	}
 

@@ -5,7 +5,8 @@
       "model": "forge:item-layer",
       "transform": "forge:default-item",
       "textures": {
-        "layer0": "zettaindustries:items/nfc/smart_card"
+        "layer0": "zettaindustries:items/nfc/smart_card",
+        "layer1": "zettaindustries:items/nfc/smart_card_overlay"
       }
     }
   }

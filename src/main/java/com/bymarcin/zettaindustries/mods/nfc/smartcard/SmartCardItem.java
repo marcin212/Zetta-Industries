@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,11 +27,12 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.UUID;
 
-public class SmartCardItem extends Item implements DriverItem {
+public class SmartCardItem extends Item implements DriverItem, IDyeableItem {
     public static final String PRIVATE_KEY = "sc:private_key";
     public static final String PUBLIC_KEY = "sc:public_key";
     public static final String UUID_KEY = "sc:uuid_key";
-    public static final String OWNER = "sc:owner";
+    public static final String OWNER_UUID = "sc:owner_uuid";
+    public static final String OWNER_UUID_LEAST = "sc:owner_uuidLeast";
     public static SecureRandom srand;
 
     public SmartCardItem() {
@@ -53,7 +55,7 @@ public class SmartCardItem extends Item implements DriverItem {
 
         NBTTagCompound tag = stack.getTagCompound();
         if (tag != null) {
-            if (tag.hasKey(OWNER)) {
+            if (tag.hasKey(OWNER_UUID_LEAST)) {
                 list.add("Protected");
             }
             if (tag.hasKey(UUID_KEY)) {
@@ -125,10 +127,22 @@ public class SmartCardItem extends Item implements DriverItem {
         return new byte[0];
     }
 
-    public static String getOwner(ItemStack stack) {
-        return getNBT(stack).getString(OWNER);
-    }
+    @Nullable
+    public static UUID getOwner(ItemStack stack) {
+        if (getNBT(stack).hasKey("sc:owner")) {
+            UUID uuid = NFC.getUUIDForPlayer(getNBT(stack).getString("sc:owner"));
+            if (uuid != null) {
+                getNBT(stack).removeTag("sc:owner");
+                getNBT(stack).setUniqueId(OWNER_UUID, uuid);
+            }
+        }
 
+        if (!getNBT(stack).hasKey(OWNER_UUID_LEAST)) {
+            return null;
+        } else {
+            return getNBT(stack).getUniqueId(OWNER_UUID);
+        }
+    }
 
     @Override
     public boolean worksWith(ItemStack stack) {
@@ -153,5 +167,30 @@ public class SmartCardItem extends Item implements DriverItem {
     @Override
     public NBTTagCompound dataTag(ItemStack stack) {
         return new NBTTagCompound();
+    }
+
+    @Override
+    public boolean hasColor(ItemStack stack) {
+        return getNBT(stack).hasKey("color");
+    }
+
+    @Override
+    public int getColor(ItemStack stack) {
+        return hasColor(stack) ? getNBT(stack).getInteger("color") : -1;
+    }
+
+    @Override
+    public void setColor(ItemStack stack, int color) {
+        getNBT(stack).setInteger("color", color & 0xFFFFFF);
+    }
+
+    @Override
+    public boolean removeColor(ItemStack stack) {
+        if (hasColor(stack)) {
+            getNBT(stack).removeTag("color");
+            return true;
+        } else {
+            return false;
+        }
     }
 }

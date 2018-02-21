@@ -17,7 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class SmartCardTerminalExtension extends Item implements EnvironmentProvider, HostAware, DriverItem, Container{
+public class SmartCardTerminalExtension extends Item implements HostAware, DriverItem, Container{
 
 	public SmartCardTerminalExtension() {
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
@@ -63,10 +63,6 @@ public class SmartCardTerminalExtension extends Item implements EnvironmentProvi
 		return worksWith(stack);
 	}
 
-	@Override
-	public Class<?> getEnvironment(ItemStack stack) {
-		return SCE.class;
-	}
 	public static class SCE extends AbstractManagedEnvironment {
 		
 		EnvironmentHost host;
