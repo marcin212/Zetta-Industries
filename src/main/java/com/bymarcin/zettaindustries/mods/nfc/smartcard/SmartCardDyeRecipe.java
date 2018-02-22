@@ -1,24 +1,16 @@
 package com.bymarcin.zettaindustries.mods.nfc.smartcard;
 
-import com.google.gson.JsonObject;
-import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.common.crafting.IRecipeFactory;
-import net.minecraftforge.common.crafting.JsonContext;
+
 import net.minecraftforge.oredict.DyeUtils;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -42,7 +34,7 @@ public class SmartCardDyeRecipe extends IForgeRegistryEntry.Impl<IRecipe> implem
 			} else {
 				Optional<EnumDyeColor> dyeId = DyeUtils.colorFromStack(stack);
 				if (dyeId.isPresent()) {
-					float[] col = EntitySheep.getDyeRgb(dyeId.get());
+					float[] col = dyeId.get().getColorComponentValues();
 					return new int[]{
 							(int) (col[0] * 255.0F),
 							(int) (col[1] * 255.0F),
