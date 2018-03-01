@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class RFMeterTileEntity extends TileEntity implements ITickable {
@@ -30,7 +31,6 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
     boolean inCounterMode = true;
     boolean isOn = true;
     boolean isProtected = false;
-    boolean isInverted = false;
     boolean redstone = false;
 
     int tick = 0;
@@ -106,7 +106,7 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
     }
 
     protected boolean canConnectEnergy(EnumFacing from, boolean receive) {
-        return (receive ^ isInverted) ? (from == EnumFacing.UP) : (from == EnumFacing.DOWN);
+        return (receive ^ isInverted()) ? (from == EnumFacing.UP) : (from == EnumFacing.DOWN);
     }
 
     protected int getEnergyStored(EnumFacing from) {
@@ -141,12 +141,14 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
     }
 
     public void invert() {
-        isInverted = !isInverted;
-        getWorld().setBlockState(getPos(), getWorld().getBlockState(getPos()).withProperty(RFMeterBlock.inverted, isInverted), 3);
+        IBlockState state = getWorld().getBlockState(getPos());
+        if (state.getBlock() instanceof RFMeterBlock) {
+            getWorld().setBlockState(getPos(), state.withProperty(RFMeterBlock.inverted, !state.getValue(RFMeterBlock.inverted)), 3);
+        }
     }
 
     public boolean isInverted() {
-        return isInverted;
+        return (getBlockMetadata() & 1) != 0;
     }
 
     public int getTransfer() {
@@ -218,8 +220,8 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
     protected int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (!canEnergyFlow()) return 0;
         int temp = 0;
-        if (from == (isInverted ? EnumFacing.DOWN : EnumFacing.UP)) {
-            IEnergyStorage storage = WorldUtils.getEnergyStorage(getWorld(), this.getPos(), isInverted ? EnumFacing.UP : EnumFacing.DOWN);
+        if (from == (isInverted() ? EnumFacing.DOWN : EnumFacing.UP)) {
+            IEnergyStorage storage = WorldUtils.getEnergyStorage(getWorld(), this.getPos(), isInverted() ? EnumFacing.UP : EnumFacing.DOWN);
             if(storage!=null){
                 temp = storage.receiveEnergy(transferLimit == -1 ?
                                 (inCounterMode ? maxReceive : Math.min((int) value, maxReceive))
@@ -258,8 +260,6 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
 
         nbt.setInteger("color", color);
 
-
-        nbt.setBoolean("isInverted", isInverted);
         nbt.setBoolean("redstone", redstone);
         return nbt;
     }
@@ -279,7 +279,6 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
 
         nbt.setInteger("color", color);
 
-        nbt.setBoolean("isInverted", isInverted);
         nbt.setBoolean("redstone", redstone);
     }
 
@@ -302,9 +301,6 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
             isProtected = nbt.getBoolean("isProtected");
         if (nbt.hasKey("color"))
             color = nbt.getInteger("color");
-        if (nbt.hasKey("isInverted")) {
-            isInverted = nbt.getBoolean("isInverted");
-        }
         if(nbt.hasKey("redstone")){
             redstone = nbt.getBoolean("redstone");
         }
@@ -336,8 +332,6 @@ public class RFMeterTileEntity extends TileEntity implements ITickable {
             tick = nbt.getInteger("tick");
         if (nbt.hasKey("color"))
             color = nbt.getInteger("color");
-        if (nbt.hasKey("isInverted"))
-            isInverted = nbt.getBoolean("isInverted");
         if(nbt.hasKey("redstone"))
             redstone = nbt.getBoolean("redstone");
     }
