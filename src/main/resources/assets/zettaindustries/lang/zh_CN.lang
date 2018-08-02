@@ -3,7 +3,7 @@ itemGroup.zettaindustries=泽它重工
 
 #VanillaUtils
 tile.variableredstoneemitter.name=可变红石信号发射器
-tile.quarryfixer.name=采石场修复器
+tile.zettaindustries.quarryfixer.name=采石场修复器
 
 #NFC 近场通讯(Near-Field Communication)
 tile.nfcreader.name=NFC读卡器

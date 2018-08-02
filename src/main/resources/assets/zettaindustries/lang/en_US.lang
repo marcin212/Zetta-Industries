@@ -4,7 +4,7 @@ item.zettaindustries.logo.name=Zetta Industries
 
 #VanillaUtils
 tile.zettaindustries.variableredstoneemitter.name=Variable Redstone Emitter
-tile.quarryfixer.name=Quarry Fixer
+tile.zettaindustries.quarryfixer.name=Quarry Fixer
 
 #NFC
 tile.nfcreader.name=NFC Reader 

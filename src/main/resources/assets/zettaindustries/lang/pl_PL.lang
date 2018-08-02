@@ -3,7 +3,7 @@ itemGroup.zettaindustries=Zetta Industries
 
 #VanillaUtils
 tile.variableredstoneemitter.name=Nastawny Emiter Redstone
-tile.quarryfixer.name=Naprawiacz Kopalni
+tile.zettaindustries.quarryfixer.name=Naprawiacz Kopalni
 
 #NFC
 tile.nfcreader.name=Czytnik NFC

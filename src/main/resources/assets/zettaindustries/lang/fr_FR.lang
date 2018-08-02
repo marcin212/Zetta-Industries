@@ -3,7 +3,7 @@ itemGroup.zettaindustries=Industries Zetta
 
 #VanillaUtils
 tile.variableredstoneemitter.name=Eméteur redstone variable
-tile.quarryfixer.name=Correcteur de carrière
+tile.zettaindustries.quarryfixer.name=Correcteur de carrière
 
 #NFC
 tile.nfcreader.name=Lecteur NFC 
