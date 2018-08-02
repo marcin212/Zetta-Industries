@@ -19,7 +19,7 @@ import com.bymarcin.zettaindustries.modmanager.IMod;
 import com.bymarcin.zettaindustries.utils.RecipeUtils;
 
 public class QuarryFixer implements IMod {
-	static QuarryFixerBlock quarryfixerblock;
+	static QuarryFixerBlock quarryfixerblock = new QuarryFixerBlock();
 	static ItemBlock quarryfixeritem = new ItemBlock(quarryfixerblock);
 	
 	@Override
@@ -35,8 +35,6 @@ public class QuarryFixer implements IMod {
 	
 	@Override
 	public void preInit() {
-		quarryfixerblock = new QuarryFixerBlock();
-		quarryfixeritem = new ItemBlock(quarryfixerblock);
 		quarryfixeritem.setCreativeTab(ZettaIndustries.tabZettaIndustries).setRegistryName(quarryfixerblock.getRegistryName());
 	}
 	
