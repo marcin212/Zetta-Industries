@@ -111,7 +111,7 @@ download{
 	
 dependencies {
 	deobfCompile "li.cil.tis3d:TIS-3D:${config.tis3d.version}"
-	deobfCompile ("net.sengir.forestry:forestry_1.12.2:5.7.0.209") {
+	deobfCompile ("net.sengir.forestry:forestry_1.12.2:5.8.0.253") {
 		exclude module: "jei_1.12"
 	}
  	deobfCompile "li.cil.oc:OpenComputers:${config.oc.version}"
