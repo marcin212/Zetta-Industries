@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.InterfaceList({
-        @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers"),
+        @Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers"),
         @Optional.Interface(iface = "dan200.computercraft.api.peripheral.IPeripheralProvider", modid = "ComputerCraft")
 })
 public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntityBase implements SimpleComponent /*, IPeripheralProvider*/ {
@@ -82,7 +82,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] setIn(Context c, Arguments args) {
         String name = null;
         int id = -1;
@@ -102,7 +102,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] setOut(Context c, Arguments args) {
         String name = null;
         int id = -1;
@@ -122,7 +122,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] getEnergyStored(Context c, Arguments args) {
         if (getControler() != null)
             return new Object[]{getControler().getStorage().getRealEnergyStored()};
@@ -130,7 +130,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] getMaxEnergyStored(Context c, Arguments args) {
         if (getControler() != null)
             return new Object[]{getControler().getStorage().getRealMaxEnergyStored()};
@@ -138,7 +138,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] setElectrodeTransfer(Context c, Arguments args) {
         String label = null;
         int id = -1;
@@ -159,7 +159,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] setAllElectrodeTransfer(Context c, Arguments args) {
         int transfer = args.checkInteger(0);
         if (getControler() != null) {
@@ -171,7 +171,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] getMaxElectrodeTransfer(Context c, Arguments args) {
         if (getControler() != null)
             return new Object[]{getControler().getStorage().getMaxExtract()};
@@ -179,7 +179,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
     }
 
     @Callback
-    @Optional.Method(modid = "OpenComputers")
+    @Optional.Method(modid = "opencomputers")
     public Object[] getEnergyBalanceLastTick(Context c, Arguments args) {
         if (getControler() != null)
             return new Object[]{getControler().getLastTickBalance()};

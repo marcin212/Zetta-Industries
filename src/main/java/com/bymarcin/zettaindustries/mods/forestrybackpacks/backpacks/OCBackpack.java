@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 public class OCBackpack extends BasicBackpack{
 
 	public OCBackpack(EnumBackpackType type){
-		super(type, "OpenComputers",
+		super(type, "opencomputers",
 					"Computronics",
 					"OpenPrinter",
 					"opensecurity",

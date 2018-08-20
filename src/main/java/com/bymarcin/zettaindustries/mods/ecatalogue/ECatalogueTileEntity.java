@@ -13,7 +13,7 @@ import forestry.api.mail.PostManager;
 
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "opencomputers")
 public class ECatalogueTileEntity extends TileEntity implements SimpleComponent {
 	private boolean isAddressSet;
 	private IMailAddress address;
