@@ -85,7 +85,7 @@ public class ForestyBackpacksMod implements IMod {
 	@SubscribeEvent
 	public void onRecipeRegister(RegistryEvent.Register<IRecipe> event) {
 		ie = GameRegistry.makeItemStack("ImmersiveEngineering:material", 4, 1, "");
-		oc = GameRegistry.makeItemStack("OpenComputers:item", 1, 96, "");
+		oc = GameRegistry.makeItemStack("opencomputers:item", 1, 96, "");
 
 		if (ie != null) {
 			addRecipe(immersiveEngineeringBackpackT1, immersiveEngineeringBackpackT2, ie, event.getRegistry());
