@@ -8,7 +8,7 @@ public class BasicItem extends Item {
 	public BasicItem(String name) {
 		setCreativeTab(ZettaIndustries.tabZettaIndustries);
 		setMaxStackSize(64);
-		setUnlocalizedName(name);
+		setUnlocalizedName(ZettaIndustries.MODID.concat(".").concat(name));
 		setRegistryName(name);
 	}
 }

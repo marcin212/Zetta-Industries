@@ -33,7 +33,7 @@ public class SmartCardTerminalBlock extends BlockContainer{
 		setCreativeTab(ZettaIndustries.instance.tabZettaIndustries);
 		setHardness(3f);
 		setRegistryName("smartcardterminalblock");
-		setUnlocalizedName("smartcardterminalblock");
+		setUnlocalizedName(ZettaIndustries.MODID.concat(".").concat("smartcardterminalblock"));
 		setDefaultState(getDefaultState().withProperty(FACING,2));
 	}
 

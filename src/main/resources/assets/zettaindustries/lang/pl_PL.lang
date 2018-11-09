@@ -2,29 +2,29 @@
 itemGroup.zettaindustries=Zetta Industries
 
 #VanillaUtils
-tile.variableredstoneemitter.name=Nastawny Emiter Redstone
+tile.zettaindustries.variableredstoneemitter.name=Nastawny Emiter Redstone
 tile.zettaindustries.quarryfixer.name=Naprawiacz Kopalni
 
 #NFC
-tile.nfcreader.name=Czytnik NFC
-tile.nfcprogrammer.name=Programator NFC
-item.itemcardnfc.name=karta NFC
-item.itemprivatecardnfc.name=Prywatna Karta NFC
+tile.zettaindustries.nfcreader.name=Czytnik NFC
+tile.zettaindustries.nfcprogrammer.name=Programator NFC
+item.zettaindustries.itemcardnfc.name=karta NFC
+item.zettaindustries.itemprivatecardnfc.name=Prywatna Karta NFC
 zettaindustries.text.nfc.message1=Zapisano dane NFC!
 zettaindustries.text.nfc.message2=Nie jesteś właścicielem karty, lub właściciel nie został ustawiony!
 
 #Battery
-tile.batterypowertap.name= Terminal Baterii
-tile.batteryelectrode.name=Elektroda Baterii
-tile.sulfurblock.name=Blok Siarki
-tile.batteryglass.name=Szkło Baterii
-tile.batterycontroller.name=Kontroler Baterii
-tile.batterycomputerport.name=Port Komputerowy Baterii
-tile.sulfurousacid.name=Kwas Siarkowy (H2SO4)
-tile.batterywall.name=Ściana Baterii
-item.acidbucket.name=Wiadro Kwasu Siarkowego (H2SO4)
-tile.charcoalblock.name=Blok Węgla Drzewnego
-tile.blockGraphite.name=Blok Grafitu
+tile.zettaindustries.batterypowertap.name= Terminal Baterii
+tile.zettaindustries.batteryelectrode.name=Elektroda Baterii
+tile.zettaindustries.sulfurblock.name=Blok Siarki
+tile.zettaindustries.batteryglass.name=Szkło Baterii
+tile.zettaindustries.batterycontroller.name=Kontroler Baterii
+tile.zettaindustries.batterycomputerport.name=Port Komputerowy Baterii
+tile.zettaindustries.sulfurousacid.name=Kwas Siarkowy (H2SO4)
+tile.zettaindustries.batterywall.name=Ściana Baterii
+item.zettaindustries.acidbucket.name=Wiadro Kwasu Siarkowego (H2SO4)
+tile.zettaindustries.charcoalblock.name=Blok Węgla Drzewnego
+tile.zettaindustries.blockGraphite.name=Blok Grafitu
 tooltip.validfor=Używany do\:
 tooltip.sides=Boków
 tooltip.inside=Wnętrza
@@ -43,8 +43,8 @@ tooltip.sulfur1=Umieść w wodzie (3x3) i podpal
 tooltip.coil.info0=Tylko dla sieci OpenComputers
 tooltip.coil.info1=Nie przewodzą prądu
 tooltip.coil.attachedTo=Łączę od %1$s, %2$s, %3$s
-tile.TelecommunicationConnector.name= Łącznik telekomunikacyjny
-item.TelecommunicationWire.name=Zwój kabla telekomunikacyjnego
+tile.zettaindustries.TelecommunicationConnector.name= Łącznik telekomunikacyjny
+item.zettaindustries.TelecommunicationWire.name=Zwój kabla telekomunikacyjnego
 chat.warning.wrongCable=Nie można tu podłączyć tego kabla
 chat.warning.wrongDimension=Jesteś w niewłaściwym wymiarze
 chat.warning.sameConnection=Nie można podłączyć kabla do tego samego łącznika
@@ -62,18 +62,18 @@ ie.manual.entry.ocwires0=Aby połączyć kable telekomunikacyjne, będziesz potr
 ie.manual.entry.ocwires1=Do tworzenia sieci Open Computers suży Zwój kabla telekomunikacyjnego.
 
 #SimpleDHD
-tile.simpledhd.name=Urządzenie Sterujace Gwiezdnych Wrót
+tile.zettaindustries.simpledhd.name=Urządzenie Sterujace Gwiezdnych Wrót
 #LightningFirework
-item.lightningfirework.name=Rakieta Piorunotwórcza
+item.zettaindustries.lightningfirework.name=Rakieta Piorunotwórcza
 
 #FU Meter
-tile.rfmeterblock.name=Miernik FU
+tile.zettaindustries.rfmeterblock.name=Miernik FU
 
 #Super Conductor
-tile.blockwire.name=Kabel Nadprzewodzący
-tile.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
+tile.zettaindustries.blockwire.name=Kabel Nadprzewodzący
+tile.zettaindustries.blockcontroller.name=Kontroler Kabla Nadprzewodzącego
 
 #E-Catalogue
-tile.ecatalogue.name=E-Katalog
-item.mailmanupgrade.name=Ulepszenie: Listonosz
-item.mailman.tip=Umożliwia Robotom i dronom wysyłanie listów i sprawdzanie ofert
+tile.zettaindustries.ecatalogue.name=E-Katalog
+item.zettaindustries.mailmanupgrade.name=Ulepszenie: Listonosz
+item.zettaindustries.mailman.tip=Umożliwia Robotom i dronom wysyłanie listów i sprawdzanie ofert

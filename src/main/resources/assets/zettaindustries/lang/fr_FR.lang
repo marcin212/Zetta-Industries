@@ -2,36 +2,36 @@
 itemGroup.zettaindustries=Industries Zetta
 
 #VanillaUtils
-tile.variableredstoneemitter.name=Eméteur redstone variable
+tile.zettaindustries.variableredstoneemitter.name=Eméteur redstone variable
 tile.zettaindustries.quarryfixer.name=Correcteur de carrière
 
 #NFC
-tile.nfcreader.name=Lecteur NFC 
-tile.nfcprogrammer.name=Programateur NFC
-item.itemcardnfc.name=Carte NFC
-item.itemprivatecardnfc.name=Carte privée NFC
+tile.zettaindustries.nfcreader.name=Lecteur NFC
+tile.zettaindustries.nfcprogrammer.name=Programateur NFC
+item.zettaindustries.itemcardnfc.name=Carte NFC
+item.zettaindustries.itemprivatecardnfc.name=Carte privée NFC
 zettaindustries.text.nfc.message1=Données NFC écrites !
 zettaindustries.text.nfc.message2=Vous n'etes pas le propriétaire ou bien le propriétaire n'est pas choisi !
 
 #Battery
-tile.batterypowertap.name=Robinet d'énergie de la batterie
-tile.batteryelectrode.name=Electrode de la batterie
-tile.sulfurblock.name=Bloc de souffre
-tile.batteryglass.name=Verre de la batterie
-tile.batterycontroller.name=Controleur de la batterie
-tile.batterycomputerport.name=Port informatique de la batterie
-tile.sulfurousacid.name=Acide sulfurique
-tile.batterywall.name=Mur de la batterie
-item.acidbucket.name=Sceau d'acide sulfurique
-tile.charcoalblock.name=Bloc de charbon de bois
-tile.blockGraphite.name=Bloc de graphite
+tile.zettaindustries.batterypowertap.name=Robinet d'énergie de la batterie
+tile.zettaindustries.batteryelectrode.name=Electrode de la batterie
+tile.zettaindustries.sulfurblock.name=Bloc de souffre
+tile.zettaindustries.batteryglass.name=Verre de la batterie
+tile.zettaindustries.batterycontroller.name=Controleur de la batterie
+tile.zettaindustries.batterycomputerport.name=Port informatique de la batterie
+tile.zettaindustries.sulfurousacid.name=Acide sulfurique
+tile.zettaindustries.batterywall.name=Mur de la batterie
+item.zettaindustries.acidbucket.name=Sceau d'acide sulfurique
+tile.zettaindustries.charcoalblock.name=Bloc de charbon de bois
+tile.zettaindustries.blockGraphite.name=Bloc de graphite
 
 #FU Meter
-tile.rfmeterblock.name=FU-Mètre
+tile.zettaindustries.rfmeterblock.name=FU-Mètre
 
 #Super Conductor
-tile.blockwire.name=Supra conducteur
-tile.blockcontroller.name=Controleur du supra conducteur
+tile.zettaindustries.blockwire.name=Supra conducteur
+tile.zettaindustries.blockcontroller.name=Controleur du supra conducteur
 
 #E-Catalogue
-tile.ecatalogue.name=E-Catalogue
+tile.zettaindustries.ecatalogue.name=E-Catalogue
