@@ -46,8 +46,8 @@ sourceSets{
 
 
 minecraft {
-    version = "1.12.2-14.23.1.2606"
     mappings = "snapshot_20170818"
+    version = "1.12.2-14.23.5.2768"
 	runDir = "run"
 }
 
@@ -98,7 +98,7 @@ runServer {
 }
 
   download {
-        src 'https://media.forgecdn.net/files/2532/895/ImmersiveEngineering-0.12-77.jar'
+        src 'https://media.forgecdn.net/files/2625/312/ImmersiveEngineering-0.12-86.jar'
         dest file('libs/ImmersiveEngineering.jar')
         overwrite true
     }
