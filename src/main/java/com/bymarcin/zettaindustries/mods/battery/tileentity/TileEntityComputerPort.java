@@ -81,7 +81,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         return null;
     }
 
-    @Callback
+    @Callback(doc = "function(name:string) - set power tap as input")
     @Optional.Method(modid = "opencomputers")
     public Object[] setIn(Context c, Arguments args) {
         String name = null;
@@ -101,7 +101,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         }
     }
 
-    @Callback
+    @Callback(doc = "function(name:string) - set power tap as output")
     @Optional.Method(modid = "opencomputers")
     public Object[] setOut(Context c, Arguments args) {
         String name = null;
@@ -121,7 +121,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         }
     }
 
-    @Callback
+    @Callback(doc = "function():number - returns how much energy is stored")
     @Optional.Method(modid = "opencomputers")
     public Object[] getEnergyStored(Context c, Arguments args) {
         if (getControler() != null)
@@ -129,7 +129,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         return new Object[]{null, "Controller block not found. Rebuild your battery."};
     }
 
-    @Callback
+    @Callback(doc = "function():number - returns how much energy can be stored")
     @Optional.Method(modid = "opencomputers")
     public Object[] getMaxEnergyStored(Context c, Arguments args) {
         if (getControler() != null)
@@ -137,7 +137,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         return new Object[]{null, "Controler block not found. Rebuild your battery."};
     }
 
-    @Callback
+    @Callback(doc = "function(name:string, transfer:number) - set transfer for electrode")
     @Optional.Method(modid = "opencomputers")
     public Object[] setElectrodeTransfer(Context c, Arguments args) {
         String label = null;
@@ -158,7 +158,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         }
     }
 
-    @Callback
+    @Callback(doc = "function(transfer:number) - set transfer for all electrodes")
     @Optional.Method(modid = "opencomputers")
     public Object[] setAllElectrodeTransfer(Context c, Arguments args) {
         int transfer = args.checkInteger(0);
@@ -170,7 +170,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         return new Object[]{null, "Controller block not found. Rebuild your battery."};
     }
 
-    @Callback
+    @Callback(doc = "function():number - get max transfer for electrode")
     @Optional.Method(modid = "opencomputers")
     public Object[] getMaxElectrodeTransfer(Context c, Arguments args) {
         if (getControler() != null)
@@ -178,7 +178,7 @@ public class TileEntityComputerPort extends BasicRectangularMultiblockTileEntity
         return new Object[]{null, "Controller block not found. Rebuild your battery."};
     }
 
-    @Callback
+    @Callback(doc = "function():number - get energy balance from last tick(1/20s)")
     @Optional.Method(modid = "opencomputers")
     public Object[] getEnergyBalanceLastTick(Context c, Arguments args) {
         if (getControler() != null)
