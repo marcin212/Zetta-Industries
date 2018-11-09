@@ -243,12 +243,22 @@ public class TileEntityPowerTap extends BasicRectangularMultiblockTileEntityBase
 		data.setString("powertap_label", label);
 		return data;
 	}
+
+	private void copyTEData(){
+		TileEntity te = getWorld().getTileEntity(getPos());
+		if(te instanceof TileEntityPowerTap){
+			((TileEntityPowerTap) te).transferCurrent = transferCurrent;
+			((TileEntityPowerTap) te).label = label;
+		}
+	}
 	
 	public void setIn(){
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.INPUT),2);
+		copyTEData();
 	}
 	
 	public void setOut(){
 		getWorld().setBlockState(getPos(),getWorld().getBlockState(getPos()).withProperty(BlockBigBatteryPowerTap.IO, BlockBigBatteryPowerTap.OUTPUT),2);
+		copyTEData();
 	}
 }
