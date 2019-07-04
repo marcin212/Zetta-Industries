@@ -66,6 +66,7 @@ public class Battery implements IMod, IGUI, IProxy {
     public static BlockSulfur blockSulfur;
     public static AcidFluid acidFluid;
     static HashMap<Fluid, Integer> electrolyteList = new HashMap<Fluid, Integer>();
+    public static String[] electrolyteListArray;
 
     public static Fluid acid = new Fluid("sulfurousacid", AcidFluid.stillIcon, AcidFluid.flowingIcon).setLuminosity(0).setDensity(1200).setViscosity(1500).setTemperature(320).setRarity(EnumRarity.UNCOMMON);
     /*Crafting items*/
@@ -84,6 +85,7 @@ public class Battery implements IMod, IGUI, IProxy {
     public void preInit() {
         capacityMultiplier = ZettaIndustries.instance.config.get("BigBattery", "energyMultiplier", 1d).getDouble(1d);
         electrodeTransferRate = ZettaIndustries.instance.config.get("BigBattery", "electrodeTransferRate", 2500).getInt(2500);
+        electrolyteListArray = ZettaIndustries.instance.config.get("BigBattery", "electrolyteFluidList", new String[]{acid.getName() + ":150000000"}, "List of valid electrolyte liquids for Big Battery.\nThe format is fluidname:energyPerBlock").getStringList();
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new MultiblockEventHandler());
 
@@ -242,8 +244,31 @@ public class Battery implements IMod, IGUI, IProxy {
 //
 //		registerElectrolyte("redstone", (int)Math.floor(75000000*capacityMultiplier));
 //		registerElectrolyte("ender", (int)Math.floor(100000000*capacityMultiplier));
-        registerElectrolyte("sulfurousacid", (int) Math.floor(150000000 * capacityMultiplier));
+//      registerElectrolyte("sulfurousacid", (int) Math.floor(150000000 * capacityMultiplier));
 //
+        for (String electrolyteListEntry : electrolyteListArray) {
+            String[] fluidEntry = electrolyteListEntry.split(":");
+            String fluidName = fluidEntry[0];
+            String fluidCapacityValue = fluidEntry[1];
+
+            if (fluidName != null && fluidCapacityValue != null) {
+                try {
+                    double fluidCapacity = Integer.parseInt(fluidCapacityValue) * capacityMultiplier;
+
+                    if (fluidCapacity <= 0) {
+                        ZettaIndustries.logger.info("Skipping electrolyte fluid {} with invalid energy capacity {}.", fluidName, fluidCapacityValue);
+
+                        continue;
+                    }
+
+                    registerElectrolyte(fluidEntry[0], (int) Math.floor(fluidCapacity));
+                    ZettaIndustries.logger.info("Registered electrolyte fluid {} with energy capacity of {}.", fluidName, fluidCapacityValue);
+                } catch (Exception e) {
+                    ZettaIndustries.logger.error("An error occured while trying to register electrolyte fluid: {}", e.getMessage());
+                }
+            }
+        }
+
         OreDictionary.getOres("blockCharcoal").forEach( cb -> GameRegistry.addSmelting(cb, new ItemStack(blockGraphite), 0F));
     }
 
