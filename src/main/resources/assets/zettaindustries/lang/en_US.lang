@@ -87,7 +87,7 @@ item.zettaindustries.mailman.tip=Allows robots and drones to send letters and ch
 #WireGun
 item.zettaindustries.hook.name=Iron Hook
 item.immersiveengineering.bullet.zettaindustries:hook_bullet.name=Hook Bullet
-item.immersiveengineering.bullet.zettaindustries:hook_bullet.tip=On shot tires to attach wire held in offhand.
+item.immersiveengineering.bullet.zettaindustries:hook_bullet.tip=On shot tries to attach wire held in offhand.
 ie.manual.entry.wiregun.name=Hook Bullet
 ie.manual.entry.wiregun.subtext=Hook Bullet
 ie.manual.entry.wiregun1=This bullet allows you to spread wire between two connectors in remote locations. Just putting it in a revolver's chamber and shooting a connector will tie the wire that is held in the offhand. It is not of much use in combat scenarios but seems useful for everyday engineer's work.
